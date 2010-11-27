@@ -14,16 +14,49 @@ import org.junit.Test;
 public class JSONPullParserTest {
 
 	@Test
-	public void parse() throws IOException {
+	public void parseEmptyHash() throws IOException {
 		JSONPullParser parser = new JSONPullParser();
-
-		InputStream is = getStream("{}");
-		parser.setInput(is);
+		InputStream is;
 		Current type;
+
+		is = getStream("{}");
+		parser.setInput(is);
 		type = parser.getEventType();
 		assertThat(type, is(Current.START_HASH));
 		type = parser.getEventType();
 		assertThat(type, is(Current.END_HASH));
+	}
+
+	@Test
+	public void parseEmptyArray() throws IOException {
+		JSONPullParser parser = new JSONPullParser();
+		InputStream is;
+		Current type;
+
+		is = getStream("[]");
+		parser.setInput(is);
+		type = parser.getEventType();
+		assertThat(type, is(Current.START_ARRAY));
+		type = parser.getEventType();
+		assertThat(type, is(Current.END_ARRAY));
+	}
+
+	@Test
+	public void parseEmptyJSON() throws IOException {
+		JSONPullParser parser = new JSONPullParser();
+		InputStream is;
+		Current type;
+
+		is = getStream("[{}]");
+		parser.setInput(is);
+		type = parser.getEventType();
+		assertThat(type, is(Current.START_ARRAY));
+		type = parser.getEventType();
+		assertThat(type, is(Current.START_HASH));
+		type = parser.getEventType();
+		assertThat(type, is(Current.END_HASH));
+		type = parser.getEventType();
+		assertThat(type, is(Current.END_ARRAY));
 	}
 
 	public InputStream getStream(String str) {

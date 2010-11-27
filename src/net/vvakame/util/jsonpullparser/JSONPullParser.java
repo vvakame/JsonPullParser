@@ -110,6 +110,9 @@ public class JSONPullParser {
 				stack.push(Current.KEY);
 				// TODO
 				break;
+			case ']':
+				stack.push(Current.END_ARRAY);
+				break;
 			default:
 				// TODO ‘½•ª“ÆŽ©Exception‚É‚µ‚½‚Ù‚¤‚ª‚¢‚¢
 				throw new IllegalStateException();

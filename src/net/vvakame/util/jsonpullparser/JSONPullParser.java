@@ -76,6 +76,10 @@ public class JSONPullParser {
 
 	BufferedReader br;
 	Stack<Current> stack;
+	String valueStr;
+	int valueInt;
+	double valueDouble;
+	boolean valueBoolean;
 
 	public void setInput(InputStream is) throws IOException {
 		br = new BufferedReader(new InputStreamReader(is));
@@ -132,7 +136,12 @@ public class JSONPullParser {
 				break;
 			case '"':
 				stack.push(Current.KEY);
-				// TODO
+				valueStr = getNextString();
+				c = getNextChar();
+				if (c != ':') {
+					// TODO ëΩï™ì∆é©ExceptionÇ…ÇµÇΩÇŸÇ§Ç™Ç¢Ç¢
+					throw new IllegalStateException();
+				}
 				break;
 			default:
 				// TODO ëΩï™ì∆é©ExceptionÇ…ÇµÇΩÇŸÇ§Ç™Ç¢Ç¢
@@ -175,7 +184,8 @@ public class JSONPullParser {
 		case KEY:
 			switch (c) {
 			case '"':
-				// TODO
+				stack.push(Current.VALUE_STRING);
+				valueStr = getNextString();
 				break;
 			default:
 				// êîéö
@@ -186,6 +196,7 @@ public class JSONPullParser {
 				// TODO ëΩï™ì∆é©ExceptionÇ…ÇµÇΩÇŸÇ§Ç™Ç¢Ç¢
 				throw new IllegalStateException();
 			}
+			break;
 		case VALUE_STRING:
 		case VALUE_NUMERIC:
 		case VALUE_NULL:
@@ -204,6 +215,7 @@ public class JSONPullParser {
 				// TODO ëΩï™ì∆é©ExceptionÇ…ÇµÇΩÇŸÇ§Ç™Ç¢Ç¢
 				throw new IllegalStateException();
 			}
+			break;
 		default:
 			// TODO ëΩï™ì∆é©ExceptionÇ…ÇµÇΩÇŸÇ§Ç™Ç¢Ç¢
 			throw new IllegalStateException();
@@ -216,6 +228,22 @@ public class JSONPullParser {
 		return null;
 	}
 
+	public String getValueString() {
+		return valueStr;
+	}
+
+	public int getValueInt() {
+		return valueInt;
+	}
+
+	public double getValueDouble() {
+		return valueDouble;
+	}
+
+	public boolean getValueBoolean() {
+		return valueBoolean;
+	}
+
 	private char getNextChar() throws IOException {
 		char c = (char) br.read();
 		while (c == ' ' || c == '\r' || c == '\n') {
@@ -226,11 +254,11 @@ public class JSONPullParser {
 
 	StringBuilder stb = new StringBuilder();
 
-	@SuppressWarnings("unused")
 	private String getNextString() throws IOException {
 		stb.setLength(0);
-		char c = (char) br.read();
+		char c;
 		while (true) {
+			c = (char) br.read();
 			if (c == '"') {
 				break;
 			}

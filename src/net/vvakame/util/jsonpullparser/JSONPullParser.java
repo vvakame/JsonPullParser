@@ -187,6 +187,26 @@ public class JSONPullParser {
 				stack.push(Current.VALUE_STRING);
 				valueStr = getNextString();
 				break;
+			case 't':
+				c = getNextChar();
+				if (c != 'r') {
+					// TODO ‘½•ª“Æ©Exception‚É‚µ‚½‚Ù‚¤‚ª‚¢‚¢
+					throw new IllegalStateException();
+				}
+				c = getNextChar();
+				if (c != 'u') {
+					// TODO ‘½•ª“Æ©Exception‚É‚µ‚½‚Ù‚¤‚ª‚¢‚¢
+					throw new IllegalStateException();
+				}
+				c = getNextChar();
+				if (c != 'e') {
+					// TODO ‘½•ª“Æ©Exception‚É‚µ‚½‚Ù‚¤‚ª‚¢‚¢
+					throw new IllegalStateException();
+				}
+				stack.push(Current.VALUE_BOOLEAN);
+				valueBoolean = true;
+				break;
+
 			default:
 				// ”š
 				// true

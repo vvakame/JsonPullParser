@@ -82,6 +82,30 @@ public class JSONPullParserTest {
 		assertThat(type, is(Current.END_HASH));
 	}
 
+	@Test
+	public void parseSimpleBooleanTrue() throws IOException {
+		JSONPullParser parser = new JSONPullParser();
+		InputStream is;
+		Current type;
+		String str;
+		Boolean bool;
+
+		is = getStream("{\"key\":true}");
+		parser.setInput(is);
+		type = parser.getEventType();
+		assertThat(type, is(Current.START_HASH));
+		type = parser.getEventType();
+		assertThat(type, is(Current.KEY));
+		str = parser.getValueString();
+		assertThat(str, is("key"));
+		type = parser.getEventType();
+		assertThat(type, is(Current.VALUE_BOOLEAN));
+		bool = parser.getValueBoolean();
+		assertThat(bool, is(true));
+		type = parser.getEventType();
+		assertThat(type, is(Current.END_HASH));
+	}
+
 	public InputStream getStream(String str) {
 		return new ByteArrayInputStream(str.getBytes());
 	}

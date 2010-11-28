@@ -368,6 +368,55 @@ public class JSONPullParserTest {
 		assertThat(type, is(Current.END_ARRAY));
 	}
 
+	@Test(expected = JSONFormatException.class)
+	public void parseFailure1() throws IOException, JSONFormatException {
+		JSONPullParser parser = new JSONPullParser();
+		InputStream is;
+
+		is = getStream("[}");
+		parser.setInput(is);
+
+		parser.getEventType();
+		parser.getEventType();
+	}
+
+	@Test(expected = JSONFormatException.class)
+	public void parseFailure2() throws IOException, JSONFormatException {
+		JSONPullParser parser = new JSONPullParser();
+		InputStream is;
+
+		is = getStream("[+0]");
+		parser.setInput(is);
+
+		parser.getEventType();
+		parser.getEventType();
+	}
+
+	@Test(expected = JSONFormatException.class)
+	public void parseFailure3() throws IOException, JSONFormatException {
+		JSONPullParser parser = new JSONPullParser();
+		InputStream is;
+
+		is = getStream("[0-0]");
+		parser.setInput(is);
+
+		parser.getEventType();
+		parser.getEventType();
+	}
+
+	@Test(expected = JSONFormatException.class)
+	public void parseFailure4() throws IOException, JSONFormatException {
+		JSONPullParser parser = new JSONPullParser();
+		InputStream is;
+
+		is = getStream("[0,,0]");
+		parser.setInput(is);
+
+		parser.getEventType();
+		parser.getEventType();
+		parser.getEventType();
+	}
+
 	public InputStream getStream(String str) {
 		return new ByteArrayInputStream(str.getBytes());
 	}

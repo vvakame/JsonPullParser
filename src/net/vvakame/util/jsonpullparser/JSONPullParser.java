@@ -41,7 +41,12 @@ public class JSONPullParser {
 		 * 数字の値.<br>
 		 * valueの値 → {"key":0123}
 		 */
-		VALUE_NUMERIC,
+		VALUE_INTEGER,
+		/**
+		 * 数字の値.<br>
+		 * valueの値 → {"key":0123.11}
+		 */
+		VALUE_DOUBLE,
 		/**
 		 * 真偽値の値.<br>
 		 * valueの値 → {"key":true}
@@ -87,7 +92,7 @@ public class JSONPullParser {
 		stack.push(Current.ORIGIN);
 	}
 
-	public Current getEventType() throws IOException {
+	public Current getEventType() throws IOException, JSONFormatException {
 		char c = getNextChar();
 		switch (stack.pop()) {
 		case ORIGIN:
@@ -99,8 +104,7 @@ public class JSONPullParser {
 				stack.push(Current.START_ARRAY);
 				break;
 			default:
-				// TODO 多分独自Exceptionにしたほうがいい
-				throw new IllegalStateException();
+				throw new JSONFormatException();
 			}
 		case START_ARRAY:
 			switch (c) {
@@ -118,8 +122,7 @@ public class JSONPullParser {
 				stack.push(Current.END_ARRAY);
 				break;
 			default:
-				// TODO 多分独自Exceptionにしたほうがいい
-				throw new IllegalStateException();
+				throw new JSONFormatException();
 			}
 			break;
 
@@ -139,13 +142,11 @@ public class JSONPullParser {
 				valueStr = getNextString();
 				c = getNextChar();
 				if (c != ':') {
-					// TODO 多分独自Exceptionにしたほうがいい
-					throw new IllegalStateException();
+					throw new JSONFormatException();
 				}
 				break;
 			default:
-				// TODO 多分独自Exceptionにしたほうがいい
-				throw new IllegalStateException();
+				throw new JSONFormatException();
 			}
 			break;
 
@@ -161,8 +162,7 @@ public class JSONPullParser {
 				stack.push(Current.END_HASH);
 				break;
 			default:
-				// TODO 多分独自Exceptionにしたほうがいい
-				throw new IllegalStateException();
+				throw new JSONFormatException();
 			}
 
 		case END_HASH:
@@ -177,8 +177,7 @@ public class JSONPullParser {
 				stack.push(Current.END_HASH);
 				break;
 			default:
-				// TODO 多分独自Exceptionにしたほうがいい
-				throw new IllegalStateException();
+				throw new JSONFormatException();
 			}
 			break;
 		case KEY:
@@ -213,16 +212,27 @@ public class JSONPullParser {
 				break;
 			default:
 				// 数字
-				// true
-				// false
-				// null
+				String str = getNextNumeric();
+				try {
+					int i = Integer.parseInt(str);
+					stack.push(Current.VALUE_INTEGER);
+					valueInt = i;
+					break;
+				} catch (NumberFormatException e) {
+				}
+				try {
+					double d = Double.parseDouble(str);
+					stack.push(Current.VALUE_DOUBLE);
+					valueDouble = d;
+					break;
+				} catch (NumberFormatException e) {
+				}
 
-				// TODO 多分独自Exceptionにしたほうがいい
-				throw new IllegalStateException();
+				throw new JSONFormatException();
 			}
 			break;
 		case VALUE_STRING:
-		case VALUE_NUMERIC:
+		case VALUE_INTEGER:
 		case VALUE_NULL:
 		case VALUE_BOOLEAN:
 			switch (c) {
@@ -236,23 +246,21 @@ public class JSONPullParser {
 				stack.push(Current.END_ARRAY);
 				break;
 			default:
-				// TODO 多分独自Exceptionにしたほうがいい
-				throw new IllegalStateException();
+				throw new JSONFormatException();
 			}
 			break;
 		default:
-			// TODO 多分独自Exceptionにしたほうがいい
-			throw new IllegalStateException();
+			throw new JSONFormatException();
 		}
 
 		return stack.lastElement();
 	}
 
-	private void expectNextChar(char expect) throws IOException {
+	private void expectNextChar(char expect) throws IOException,
+			JSONFormatException {
 		char c = getNextChar();
 		if (c != expect) {
-			// TODO 多分独自Exceptionにしたほうがいい
-			throw new IllegalStateException();
+			throw new JSONFormatException();
 		}
 	}
 
@@ -277,14 +285,48 @@ public class JSONPullParser {
 	}
 
 	private char getNextChar() throws IOException {
+		br.mark(1);
 		char c = (char) br.read();
 		while (c == ' ' || c == '\r' || c == '\n') {
+			br.mark(1);
 			c = (char) br.read();
 		}
 		return c;
 	}
 
 	StringBuilder stb = new StringBuilder();
+
+	private String getNextNumeric() throws IOException {
+		stb.setLength(0);
+		br.reset();
+		char c;
+		loop: while (true) {
+			c = (char) br.read();
+			switch (c) {
+			case '0':
+			case '1':
+			case '2':
+			case '3':
+			case '4':
+			case '5':
+			case '6':
+			case '7':
+			case '8':
+			case '9':
+			case '-':
+			case '.':
+			case 'e':
+			case 'E':
+				break;
+			default:
+				br.reset();
+				break loop;
+			}
+			br.mark(1);
+			stb.append(c);
+		}
+		return stb.toString();
+	}
 
 	private String getNextString() throws IOException {
 		stb.setLength(0);

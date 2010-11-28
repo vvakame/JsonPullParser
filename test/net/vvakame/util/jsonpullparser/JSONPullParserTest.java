@@ -14,7 +14,7 @@ import org.junit.Test;
 public class JSONPullParserTest {
 
 	@Test
-	public void parseEmptyHash() throws IOException {
+	public void parseEmptyHash() throws IOException, JSONFormatException {
 		JSONPullParser parser = new JSONPullParser();
 		InputStream is;
 		Current type;
@@ -28,7 +28,7 @@ public class JSONPullParserTest {
 	}
 
 	@Test
-	public void parseEmptyArray() throws IOException {
+	public void parseEmptyArray() throws IOException, JSONFormatException {
 		JSONPullParser parser = new JSONPullParser();
 		InputStream is;
 		Current type;
@@ -42,7 +42,7 @@ public class JSONPullParserTest {
 	}
 
 	@Test
-	public void parseEmptyJSON() throws IOException {
+	public void parseEmptyJSON() throws IOException, JSONFormatException {
 		JSONPullParser parser = new JSONPullParser();
 		InputStream is;
 		Current type;
@@ -60,7 +60,7 @@ public class JSONPullParserTest {
 	}
 
 	@Test
-	public void parseSimpleString() throws IOException {
+	public void parseSimpleString() throws IOException, JSONFormatException {
 		JSONPullParser parser = new JSONPullParser();
 		InputStream is;
 		Current type;
@@ -83,7 +83,8 @@ public class JSONPullParserTest {
 	}
 
 	@Test
-	public void parseSimpleBooleanTrue() throws IOException {
+	public void parseSimpleBooleanTrue() throws IOException,
+			JSONFormatException {
 		JSONPullParser parser = new JSONPullParser();
 		InputStream is;
 		Current type;
@@ -107,7 +108,8 @@ public class JSONPullParserTest {
 	}
 
 	@Test
-	public void parseSimpleBooleanFalse() throws IOException {
+	public void parseSimpleBooleanFalse() throws IOException,
+			JSONFormatException {
 		JSONPullParser parser = new JSONPullParser();
 		InputStream is;
 		Current type;
@@ -131,7 +133,7 @@ public class JSONPullParserTest {
 	}
 
 	@Test
-	public void parseSimpleNull() throws IOException {
+	public void parseSimpleNull() throws IOException, JSONFormatException {
 		JSONPullParser parser = new JSONPullParser();
 		InputStream is;
 		Current type;
@@ -148,6 +150,30 @@ public class JSONPullParserTest {
 		type = parser.getEventType();
 		assertThat(type, is(Current.VALUE_NULL));
 		type = parser.getEventType();
+		assertThat(type, is(Current.END_HASH));
+	}
+
+	@Test
+	public void parseSimpleInt() throws IOException, JSONFormatException {
+		JSONPullParser parser = new JSONPullParser();
+		InputStream is;
+		Current type;
+		String str;
+		int i;
+
+		is = getStream("{\"key\":-1}");
+		parser.setInput(is);
+		type = parser.getEventType();
+		assertThat(type, is(Current.START_HASH));
+		type = parser.getEventType();
+		assertThat(type, is(Current.KEY));
+		str = parser.getValueString();
+		assertThat(str, is("key"));
+		type = parser.getEventType();
+		assertThat(type, is(Current.VALUE_INTEGER));
+		type = parser.getEventType();
+		i = parser.getValueInt();
+		assertThat(i, is(-1));
 		assertThat(type, is(Current.END_HASH));
 	}
 

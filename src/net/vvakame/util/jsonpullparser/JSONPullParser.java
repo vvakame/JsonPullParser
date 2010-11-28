@@ -106,7 +106,9 @@ public class JSONPullParser {
 			default:
 				throw new JSONFormatException();
 			}
+			break;
 		case START_ARRAY:
+			stack.push(Current.START_ARRAY);
 			switch (c) {
 			case '{':
 				stack.push(Current.START_HASH);
@@ -168,6 +170,7 @@ public class JSONPullParser {
 			break;
 
 		case START_HASH:
+			stack.push(Current.START_HASH);
 			switch (c) {
 			case '{':
 				stack.push(Current.START_HASH);
@@ -281,7 +284,6 @@ public class JSONPullParser {
 			switch (c) {
 			case ',':
 				// TODO
-				stack.push(Current.START_ARRAY);
 				getEventType();
 				break;
 			case '}':

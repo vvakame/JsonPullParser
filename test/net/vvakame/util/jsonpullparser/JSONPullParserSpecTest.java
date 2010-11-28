@@ -24,6 +24,7 @@ public class JSONPullParserSpecTest {
 		}
 		long end = System.currentTimeMillis();
 
+		System.out.println("My");
 		System.out.println(end - start);
 	}
 
@@ -36,6 +37,7 @@ public class JSONPullParserSpecTest {
 		Object decode = JSON.decode(json);
 		long end = System.currentTimeMillis();
 
+		System.out.println("JSONIC");
 		System.out.println(end - start);
 	}
 
@@ -43,7 +45,7 @@ public class JSONPullParserSpecTest {
 		StringBuilder builder = new StringBuilder();
 		builder.append("[");
 		for (int i = 0; i < 100000; i++) {
-			builder.append("{\"key\":").append(i).append("},");
+			builder.append("{\"key\":").append(i).append(",\"test\":\"str\"},");
 		}
 		builder.setLength(builder.length() - 1);
 		builder.append("]");

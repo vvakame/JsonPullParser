@@ -4,83 +4,84 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.Stack;
+import java.util.ArrayDeque;
+import java.util.Deque;
 
 /**
- * JSONPullParser‚ğ’ñ‹Ÿ‚µ‚Ü‚·.<br>
- * [—\’è] Œ»İˆ—’†‚ÌêŠ‚Ü‚Å‚ÌJSON‚Æ‚µ‚Ä³‚µ‚¢Œ`®‚©ƒ`ƒFƒbƒN‚³‚ê‚Ü‚·.<br>
- * ‚½‚¾‚µAÅŒã‚Ü‚Åˆ—‚µ‚½‚Æ‚«‚ÉJSON‚Æ‚µ‚Ä³‚µ‚¢Œ`®‚É‚È‚Á‚Ä‚¢‚é‚©‚Í‚í‚©‚è‚Ü‚¹‚ñ.<br>
- * “r’†‚ÅJSON‚Æ‚µ‚Ä³‚µ‚­‚È‚¢Œ`®‚¾‚Á‚½ê‡‚Í—áŠO‚ª”­¶‚µ‚Ü‚·.<br>
- * ƒ‰ƒCƒuƒ‰ƒŠ—˜—pÒ‚ÍA‚»‚Ìê‡‚à³‚µ‚­ƒvƒƒOƒ‰ƒ€‚ª“®ì‚·‚é‚æ‚¤‚ÉƒR[ƒfƒBƒ“ƒO‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢‚Å‚·.
+ * JSONPullParserã‚’æä¾›ã—ã¾ã™.<br>
+ * [äºˆå®š] ç¾åœ¨å‡¦ç†ä¸­ã®å ´æ‰€ã¾ã§ã®JSONã¨ã—ã¦æ­£ã—ã„å½¢å¼ã‹ãƒã‚§ãƒƒã‚¯ã•ã‚Œã¾ã™.<br>
+ * ãŸã ã—ã€æœ€å¾Œã¾ã§å‡¦ç†ã—ãŸã¨ãã«JSONã¨ã—ã¦æ­£ã—ã„å½¢å¼ã«ãªã£ã¦ã„ã‚‹ã‹ã¯ã‚ã‹ã‚Šã¾ã›ã‚“.<br>
+ * é€”ä¸­ã§JSONã¨ã—ã¦æ­£ã—ããªã„å½¢å¼ã ã£ãŸå ´åˆã¯ä¾‹å¤–ãŒç™ºç”Ÿã—ã¾ã™.<br>
+ * ãƒ©ã‚¤ãƒ–ãƒ©ãƒªåˆ©ç”¨è€…ã¯ã€ãã®å ´åˆã‚‚æ­£ã—ããƒ—ãƒ­ã‚°ãƒ©ãƒ ãŒå‹•ä½œã™ã‚‹ã‚ˆã†ã«ã‚³ãƒ¼ãƒ‡ã‚£ãƒ³ã‚°ã—ãªã‘ã‚Œã°ãªã‚‰ãªã„ã§ã™.
  * 
  * @author vvakame
  * 
  */
 public class JSONPullParser {
 	/**
-	 * Œ»İˆ—’†‚Ìƒg[ƒNƒ“.
+	 * ç¾åœ¨å‡¦ç†ä¸­ã®ãƒˆãƒ¼ã‚¯ãƒ³.
 	 * 
 	 * @author vvakame
 	 */
 	static enum Current {
 		/**
-		 * ‰Šúó‘Ô.
+		 * åˆæœŸçŠ¶æ…‹.
 		 */
 		ORIGIN,
 		/**
-		 * ƒL[.<br>
-		 * key‚Ì•¶š—ñ ¨ {"key":"value"}
+		 * ã‚­ãƒ¼.<br>
+		 * keyã®æ–‡å­—åˆ— â†’ {"key":"value"}
 		 */
 		KEY,
 		/**
-		 * •¶š—ñ‚Ì’l.<br>
-		 * value‚Ì’l ¨ {"key":"value"}
+		 * æ–‡å­—åˆ—ã®å€¤.<br>
+		 * valueã®å€¤ â†’ {"key":"value"}
 		 */
 		VALUE_STRING,
 		/**
-		 * ”š‚Ì’l.<br>
-		 * value‚Ì’l ¨ {"key":0123}
+		 * æ•°å­—ã®å€¤.<br>
+		 * valueã®å€¤ â†’ {"key":0123}
 		 */
 		VALUE_INTEGER,
 		/**
-		 * ”š‚Ì’l.<br>
-		 * value‚Ì’l ¨ {"key":0123.11}
+		 * æ•°å­—ã®å€¤.<br>
+		 * valueã®å€¤ â†’ {"key":0123.11}
 		 */
 		VALUE_DOUBLE,
 		/**
-		 * ^‹U’l‚Ì’l.<br>
-		 * value‚Ì’l ¨ {"key":true}
+		 * çœŸå½å€¤ã®å€¤.<br>
+		 * valueã®å€¤ â†’ {"key":true}
 		 */
 		VALUE_BOOLEAN,
 		/**
-		 * null‚Ì’l.<br>
-		 * value‚Ì’l ¨ {"key":null}
+		 * nullã®å€¤.<br>
+		 * valueã®å€¤ â†’ {"key":null}
 		 */
 		VALUE_NULL,
 		/**
-		 * ƒnƒbƒVƒ…‚ÌƒXƒ^[ƒg.<br>
-		 * ‚±‚ê ¨ {
+		 * ãƒãƒƒã‚·ãƒ¥ã®ã‚¹ã‚¿ãƒ¼ãƒˆ.<br>
+		 * ã“ã‚Œ â†’ {
 		 */
 		START_HASH,
 		/**
-		 * ƒnƒbƒVƒ…‚ÌƒGƒ“ƒh.<br>
-		 * ‚±‚ê ¨ }
+		 * ãƒãƒƒã‚·ãƒ¥ã®ã‚¨ãƒ³ãƒ‰.<br>
+		 * ã“ã‚Œ â†’ }
 		 */
 		END_HASH,
 		/**
-		 * ”z—ñ‚ÌƒXƒ^[ƒg.<br>
-		 * ‚±‚ê ¨ [
+		 * é…åˆ—ã®ã‚¹ã‚¿ãƒ¼ãƒˆ.<br>
+		 * ã“ã‚Œ â†’ [
 		 */
 		START_ARRAY,
 		/**
-		 * ”z—ñ‚ÌƒGƒ“ƒh.<br>
-		 * ‚±‚ê ¨ ]
+		 * é…åˆ—ã®ã‚¨ãƒ³ãƒ‰.<br>
+		 * ã“ã‚Œ â†’ ]
 		 */
 		END_ARRAY,
 	}
 
 	BufferedReader br;
-	Stack<Current> stack;
+	Deque<Current> stack;
 	String valueStr;
 	int valueInt;
 	double valueDouble;
@@ -88,7 +89,7 @@ public class JSONPullParser {
 
 	public void setInput(InputStream is) throws IOException {
 		br = new BufferedReader(new InputStreamReader(is));
-		stack = new Stack<JSONPullParser.Current>();
+		stack = new ArrayDeque<JSONPullParser.Current>();
 		stack.push(Current.ORIGIN);
 	}
 
@@ -148,7 +149,7 @@ public class JSONPullParser {
 				stack.push(Current.VALUE_NULL);
 				break;
 			default:
-				// ”š
+				// æ•°å­—
 				String str = getNextNumeric();
 				try {
 					int i = Integer.parseInt(str);
@@ -261,7 +262,7 @@ public class JSONPullParser {
 				stack.push(Current.VALUE_NULL);
 				break;
 			default:
-				// ”š
+				// æ•°å­—
 				String str = getNextNumeric();
 				try {
 					int i = Integer.parseInt(str);
@@ -304,7 +305,7 @@ public class JSONPullParser {
 			throw new JSONFormatException();
 		}
 
-		return stack.lastElement();
+		return stack.getFirst();
 	}
 
 	private void expectNextChar(char expect) throws IOException,

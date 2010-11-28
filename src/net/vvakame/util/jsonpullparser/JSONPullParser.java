@@ -82,17 +82,34 @@ public class JSONPullParser {
 
 	BufferedReader br;
 	Deque<Current> stack;
+
+	// 値保持用
 	String valueStr;
 	int valueInt;
 	double valueDouble;
 	boolean valueBoolean;
 
+	/**
+	 * 入力ストリームを設定します.<br>
+	 * このメソッドはインスタンス生成後、一番最初に呼ぶべきです.
+	 * 
+	 * @param is
+	 * @throws IOException
+	 */
 	public void setInput(InputStream is) throws IOException {
 		br = new BufferedReader(new InputStreamReader(is));
 		stack = new ArrayDeque<JSONPullParser.Current>();
 		stack.push(Current.ORIGIN);
 	}
 
+	/**
+	 * 現在の状態を取得します.<br>
+	 * このメソッドを使う前に、{@link JSONPullParser#setInput(InputStream)}を呼ぶべきです.
+	 * 
+	 * @return
+	 * @throws IOException
+	 * @throws JSONFormatException
+	 */
 	public Current getEventType() throws IOException, JSONFormatException {
 		char c = getNextChar();
 		switch (stack.pop()) {
@@ -308,30 +325,42 @@ public class JSONPullParser {
 		return stack.getFirst();
 	}
 
-	private void expectNextChar(char expect) throws IOException,
-			JSONFormatException {
-		char c = getNextChar();
-		if (c != expect) {
-			throw new JSONFormatException();
-		}
-	}
-
-	public Object getValue() {
-		return null;
-	}
-
+	/**
+	 * 値を文字列として取得します.<br> {@link JSONPullParser#getEventType()}を読んだ時に
+	 * {@link Current#KEY}もしくは{@link Current#VALUE_STRING}が返ってきたときに呼び出してください.
+	 * 
+	 * @return 読み込んだ文字列
+	 */
 	public String getValueString() {
 		return valueStr;
 	}
 
+	/**
+	 * 値を整数値として取得します.<br> {@link JSONPullParser#getEventType()}を読んだ時に
+	 * {@link Current#VALUE_INTEGER}が返ってきたときに呼び出してください.
+	 * 
+	 * @return 読み込んだ整数値
+	 */
 	public int getValueInt() {
 		return valueInt;
 	}
 
+	/**
+	 * 値を整数値として取得します.<br> {@link JSONPullParser#getEventType()}を読んだ時に
+	 * {@link Current#VALUE_DOUBLE}が返ってきたときに呼び出してください.
+	 * 
+	 * @return 読み込んだ浮動小数点の値
+	 */
 	public double getValueDouble() {
 		return valueDouble;
 	}
 
+	/**
+	 * 値を整数値として取得します.<br> {@link JSONPullParser#getEventType()}を読んだ時に
+	 * {@link Current#VALUE_BOOLEAN}が返ってきたときに呼び出してください.
+	 * 
+	 * @return 読み込んだ真偽値の値
+	 */
 	public boolean getValueBoolean() {
 		return valueBoolean;
 	}
@@ -344,6 +373,14 @@ public class JSONPullParser {
 			c = (char) br.read();
 		}
 		return c;
+	}
+
+	private void expectNextChar(char expect) throws IOException,
+			JSONFormatException {
+		char c = getNextChar();
+		if (c != expect) {
+			throw new JSONFormatException();
+		}
 	}
 
 	StringBuilder stb = new StringBuilder();

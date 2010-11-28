@@ -115,13 +115,54 @@ public class JSONPullParser {
 				stack.push(Current.START_ARRAY);
 				break;
 			case '"':
-				stack.push(Current.KEY);
-				// TODO
+				stack.push(Current.VALUE_STRING);
+				valueStr = getNextString();
 				break;
 			case ']':
 				stack.push(Current.END_ARRAY);
 				break;
+			case 't':
+				expectNextChar('r');
+				expectNextChar('u');
+				expectNextChar('e');
+
+				stack.push(Current.VALUE_BOOLEAN);
+				valueBoolean = true;
+				break;
+			case 'f':
+				expectNextChar('a');
+				expectNextChar('l');
+				expectNextChar('s');
+				expectNextChar('e');
+
+				stack.push(Current.VALUE_BOOLEAN);
+				valueBoolean = false;
+				break;
+			case 'n':
+				expectNextChar('u');
+				expectNextChar('l');
+				expectNextChar('l');
+
+				stack.push(Current.VALUE_NULL);
+				break;
 			default:
+				// êîéö
+				String str = getNextNumeric();
+				try {
+					int i = Integer.parseInt(str);
+					stack.push(Current.VALUE_INTEGER);
+					valueInt = i;
+					break;
+				} catch (NumberFormatException e) {
+				}
+				try {
+					double d = Double.parseDouble(str);
+					stack.push(Current.VALUE_DOUBLE);
+					valueDouble = d;
+					break;
+				} catch (NumberFormatException e) {
+				}
+
 				throw new JSONFormatException();
 			}
 			break;
@@ -154,6 +195,7 @@ public class JSONPullParser {
 			switch (c) {
 			case ',':
 				// TODO
+				getEventType();
 				break;
 			case ']':
 				stack.push(Current.END_ARRAY);
@@ -239,6 +281,8 @@ public class JSONPullParser {
 			switch (c) {
 			case ',':
 				// TODO
+				stack.push(Current.START_ARRAY);
+				getEventType();
 				break;
 			case '}':
 				stack.push(Current.END_HASH);

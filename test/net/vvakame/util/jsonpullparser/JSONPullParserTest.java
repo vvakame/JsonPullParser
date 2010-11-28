@@ -201,6 +201,46 @@ public class JSONPullParserTest {
 		assertThat(type, is(Current.END_HASH));
 	}
 
+	@Test
+	public void parseArray() throws IOException, JSONFormatException {
+		JSONPullParser parser = new JSONPullParser();
+		InputStream is;
+		Current type;
+		String str;
+		int i;
+		double d;
+		boolean b;
+
+		is = getStream("[\"value1\", 2, 0.1 ,true ,false ,null]");
+		parser.setInput(is);
+		type = parser.getEventType();
+		assertThat(type, is(Current.START_ARRAY));
+		type = parser.getEventType();
+		assertThat(type, is(Current.VALUE_STRING));
+		str = parser.getValueString();
+		assertThat(str, is("value1"));
+		type = parser.getEventType();
+		assertThat(type, is(Current.VALUE_INTEGER));
+		i = parser.getValueInt();
+		assertThat(i, is(2));
+		type = parser.getEventType();
+		assertThat(type, is(Current.VALUE_DOUBLE));
+		d = parser.getValueDouble();
+		assertThat(d, is(0.1));
+		type = parser.getEventType();
+		assertThat(type, is(Current.VALUE_BOOLEAN));
+		b = parser.getValueBoolean();
+		assertThat(b, is(true));
+		type = parser.getEventType();
+		assertThat(type, is(Current.VALUE_BOOLEAN));
+		b = parser.getValueBoolean();
+		assertThat(b, is(false));
+		type = parser.getEventType();
+		assertThat(type, is(Current.VALUE_NULL));
+		type = parser.getEventType();
+		assertThat(type, is(Current.END_ARRAY));
+	}
+
 	public InputStream getStream(String str) {
 		return new ByteArrayInputStream(str.getBytes());
 	}

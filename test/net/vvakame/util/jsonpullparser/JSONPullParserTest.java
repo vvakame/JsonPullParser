@@ -319,6 +319,55 @@ public class JSONPullParserTest {
 		assertThat(type, is(Current.END_ARRAY));
 	}
 
+	@Test
+	public void parseComplex() throws IOException, JSONFormatException {
+		JSONPullParser parser = new JSONPullParser();
+		InputStream is;
+		Current type;
+
+		is = getStream("[\"value1\", 2, 0.1 ,true ,{\"test1\":1, \"test2\":null   \n  } ,null]");
+		parser.setInput(is);
+
+		type = parser.getEventType();
+		assertThat(type, is(Current.START_ARRAY));
+
+		type = parser.getEventType();
+		assertThat(type, is(Current.VALUE_STRING));
+
+		type = parser.getEventType();
+		assertThat(type, is(Current.VALUE_INTEGER));
+
+		type = parser.getEventType();
+		assertThat(type, is(Current.VALUE_DOUBLE));
+
+		type = parser.getEventType();
+		assertThat(type, is(Current.VALUE_BOOLEAN));
+
+		type = parser.getEventType();
+		assertThat(type, is(Current.START_HASH));
+
+		type = parser.getEventType();
+		assertThat(type, is(Current.KEY));
+
+		type = parser.getEventType();
+		assertThat(type, is(Current.VALUE_INTEGER));
+
+		type = parser.getEventType();
+		assertThat(type, is(Current.KEY));
+
+		type = parser.getEventType();
+		assertThat(type, is(Current.VALUE_NULL));
+
+		type = parser.getEventType();
+		assertThat(type, is(Current.END_HASH));
+
+		type = parser.getEventType();
+		assertThat(type, is(Current.VALUE_NULL));
+
+		type = parser.getEventType();
+		assertThat(type, is(Current.END_ARRAY));
+	}
+
 	public InputStream getStream(String str) {
 		return new ByteArrayInputStream(str.getBytes());
 	}

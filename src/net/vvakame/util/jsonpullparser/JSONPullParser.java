@@ -195,9 +195,11 @@ public class JSONPullParser {
 			break;
 
 		case END_ARRAY:
+			if (!Current.START_ARRAY.equals(stack.pop())) {
+				throw new JSONFormatException();
+			}
 			switch (c) {
 			case ',':
-				// TODO
 				getEventType();
 				break;
 			case ']':
@@ -211,9 +213,12 @@ public class JSONPullParser {
 			}
 
 		case END_HASH:
+			if (!Current.START_HASH.equals(stack.pop())) {
+				throw new JSONFormatException();
+			}
 			switch (c) {
 			case ',':
-				// TODO
+				getEventType();
 				break;
 			case ']':
 				stack.push(Current.END_ARRAY);
@@ -283,7 +288,6 @@ public class JSONPullParser {
 		case VALUE_BOOLEAN:
 			switch (c) {
 			case ',':
-				// TODO
 				getEventType();
 				break;
 			case '}':

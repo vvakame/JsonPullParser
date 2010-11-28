@@ -188,25 +188,29 @@ public class JSONPullParser {
 				valueStr = getNextString();
 				break;
 			case 't':
-				c = getNextChar();
-				if (c != 'r') {
-					// TODO ëΩï™ì∆é©ExceptionÇ…ÇµÇΩÇŸÇ§Ç™Ç¢Ç¢
-					throw new IllegalStateException();
-				}
-				c = getNextChar();
-				if (c != 'u') {
-					// TODO ëΩï™ì∆é©ExceptionÇ…ÇµÇΩÇŸÇ§Ç™Ç¢Ç¢
-					throw new IllegalStateException();
-				}
-				c = getNextChar();
-				if (c != 'e') {
-					// TODO ëΩï™ì∆é©ExceptionÇ…ÇµÇΩÇŸÇ§Ç™Ç¢Ç¢
-					throw new IllegalStateException();
-				}
+				expectNextChar('r');
+				expectNextChar('u');
+				expectNextChar('e');
+
 				stack.push(Current.VALUE_BOOLEAN);
 				valueBoolean = true;
 				break;
+			case 'f':
+				expectNextChar('a');
+				expectNextChar('l');
+				expectNextChar('s');
+				expectNextChar('e');
 
+				stack.push(Current.VALUE_BOOLEAN);
+				valueBoolean = false;
+				break;
+			case 'n':
+				expectNextChar('u');
+				expectNextChar('l');
+				expectNextChar('l');
+
+				stack.push(Current.VALUE_NULL);
+				break;
 			default:
 				// êîéö
 				// true
@@ -242,6 +246,14 @@ public class JSONPullParser {
 		}
 
 		return stack.lastElement();
+	}
+
+	private void expectNextChar(char expect) throws IOException {
+		char c = getNextChar();
+		if (c != expect) {
+			// TODO ëΩï™ì∆é©ExceptionÇ…ÇµÇΩÇŸÇ§Ç™Ç¢Ç¢
+			throw new IllegalStateException();
+		}
 	}
 
 	public Object getValue() {

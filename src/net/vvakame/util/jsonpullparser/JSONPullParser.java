@@ -23,7 +23,7 @@ public class JSONPullParser {
 	 * 
 	 * @author vvakame
 	 */
-	static enum Current {
+	static enum State {
 		/**
 		 * 初期状態.
 		 */
@@ -81,7 +81,7 @@ public class JSONPullParser {
 	}
 
 	BufferedReader br;
-	Deque<Current> stack;
+	Deque<State> stack;
 
 	// 値保持用
 	String valueStr;
@@ -98,8 +98,8 @@ public class JSONPullParser {
 	 */
 	public void setInput(InputStream is) throws IOException {
 		br = new BufferedReader(new InputStreamReader(is));
-		stack = new ArrayDeque<JSONPullParser.Current>();
-		stack.push(Current.ORIGIN);
+		stack = new ArrayDeque<JSONPullParser.State>();
+		stack.push(State.ORIGIN);
 	}
 
 	/**
@@ -110,43 +110,43 @@ public class JSONPullParser {
 	 * @throws IOException
 	 * @throws JSONFormatException
 	 */
-	public Current getEventType() throws IOException, JSONFormatException {
+	public State getEventType() throws IOException, JSONFormatException {
 		char c = getNextChar();
 		switch (stack.pop()) {
 		case ORIGIN:
 			switch (c) {
 			case '{':
-				stack.push(Current.START_HASH);
+				stack.push(State.START_HASH);
 				break;
 			case '[':
-				stack.push(Current.START_ARRAY);
+				stack.push(State.START_ARRAY);
 				break;
 			default:
 				throw new JSONFormatException();
 			}
 			break;
 		case START_ARRAY:
-			stack.push(Current.START_ARRAY);
+			stack.push(State.START_ARRAY);
 			switch (c) {
 			case '{':
-				stack.push(Current.START_HASH);
+				stack.push(State.START_HASH);
 				break;
 			case '[':
-				stack.push(Current.START_ARRAY);
+				stack.push(State.START_ARRAY);
 				break;
 			case '"':
-				stack.push(Current.VALUE_STRING);
+				stack.push(State.VALUE_STRING);
 				valueStr = getNextString();
 				break;
 			case ']':
-				stack.push(Current.END_ARRAY);
+				stack.push(State.END_ARRAY);
 				break;
 			case 't':
 				expectNextChar('r');
 				expectNextChar('u');
 				expectNextChar('e');
 
-				stack.push(Current.VALUE_BOOLEAN);
+				stack.push(State.VALUE_BOOLEAN);
 				valueBoolean = true;
 				break;
 			case 'f':
@@ -155,7 +155,7 @@ public class JSONPullParser {
 				expectNextChar('s');
 				expectNextChar('e');
 
-				stack.push(Current.VALUE_BOOLEAN);
+				stack.push(State.VALUE_BOOLEAN);
 				valueBoolean = false;
 				break;
 			case 'n':
@@ -163,7 +163,7 @@ public class JSONPullParser {
 				expectNextChar('l');
 				expectNextChar('l');
 
-				stack.push(Current.VALUE_NULL);
+				stack.push(State.VALUE_NULL);
 				break;
 			default:
 				// 数字
@@ -177,19 +177,19 @@ public class JSONPullParser {
 			break;
 
 		case START_HASH:
-			stack.push(Current.START_HASH);
+			stack.push(State.START_HASH);
 			switch (c) {
 			case '{':
-				stack.push(Current.START_HASH);
+				stack.push(State.START_HASH);
 				break;
 			case '[':
-				stack.push(Current.START_ARRAY);
+				stack.push(State.START_ARRAY);
 				break;
 			case '}':
-				stack.push(Current.END_HASH);
+				stack.push(State.END_HASH);
 				break;
 			case '"':
-				stack.push(Current.KEY);
+				stack.push(State.KEY);
 				valueStr = getNextString();
 				c = getNextChar();
 				if (c != ':') {
@@ -202,7 +202,7 @@ public class JSONPullParser {
 			break;
 
 		case END_ARRAY:
-			if (!Current.START_ARRAY.equals(stack.pop())) {
+			if (!State.START_ARRAY.equals(stack.pop())) {
 				throw new JSONFormatException();
 			}
 			switch (c) {
@@ -210,17 +210,17 @@ public class JSONPullParser {
 				getEventType();
 				break;
 			case ']':
-				stack.push(Current.END_ARRAY);
+				stack.push(State.END_ARRAY);
 				break;
 			case '}':
-				stack.push(Current.END_HASH);
+				stack.push(State.END_HASH);
 				break;
 			default:
 				throw new JSONFormatException();
 			}
 
 		case END_HASH:
-			if (!Current.START_HASH.equals(stack.pop())) {
+			if (!State.START_HASH.equals(stack.pop())) {
 				throw new JSONFormatException();
 			}
 			switch (c) {
@@ -228,10 +228,10 @@ public class JSONPullParser {
 				getEventType();
 				break;
 			case ']':
-				stack.push(Current.END_ARRAY);
+				stack.push(State.END_ARRAY);
 				break;
 			case '}':
-				stack.push(Current.END_HASH);
+				stack.push(State.END_HASH);
 				break;
 			default:
 				throw new JSONFormatException();
@@ -240,7 +240,7 @@ public class JSONPullParser {
 		case KEY:
 			switch (c) {
 			case '"':
-				stack.push(Current.VALUE_STRING);
+				stack.push(State.VALUE_STRING);
 				valueStr = getNextString();
 				break;
 			case 't':
@@ -248,7 +248,7 @@ public class JSONPullParser {
 				expectNextChar('u');
 				expectNextChar('e');
 
-				stack.push(Current.VALUE_BOOLEAN);
+				stack.push(State.VALUE_BOOLEAN);
 				valueBoolean = true;
 				break;
 			case 'f':
@@ -257,7 +257,7 @@ public class JSONPullParser {
 				expectNextChar('s');
 				expectNextChar('e');
 
-				stack.push(Current.VALUE_BOOLEAN);
+				stack.push(State.VALUE_BOOLEAN);
 				valueBoolean = false;
 				break;
 			case 'n':
@@ -265,7 +265,7 @@ public class JSONPullParser {
 				expectNextChar('l');
 				expectNextChar('l');
 
-				stack.push(Current.VALUE_NULL);
+				stack.push(State.VALUE_NULL);
 				break;
 			default:
 				// 数字
@@ -287,10 +287,10 @@ public class JSONPullParser {
 				getEventType();
 				break;
 			case '}':
-				stack.push(Current.END_HASH);
+				stack.push(State.END_HASH);
 				break;
 			case ']':
-				stack.push(Current.END_ARRAY);
+				stack.push(State.END_ARRAY);
 				break;
 			default:
 				throw new JSONFormatException();
@@ -305,7 +305,7 @@ public class JSONPullParser {
 
 	/**
 	 * 値を文字列として取得します.<br> {@link JSONPullParser#getEventType()}を読んだ時に
-	 * {@link Current#KEY}もしくは{@link Current#VALUE_STRING}が返ってきたときに呼び出してください.
+	 * {@link State#KEY}もしくは{@link State#VALUE_STRING}が返ってきたときに呼び出してください.
 	 * 
 	 * @return 読み込んだ文字列
 	 */
@@ -315,7 +315,7 @@ public class JSONPullParser {
 
 	/**
 	 * 値を整数値として取得します.<br> {@link JSONPullParser#getEventType()}を読んだ時に
-	 * {@link Current#VALUE_INTEGER}が返ってきたときに呼び出してください.
+	 * {@link State#VALUE_INTEGER}が返ってきたときに呼び出してください.
 	 * 
 	 * @return 読み込んだ整数値
 	 */
@@ -325,7 +325,7 @@ public class JSONPullParser {
 
 	/**
 	 * 値を整数値として取得します.<br> {@link JSONPullParser#getEventType()}を読んだ時に
-	 * {@link Current#VALUE_DOUBLE}が返ってきたときに呼び出してください.
+	 * {@link State#VALUE_DOUBLE}が返ってきたときに呼び出してください.
 	 * 
 	 * @return 読み込んだ浮動小数点の値
 	 */
@@ -335,7 +335,7 @@ public class JSONPullParser {
 
 	/**
 	 * 値を整数値として取得します.<br> {@link JSONPullParser#getEventType()}を読んだ時に
-	 * {@link Current#VALUE_BOOLEAN}が返ってきたときに呼び出してください.
+	 * {@link State#VALUE_BOOLEAN}が返ってきたときに呼び出してください.
 	 * 
 	 * @return 読み込んだ真偽値の値
 	 */
@@ -396,10 +396,10 @@ public class JSONPullParser {
 		}
 		if (d) {
 			valueDouble = Double.parseDouble(stb.toString());
-			stack.push(Current.VALUE_DOUBLE);
+			stack.push(State.VALUE_DOUBLE);
 		} else {
 			valueInt = Integer.parseInt(stb.toString());
-			stack.push(Current.VALUE_INTEGER);
+			stack.push(State.VALUE_INTEGER);
 		}
 	}
 

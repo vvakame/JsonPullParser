@@ -233,6 +233,7 @@ public class JSONPullParser {
 			break;
 		case VALUE_STRING:
 		case VALUE_INTEGER:
+		case VALUE_DOUBLE:
 		case VALUE_NULL:
 		case VALUE_BOOLEAN:
 			switch (c) {

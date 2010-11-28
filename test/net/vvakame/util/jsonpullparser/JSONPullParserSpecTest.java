@@ -42,8 +42,8 @@ public class JSONPullParserSpecTest {
 	public String getJson() {
 		StringBuilder builder = new StringBuilder();
 		builder.append("[");
-		for (int i = 0; i < 1000000; i++) {
-			builder.append(i).append(",");
+		for (int i = 0; i < 100000; i++) {
+			builder.append("{\"key\":").append(i).append("},");
 		}
 		builder.setLength(builder.length() - 1);
 		builder.append("]");

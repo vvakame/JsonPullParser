@@ -6,4 +6,8 @@ public class JSONFormatException extends Exception {
 	public JSONFormatException() {
 		super();
 	}
+
+	public JSONFormatException(Throwable e) {
+		super(e);
+	}
 }

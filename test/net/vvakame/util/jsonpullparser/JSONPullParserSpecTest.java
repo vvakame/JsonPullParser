@@ -45,7 +45,9 @@ public class JSONPullParserSpecTest {
 		StringBuilder builder = new StringBuilder();
 		builder.append("[");
 		for (int i = 0; i < 100000; i++) {
-			builder.append("{\"key\":").append(i).append(",\"test\":\"str\"},");
+			builder.append("{\"key\":").append(i).append(".1")
+					.append(",\"test\":\"str\"},");
+			// builder.append("{\"test\":\"str\"},");
 		}
 		builder.setLength(builder.length() - 1);
 		builder.append("]");

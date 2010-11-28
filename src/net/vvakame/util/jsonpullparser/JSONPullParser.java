@@ -167,23 +167,12 @@ public class JSONPullParser {
 				break;
 			default:
 				// 数字
-				String str = getNextNumeric();
 				try {
-					int i = Integer.parseInt(str);
-					stack.push(Current.VALUE_INTEGER);
-					valueInt = i;
+					fetchNextNumeric();
 					break;
 				} catch (NumberFormatException e) {
+					throw new JSONFormatException(e);
 				}
-				try {
-					double d = Double.parseDouble(str);
-					stack.push(Current.VALUE_DOUBLE);
-					valueDouble = d;
-					break;
-				} catch (NumberFormatException e) {
-				}
-
-				throw new JSONFormatException();
 			}
 			break;
 
@@ -280,23 +269,12 @@ public class JSONPullParser {
 				break;
 			default:
 				// 数字
-				String str = getNextNumeric();
 				try {
-					int i = Integer.parseInt(str);
-					stack.push(Current.VALUE_INTEGER);
-					valueInt = i;
+					fetchNextNumeric();
 					break;
 				} catch (NumberFormatException e) {
+					throw new JSONFormatException(e);
 				}
-				try {
-					double d = Double.parseDouble(str);
-					stack.push(Current.VALUE_DOUBLE);
-					valueDouble = d;
-					break;
-				} catch (NumberFormatException e) {
-				}
-
-				throw new JSONFormatException();
 			}
 			break;
 		case VALUE_STRING:
@@ -385,13 +363,18 @@ public class JSONPullParser {
 
 	StringBuilder stb = new StringBuilder();
 
-	private String getNextNumeric() throws IOException {
+	private void fetchNextNumeric() throws IOException {
 		stb.setLength(0);
 		br.reset();
 		char c;
+		boolean d = false;
 		loop: while (true) {
 			c = (char) br.read();
 			switch (c) {
+			case '.':
+			case 'e':
+			case 'E':
+				d = true;
 			case '0':
 			case '1':
 			case '2':
@@ -403,9 +386,6 @@ public class JSONPullParser {
 			case '8':
 			case '9':
 			case '-':
-			case '.':
-			case 'e':
-			case 'E':
 				break;
 			default:
 				br.reset();
@@ -414,7 +394,13 @@ public class JSONPullParser {
 			br.mark(1);
 			stb.append(c);
 		}
-		return stb.toString();
+		if (d) {
+			valueDouble = Double.parseDouble(stb.toString());
+			stack.push(Current.VALUE_DOUBLE);
+		} else {
+			valueInt = Integer.parseInt(stb.toString());
+			stack.push(Current.VALUE_INTEGER);
+		}
 	}
 
 	private String getNextString() throws IOException {

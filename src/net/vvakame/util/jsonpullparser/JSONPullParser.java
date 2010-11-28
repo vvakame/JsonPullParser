@@ -406,9 +406,41 @@ public class JSONPullParser {
 	private String getNextString() throws IOException {
 		stb.setLength(0);
 		char c;
-		while (true) {
+		loop: while (true) {
 			c = (char) br.read();
-			if (c == '"') {
+			switch (c) {
+			case '\\':
+				br.mark(1);
+				c = (char) br.read();
+				switch (c) {
+				case '/':
+				case '"':
+				case '\\':
+					break;
+				case 'n':
+					c = '\n';
+					break;
+				case 'r':
+					c = '\r';
+					break;
+				case 't':
+					c = '\t';
+					break;
+				case 'b':
+					c = '\b';
+					break;
+				case 'f':
+					c = '\f';
+					break;
+				default:
+					c = '\\';
+					br.reset();
+					break;
+				}
+				break;
+			case '"':
+				break loop;
+			default:
 				break;
 			}
 			stb.append(c);

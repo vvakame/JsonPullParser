@@ -4,7 +4,7 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 
 import net.arnx.jsonic.JSON;
-import net.vvakame.util.jsonpullparser.JSONPullParser.Current;
+import net.vvakame.util.jsonpullparser.JSONPullParser.State;
 
 import org.junit.Test;
 
@@ -18,8 +18,8 @@ public class JSONPullParserSpecTest {
 		JSONPullParser parser = new JSONPullParser();
 		ByteArrayInputStream stream = new ByteArrayInputStream(json.getBytes());
 		parser.setInput(stream);
-		Current current = null;
-		while (current != Current.END_ARRAY) {
+		State current = null;
+		while (current != State.END_ARRAY) {
 			current = parser.getEventType();
 		}
 		long end = System.currentTimeMillis();

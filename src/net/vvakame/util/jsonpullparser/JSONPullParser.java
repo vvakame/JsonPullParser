@@ -23,7 +23,7 @@ public class JSONPullParser {
 	 * 
 	 * @author vvakame
 	 */
-	static enum State {
+	public static enum State {
 		/**
 		 * 初期状態.
 		 */

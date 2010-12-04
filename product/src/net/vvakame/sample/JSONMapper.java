@@ -1,4 +1,4 @@
-package net.vvakame.util.jsonpullparser.util;
+package net.vvakame.sample;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -8,7 +8,6 @@ import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.Map;
 
-import net.vvakame.sample.TestData;
 import net.vvakame.util.jsonpullparser.JSONFormatException;
 import net.vvakame.util.jsonpullparser.JSONPullParser;
 import net.vvakame.util.jsonpullparser.JSONPullParser.State;

@@ -3,4 +3,4 @@
 **/bin/
 log
 **/.apt_generated/
-
+**/gen/

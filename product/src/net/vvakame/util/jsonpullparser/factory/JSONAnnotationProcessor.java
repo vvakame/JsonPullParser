@@ -3,6 +3,8 @@ package net.vvakame.util.jsonpullparser.factory;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.Writer;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 import javax.annotation.processing.AbstractProcessor;
@@ -17,8 +19,10 @@ import javax.lang.model.element.TypeElement;
 import javax.tools.Diagnostic;
 import javax.tools.JavaFileObject;
 
-import net.vvakame.util.jsonpullparser.Log;
+import net.vvakame.util.jsonpullparser.JSONFormatException;
+import net.vvakame.util.jsonpullparser.JSONPullParser;
 import net.vvakame.util.jsonpullparser.annotation.JSONHash;
+import net.vvakame.util.jsonpullparser.annotation.JSONKey;
 
 @SupportedSourceVersion(SourceVersion.RELEASE_6)
 @SupportedAnnotationTypes("net.vvakame.util.jsonpullparser.annotation.*")
@@ -28,6 +32,8 @@ public class JSONAnnotationProcessor extends AbstractProcessor {
 
 	Set<? extends TypeElement> annotations;
 	RoundEnvironment roundEnv;
+
+	PrintWriter pw;
 
 	@Override
 	public boolean process(Set<? extends TypeElement> annotations,
@@ -60,13 +66,68 @@ public class JSONAnnotationProcessor extends AbstractProcessor {
 					getGenerateCanonicalClassName(classElement), classElement);
 			Writer writer = fileObject.openWriter();
 			try {
-				PrintWriter pw = new PrintWriter(writer);
-				pw.print("package ");
-				pw.print(getPackageName(classElement));
-				pw.println(";");
-				pw.print("public class ");
-				pw.print(getGenerateClassName(classElement));
-				pw.println("{}");
+				pw = new PrintWriter(writer);
+
+				writePackage(classElement);
+				writeImport(IOException.class);
+				writeImport(JSONPullParser.class);
+				writeImport(JSONPullParser.State.class);
+				writeImport(JSONFormatException.class);
+
+				write("public class ");
+				write(getGenerateClassName(classElement));
+				write("{");
+
+				// ここからgetメソッド
+				write("public static ");
+				write(getClassName(classElement));
+				write(" get(JSONPullParser parser) throws IOException, JSONFormatException {");
+
+				// 結果用変数生成
+				write(getClassName(classElement));
+				write(" obj = new ");
+				write(getClassName(classElement));
+				write("();");
+				// 最初のbraceを食べる TODO Arrayが考慮されていない
+				write("State eventType = parser.getEventType();");
+				write("if (eventType != State.START_HASH) {");
+				write("throw new IllegalStateException(\"not started hash brace!\");");
+				write("}");
+				// ループ処理共通部分生成
+				write("while ((eventType = parser.getEventType()) != State.END_HASH) {");
+				write("if (eventType != State.KEY) {");
+				write("throw new IllegalStateException(\"expect KEY. we got unexpected value. \" + eventType);");
+				write("}");
+				write("String key = parser.getValueString();");
+				write("eventType = parser.getEventType();");
+				// 値の独自処理
+				// JSONKeyの収集
+				List<ElementValues> values = filterJSONKey(classElement);
+				boolean first = true;
+				for (ElementValues value : values) {
+					if (first) {
+						first = false;
+					} else {
+						write("else ");
+					}
+					write("if(\"");
+					write(value.keyName);
+					write("\".equals(key)){");
+					// 代入処理
+					write("obj." + value.accessor + " = "
+							+ getValueString(value.type) + ";");
+
+					write("}");
+				}
+				// TODO JSONValueの取得
+				// TODO 対象の型判別
+
+				// TODO 本来いらん
+				write("}");
+				// 返り値の処理
+				write("return obj;}");
+				write("}");
+
 				pw.flush();
 			} finally {
 				writer.close();
@@ -80,6 +141,69 @@ public class JSONAnnotationProcessor extends AbstractProcessor {
 		}
 	}
 
+	private List<ElementValues> filterJSONKey(Element parent) {
+		List<? extends Element> elements = parent.getEnclosedElements();
+		List<ElementValues> results = new ArrayList<ElementValues>();
+
+		for (Element element : elements) {
+			if (element.getKind() != ElementKind.FIELD) {
+				continue;
+			}
+			JSONKey key = element.getAnnotation(JSONKey.class);
+			if (key == null) {
+				continue;
+			}
+			ElementValues values = new ElementValues();
+			if (!"".equals(key.value())) {
+				values.keyName = key.value();
+			} else {
+				values.keyName = element.toString();
+			}
+			values.type = element.asType().toString();
+			values.accessor = element.toString();
+			results.add(values);
+		}
+
+		return results;
+	}
+
+	static class ElementValues {
+		String keyName;
+		String type;
+		String accessor;
+	}
+
+	void write(String str) {
+		pw.print(str);
+	}
+
+	void writePackage(Element classElement) {
+		pw.print("package ");
+		pw.print(getPackageName(classElement));
+		pw.println(";");
+	}
+
+	void writeImport(Class<?> clazz) {
+		pw.print("import ");
+		pw.print(clazz.getCanonicalName());
+		pw.println(";");
+	}
+
+	String getValueString(String type) {
+		if ("int".equals(type)) {
+			return "parser.getValueInt()";
+		} else if ("double".equals(type)) {
+			return "parser.getValueDouble()";
+		} else if ("boolean".equals(type)) {
+			return "parser.getValueBoolean()";
+		} else if ("java.lang.String".equals(type)) {
+			return "parser.getValueString()";
+		} else {
+			Log.d("unknown type=" + type);
+			return null;
+		}
+	}
+
 	String getGenerateCanonicalClassName(Element classElement) {
 		return getPackageName(classElement) + "."
 				+ getGenerateClassName(classElement);
@@ -87,6 +211,10 @@ public class JSONAnnotationProcessor extends AbstractProcessor {
 
 	String getGenerateClassName(Element classElement) {
 		return classElement.getSimpleName().toString() + CLASS_POSTFIX;
+	}
+
+	String getClassName(Element classElement) {
+		return classElement.getSimpleName().toString();
 	}
 
 	String getPackageName(Element classElement) {

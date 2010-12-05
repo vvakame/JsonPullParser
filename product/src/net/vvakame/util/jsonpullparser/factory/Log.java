@@ -1,4 +1,4 @@
-package net.vvakame.util.jsonpullparser;
+package net.vvakame.util.jsonpullparser.factory;
 
 import javax.annotation.processing.Messager;
 import javax.lang.model.element.Element;

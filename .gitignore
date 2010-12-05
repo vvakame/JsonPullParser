@@ -1,4 +1,6 @@
 .*.swp
 .DS_Store
 **/bin/
+log
+**/.apt_generated/
 

@@ -7,15 +7,15 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
-import net.vvakame.util.jsonpullparser.JsonPullParser.State;
+import net.vvakame.util.jsonpullparser.JsonPullParser1.State;
 
 import org.junit.Test;
 
-public class JsonPullParserTest {
+public class JsonPullParserTest1 {
 
 	@Test
-	public void parseEmptyHash() throws IOException, JsonFormatException {
-		JsonPullParser parser = new JsonPullParser();
+	public void parseEmptyHash() throws IOException, JsonFormatException1 {
+		JsonPullParser1 parser = new JsonPullParser1();
 		InputStream is;
 		State type;
 
@@ -28,8 +28,8 @@ public class JsonPullParserTest {
 	}
 
 	@Test
-	public void parseEmptyArray() throws IOException, JsonFormatException {
-		JsonPullParser parser = new JsonPullParser();
+	public void parseEmptyArray() throws IOException, JsonFormatException1 {
+		JsonPullParser1 parser = new JsonPullParser1();
 		InputStream is;
 		State type;
 
@@ -42,8 +42,8 @@ public class JsonPullParserTest {
 	}
 
 	@Test
-	public void parseEmptyJSON() throws IOException, JsonFormatException {
-		JsonPullParser parser = new JsonPullParser();
+	public void parseEmptyJSON() throws IOException, JsonFormatException1 {
+		JsonPullParser1 parser = new JsonPullParser1();
 		InputStream is;
 		State type;
 
@@ -60,8 +60,8 @@ public class JsonPullParserTest {
 	}
 
 	@Test
-	public void parseSimpleString() throws IOException, JsonFormatException {
-		JsonPullParser parser = new JsonPullParser();
+	public void parseSimpleString() throws IOException, JsonFormatException1 {
+		JsonPullParser1 parser = new JsonPullParser1();
 		InputStream is;
 		State type;
 		String str;
@@ -83,8 +83,8 @@ public class JsonPullParserTest {
 	}
 
 	@Test
-	public void parseSpecialChar() throws IOException, JsonFormatException {
-		JsonPullParser parser = new JsonPullParser();
+	public void parseSpecialChar() throws IOException, JsonFormatException1 {
+		JsonPullParser1 parser = new JsonPullParser1();
 		InputStream is;
 		State type;
 		String str;
@@ -107,8 +107,8 @@ public class JsonPullParserTest {
 
 	@Test
 	public void parseSimpleBooleanTrue() throws IOException,
-			JsonFormatException {
-		JsonPullParser parser = new JsonPullParser();
+			JsonFormatException1 {
+		JsonPullParser1 parser = new JsonPullParser1();
 		InputStream is;
 		State type;
 		String str;
@@ -132,8 +132,8 @@ public class JsonPullParserTest {
 
 	@Test
 	public void parseSimpleBooleanFalse() throws IOException,
-			JsonFormatException {
-		JsonPullParser parser = new JsonPullParser();
+			JsonFormatException1 {
+		JsonPullParser1 parser = new JsonPullParser1();
 		InputStream is;
 		State type;
 		String str;
@@ -156,8 +156,8 @@ public class JsonPullParserTest {
 	}
 
 	@Test
-	public void parseSimpleNull() throws IOException, JsonFormatException {
-		JsonPullParser parser = new JsonPullParser();
+	public void parseSimpleNull() throws IOException, JsonFormatException1 {
+		JsonPullParser1 parser = new JsonPullParser1();
 		InputStream is;
 		State type;
 		String str;
@@ -177,8 +177,8 @@ public class JsonPullParserTest {
 	}
 
 	@Test
-	public void parseSimpleInt() throws IOException, JsonFormatException {
-		JsonPullParser parser = new JsonPullParser();
+	public void parseSimpleInt() throws IOException, JsonFormatException1 {
+		JsonPullParser1 parser = new JsonPullParser1();
 		InputStream is;
 		State type;
 		String str;
@@ -201,8 +201,8 @@ public class JsonPullParserTest {
 	}
 
 	@Test
-	public void parseSimpleDouble() throws IOException, JsonFormatException {
-		JsonPullParser parser = new JsonPullParser();
+	public void parseSimpleDouble() throws IOException, JsonFormatException1 {
+		JsonPullParser1 parser = new JsonPullParser1();
 		InputStream is;
 		State type;
 		String str;
@@ -225,8 +225,8 @@ public class JsonPullParserTest {
 	}
 
 	@Test
-	public void parseHash() throws IOException, JsonFormatException {
-		JsonPullParser parser = new JsonPullParser();
+	public void parseHash() throws IOException, JsonFormatException1 {
+		JsonPullParser1 parser = new JsonPullParser1();
 		InputStream is;
 		State type;
 		String str;
@@ -303,8 +303,8 @@ public class JsonPullParserTest {
 	}
 
 	@Test
-	public void parseArray() throws IOException, JsonFormatException {
-		JsonPullParser parser = new JsonPullParser();
+	public void parseArray() throws IOException, JsonFormatException1 {
+		JsonPullParser1 parser = new JsonPullParser1();
 		InputStream is;
 		State type;
 		String str;
@@ -343,8 +343,8 @@ public class JsonPullParserTest {
 	}
 
 	@Test
-	public void parseComplex() throws IOException, JsonFormatException {
-		JsonPullParser parser = new JsonPullParser();
+	public void parseComplex() throws IOException, JsonFormatException1 {
+		JsonPullParser1 parser = new JsonPullParser1();
 		InputStream is;
 		State type;
 
@@ -391,9 +391,9 @@ public class JsonPullParserTest {
 		assertThat(type, is(State.END_ARRAY));
 	}
 
-	@Test(expected = JsonFormatException.class)
-	public void parseFailure1() throws IOException, JsonFormatException {
-		JsonPullParser parser = new JsonPullParser();
+	@Test(expected = JsonFormatException1.class)
+	public void parseFailure1() throws IOException, JsonFormatException1 {
+		JsonPullParser1 parser = new JsonPullParser1();
 		InputStream is;
 
 		is = getStream("[}");
@@ -403,9 +403,9 @@ public class JsonPullParserTest {
 		parser.getEventType();
 	}
 
-	@Test(expected = JsonFormatException.class)
-	public void parseFailure2() throws IOException, JsonFormatException {
-		JsonPullParser parser = new JsonPullParser();
+	@Test(expected = JsonFormatException1.class)
+	public void parseFailure2() throws IOException, JsonFormatException1 {
+		JsonPullParser1 parser = new JsonPullParser1();
 		InputStream is;
 
 		is = getStream("[+0]");
@@ -415,9 +415,9 @@ public class JsonPullParserTest {
 		parser.getEventType();
 	}
 
-	@Test(expected = JsonFormatException.class)
-	public void parseFailure3() throws IOException, JsonFormatException {
-		JsonPullParser parser = new JsonPullParser();
+	@Test(expected = JsonFormatException1.class)
+	public void parseFailure3() throws IOException, JsonFormatException1 {
+		JsonPullParser1 parser = new JsonPullParser1();
 		InputStream is;
 
 		is = getStream("[0-0]");
@@ -427,9 +427,9 @@ public class JsonPullParserTest {
 		parser.getEventType();
 	}
 
-	@Test(expected = JsonFormatException.class)
-	public void parseFailure4() throws IOException, JsonFormatException {
-		JsonPullParser parser = new JsonPullParser();
+	@Test(expected = JsonFormatException1.class)
+	public void parseFailure4() throws IOException, JsonFormatException1 {
+		JsonPullParser1 parser = new JsonPullParser1();
 		InputStream is;
 
 		is = getStream("[0,,0]");

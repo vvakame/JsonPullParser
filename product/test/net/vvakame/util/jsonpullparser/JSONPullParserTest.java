@@ -195,7 +195,7 @@ public class JSONPullParserTest {
 		type = parser.getEventType();
 		assertThat(type, is(State.VALUE_INTEGER));
 		type = parser.getEventType();
-		i = parser.getValueInt();
+		i = parser.getValueInteger();
 		assertThat(i, is(-1));
 		assertThat(type, is(State.END_HASH));
 	}
@@ -257,7 +257,7 @@ public class JSONPullParserTest {
 
 		type = parser.getEventType();
 		assertThat(type, is(State.VALUE_INTEGER));
-		i = parser.getValueInt();
+		i = parser.getValueInteger();
 		assertThat(i, is(2));
 
 		type = parser.getEventType();
@@ -322,7 +322,7 @@ public class JSONPullParserTest {
 		assertThat(str, is("value1"));
 		type = parser.getEventType();
 		assertThat(type, is(State.VALUE_INTEGER));
-		i = parser.getValueInt();
+		i = parser.getValueInteger();
 		assertThat(i, is(2));
 		type = parser.getEventType();
 		assertThat(type, is(State.VALUE_DOUBLE));

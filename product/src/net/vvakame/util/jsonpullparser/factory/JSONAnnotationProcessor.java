@@ -191,13 +191,32 @@ public class JSONAnnotationProcessor extends AbstractProcessor {
 
 	String getValueString(String type) {
 		if ("int".equals(type)) {
-			return "parser.getValueInt()";
+			return "parser.getValueInteger()";
+
 		} else if ("double".equals(type)) {
 			return "parser.getValueDouble()";
+
 		} else if ("boolean".equals(type)) {
 			return "parser.getValueBoolean()";
+
 		} else if ("java.lang.String".equals(type)) {
 			return "parser.getValueString()";
+
+		} else if ("short".equals(type)) {
+			return "(short)parser.getValueInteger()";
+
+		} else if ("long".equals(type)) {
+			return "parser.getValueInteger()";
+
+		} else if ("float".equals(type)) {
+			return "(float)parser.getValueDouble()";
+
+		} else if ("byte".equals(type)) {
+			return "(byte)parser.getValueInteger()";
+
+		} else if ("char".equals(type)) {
+			return "parser.getValueString().charAt(0)";
+
 		} else {
 			Log.d("unknown type=" + type);
 			return null;

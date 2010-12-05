@@ -85,7 +85,7 @@ public class JSONPullParser {
 
 	// 値保持用
 	String valueStr;
-	int valueInt;
+	int valueInteger;
 	double valueDouble;
 	boolean valueBoolean;
 
@@ -319,8 +319,8 @@ public class JSONPullParser {
 	 * 
 	 * @return 読み込んだ整数値
 	 */
-	public int getValueInt() {
-		return valueInt;
+	public int getValueInteger() {
+		return valueInteger;
 	}
 
 	/**
@@ -398,7 +398,7 @@ public class JSONPullParser {
 			valueDouble = Double.parseDouble(stb.toString());
 			stack.push(State.VALUE_DOUBLE);
 		} else {
-			valueInt = Integer.parseInt(stb.toString());
+			valueInteger = Integer.parseInt(stb.toString());
 			stack.push(State.VALUE_INTEGER);
 		}
 	}

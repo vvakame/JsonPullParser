@@ -17,7 +17,7 @@ import java.util.Deque;
  * @author vvakame
  * 
  */
-public class JsonPullParser1 {
+public class JsonPullParser {
 	/**
 	 * 現在処理中のトークン.
 	 * 
@@ -98,19 +98,19 @@ public class JsonPullParser1 {
 	 */
 	public void setInput(InputStream is) throws IOException {
 		br = new BufferedReader(new InputStreamReader(is));
-		stack = new ArrayDeque<JsonPullParser1.State>();
+		stack = new ArrayDeque<JsonPullParser.State>();
 		stack.push(State.ORIGIN);
 	}
 
 	/**
 	 * 現在の状態を取得します.<br>
-	 * このメソッドを使う前に、{@link JsonPullParser1#setInput(InputStream)}を呼ぶべきです.
+	 * このメソッドを使う前に、{@link JsonPullParser#setInput(InputStream)}を呼ぶべきです.
 	 * 
 	 * @return
 	 * @throws IOException
-	 * @throws JsonFormatException1
+	 * @throws JsonFormatException
 	 */
-	public State getEventType() throws IOException, JsonFormatException1 {
+	public State getEventType() throws IOException, JsonFormatException {
 		char c = getNextChar();
 		switch (stack.pop()) {
 		case ORIGIN:
@@ -122,7 +122,7 @@ public class JsonPullParser1 {
 				stack.push(State.START_ARRAY);
 				break;
 			default:
-				throw new JsonFormatException1();
+				throw new JsonFormatException();
 			}
 			break;
 		case START_ARRAY:
@@ -171,7 +171,7 @@ public class JsonPullParser1 {
 					fetchNextNumeric();
 					break;
 				} catch (NumberFormatException e) {
-					throw new JsonFormatException1(e);
+					throw new JsonFormatException(e);
 				}
 			}
 			break;
@@ -193,17 +193,17 @@ public class JsonPullParser1 {
 				valueStr = getNextString();
 				c = getNextChar();
 				if (c != ':') {
-					throw new JsonFormatException1();
+					throw new JsonFormatException();
 				}
 				break;
 			default:
-				throw new JsonFormatException1();
+				throw new JsonFormatException();
 			}
 			break;
 
 		case END_ARRAY:
 			if (!State.START_ARRAY.equals(stack.pop())) {
-				throw new JsonFormatException1();
+				throw new JsonFormatException();
 			}
 			switch (c) {
 			case ',':
@@ -216,12 +216,12 @@ public class JsonPullParser1 {
 				stack.push(State.END_HASH);
 				break;
 			default:
-				throw new JsonFormatException1();
+				throw new JsonFormatException();
 			}
 
 		case END_HASH:
 			if (!State.START_HASH.equals(stack.pop())) {
-				throw new JsonFormatException1();
+				throw new JsonFormatException();
 			}
 			switch (c) {
 			case ',':
@@ -234,7 +234,7 @@ public class JsonPullParser1 {
 				stack.push(State.END_HASH);
 				break;
 			default:
-				throw new JsonFormatException1();
+				throw new JsonFormatException();
 			}
 			break;
 		case KEY:
@@ -273,7 +273,7 @@ public class JsonPullParser1 {
 					fetchNextNumeric();
 					break;
 				} catch (NumberFormatException e) {
-					throw new JsonFormatException1(e);
+					throw new JsonFormatException(e);
 				}
 			}
 			break;
@@ -293,18 +293,18 @@ public class JsonPullParser1 {
 				stack.push(State.END_ARRAY);
 				break;
 			default:
-				throw new JsonFormatException1();
+				throw new JsonFormatException();
 			}
 			break;
 		default:
-			throw new JsonFormatException1();
+			throw new JsonFormatException();
 		}
 
 		return stack.getFirst();
 	}
 
 	/**
-	 * 値を文字列として取得します.<br> {@link JsonPullParser1#getEventType()}を読んだ時に
+	 * 値を文字列として取得します.<br> {@link JsonPullParser#getEventType()}を読んだ時に
 	 * {@link State#KEY}もしくは{@link State#VALUE_STRING}が返ってきたときに呼び出してください.
 	 * 
 	 * @return 読み込んだ文字列
@@ -314,7 +314,7 @@ public class JsonPullParser1 {
 	}
 
 	/**
-	 * 値を整数値として取得します.<br> {@link JsonPullParser1#getEventType()}を読んだ時に
+	 * 値を整数値として取得します.<br> {@link JsonPullParser#getEventType()}を読んだ時に
 	 * {@link State#VALUE_INTEGER}が返ってきたときに呼び出してください.
 	 * 
 	 * @return 読み込んだ整数値
@@ -324,7 +324,7 @@ public class JsonPullParser1 {
 	}
 
 	/**
-	 * 値を整数値として取得します.<br> {@link JsonPullParser1#getEventType()}を読んだ時に
+	 * 値を整数値として取得します.<br> {@link JsonPullParser#getEventType()}を読んだ時に
 	 * {@link State#VALUE_DOUBLE}が返ってきたときに呼び出してください.
 	 * 
 	 * @return 読み込んだ浮動小数点の値
@@ -334,7 +334,7 @@ public class JsonPullParser1 {
 	}
 
 	/**
-	 * 値を整数値として取得します.<br> {@link JsonPullParser1#getEventType()}を読んだ時に
+	 * 値を整数値として取得します.<br> {@link JsonPullParser#getEventType()}を読んだ時に
 	 * {@link State#VALUE_BOOLEAN}が返ってきたときに呼び出してください.
 	 * 
 	 * @return 読み込んだ真偽値の値
@@ -354,10 +354,10 @@ public class JsonPullParser1 {
 	}
 
 	private void expectNextChar(char expect) throws IOException,
-			JsonFormatException1 {
+			JsonFormatException {
 		char c = getNextChar();
 		if (c != expect) {
-			throw new JsonFormatException1();
+			throw new JsonFormatException();
 		}
 	}
 

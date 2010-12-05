@@ -7,5 +7,5 @@ import java.lang.annotation.Target;
 
 @Retention(RetentionPolicy.SOURCE)
 @Target({ ElementType.TYPE, ElementType.FIELD })
-public @interface JsonArray1 {
+public @interface JsonHash {
 }

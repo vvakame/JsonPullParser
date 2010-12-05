@@ -19,15 +19,15 @@ import javax.lang.model.element.TypeElement;
 import javax.tools.Diagnostic;
 import javax.tools.JavaFileObject;
 
-import net.vvakame.util.jsonpullparser.JsonFormatException1;
-import net.vvakame.util.jsonpullparser.JsonPullParser1;
-import net.vvakame.util.jsonpullparser.JsonPullParser1.State;
-import net.vvakame.util.jsonpullparser.annotation.JsonHash1;
-import net.vvakame.util.jsonpullparser.annotation.JsonKey1;
+import net.vvakame.util.jsonpullparser.JsonFormatException;
+import net.vvakame.util.jsonpullparser.JsonPullParser;
+import net.vvakame.util.jsonpullparser.JsonPullParser.State;
+import net.vvakame.util.jsonpullparser.annotation.JsonHash;
+import net.vvakame.util.jsonpullparser.annotation.JsonKey;
 
 @SupportedSourceVersion(SourceVersion.RELEASE_6)
 @SupportedAnnotationTypes("net.vvakame.util.jsonpullparser.annotation.*")
-public class JsonAnnotationProcessor1 extends AbstractProcessor {
+public class JsonAnnotationProcessor extends AbstractProcessor {
 
 	private static final String CLASS_POSTFIX = "Gen";
 
@@ -43,7 +43,7 @@ public class JsonAnnotationProcessor1 extends AbstractProcessor {
 		Log.init(processingEnv.getMessager());
 
 		for (Element element : roundEnv
-				.getElementsAnnotatedWith(JsonHash1.class)) {
+				.getElementsAnnotatedWith(JsonHash.class)) {
 
 			if (element.getKind() == ElementKind.CLASS) {
 				genMetaClass(element);
@@ -77,18 +77,18 @@ public class JsonAnnotationProcessor1 extends AbstractProcessor {
 
 				// import文出力
 				w.writeImport(IOException.class);
-				w.writeImport(JsonPullParser1.class);
-				w.writeImport(JsonPullParser1.State.class);
-				w.writeImport(JsonFormatException1.class);
+				w.writeImport(JsonPullParser.class);
+				w.writeImport(JsonPullParser.State.class);
+				w.writeImport(JsonFormatException.class);
 
 				// class宣言出力
 				w.writeClassSignature();
 
 				// ここからgetメソッド signiture
 				w.wr("public static ").writeClassName();
-				w.wr(" get(").wr(JsonPullParser1.class).wr(" parser) throws ");
+				w.wr(" get(").wr(JsonPullParser.class).wr(" parser) throws ");
 				w.wr(IOException.class).wr(", ");
-				w.wr(JsonFormatException1.class).wr("{");
+				w.wr(JsonFormatException.class).wr("{");
 
 				// 結果用変数生成
 				w.writeClassName().wr(" obj = new ").writeClassName().wr("();");
@@ -152,7 +152,7 @@ public class JsonAnnotationProcessor1 extends AbstractProcessor {
 			if (element.getKind() != ElementKind.FIELD) {
 				continue;
 			}
-			JsonKey1 key = element.getAnnotation(JsonKey1.class);
+			JsonKey key = element.getAnnotation(JsonKey.class);
 			if (key == null) {
 				continue;
 			}

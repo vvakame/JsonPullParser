@@ -4,7 +4,7 @@ import net.vvakame.util.jsonpullparser.annotation.JSONHash;
 import net.vvakame.util.jsonpullparser.annotation.JSONKey;
 
 @JSONHash
-public class TestData {
+public class TestData1 {
 	@JSONKey
 	String name;
 

@@ -11,17 +11,17 @@ import net.vvakame.sample.PrimitiveTypeData;
 import net.vvakame.sample.PrimitiveTypeDataGen;
 import net.vvakame.sample.TestData;
 import net.vvakame.sample.TestDataGen;
-import net.vvakame.util.jsonpullparser.JSONFormatException;
-import net.vvakame.util.jsonpullparser.JSONPullParser;
+import net.vvakame.util.jsonpullparser.JsonFormatException;
+import net.vvakame.util.jsonpullparser.JsonPullParser;
 
 import org.junit.Test;
 
 public class JsonAnnotationProcessorTest {
 
 	@Test
-	public void jsonHashParser() throws IOException, JSONFormatException {
+	public void jsonHashParser() throws IOException, JsonFormatException {
 		String json = "{\"name\":\"vvakame\",\"package_name\":\"net.vvakame\",\"version_code\":7,\"weight\":66.66,\"has_data\":true}";
-		JSONPullParser parser = new JSONPullParser();
+		JsonPullParser parser = new JsonPullParser();
 		parser.setInput(getStream(json));
 
 		TestData data = TestDataGen.get(parser);
@@ -34,9 +34,9 @@ public class JsonAnnotationProcessorTest {
 	}
 
 	@Test
-	public void jsonHashPrimitive() throws IOException, JSONFormatException {
+	public void jsonHashPrimitive() throws IOException, JsonFormatException {
 		String json = "{\"bool\":true,\"c\":\"char\",\"b\":127,\"s\":32767,\"i\":2147483647,\"l\":2147483647,\"f\":3.4028235E38,\"d\":1.7976931348623157E308}";
-		JSONPullParser parser = new JSONPullParser();
+		JsonPullParser parser = new JsonPullParser();
 		parser.setInput(getStream(json));
 
 		PrimitiveTypeData data = PrimitiveTypeDataGen.get(parser);

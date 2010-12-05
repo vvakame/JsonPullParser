@@ -1,33 +1,33 @@
 package net.vvakame.sample;
 
-import net.vvakame.util.jsonpullparser.annotation.JSONHash;
-import net.vvakame.util.jsonpullparser.annotation.JSONKey;
+import net.vvakame.util.jsonpullparser.annotation.JsonHash;
+import net.vvakame.util.jsonpullparser.annotation.JsonKey;
 
-@JSONHash
+@JsonHash
 public class PrimitiveTypeData {
 
-	@JSONKey
+	@JsonKey
 	boolean bool;
 
-	@JSONKey
+	@JsonKey
 	char c;
 
-	@JSONKey
+	@JsonKey
 	byte b;
 
-	@JSONKey
+	@JsonKey
 	short s;
 
-	@JSONKey
+	@JsonKey
 	int i;
 
-	@JSONKey
+	@JsonKey
 	long l;
 
-	@JSONKey
+	@JsonKey
 	float f;
 
-	@JSONKey
+	@JsonKey
 	double d;
 
 	/**

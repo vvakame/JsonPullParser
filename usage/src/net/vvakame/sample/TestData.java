@@ -1,23 +1,23 @@
 package net.vvakame.sample;
 
-import net.vvakame.util.jsonpullparser.annotation.JSONHash;
-import net.vvakame.util.jsonpullparser.annotation.JSONKey;
+import net.vvakame.util.jsonpullparser.annotation.JsonHash;
+import net.vvakame.util.jsonpullparser.annotation.JsonKey;
 
-@JSONHash
+@JsonHash
 public class TestData {
-	@JSONKey
+	@JsonKey
 	String name;
 
-	@JSONKey("package_name")
+	@JsonKey("package_name")
 	String packageName;
 
-	@JSONKey("version_code")
+	@JsonKey("version_code")
 	int versionCode;
 
-	@JSONKey
+	@JsonKey
 	double weight;
 
-	@JSONKey("has_data")
+	@JsonKey("has_data")
 	boolean hasData;
 
 	/**

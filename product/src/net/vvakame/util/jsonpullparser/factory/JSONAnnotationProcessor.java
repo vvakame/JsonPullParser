@@ -21,6 +21,7 @@ import javax.tools.JavaFileObject;
 
 import net.vvakame.util.jsonpullparser.JsonFormatException;
 import net.vvakame.util.jsonpullparser.JsonPullParser;
+import net.vvakame.util.jsonpullparser.JsonPullParser.State;
 import net.vvakame.util.jsonpullparser.annotation.JsonHash;
 import net.vvakame.util.jsonpullparser.annotation.JsonKey;
 
@@ -32,8 +33,6 @@ public class JsonAnnotationProcessor extends AbstractProcessor {
 
 	Set<? extends TypeElement> annotations;
 	RoundEnvironment roundEnv;
-
-	PrintWriter pw;
 
 	@Override
 	public boolean process(Set<? extends TypeElement> annotations,
@@ -62,73 +61,77 @@ public class JsonAnnotationProcessor extends AbstractProcessor {
 		// ここからソース生成
 		Filer filer = processingEnv.getFiler();
 		try {
+
+			String generateClassName = ClassWriterHelper
+					.getGenerateCanonicalClassName(classElement, CLASS_POSTFIX);
 			JavaFileObject fileObject = filer.createSourceFile(
-					getGenerateCanonicalClassName(classElement), classElement);
+					generateClassName, classElement);
+
 			Writer writer = fileObject.openWriter();
 			try {
-				pw = new PrintWriter(writer);
+				ClassWriterHelper w = new ClassWriterHelper(new PrintWriter(
+						writer), classElement, CLASS_POSTFIX);
 
-				writePackage(classElement);
-				writeImport(IOException.class);
-				writeImport(JsonPullParser.class);
-				writeImport(JsonPullParser.State.class);
-				writeImport(JsonFormatException.class);
+				// package名出力
+				w.writePackage();
 
-				write("public class ");
-				write(getGenerateClassName(classElement));
-				write("{");
+				// import文出力
+				w.writeImport(IOException.class);
+				w.writeImport(JsonPullParser.class);
+				w.writeImport(JsonPullParser.State.class);
+				w.writeImport(JsonFormatException.class);
 
-				// ここからgetメソッド
-				write("public static ");
-				write(getClassName(classElement));
-				write(" get(JSONPullParser parser) throws IOException, JSONFormatException {");
+				// class宣言出力
+				w.writeClassSignature();
+
+				// ここからgetメソッド signiture
+				w.wr("public static ").writeClassName();
+				w.wr(" get(").wr(JsonPullParser.class).wr(" parser) throws ");
+				w.wr(IOException.class).wr(", ");
+				w.wr(JsonFormatException.class).wr("{");
 
 				// 結果用変数生成
-				write(getClassName(classElement));
-				write(" obj = new ");
-				write(getClassName(classElement));
-				write("();");
+				w.writeClassName().wr(" obj = new ").writeClassName().wr("();");
 				// 最初のbraceを食べる TODO Arrayが考慮されていない
-				write("State eventType = parser.getEventType();");
-				write("if (eventType != State.START_HASH) {");
-				write("throw new IllegalStateException(\"not started hash brace!\");");
-				write("}");
+				w.wr(State.class).wr(" eventType = parser.getEventType();");
+				w.wr("if (eventType != State.START_HASH) {");
+				w.wr("throw new IllegalStateException(\"not started hash brace!\");");
+				w.wr("}");
 				// ループ処理共通部分生成
-				write("while ((eventType = parser.getEventType()) != State.END_HASH) {");
-				write("if (eventType != State.KEY) {");
-				write("throw new IllegalStateException(\"expect KEY. we got unexpected value. \" + eventType);");
-				write("}");
-				write("String key = parser.getValueString();");
-				write("eventType = parser.getEventType();");
+				w.wr("while ((eventType = parser.getEventType()) != ");
+				w.wr(State.class).wr(".").wr(State.END_HASH.toString());
+				w.wr("){");
+				w.wr("if (eventType != State.KEY) {");
+				w.wr("throw new IllegalStateException(\"expect KEY. we got unexpected value. \" + eventType);");
+				w.wr("}");
+				w.wr("String key = parser.getValueString();");
+				w.wr("eventType = parser.getEventType();");
+
 				// 値の独自処理
-				// JSONKeyの収集
+				// JsonKeyの収集
 				List<ElementValues> values = filterJSONKey(classElement);
+				// JsonKeyに対応する値取得コードを生成する
 				boolean first = true;
 				for (ElementValues value : values) {
 					if (first) {
 						first = false;
 					} else {
-						write("else ");
+						w.wr("else ");
 					}
-					write("if(\"");
-					write(value.keyName);
-					write("\".equals(key)){");
-					// 代入処理
-					write("obj." + value.accessor + " = "
-							+ getValueString(value.type) + ";");
-
-					write("}");
+					w.wr("if(\"").wr(value.keyName).wr("\".equals(key)){");
+					// 代入
+					w.wr("obj.").wr(value.accessor).wr(" = ");
+					w.wr(getValueString(value.type)).wr(";");
+					w.wr("}");
 				}
-				// TODO JSONValueの取得
-				// TODO 対象の型判別
 
 				// TODO 本来いらん
-				write("}");
+				w.wr("}");
 				// 返り値の処理
-				write("return obj;}");
-				write("}");
+				w.wr("return obj;}");
+				w.wr("}");
 
-				pw.flush();
+				w.flush();
 			} finally {
 				writer.close();
 			}
@@ -173,22 +176,6 @@ public class JsonAnnotationProcessor extends AbstractProcessor {
 		String accessor;
 	}
 
-	void write(String str) {
-		pw.print(str);
-	}
-
-	void writePackage(Element classElement) {
-		pw.print("package ");
-		pw.print(getPackageName(classElement));
-		pw.println(";");
-	}
-
-	void writeImport(Class<?> clazz) {
-		pw.print("import ");
-		pw.print(clazz.getCanonicalName());
-		pw.println(";");
-	}
-
 	String getValueString(String type) {
 		if ("int".equals(type)) {
 			return "parser.getValueInteger()";
@@ -221,26 +208,5 @@ public class JsonAnnotationProcessor extends AbstractProcessor {
 			Log.d("unknown type=" + type);
 			return null;
 		}
-	}
-
-	String getGenerateCanonicalClassName(Element classElement) {
-		return getPackageName(classElement) + "."
-				+ getGenerateClassName(classElement);
-	}
-
-	String getGenerateClassName(Element classElement) {
-		return classElement.getSimpleName().toString() + CLASS_POSTFIX;
-	}
-
-	String getClassName(Element classElement) {
-		return classElement.getSimpleName().toString();
-	}
-
-	String getPackageName(Element classElement) {
-		if (classElement.getKind() != ElementKind.CLASS) {
-			throw new IllegalStateException();
-		}
-		String str = classElement.getEnclosingElement().toString();
-		return str.replace("package ", "");
 	}
 }

@@ -1,13 +1,13 @@
 package net.vvakame.util.jsonpullparser;
 
-public class JSONFormatException extends Exception {
+public class JsonFormatException extends Exception {
 	private static final long serialVersionUID = -1877852218539180703L;
 
-	public JSONFormatException() {
+	public JsonFormatException() {
 		super();
 	}
 
-	public JSONFormatException(Throwable e) {
+	public JsonFormatException(Throwable e) {
 		super(e);
 	}
 }

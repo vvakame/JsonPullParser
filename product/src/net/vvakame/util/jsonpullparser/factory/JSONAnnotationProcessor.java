@@ -19,14 +19,14 @@ import javax.lang.model.element.TypeElement;
 import javax.tools.Diagnostic;
 import javax.tools.JavaFileObject;
 
-import net.vvakame.util.jsonpullparser.JSONFormatException;
-import net.vvakame.util.jsonpullparser.JSONPullParser;
-import net.vvakame.util.jsonpullparser.annotation.JSONHash;
-import net.vvakame.util.jsonpullparser.annotation.JSONKey;
+import net.vvakame.util.jsonpullparser.JsonFormatException;
+import net.vvakame.util.jsonpullparser.JsonPullParser;
+import net.vvakame.util.jsonpullparser.annotation.JsonHash;
+import net.vvakame.util.jsonpullparser.annotation.JsonKey;
 
 @SupportedSourceVersion(SourceVersion.RELEASE_6)
 @SupportedAnnotationTypes("net.vvakame.util.jsonpullparser.annotation.*")
-public class JSONAnnotationProcessor extends AbstractProcessor {
+public class JsonAnnotationProcessor extends AbstractProcessor {
 
 	private static final String CLASS_POSTFIX = "Gen";
 
@@ -44,7 +44,7 @@ public class JSONAnnotationProcessor extends AbstractProcessor {
 		Log.init(processingEnv.getMessager());
 
 		for (Element element : roundEnv
-				.getElementsAnnotatedWith(JSONHash.class)) {
+				.getElementsAnnotatedWith(JsonHash.class)) {
 
 			if (element.getKind() == ElementKind.CLASS) {
 				genMetaClass(element);
@@ -70,9 +70,9 @@ public class JSONAnnotationProcessor extends AbstractProcessor {
 
 				writePackage(classElement);
 				writeImport(IOException.class);
-				writeImport(JSONPullParser.class);
-				writeImport(JSONPullParser.State.class);
-				writeImport(JSONFormatException.class);
+				writeImport(JsonPullParser.class);
+				writeImport(JsonPullParser.State.class);
+				writeImport(JsonFormatException.class);
 
 				write("public class ");
 				write(getGenerateClassName(classElement));
@@ -149,7 +149,7 @@ public class JSONAnnotationProcessor extends AbstractProcessor {
 			if (element.getKind() != ElementKind.FIELD) {
 				continue;
 			}
-			JSONKey key = element.getAnnotation(JSONKey.class);
+			JsonKey key = element.getAnnotation(JsonKey.class);
 			if (key == null) {
 				continue;
 			}

@@ -16,7 +16,7 @@ import net.vvakame.util.jsonpullparser.JSONPullParser;
 
 import org.junit.Test;
 
-public class JSONAnnotationProcessorTest {
+public class JsonAnnotationProcessorTest {
 
 	@Test
 	public void jsonHashParser() throws IOException, JSONFormatException {

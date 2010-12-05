@@ -38,7 +38,8 @@ public class PrimitiveTypeData {
 	}
 
 	/**
-	 * @param bool the bool to set
+	 * @param bool
+	 *            the bool to set
 	 */
 	public void setBool(boolean bool) {
 		this.bool = bool;
@@ -52,7 +53,8 @@ public class PrimitiveTypeData {
 	}
 
 	/**
-	 * @param c the c to set
+	 * @param c
+	 *            the c to set
 	 */
 	public void setC(char c) {
 		this.c = c;
@@ -66,7 +68,8 @@ public class PrimitiveTypeData {
 	}
 
 	/**
-	 * @param b the b to set
+	 * @param b
+	 *            the b to set
 	 */
 	public void setB(byte b) {
 		this.b = b;
@@ -80,7 +83,8 @@ public class PrimitiveTypeData {
 	}
 
 	/**
-	 * @param s the s to set
+	 * @param s
+	 *            the s to set
 	 */
 	public void setS(short s) {
 		this.s = s;
@@ -94,7 +98,8 @@ public class PrimitiveTypeData {
 	}
 
 	/**
-	 * @param i the i to set
+	 * @param i
+	 *            the i to set
 	 */
 	public void setI(int i) {
 		this.i = i;
@@ -108,7 +113,8 @@ public class PrimitiveTypeData {
 	}
 
 	/**
-	 * @param l the l to set
+	 * @param l
+	 *            the l to set
 	 */
 	public void setL(long l) {
 		this.l = l;
@@ -122,7 +128,8 @@ public class PrimitiveTypeData {
 	}
 
 	/**
-	 * @param f the f to set
+	 * @param f
+	 *            the f to set
 	 */
 	public void setF(float f) {
 		this.f = f;
@@ -136,7 +143,8 @@ public class PrimitiveTypeData {
 	}
 
 	/**
-	 * @param d the d to set
+	 * @param d
+	 *            the d to set
 	 */
 	public void setD(double d) {
 		this.d = d;

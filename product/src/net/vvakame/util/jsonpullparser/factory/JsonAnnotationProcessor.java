@@ -5,6 +5,7 @@ import java.io.PrintWriter;
 import java.io.Writer;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import javax.annotation.processing.AbstractProcessor;
@@ -29,7 +30,8 @@ import net.vvakame.util.jsonpullparser.annotation.JsonKey;
 @SupportedAnnotationTypes("net.vvakame.util.jsonpullparser.annotation.*")
 public class JsonAnnotationProcessor extends AbstractProcessor {
 
-	private static final String CLASS_POSTFIX = "Gen";
+	private static final String CLASS_PREFIX_OPTION = "JsonPullParserClassPrefix";
+	private static String classPostfix;
 
 	Set<? extends TypeElement> annotations;
 	RoundEnvironment roundEnv;
@@ -37,23 +39,30 @@ public class JsonAnnotationProcessor extends AbstractProcessor {
 	@Override
 	public boolean process(Set<? extends TypeElement> annotations,
 			RoundEnvironment roundEnv) {
+
+		Log.init(processingEnv.getMessager());
 		this.annotations = annotations;
 		this.roundEnv = roundEnv;
 
-		Log.init(processingEnv.getMessager());
+		Map<String, String> options = processingEnv.getOptions();
+		if (options.containsKey(CLASS_PREFIX_OPTION)) {
+			classPostfix = options.get(CLASS_PREFIX_OPTION);
+		} else {
+			classPostfix = "Gen";
+		}
 
 		for (Element element : roundEnv
 				.getElementsAnnotatedWith(JsonHash.class)) {
 
 			if (element.getKind() == ElementKind.CLASS) {
-				genMetaClass(element);
+				genSupportClass(element);
 			}
 		}
 
 		return true;
 	}
 
-	void genMetaClass(Element classElement) {
+	void genSupportClass(Element classElement) {
 		if (classElement.getKind() != ElementKind.CLASS) {
 			throw new IllegalStateException();
 		}
@@ -63,14 +72,14 @@ public class JsonAnnotationProcessor extends AbstractProcessor {
 		try {
 
 			String generateClassName = ClassWriterHelper
-					.getGenerateCanonicalClassName(classElement, CLASS_POSTFIX);
+					.getGenerateCanonicalClassName(classElement, classPostfix);
 			JavaFileObject fileObject = filer.createSourceFile(
 					generateClassName, classElement);
 
 			Writer writer = fileObject.openWriter();
 			try {
 				ClassWriterHelper w = new ClassWriterHelper(new PrintWriter(
-						writer), classElement, CLASS_POSTFIX);
+						writer), classElement, classPostfix);
 
 				// package名出力
 				w.writePackage();

@@ -13,7 +13,7 @@ public class Main {
 		JsonPullParser parser = new JsonPullParser();
 		parser.setInput(new ByteArrayInputStream(json.getBytes()));
 
-		TestData data = TestDataGen.get(parser);
+		TestData data = TestDataGenerated.get(parser);
 		data.toString();
 	}
 }

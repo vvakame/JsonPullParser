@@ -8,9 +8,9 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import net.vvakame.sample.PrimitiveTypeData;
-import net.vvakame.sample.PrimitiveTypeDataGen;
+import net.vvakame.sample.PrimitiveTypeDataGenerated;
 import net.vvakame.sample.TestData;
-import net.vvakame.sample.TestDataGen;
+import net.vvakame.sample.TestDataGenerated;
 import net.vvakame.util.jsonpullparser.JsonFormatException;
 import net.vvakame.util.jsonpullparser.JsonPullParser;
 
@@ -24,7 +24,7 @@ public class JsonAnnotationProcessorTest {
 		JsonPullParser parser = new JsonPullParser();
 		parser.setInput(getStream(json));
 
-		TestData data = TestDataGen.get(parser);
+		TestData data = TestDataGenerated.get(parser);
 
 		assertThat(data.getName(), is("vvakame"));
 		assertThat(data.getPackageName(), is("net.vvakame"));
@@ -39,7 +39,7 @@ public class JsonAnnotationProcessorTest {
 		JsonPullParser parser = new JsonPullParser();
 		parser.setInput(getStream(json));
 
-		PrimitiveTypeData data = PrimitiveTypeDataGen.get(parser);
+		PrimitiveTypeData data = PrimitiveTypeDataGenerated.get(parser);
 
 		assertThat(data.isBool(), is(true));
 		assertThat(data.getC(), is('c'));

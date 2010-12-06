@@ -44,6 +44,7 @@ public class JsonAnnotationProcessor extends AbstractProcessor {
 		this.annotations = annotations;
 		this.roundEnv = roundEnv;
 
+		// 生成するクラスのpostfixが指定されてたらそっちにする
 		Map<String, String> options = processingEnv.getOptions();
 		if (options.containsKey(CLASS_PREFIX_OPTION)) {
 			classPostfix = options.get(CLASS_PREFIX_OPTION);
@@ -118,20 +119,16 @@ public class JsonAnnotationProcessor extends AbstractProcessor {
 
 				// 値の独自処理
 				// JsonKeyの収集
-				List<ElementValues> values = filterJSONKey(classElement);
+				List<Element> elements = filterJsonKeyElement(classElement);
 				// JsonKeyに対応する値取得コードを生成する
 				boolean first = true;
-				for (ElementValues value : values) {
+				for (Element element : elements) {
 					if (first) {
 						first = false;
 					} else {
 						w.wr("else ");
 					}
-					w.wr("if(\"").wr(value.keyName).wr("\".equals(key)){");
-					// 代入
-					w.wr("obj.").wr(value.accessor).wr(" = ");
-					w.wr(getValueString(value.type)).wr(";");
-					w.wr("}");
+					genExtractValues(w, element);
 				}
 
 				// TODO 本来いらん
@@ -153,9 +150,22 @@ public class JsonAnnotationProcessor extends AbstractProcessor {
 		}
 	}
 
-	private List<ElementValues> filterJSONKey(Element parent) {
+	private void genExtractValues(ClassWriterHelper w, Element element) {
+		JsonHash hash = element.getAnnotation(JsonHash.class);
+		if (hash != null) {
+
+		}
+
+		ElementValues value = getElementValues(element);
+		w.wr("if(\"").wr(value.keyName).wr("\".equals(key)){");
+		w.wr("obj.").wr(value.accessor).wr(" = ");
+		w.wr(getValueString(value.type)).wr(";");
+		w.wr("}");
+	}
+
+	private List<Element> filterJsonKeyElement(Element parent) {
 		List<? extends Element> elements = parent.getEnclosedElements();
-		List<ElementValues> results = new ArrayList<ElementValues>();
+		List<Element> results = new ArrayList<Element>();
 
 		for (Element element : elements) {
 			if (element.getKind() != ElementKind.FIELD) {
@@ -165,18 +175,23 @@ public class JsonAnnotationProcessor extends AbstractProcessor {
 			if (key == null) {
 				continue;
 			}
-			ElementValues values = new ElementValues();
-			if (!"".equals(key.value())) {
-				values.keyName = key.value();
-			} else {
-				values.keyName = element.toString();
-			}
-			values.type = element.asType().toString();
-			values.accessor = element.toString();
-			results.add(values);
+			results.add(element);
 		}
 
 		return results;
+	}
+
+	private ElementValues getElementValues(Element element) {
+		JsonKey key = element.getAnnotation(JsonKey.class);
+		ElementValues values = new ElementValues();
+		if (!"".equals(key.value())) {
+			values.keyName = key.value();
+		} else {
+			values.keyName = element.toString();
+		}
+		values.type = element.asType().toString();
+		values.accessor = element.toString();
+		return values;
 	}
 
 	static class ElementValues {

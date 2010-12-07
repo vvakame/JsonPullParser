@@ -7,6 +7,8 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
+import net.vvakame.sample.ComplexData;
+import net.vvakame.sample.ComplexDataSample;
 import net.vvakame.sample.PrimitiveTypeData;
 import net.vvakame.sample.PrimitiveTypeDataGenerated;
 import net.vvakame.sample.TestData;
@@ -50,6 +52,39 @@ public class JsonAnnotationProcessorTest {
 		assertThat(data.getL(), is((long) Integer.MAX_VALUE));
 		assertThat(data.getF(), is(Float.MAX_VALUE));
 		assertThat(data.getD(), is(Double.MAX_VALUE));
+	}
+
+	@Test
+	public void jsonHashComplex() throws IOException, JsonFormatException {
+		String tmpl = "{\"name\":\"%s\",\"package_name\":\"%s\",\"version_code\":%d,\"weight\":%f,\"has_data\":%b}";
+		StringBuilder jsonBuilder = new StringBuilder();
+		jsonBuilder.append("{\"name\":\"hoge\",");
+		jsonBuilder.append("\"list1\":[");
+		jsonBuilder.append(String.format(tmpl, "a1", "ho.ge", 1, 2.2, true))
+				.append(",");
+		jsonBuilder.append(String.format(tmpl, "a2", "fu.ga", 2, 3.2, false))
+				.append(",");
+		jsonBuilder.append(String.format(tmpl, "a3", "ho.ge", 1, 2.2, true))
+				.append("],");
+		jsonBuilder.append("\"list2\":[");
+		jsonBuilder.append(String.format(tmpl, "b1", "th.is", 10, 11.11, true))
+				.append("],");
+		jsonBuilder.append("\"list3\":[],");
+		jsonBuilder.append("\"data\":");
+		jsonBuilder
+				.append(String.format(tmpl, "c1", "fi.zz", 111, 0.01, false))
+				.append("}");
+
+		JsonPullParser parser = new JsonPullParser();
+		parser.setInput(getStream(jsonBuilder.toString()));
+
+		ComplexData data = ComplexDataSample.get(parser);
+
+		assertThat(data.getName(), is("hoge"));
+		assertThat(data.getList1().size(), is(3));
+		assertThat(data.getList2().size(), is(1));
+		assertThat(data.getList3().size(), is(0));
+		assertThat(data.getData().getPackageName(), is("fi.zz"));
 	}
 
 	public InputStream getStream(String str) {

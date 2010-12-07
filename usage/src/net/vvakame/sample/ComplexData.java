@@ -9,22 +9,19 @@ import net.vvakame.util.jsonpullparser.annotation.JsonKey;
 public class ComplexData {
 
 	@JsonKey
-	List<? super TestData> list;
-
-	@JsonKey
 	String name;
 
-	@JsonKey("package_name")
-	String packageName;
-
-	@JsonKey("version_code")
-	int versionCode;
+	@JsonKey
+	List<TestData> list1;
 
 	@JsonKey
-	double weight;
+	List<? extends TestData> list2;
 
-	@JsonKey("has_data")
-	boolean hasData;
+	@JsonKey
+	List<? super TestData> list3;
+
+	@JsonKey
+	TestData data;
 
 	/**
 	 * @return the name
@@ -42,62 +39,62 @@ public class ComplexData {
 	}
 
 	/**
-	 * @return the packageName
+	 * @return the list1
 	 */
-	public String getPackageName() {
-		return packageName;
+	public List<TestData> getList1() {
+		return list1;
 	}
 
 	/**
-	 * @param packageName
-	 *            the packageName to set
+	 * @param list1
+	 *            the list1 to set
 	 */
-	public void setPackageName(String packageName) {
-		this.packageName = packageName;
+	public void setList1(List<TestData> list1) {
+		this.list1 = list1;
 	}
 
 	/**
-	 * @return the versionCode
+	 * @return the list2
 	 */
-	public int getVersionCode() {
-		return versionCode;
+	public List<? extends TestData> getList2() {
+		return list2;
 	}
 
 	/**
-	 * @param versionCode
-	 *            the versionCode to set
+	 * @param list2
+	 *            the list2 to set
 	 */
-	public void setVersionCode(int versionCode) {
-		this.versionCode = versionCode;
+	public void setList2(List<? extends TestData> list2) {
+		this.list2 = list2;
 	}
 
 	/**
-	 * @return the weight
+	 * @return the list3
 	 */
-	public double getWeight() {
-		return weight;
+	public List<? super TestData> getList3() {
+		return list3;
 	}
 
 	/**
-	 * @param weight
-	 *            the weight to set
+	 * @param list3
+	 *            the list3 to set
 	 */
-	public void setWeight(double weight) {
-		this.weight = weight;
+	public void setList3(List<? super TestData> list3) {
+		this.list3 = list3;
 	}
 
 	/**
-	 * @return the hasData
+	 * @return the data
 	 */
-	public boolean isHasData() {
-		return hasData;
+	public TestData getData() {
+		return data;
 	}
 
 	/**
-	 * @param hasData
-	 *            the hasData to set
+	 * @param data
+	 *            the data to set
 	 */
-	public void setHasData(boolean hasData) {
-		this.hasData = hasData;
+	public void setData(TestData data) {
+		this.data = data;
 	}
 }

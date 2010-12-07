@@ -89,6 +89,8 @@ public class JsonPullParser {
 	double valueDouble;
 	boolean valueBoolean;
 
+	State lookAhead = null;
+
 	/**
 	 * 入力ストリームを設定します.<br>
 	 * このメソッドはインスタンス生成後、一番最初に呼ぶべきです.
@@ -103,6 +105,23 @@ public class JsonPullParser {
 	}
 
 	/**
+	 * 一つ先の要素を先読みます.<br>
+	 * このメソッドは真のlookAheadではありません.呼び出した途端、getValueXxx()の返り値は壊れてしまいます.<br>
+	 * なるべく、このメソッドは使わないほうがよいでしょう<br>
+	 * lookAheadは何回呼び出しても、 getEventType() を呼び出すまで、同じ値を返します.<br>
+	 * 
+	 * @return
+	 * @throws IOException
+	 * @throws JsonFormatException
+	 */
+	public State lookAhead() throws IOException, JsonFormatException {
+		if (lookAhead == null) {
+			lookAhead = getEventType();
+		}
+		return lookAhead;
+	}
+
+	/**
 	 * 現在の状態を取得します.<br>
 	 * このメソッドを使う前に、{@link JsonPullParser#setInput(InputStream)}を呼ぶべきです.
 	 * 
@@ -111,6 +130,12 @@ public class JsonPullParser {
 	 * @throws JsonFormatException
 	 */
 	public State getEventType() throws IOException, JsonFormatException {
+		if (lookAhead != null) {
+			State tmp = lookAhead;
+			lookAhead = null;
+			return tmp;
+		}
+
 		char c = getNextChar();
 		switch (stack.pop()) {
 		case ORIGIN:

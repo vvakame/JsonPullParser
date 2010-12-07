@@ -422,6 +422,34 @@ public class JsonPullParserTest {
 		assertThat(type, is(State.END_HASH));
 	}
 
+	@Test
+	public void lookAhead() throws IOException, JsonFormatException {
+		JsonPullParser parser = new JsonPullParser();
+		InputStream is;
+		State type;
+
+		is = getStream("[\"value1\", 2, 0.1 ,true ,{\"test1\":1, \"test2\":null   \n  } ,null]");
+		parser.setInput(is);
+
+		type = parser.lookAhead();
+		assertThat(type, is(State.START_ARRAY));
+
+		type = parser.lookAhead();
+		assertThat(type, is(State.START_ARRAY));
+
+		type = parser.getEventType();
+		assertThat(type, is(State.START_ARRAY));
+
+		type = parser.lookAhead();
+		assertThat(type, is(State.VALUE_STRING));
+
+		type = parser.getEventType();
+		assertThat(type, is(State.VALUE_STRING));
+
+		type = parser.getEventType();
+		assertThat(type, is(State.VALUE_INTEGER));
+	}
+
 	@Test(expected = JsonFormatException.class)
 	public void parseFailure1() throws IOException, JsonFormatException {
 		JsonPullParser parser = new JsonPullParser();

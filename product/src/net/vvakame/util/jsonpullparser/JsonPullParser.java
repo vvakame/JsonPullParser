@@ -218,7 +218,7 @@ public class JsonPullParser {
 			default:
 				throw new JsonFormatException();
 			}
-
+			break;
 		case END_HASH:
 			if (!State.START_HASH.equals(stack.pop())) {
 				throw new JsonFormatException();
@@ -242,6 +242,12 @@ public class JsonPullParser {
 			case '"':
 				stack.push(State.VALUE_STRING);
 				valueStr = getNextString();
+				break;
+			case '[':
+				stack.push(State.START_ARRAY);
+				break;
+			case '{':
+				stack.push(State.START_HASH);
 				break;
 			case 't':
 				expectNextChar('r');

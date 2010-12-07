@@ -343,7 +343,7 @@ public class JsonPullParserTest {
 	}
 
 	@Test
-	public void parseComplex() throws IOException, JsonFormatException {
+	public void parseComplex1() throws IOException, JsonFormatException {
 		JsonPullParser parser = new JsonPullParser();
 		InputStream is;
 		State type;
@@ -389,6 +389,37 @@ public class JsonPullParserTest {
 
 		type = parser.getEventType();
 		assertThat(type, is(State.END_ARRAY));
+	}
+
+	@Test
+	public void parseComplex2() throws IOException, JsonFormatException {
+		JsonPullParser parser = new JsonPullParser();
+		InputStream is;
+		State type;
+
+		is = getStream("{\"key\":\"value\", \"list\":[]}");
+		parser.setInput(is);
+
+		type = parser.getEventType();
+		assertThat(type, is(State.START_HASH));
+
+		type = parser.getEventType();
+		assertThat(type, is(State.KEY));
+
+		type = parser.getEventType();
+		assertThat(type, is(State.VALUE_STRING));
+
+		type = parser.getEventType();
+		assertThat(type, is(State.KEY));
+
+		type = parser.getEventType();
+		assertThat(type, is(State.START_ARRAY));
+
+		type = parser.getEventType();
+		assertThat(type, is(State.END_ARRAY));
+
+		type = parser.getEventType();
+		assertThat(type, is(State.END_HASH));
 	}
 
 	@Test(expected = JsonFormatException.class)

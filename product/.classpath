@@ -4,5 +4,8 @@
 	<classpathentry kind="src" path="test"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
+	<classpathentry kind="lib" path="libs/aptina-beans-1.0.0.jar"/>
+	<classpathentry kind="lib" path="libs/aptina-commons-1.0.0.jar"/>
+	<classpathentry kind="lib" path="libs/aptina-unit-1.0.0.jar" sourcepath="libs/aptina-unit-1.0.0-sources.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

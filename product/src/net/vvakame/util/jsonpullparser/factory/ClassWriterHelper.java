@@ -25,7 +25,7 @@ public class ClassWriterHelper {
 	}
 
 	ClassWriterHelper wr(Class<?> clazz) {
-		wr(clazz.getSimpleName());
+		wr(clazz.getCanonicalName());
 		return this;
 	}
 
@@ -36,6 +36,7 @@ public class ClassWriterHelper {
 		return this;
 	}
 
+	@Deprecated
 	ClassWriterHelper writeImport(Class<?> clazz) {
 		pw.print("import ");
 		pw.print(clazz.getCanonicalName());
@@ -51,28 +52,24 @@ public class ClassWriterHelper {
 	}
 
 	ClassWriterHelper writeClassName() {
-		pw.print(getClassName(classElement));
+		pw.print(getClassName());
 		return this;
 	}
 
 	String getGenerateCanonicalClassName() {
-		return getPackageName() + "." + getGenerateClassName();
+		return getGenerateCanonicalClassName(classElement, CLASS_POSTFIX);
 	}
 
 	String getGenerateClassName() {
-		return classElement.getSimpleName().toString() + CLASS_POSTFIX;
+		return getGenerateClassName(classElement, CLASS_POSTFIX);
 	}
 
 	String getClassName() {
-		return classElement.getSimpleName().toString();
+		return getClassName(classElement);
 	}
 
 	String getPackageName() {
-		if (classElement.getKind() != ElementKind.CLASS) {
-			throw new IllegalStateException();
-		}
-		String str = classElement.getEnclosingElement().toString();
-		return str.replace("package ", "");
+		return getPackageName(classElement);
 	}
 
 	void flush() {
@@ -81,8 +78,7 @@ public class ClassWriterHelper {
 
 	static String getGenerateCanonicalClassName(Element classElement,
 			String postfix) {
-		return getPackageName(classElement) + "."
-				+ getGenerateClassName(classElement, postfix);
+		return classElement.asType().toString() + postfix;
 	}
 
 	static String getGenerateClassName(Element classElement, String postfix) {
@@ -97,7 +93,8 @@ public class ClassWriterHelper {
 		if (classElement.getKind() != ElementKind.CLASS) {
 			throw new IllegalStateException();
 		}
-		String str = classElement.getEnclosingElement().toString();
-		return str.replace("package ", "");
+		String str = classElement.asType().toString();
+		int i = str.lastIndexOf(".");
+		return str.substring(0, i);
 	}
 }

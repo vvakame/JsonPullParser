@@ -85,11 +85,8 @@ public class JsonAnnotationProcessor extends AbstractProcessor {
 				// package名出力
 				w.writePackage();
 
-				// import文出力
-				w.writeImport(IOException.class);
-				w.writeImport(JsonPullParser.class);
-				w.writeImport(JsonPullParser.State.class);
-				w.writeImport(JsonFormatException.class);
+				// コメント出力
+				w.wr("// Do you know Ctrl(Command)+Shift+M?\n");
 
 				// class宣言出力
 				w.writeClassSignature();
@@ -104,14 +101,14 @@ public class JsonAnnotationProcessor extends AbstractProcessor {
 				w.writeClassName().wr(" obj = new ").writeClassName().wr("();");
 				// 最初のbraceを食べる TODO Arrayが考慮されていない
 				w.wr(State.class).wr(" eventType = parser.getEventType();");
-				w.wr("if (eventType != State.START_HASH) {");
+				w.wr("if (eventType != ").wr(State.class).wr(".START_HASH) {");
 				w.wr("throw new IllegalStateException(\"not started hash brace!\");");
 				w.wr("}");
 				// ループ処理共通部分生成
 				w.wr("while ((eventType = parser.getEventType()) != ");
 				w.wr(State.class).wr(".").wr(State.END_HASH.toString());
 				w.wr("){");
-				w.wr("if (eventType != State.KEY) {");
+				w.wr("if (eventType != ").wr(State.class).wr(".KEY) {");
 				w.wr("throw new IllegalStateException(\"expect KEY. we got unexpected value. \" + eventType);");
 				w.wr("}");
 				w.wr("String key = parser.getValueString();");

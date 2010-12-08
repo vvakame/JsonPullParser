@@ -30,6 +30,10 @@ public class Log {
 		messager.printMessage(Diagnostic.Kind.ERROR, msg);
 	}
 
+	public static void e(String msg, Element element) {
+		messager.printMessage(Diagnostic.Kind.ERROR, msg, element);
+	}
+
 	public static void e(Throwable e) {
 		messager.printMessage(Diagnostic.Kind.ERROR, e.getMessage());
 	}

@@ -1,5 +1,7 @@
 package net.vvakame.util.jsonpullparser.factory;
 
+import static javax.lang.model.util.ElementFilter.*;
+
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.Writer;
@@ -17,6 +19,7 @@ import javax.lang.model.SourceVersion;
 import javax.lang.model.element.Element;
 import javax.lang.model.element.ElementKind;
 import javax.lang.model.element.TypeElement;
+import javax.lang.model.util.ElementFilter;
 import javax.tools.Diagnostic;
 import javax.tools.JavaFileObject;
 
@@ -52,12 +55,10 @@ public class JsonAnnotationProcessor extends AbstractProcessor {
 			classPostfix = "Gen";
 		}
 
-		for (Element element : roundEnv
-				.getElementsAnnotatedWith(JsonHash.class)) {
+		for (Element element : typesIn(roundEnv
+				.getElementsAnnotatedWith(JsonHash.class))) {
 
-			if (element.getKind() == ElementKind.CLASS) {
-				genSupportClass(element);
-			}
+			genSupportClass(element);
 		}
 
 		return true;
@@ -128,7 +129,6 @@ public class JsonAnnotationProcessor extends AbstractProcessor {
 					genExtractValues(w, element);
 				}
 
-				// TODO 本来いらん
 				w.wr("}");
 				// 返り値の処理
 				w.wr("return obj;}");
@@ -153,10 +153,10 @@ public class JsonAnnotationProcessor extends AbstractProcessor {
 
 		}
 
-		ElementValues value = getElementValues(element);
+		ElementInfo value = getElementInfo(element);
 		w.wr("if(\"").wr(value.keyName).wr("\".equals(key)){");
-		w.wr("obj.").wr(value.accessor).wr(" = ");
-		w.wr(getValueString(value.type)).wr(";");
+		w.wr("obj.").wr(value.accessor.getSimpleName().toString()).wr("(");
+		w.wr(getValueString(value.type)).wr(");");
 		w.wr("}");
 	}
 
@@ -178,23 +178,37 @@ public class JsonAnnotationProcessor extends AbstractProcessor {
 		return results;
 	}
 
-	private ElementValues getElementValues(Element element) {
+	private ElementInfo getElementInfo(Element element) {
 		JsonKey key = element.getAnnotation(JsonKey.class);
-		ElementValues values = new ElementValues();
+		ElementInfo values = new ElementInfo();
 		if (!"".equals(key.value())) {
 			values.keyName = key.value();
 		} else {
 			values.keyName = element.toString();
 		}
 		values.type = element.asType().toString();
-		values.accessor = element.toString();
+		Element setter = null;
+		for (Element m : ElementFilter.methodsIn(element.getEnclosingElement()
+				.getEnclosedElements())) {
+			if (("set" + element.getSimpleName().toString()).equalsIgnoreCase(m
+					.getSimpleName().toString())) {
+				// TODO publicかどうかの判定をいれていない
+				setter = m;
+				break;
+			}
+		}
+		if (setter != null) {
+			values.accessor = setter;
+		} else {
+			Log.e("not exists public setter method.", element);
+		}
 		return values;
 	}
 
-	static class ElementValues {
+	static class ElementInfo {
 		String keyName;
 		String type;
-		String accessor;
+		Element accessor;
 	}
 
 	String getValueString(String type) {

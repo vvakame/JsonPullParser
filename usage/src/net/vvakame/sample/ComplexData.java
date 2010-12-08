@@ -34,7 +34,7 @@ public class ComplexData {
 	 * @param name
 	 *            the name to set
 	 */
-	public void setName(String name) {
+	void setName(String name) {
 		this.name = name;
 	}
 
@@ -49,7 +49,7 @@ public class ComplexData {
 	 * @param list1
 	 *            the list1 to set
 	 */
-	public void setList1(List<TestData> list1) {
+	void setList1(List<TestData> list1) {
 		this.list1 = list1;
 	}
 

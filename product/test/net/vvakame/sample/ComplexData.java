@@ -1,6 +1,5 @@
 package net.vvakame.sample;
 
-
 import java.util.List;
 
 import net.vvakame.util.jsonpullparser.annotation.JsonHash;

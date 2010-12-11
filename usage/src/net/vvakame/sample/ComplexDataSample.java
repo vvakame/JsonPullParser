@@ -64,4 +64,18 @@ public class ComplexDataSample {
 		}
 		return obj;
 	}
+
+	public static List<ComplexData> getList(JsonPullParser parser)
+			throws IOException, JsonFormatException {
+		List<ComplexData> list = new ArrayList<ComplexData>();
+		State eventType = parser.getEventType();
+		if (eventType != State.START_ARRAY) {
+			throw new IllegalStateException("not started brace!");
+		}
+		while ((eventType = parser.getEventType()) != State.END_ARRAY) {
+			list.add(get(parser));
+		}
+
+		return list;
+	}
 }

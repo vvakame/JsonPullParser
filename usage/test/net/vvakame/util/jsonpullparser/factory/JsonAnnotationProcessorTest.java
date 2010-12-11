@@ -6,6 +6,7 @@ import static org.junit.Assert.assertThat;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
 
 import net.vvakame.sample.ComplexData;
 import net.vvakame.sample.ComplexDataSample;
@@ -52,6 +53,18 @@ public class JsonAnnotationProcessorTest {
 		assertThat(data.getL(), is((long) Integer.MAX_VALUE));
 		assertThat(data.getF(), is(Float.MAX_VALUE));
 		assertThat(data.getD(), is(Double.MAX_VALUE));
+	}
+
+	@Test
+	public void jsonArray() throws IOException, JsonFormatException {
+		String json = "[{\"bool\":false,\"c\":\"CHAR\",\"b\":-128,\"s\":1,\"i\":1,\"l\":1,\"f\":1,\"d\":1}, {\"bool\":true,\"c\":\"char\",\"b\":127,\"s\":32767,\"i\":2147483647,\"l\":2147483647,\"f\":3.4028235E38,\"d\":1.7976931348623157E308}]";
+		JsonPullParser parser = new JsonPullParser();
+		parser.setInput(getStream(json));
+
+		List<PrimitiveTypeData> list = PrimitiveTypeDataGenerated
+				.getList(parser);
+
+		assertThat(list.size(), is(2));
 	}
 
 	@Test

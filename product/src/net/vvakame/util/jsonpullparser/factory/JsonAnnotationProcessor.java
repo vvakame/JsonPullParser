@@ -1,6 +1,6 @@
 package net.vvakame.util.jsonpullparser.factory;
 
-import static javax.lang.model.util.ElementFilter.*;
+import static javax.lang.model.util.ElementFilter.typesIn;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -19,8 +19,10 @@ import javax.lang.model.SourceVersion;
 import javax.lang.model.element.Element;
 import javax.lang.model.element.ElementKind;
 import javax.lang.model.element.TypeElement;
+import javax.lang.model.type.DeclaredType;
+import javax.lang.model.type.PrimitiveType;
+import javax.lang.model.type.TypeMirror;
 import javax.lang.model.util.ElementFilter;
-import javax.tools.Diagnostic;
 import javax.tools.JavaFileObject;
 
 import net.vvakame.util.jsonpullparser.JsonFormatException;
@@ -80,8 +82,8 @@ public class JsonAnnotationProcessor extends AbstractProcessor {
 
 			Writer writer = fileObject.openWriter();
 			try {
-				ClassWriterHelper w = new ClassWriterHelper(new PrintWriter(
-						writer), classElement, classPostfix);
+				ClassWriterHelper w = new ClassWriterHelper(processingEnv,
+						new PrintWriter(writer), classElement, classPostfix);
 
 				// package名出力
 				w.writePackage();
@@ -92,59 +94,86 @@ public class JsonAnnotationProcessor extends AbstractProcessor {
 				// class宣言出力
 				w.writeClassSignature();
 
-				// ここからgetメソッド signiture
-				w.wr("public static ").writeClassName();
-				w.wr(" get(").wr(JsonPullParser.class).wr(" parser) throws ");
-				w.wr(IOException.class).wr(", ");
-				w.wr(JsonFormatException.class).wr("{");
+				genMethodGet(w, classElement);
 
-				// 結果用変数生成
-				w.writeClassName().wr(" obj = new ").writeClassName().wr("();");
-				// 最初のbraceを食べる TODO Arrayが考慮されていない
-				w.wr(State.class).wr(" eventType = parser.getEventType();");
-				w.wr("if (eventType != ").wr(State.class).wr(".START_HASH) {");
-				w.wr("throw new IllegalStateException(\"not started hash brace!\");");
-				w.wr("}");
-				// ループ処理共通部分生成
-				w.wr("while ((eventType = parser.getEventType()) != ");
-				w.wr(State.class).wr(".").wr(State.END_HASH.toString());
-				w.wr("){");
-				w.wr("if (eventType != ").wr(State.class).wr(".KEY) {");
-				w.wr("throw new IllegalStateException(\"expect KEY. we got unexpected value. \" + eventType);");
-				w.wr("}");
-				w.wr("String key = parser.getValueString();");
-				w.wr("eventType = parser.getEventType();");
+				genMethodGetList(w, classElement);
 
-				// 値の独自処理
-				// JsonKeyの収集
-				List<Element> elements = filterJsonKeyElement(classElement);
-				// JsonKeyに対応する値取得コードを生成する
-				boolean first = true;
-				for (Element element : elements) {
-					if (first) {
-						first = false;
-					} else {
-						w.wr("else ");
-					}
-					genExtractValues(w, element);
-				}
-
-				w.wr("}");
-				// 返り値の処理
-				w.wr("return obj;}");
 				w.wr("}");
 
 				w.flush();
 			} finally {
 				writer.close();
 			}
-
-			processingEnv.getMessager().printMessage(Diagnostic.Kind.NOTE,
-					"Creating " + fileObject.toUri());
 		} catch (IOException e) {
-			processingEnv.getMessager().printMessage(Diagnostic.Kind.ERROR,
-					e.getMessage());
+			Log.e(e.getMessage());
 		}
+	}
+
+	private void genMethodGet(ClassWriterHelper w, Element classElement) {
+		w.wr("public static ").writeClassName();
+		w.wr(" get(").wr(JsonPullParser.class).wr(" parser) throws ");
+		w.wr(IOException.class).wr(", ");
+		w.wr(JsonFormatException.class).wr("{");
+
+		// 結果用変数生成
+		w.writeClassName().wr(" obj = new ").writeClassName().wr("();");
+		// 最初のbraceを食べる TODO Arrayが考慮されていない
+		w.wr(State.class).wr(" eventType = parser.getEventType();");
+		w.wr("if (eventType != ").wr(State.class).wr(".").wr("START_HASH");
+		w.wr(") {");
+		w.wr("throw new IllegalStateException(\"not started hash brace!\");");
+		w.wr("}");
+		// ループ処理共通部分生成
+		w.wr("while ((eventType = parser.getEventType()) != ");
+		w.wr(State.class).wr(".").wr(State.END_HASH.toString());
+		w.wr("){");
+		w.wr("if (eventType != ").wr(State.class).wr(".KEY) {");
+		w.wr("throw new IllegalStateException(\"expect KEY. we got unexpected value. \" + eventType);");
+		w.wr("}");
+		w.wr("String key = parser.getValueString();");
+		w.wr("eventType = parser.getEventType();");
+
+		// 値の独自処理
+		// JsonKeyの収集
+		List<Element> elements = filterJsonKeyElement(classElement);
+		// JsonKeyに対応する値取得コードを生成する
+		boolean first = true;
+		for (Element element : elements) {
+			if (first) {
+				first = false;
+			} else {
+				w.wr("else ");
+			}
+			genExtractValues(w, element);
+		}
+
+		w.wr("}");
+		// 返り値の処理
+		w.wr("return obj;}");
+	}
+
+	private void genMethodGetList(ClassWriterHelper w, Element classElement) {
+		w.wr("public static ").writeListClassName();
+		w.wr(" getList(").wr(JsonPullParser.class).wr(" parser) throws ");
+		w.wr(IOException.class).wr(", ");
+		w.wr(JsonFormatException.class).wr("{");
+
+		// 結果用変数生成
+		w.writeListClassName().wr(" list = new ").writeListInstance();
+		w.wr("();");
+		// 最初のbraceを食べる TODO Arrayが考慮されていない
+		w.wr(State.class).wr(" eventType = parser.getEventType();");
+		w.wr("if (eventType != ").wr(State.class).wr(".").wr(State.START_ARRAY);
+		w.wr(") {");
+		w.wr("throw new IllegalStateException(\"not started brace!\");");
+		w.wr("}");
+		// ループ処理共通部分生成
+		w.wr("while (parser.lookAhead() != ");
+		w.wr(State.class).wr(".").wr(State.END_ARRAY);
+		w.wr("){list.add(get(parser));}");
+		w.wr("parser.getEventType();");
+		// 返り値の処理
+		w.wr("return list;}");
 	}
 
 	private void genExtractValues(ClassWriterHelper w, Element element) {
@@ -156,7 +185,8 @@ public class JsonAnnotationProcessor extends AbstractProcessor {
 		ElementInfo value = getElementInfo(element);
 		w.wr("if(\"").wr(value.keyName).wr("\".equals(key)){");
 		w.wr("obj.").wr(value.accessor.getSimpleName().toString()).wr("(");
-		w.wr(getValueString(value.type)).wr(");");
+		value.type.accept(new TypeVisitor(), w);
+		w.wr(");");
 		w.wr("}");
 	}
 
@@ -186,7 +216,7 @@ public class JsonAnnotationProcessor extends AbstractProcessor {
 		} else {
 			values.keyName = element.toString();
 		}
-		values.type = element.asType().toString();
+		values.type = element.asType();
 		Element setter = null;
 		for (Element m : ElementFilter.methodsIn(element.getEnclosingElement()
 				.getEnclosedElements())) {
@@ -207,41 +237,64 @@ public class JsonAnnotationProcessor extends AbstractProcessor {
 
 	static class ElementInfo {
 		String keyName;
-		String type;
+		TypeMirror type;
 		Element accessor;
 	}
 
-	String getValueString(String type) {
-		if ("int".equals(type)) {
-			return "parser.getValueInteger()";
+	class TypeVisitor extends StandardTykeKindVisitor<Void, ClassWriterHelper> {
 
-		} else if ("double".equals(type)) {
-			return "parser.getValueDouble()";
+		@Override
+		public Void visitPrimitiveAsBoolean(PrimitiveType t, ClassWriterHelper p) {
+			p.wr("parser.getValueBoolean()");
+			return super.visitPrimitiveAsBoolean(t, p);
+		}
 
-		} else if ("boolean".equals(type)) {
-			return "parser.getValueBoolean()";
+		@Override
+		public Void visitPrimitiveAsByte(PrimitiveType t, ClassWriterHelper p) {
+			p.wr("(byte)parser.getValueInteger()");
+			return super.visitPrimitiveAsByte(t, p);
+		}
 
-		} else if ("java.lang.String".equals(type)) {
-			return "parser.getValueString()";
+		@Override
+		public Void visitPrimitiveAsChar(PrimitiveType t, ClassWriterHelper p) {
+			p.wr("parser.getValueString().charAt(0)");
+			return super.visitPrimitiveAsChar(t, p);
+		}
 
-		} else if ("short".equals(type)) {
-			return "(short)parser.getValueInteger()";
+		@Override
+		public Void visitPrimitiveAsDouble(PrimitiveType t, ClassWriterHelper p) {
+			p.wr("parser.getValueDouble()");
+			return super.visitPrimitiveAsDouble(t, p);
+		}
 
-		} else if ("long".equals(type)) {
-			return "parser.getValueInteger()";
+		@Override
+		public Void visitPrimitiveAsFloat(PrimitiveType t, ClassWriterHelper p) {
+			p.wr("(float)parser.getValueDouble()");
+			return super.visitPrimitiveAsFloat(t, p);
+		}
 
-		} else if ("float".equals(type)) {
-			return "(float)parser.getValueDouble()";
+		@Override
+		public Void visitPrimitiveAsInt(PrimitiveType t, ClassWriterHelper p) {
+			p.wr("parser.getValueInteger()");
+			return super.visitPrimitiveAsInt(t, p);
+		}
 
-		} else if ("byte".equals(type)) {
-			return "(byte)parser.getValueInteger()";
+		@Override
+		public Void visitPrimitiveAsLong(PrimitiveType t, ClassWriterHelper p) {
+			p.wr("parser.getValueInteger()");
+			return super.visitPrimitiveAsLong(t, p);
+		}
 
-		} else if ("char".equals(type)) {
-			return "parser.getValueString().charAt(0)";
+		@Override
+		public Void visitPrimitiveAsShort(PrimitiveType t, ClassWriterHelper p) {
+			p.wr("(short)parser.getValueInteger()");
+			return super.visitPrimitiveAsShort(t, p);
+		}
 
-		} else {
-			Log.d("unknown type=" + type);
-			return null;
+		@Override
+		public Void visitString(DeclaredType t, ClassWriterHelper p) {
+			p.wr("parser.getValueString()");
+			return super.visitString(t, p);
 		}
 	}
 }

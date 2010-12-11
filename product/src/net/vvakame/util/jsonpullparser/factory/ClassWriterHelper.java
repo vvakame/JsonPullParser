@@ -1,19 +1,25 @@
 package net.vvakame.util.jsonpullparser.factory;
 
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.List;
 
+import javax.annotation.processing.ProcessingEnvironment;
 import javax.lang.model.element.Element;
 import javax.lang.model.element.ElementKind;
+import javax.lang.model.util.Elements;
 
 public class ClassWriterHelper {
 
 	final String CLASS_POSTFIX;
 
+	ProcessingEnvironment prosessingEnv;
 	PrintWriter pw;
 	Element classElement;
 
-	public ClassWriterHelper(PrintWriter pw, Element classElement,
-			String postfix) {
+	public ClassWriterHelper(ProcessingEnvironment prosessingEnv,
+			PrintWriter pw, Element classElement, String postfix) {
+		this.prosessingEnv = prosessingEnv;
 		this.pw = pw;
 		this.classElement = classElement;
 		CLASS_POSTFIX = postfix;
@@ -24,8 +30,19 @@ public class ClassWriterHelper {
 		return this;
 	}
 
+	ClassWriterHelper wr(Element... elements) {
+		Elements utils = prosessingEnv.getElementUtils();
+		utils.printElements(pw, elements);
+		return this;
+	}
+
 	ClassWriterHelper wr(Class<?> clazz) {
 		wr(clazz.getCanonicalName());
+		return this;
+	}
+
+	ClassWriterHelper wr(Object obj) {
+		wr(obj.toString());
 		return this;
 	}
 
@@ -56,20 +73,35 @@ public class ClassWriterHelper {
 		return this;
 	}
 
+	ClassWriterHelper writeListClassName() {
+		this.wr(List.class).wr("<").writeClassName().wr(">");
+		return this;
+	}
+
+	ClassWriterHelper writeListInstance() {
+		this.wr(ArrayList.class).wr("<").writeClassName().wr(">");
+		return this;
+	}
+
 	String getGenerateCanonicalClassName() {
 		return getGenerateCanonicalClassName(classElement, CLASS_POSTFIX);
 	}
 
 	String getGenerateClassName() {
-		return getGenerateClassName(classElement, CLASS_POSTFIX);
+		return classElement.getSimpleName().toString() + CLASS_POSTFIX;
 	}
 
 	String getClassName() {
-		return getClassName(classElement);
+		return classElement.getSimpleName().toString();
 	}
 
 	String getPackageName() {
-		return getPackageName(classElement);
+		if (classElement.getKind() != ElementKind.CLASS) {
+			throw new IllegalStateException();
+		}
+		String str = classElement.asType().toString();
+		int i = str.lastIndexOf(".");
+		return str.substring(0, i);
 	}
 
 	void flush() {
@@ -79,22 +111,5 @@ public class ClassWriterHelper {
 	static String getGenerateCanonicalClassName(Element classElement,
 			String postfix) {
 		return classElement.asType().toString() + postfix;
-	}
-
-	static String getGenerateClassName(Element classElement, String postfix) {
-		return classElement.getSimpleName().toString() + postfix;
-	}
-
-	static String getClassName(Element classElement) {
-		return classElement.getSimpleName().toString();
-	}
-
-	static String getPackageName(Element classElement) {
-		if (classElement.getKind() != ElementKind.CLASS) {
-			throw new IllegalStateException();
-		}
-		String str = classElement.asType().toString();
-		int i = str.lastIndexOf(".");
-		return str.substring(0, i);
 	}
 }

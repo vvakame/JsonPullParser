@@ -117,7 +117,7 @@ public class JsonAnnotationProcessor extends AbstractProcessor {
 
 		// 結果用変数生成
 		w.writeClassName().wr(" obj = new ").writeClassName().wr("();");
-		// 最初のbraceを食べる TODO Arrayが考慮されていない
+		// 最初のbraceを食べる
 		w.wr(State.class).wr(" eventType = parser.getEventType();");
 		w.wr("if (eventType != ").wr(State.class).wr(".").wr("START_HASH");
 		w.wr(") {");
@@ -161,7 +161,7 @@ public class JsonAnnotationProcessor extends AbstractProcessor {
 		// 結果用変数生成
 		w.writeListClassName().wr(" list = new ").writeListInstance();
 		w.wr("();");
-		// 最初のbraceを食べる TODO Arrayが考慮されていない
+		// 最初のbraceを食べる
 		w.wr(State.class).wr(" eventType = parser.getEventType();");
 		w.wr("if (eventType != ").wr(State.class).wr(".").wr(State.START_ARRAY);
 		w.wr(") {");

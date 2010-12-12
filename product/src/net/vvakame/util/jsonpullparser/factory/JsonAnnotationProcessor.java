@@ -22,6 +22,7 @@ import javax.lang.model.element.TypeElement;
 import javax.lang.model.type.DeclaredType;
 import javax.lang.model.type.PrimitiveType;
 import javax.lang.model.type.TypeMirror;
+import javax.lang.model.type.WildcardType;
 import javax.lang.model.util.ElementFilter;
 import javax.tools.JavaFileObject;
 
@@ -84,6 +85,7 @@ public class JsonAnnotationProcessor extends AbstractProcessor {
 			try {
 				ClassWriterHelper w = new ClassWriterHelper(processingEnv,
 						new PrintWriter(writer), classElement, classPostfix);
+				w.setHolder(classElement);
 
 				// package名出力
 				w.writePackage();
@@ -131,7 +133,6 @@ public class JsonAnnotationProcessor extends AbstractProcessor {
 		w.wr("throw new IllegalStateException(\"expect KEY. we got unexpected value. \" + eventType);");
 		w.wr("}");
 		w.wr("String key = parser.getValueString();");
-		w.wr("eventType = parser.getEventType();");
 
 		// 値の独自処理
 		// JsonKeyの収集
@@ -139,6 +140,7 @@ public class JsonAnnotationProcessor extends AbstractProcessor {
 		// JsonKeyに対応する値取得コードを生成する
 		boolean first = true;
 		for (Element element : elements) {
+			w.setHolder(element);
 			if (first) {
 				first = false;
 			} else {
@@ -177,17 +179,7 @@ public class JsonAnnotationProcessor extends AbstractProcessor {
 	}
 
 	private void genExtractValues(ClassWriterHelper w, Element element) {
-		JsonHash hash = element.getAnnotation(JsonHash.class);
-		if (hash != null) {
-
-		}
-
-		ElementInfo value = getElementInfo(element);
-		w.wr("if(\"").wr(value.keyName).wr("\".equals(key)){");
-		w.wr("obj.").wr(value.accessor.getSimpleName().toString()).wr("(");
-		value.type.accept(new TypeVisitor(), w);
-		w.wr(");");
-		w.wr("}");
+		element.asType().accept(new ValueExtractVisitor(), w);
 	}
 
 	private List<Element> filterJsonKeyElement(Element parent) {
@@ -208,15 +200,12 @@ public class JsonAnnotationProcessor extends AbstractProcessor {
 		return results;
 	}
 
-	private ElementInfo getElementInfo(Element element) {
+	String getElementKeyString(Element element) {
 		JsonKey key = element.getAnnotation(JsonKey.class);
-		ElementInfo values = new ElementInfo();
-		if (!"".equals(key.value())) {
-			values.keyName = key.value();
-		} else {
-			values.keyName = element.toString();
-		}
-		values.type = element.asType();
+		return "".equals(key.value()) ? element.toString() : key.value();
+	}
+
+	Element getElementAccessor(Element element) {
 		Element setter = null;
 		for (Element m : ElementFilter.methodsIn(element.getEnclosingElement()
 				.getEnclosedElements())) {
@@ -228,73 +217,183 @@ public class JsonAnnotationProcessor extends AbstractProcessor {
 			}
 		}
 		if (setter != null) {
-			values.accessor = setter;
+			return setter;
 		} else {
-			Log.e("not exists public setter method.", element);
+			return null;
 		}
-		return values;
 	}
 
-	static class ElementInfo {
-		String keyName;
-		TypeMirror type;
-		Element accessor;
-	}
-
-	class TypeVisitor extends StandardTykeKindVisitor<Void, ClassWriterHelper> {
+	class ValueExtractVisitor extends
+			StandardTykeKindVisitor<Void, ClassWriterHelper> {
 
 		@Override
 		public Void visitPrimitiveAsBoolean(PrimitiveType t, ClassWriterHelper p) {
+			Element element = p.getHolder();
+			Element accessor = getElementAccessor(element);
+			writeIfHeader(p);
+			p.wr("eventType = parser.getEventType();");
+			p.wr("obj.").wr(accessor.getSimpleName().toString()).wr("(");
 			p.wr("parser.getValueBoolean()");
+			writeIfFooter(p);
 			return super.visitPrimitiveAsBoolean(t, p);
 		}
 
 		@Override
 		public Void visitPrimitiveAsByte(PrimitiveType t, ClassWriterHelper p) {
+			Element element = p.getHolder();
+			Element accessor = getElementAccessor(element);
+			writeIfHeader(p);
+			p.wr("eventType = parser.getEventType();");
+			p.wr("obj.").wr(accessor.getSimpleName().toString()).wr("(");
 			p.wr("(byte)parser.getValueInteger()");
+			writeIfFooter(p);
 			return super.visitPrimitiveAsByte(t, p);
 		}
 
 		@Override
 		public Void visitPrimitiveAsChar(PrimitiveType t, ClassWriterHelper p) {
+			Element element = p.getHolder();
+			Element accessor = getElementAccessor(element);
+			writeIfHeader(p);
+			p.wr("eventType = parser.getEventType();");
+			p.wr("obj.").wr(accessor.getSimpleName().toString()).wr("(");
 			p.wr("parser.getValueString().charAt(0)");
+			writeIfFooter(p);
 			return super.visitPrimitiveAsChar(t, p);
 		}
 
 		@Override
 		public Void visitPrimitiveAsDouble(PrimitiveType t, ClassWriterHelper p) {
+			Element element = p.getHolder();
+			Element accessor = getElementAccessor(element);
+			writeIfHeader(p);
+			p.wr("eventType = parser.getEventType();");
+			p.wr("obj.").wr(accessor.getSimpleName().toString()).wr("(");
 			p.wr("parser.getValueDouble()");
+			writeIfFooter(p);
 			return super.visitPrimitiveAsDouble(t, p);
 		}
 
 		@Override
 		public Void visitPrimitiveAsFloat(PrimitiveType t, ClassWriterHelper p) {
+			Element element = p.getHolder();
+			Element accessor = getElementAccessor(element);
+			writeIfHeader(p);
+			p.wr("eventType = parser.getEventType();");
+			p.wr("obj.").wr(accessor.getSimpleName().toString()).wr("(");
 			p.wr("(float)parser.getValueDouble()");
+			writeIfFooter(p);
 			return super.visitPrimitiveAsFloat(t, p);
 		}
 
 		@Override
 		public Void visitPrimitiveAsInt(PrimitiveType t, ClassWriterHelper p) {
+			Element element = p.getHolder();
+			Element accessor = getElementAccessor(element);
+			writeIfHeader(p);
+			p.wr("eventType = parser.getEventType();");
+			p.wr("obj.").wr(accessor.getSimpleName().toString()).wr("(");
 			p.wr("parser.getValueInteger()");
+			writeIfFooter(p);
 			return super.visitPrimitiveAsInt(t, p);
 		}
 
 		@Override
 		public Void visitPrimitiveAsLong(PrimitiveType t, ClassWriterHelper p) {
+			Element element = p.getHolder();
+			Element accessor = getElementAccessor(element);
+			writeIfHeader(p);
+			p.wr("eventType = parser.getEventType();");
+			p.wr("obj.").wr(accessor.getSimpleName().toString()).wr("(");
 			p.wr("parser.getValueInteger()");
+			writeIfFooter(p);
 			return super.visitPrimitiveAsLong(t, p);
 		}
 
 		@Override
 		public Void visitPrimitiveAsShort(PrimitiveType t, ClassWriterHelper p) {
+			Element element = p.getHolder();
+			Element accessor = getElementAccessor(element);
+			writeIfHeader(p);
+			p.wr("eventType = parser.getEventType();");
+			p.wr("obj.").wr(accessor.getSimpleName().toString()).wr("(");
 			p.wr("(short)parser.getValueInteger()");
+			writeIfFooter(p);
 			return super.visitPrimitiveAsShort(t, p);
 		}
 
 		@Override
 		public Void visitString(DeclaredType t, ClassWriterHelper p) {
+			Element element = p.getHolder();
+			Element accessor = getElementAccessor(element);
+			writeIfHeader(p);
+			p.wr("eventType = parser.getEventType();");
+			p.wr("obj.").wr(accessor.getSimpleName().toString()).wr("(");
 			p.wr("parser.getValueString()");
+			writeIfFooter(p);
 			return super.visitString(t, p);
+		}
+
+		@Override
+		public Void visitList(DeclaredType t, ClassWriterHelper p) {
+			List<? extends TypeMirror> generics = t.getTypeArguments();
+			if (generics.size() != 1) {
+				Log.e("expected single type generics.", p.getHolder());
+				return defaultAction(t, p);
+			}
+			TypeMirror tm = generics.get(0);
+			if (tm instanceof WildcardType) {
+				WildcardType wt = (WildcardType) tm;
+				TypeMirror extendsBound = wt.getExtendsBound();
+				if (extendsBound != null) {
+					tm = extendsBound;
+				}
+				TypeMirror superBound = wt.getSuperBound();
+				if (superBound != null) {
+					tm = superBound;
+				}
+			}
+
+			Element type = processingEnv.getTypeUtils().asElement(tm);
+			JsonHash hash = type.getAnnotation(JsonHash.class);
+			if (hash == null) {
+				Log.e("expect for use decorated class by JsonHash annotation.",
+						p.getHolder());
+				return defaultAction(t, p);
+			}
+
+			writeIfHeader(p);
+			Element element = p.getHolder();
+			Element accessor = getElementAccessor(element);
+			p.wr("obj.").wr(accessor.getSimpleName().toString()).wr("(");
+			String generatedClassName = p.getGenerateCanonicalClassName(tm);
+			p.wr(generatedClassName).wr(".getList(parser)");
+			writeIfFooter(p);
+
+			return super.visitList(t, p);
+		}
+
+		@Override
+		public Void visitUndefinedClass(DeclaredType t, ClassWriterHelper p) {
+			writeIfHeader(p);
+			Element element = p.getHolder();
+			Element accessor = getElementAccessor(element);
+			p.wr("obj.").wr(accessor.getSimpleName().toString()).wr("(");
+			String generatedClassName = p.getGenerateCanonicalClassName(t);
+			p.wr(generatedClassName).wr(".get(parser)");
+			writeIfFooter(p);
+			return super.visitUndefinedClass(t, p);
+		}
+
+		void writeIfHeader(ClassWriterHelper w) {
+			Element element = w.getHolder();
+			w.wr("if(\"").wr(getElementKeyString(element))
+					.wr("\".equals(key)){");
+		}
+
+		void writeIfFooter(ClassWriterHelper w) {
+			w.wr(");");
+			w.wr("}");
 		}
 	}
 }

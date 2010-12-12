@@ -17,6 +17,10 @@ public class StandardTykeKindVisitor<R, P> extends TypeKindVisitor6<R, P> {
 		return defaultAction(t, p);
 	}
 
+	public R visitUndefinedClass(DeclaredType t, P p) {
+		return defaultAction(t, p);
+	}
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -34,8 +38,8 @@ public class StandardTykeKindVisitor<R, P> extends TypeKindVisitor6<R, P> {
 			return visitString(t, p);
 		} else if (List.class == clazz) {
 			return visitList(t, p);
+		} else {
+			return visitUndefinedClass(t, p);
 		}
-
-		return super.visitDeclared(t, p);
 	}
 }

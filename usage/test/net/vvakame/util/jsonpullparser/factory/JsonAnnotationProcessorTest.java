@@ -9,7 +9,7 @@ import java.io.InputStream;
 import java.util.List;
 
 import net.vvakame.sample.ComplexData;
-import net.vvakame.sample.ComplexDataSample;
+import net.vvakame.sample.ComplexDataGenerated;
 import net.vvakame.sample.PrimitiveTypeData;
 import net.vvakame.sample.PrimitiveTypeDataGenerated;
 import net.vvakame.sample.TestData;
@@ -91,7 +91,7 @@ public class JsonAnnotationProcessorTest {
 		JsonPullParser parser = new JsonPullParser();
 		parser.setInput(getStream(jsonBuilder.toString()));
 
-		ComplexData data = ComplexDataSample.get(parser);
+		ComplexData data = ComplexDataGenerated.get(parser);
 
 		assertThat(data.getName(), is("hoge"));
 		assertThat(data.getList1().size(), is(3));

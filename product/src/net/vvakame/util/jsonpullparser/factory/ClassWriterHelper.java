@@ -7,22 +7,24 @@ import java.util.List;
 import javax.annotation.processing.ProcessingEnvironment;
 import javax.lang.model.element.Element;
 import javax.lang.model.element.ElementKind;
+import javax.lang.model.type.TypeMirror;
 import javax.lang.model.util.Elements;
 
 public class ClassWriterHelper {
 
-	final String CLASS_POSTFIX;
+	String classPostfix;
 
-	ProcessingEnvironment prosessingEnv;
+	ProcessingEnvironment processingEnv;
 	PrintWriter pw;
 	Element classElement;
+	Element holder;
 
 	public ClassWriterHelper(ProcessingEnvironment prosessingEnv,
 			PrintWriter pw, Element classElement, String postfix) {
-		this.prosessingEnv = prosessingEnv;
+		this.processingEnv = prosessingEnv;
 		this.pw = pw;
 		this.classElement = classElement;
-		CLASS_POSTFIX = postfix;
+		classPostfix = postfix;
 	}
 
 	ClassWriterHelper wr(String str) {
@@ -31,7 +33,7 @@ public class ClassWriterHelper {
 	}
 
 	ClassWriterHelper wr(Element... elements) {
-		Elements utils = prosessingEnv.getElementUtils();
+		Elements utils = processingEnv.getElementUtils();
 		utils.printElements(pw, elements);
 		return this;
 	}
@@ -84,11 +86,20 @@ public class ClassWriterHelper {
 	}
 
 	String getGenerateCanonicalClassName() {
-		return getGenerateCanonicalClassName(classElement, CLASS_POSTFIX);
+		return getGenerateCanonicalClassName(classElement, classPostfix);
+	}
+
+	String getGenerateCanonicalClassName(Element element) {
+		return element.asType().toString() + classPostfix;
+	}
+
+	String getGenerateCanonicalClassName(TypeMirror type) {
+		Element element = processingEnv.getTypeUtils().asElement(type);
+		return getGenerateCanonicalClassName(element);
 	}
 
 	String getGenerateClassName() {
-		return classElement.getSimpleName().toString() + CLASS_POSTFIX;
+		return classElement.getSimpleName().toString() + classPostfix;
 	}
 
 	String getClassName() {
@@ -111,5 +122,27 @@ public class ClassWriterHelper {
 	static String getGenerateCanonicalClassName(Element classElement,
 			String postfix) {
 		return classElement.asType().toString() + postfix;
+	}
+
+	/**
+	 * @return the holder
+	 */
+	public Element getHolder() {
+		return holder;
+	}
+
+	/**
+	 * @param holder
+	 *            the holder to set
+	 */
+	public void setHolder(Element holder) {
+		this.holder = holder;
+	}
+
+	/**
+	 * @return the classPostfix
+	 */
+	public String getClassPostfix() {
+		return classPostfix;
 	}
 }

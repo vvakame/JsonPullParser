@@ -22,7 +22,7 @@ import org.junit.Test;
 public class JsonAnnotationProcessorTest {
 
 	@Test
-	public void jsonHashParser() throws IOException, JsonFormatException {
+	public void jsonHash() throws IOException, JsonFormatException {
 		String json = "{\"name\":\"vvakame\",\"package_name\":\"net.vvakame\",\"version_code\":7,\"weight\":66.66,\"has_data\":true}";
 		JsonPullParser parser = new JsonPullParser();
 		parser.setInput(getStream(json));

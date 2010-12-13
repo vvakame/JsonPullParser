@@ -106,6 +106,29 @@ public class JsonPullParserTest {
 	}
 
 	@Test
+	public void parseCharByHex() throws IOException, JsonFormatException {
+		JsonPullParser parser = new JsonPullParser();
+		InputStream is;
+		State type;
+		String str;
+
+		is = getStream("[\"json \\u30e1\\u30e2\", \"\\u123x\"]");
+		parser.setInput(is);
+		type = parser.getEventType();
+		assertThat(type, is(State.START_ARRAY));
+		type = parser.getEventType();
+		assertThat(type, is(State.VALUE_STRING));
+		str = parser.getValueString();
+		assertThat(str, is("json メモ"));
+		type = parser.getEventType();
+		assertThat(type, is(State.VALUE_STRING));
+		str = parser.getValueString();
+		assertThat(str, is("\\u123x"));
+		type = parser.getEventType();
+		assertThat(type, is(State.END_ARRAY));
+	}
+
+	@Test
 	public void parseSimpleBooleanTrue() throws IOException,
 			JsonFormatException {
 		JsonPullParser parser = new JsonPullParser();

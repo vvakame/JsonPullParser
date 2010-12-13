@@ -441,7 +441,7 @@ public class JsonPullParser {
 			c = (char) br.read();
 			switch (c) {
 			case '\\':
-				br.mark(1);
+				br.mark(5);
 				c = (char) br.read();
 				switch (c) {
 				case '/':
@@ -463,6 +463,42 @@ public class JsonPullParser {
 				case 'f':
 					c = '\f';
 					break;
+				case 'u':
+					c = 0;
+					int r;
+					r = getNextStringHelper(br.read());
+					if (r == -1) {
+						c = '\\';
+						br.reset();
+						break;
+					} else {
+						c += r * 4096;
+					}
+					r = getNextStringHelper(br.read());
+					if (r == -1) {
+						c = '\\';
+						br.reset();
+						break;
+					} else {
+						c += r * 256;
+					}
+					r = getNextStringHelper(br.read());
+					if (r == -1) {
+						c = '\\';
+						br.reset();
+						break;
+					} else {
+						c += r * 16;
+					}
+					r = getNextStringHelper(br.read());
+					if (r == -1) {
+						c = '\\';
+						br.reset();
+						break;
+					} else {
+						c += r;
+					}
+					break;
 				default:
 					c = '\\';
 					br.reset();
@@ -477,5 +513,15 @@ public class JsonPullParser {
 			stb.append(c);
 		}
 		return stb.toString();
+	}
+
+	private int getNextStringHelper(int c) {
+		if ('0' <= c && c <= '9') {
+			return c - '0';
+		} else if ('a' <= c && c <= 'f') {
+			return c - 'a' + 10;
+		} else {
+			return -1;
+		}
 	}
 }

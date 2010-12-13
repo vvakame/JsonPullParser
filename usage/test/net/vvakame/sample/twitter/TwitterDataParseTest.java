@@ -1,5 +1,9 @@
 package net.vvakame.sample.twitter;
 
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.not;
+import static org.junit.Assert.assertThat;
+
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -22,7 +26,7 @@ public class TwitterDataParseTest {
 		is = getStream(twitterData);
 		parser.setInput(is);
 		List<Tweet> list = TweetGenerated.getList(parser);
-		list.toString();
+		assertThat(list.size(), is(not(0)));
 	}
 
 	public InputStream getStream(String str) {

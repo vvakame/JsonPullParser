@@ -1,7 +1,5 @@
 package net.vvakame.sample.twitter;
 
-import static org.junit.Assert.assertThat;
-
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -9,7 +7,6 @@ import java.util.List;
 
 import net.vvakame.util.jsonpullparser.JsonFormatException;
 import net.vvakame.util.jsonpullparser.JsonPullParser;
-import net.vvakame.util.jsonpullparser.JsonPullParser.State;
 
 import org.junit.Test;
 
@@ -21,7 +18,6 @@ public class TwitterDataParseTest {
 	public void parse() throws IOException, JsonFormatException {
 		JsonPullParser parser = new JsonPullParser();
 		InputStream is;
-		State type;
 
 		is = getStream(twitterData);
 		parser.setInput(is);

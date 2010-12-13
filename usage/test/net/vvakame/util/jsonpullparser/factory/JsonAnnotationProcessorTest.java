@@ -38,7 +38,7 @@ public class JsonAnnotationProcessorTest {
 
 	@Test
 	public void jsonHashPrimitive() throws IOException, JsonFormatException {
-		String json = "{\"bool\":true,\"c\":\"char\",\"b\":127,\"s\":32767,\"i\":2147483647,\"l\":2147483647,\"f\":3.4028235E38,\"d\":1.7976931348623157E308}";
+		String json = "{\"bool\":true,\"c\":\"char\",\"b\":127,\"s\":32767,\"i\":2147483647,\"l\":9223372036854775807,\"f\":3.4028235E38,\"d\":1.7976931348623157E308}";
 		JsonPullParser parser = new JsonPullParser();
 		parser.setInput(getStream(json));
 
@@ -49,8 +49,7 @@ public class JsonAnnotationProcessorTest {
 		assertThat(data.getB(), is(Byte.MAX_VALUE));
 		assertThat(data.getS(), is(Short.MAX_VALUE));
 		assertThat(data.getI(), is(Integer.MAX_VALUE));
-		// TODO Long.MAX_VALUE は対応してない
-		assertThat(data.getL(), is((long) Integer.MAX_VALUE));
+		assertThat(data.getL(), is(Long.MAX_VALUE));
 		assertThat(data.getF(), is(Float.MAX_VALUE));
 		assertThat(data.getD(), is(Double.MAX_VALUE));
 	}

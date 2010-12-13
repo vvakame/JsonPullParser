@@ -200,12 +200,12 @@ public class JsonPullParserTest {
 	}
 
 	@Test
-	public void parseSimpleInt() throws IOException, JsonFormatException {
+	public void parseSimpleLong() throws IOException, JsonFormatException {
 		JsonPullParser parser = new JsonPullParser();
 		InputStream is;
 		State type;
 		String str;
-		int i;
+		long i;
 
 		is = getStream("{\"key\":-1}");
 		parser.setInput(is);
@@ -216,10 +216,10 @@ public class JsonPullParserTest {
 		str = parser.getValueString();
 		assertThat(str, is("key"));
 		type = parser.getEventType();
-		assertThat(type, is(State.VALUE_INTEGER));
+		assertThat(type, is(State.VALUE_LONG));
 		type = parser.getEventType();
-		i = parser.getValueInteger();
-		assertThat(i, is(-1));
+		i = parser.getValueLong();
+		assertThat(i, is(-1L));
 		assertThat(type, is(State.END_HASH));
 	}
 
@@ -253,7 +253,7 @@ public class JsonPullParserTest {
 		InputStream is;
 		State type;
 		String str;
-		int i;
+		long i;
 		double d;
 		boolean b;
 
@@ -279,9 +279,9 @@ public class JsonPullParserTest {
 		assertThat(str, is("key2"));
 
 		type = parser.getEventType();
-		assertThat(type, is(State.VALUE_INTEGER));
-		i = parser.getValueInteger();
-		assertThat(i, is(2));
+		assertThat(type, is(State.VALUE_LONG));
+		i = parser.getValueLong();
+		assertThat(i, is(2L));
 
 		type = parser.getEventType();
 		assertThat(type, is(State.KEY));
@@ -331,7 +331,7 @@ public class JsonPullParserTest {
 		InputStream is;
 		State type;
 		String str;
-		int i;
+		long i;
 		double d;
 		boolean b;
 
@@ -344,9 +344,9 @@ public class JsonPullParserTest {
 		str = parser.getValueString();
 		assertThat(str, is("value1"));
 		type = parser.getEventType();
-		assertThat(type, is(State.VALUE_INTEGER));
-		i = parser.getValueInteger();
-		assertThat(i, is(2));
+		assertThat(type, is(State.VALUE_LONG));
+		i = parser.getValueLong();
+		assertThat(i, is(2L));
 		type = parser.getEventType();
 		assertThat(type, is(State.VALUE_DOUBLE));
 		d = parser.getValueDouble();
@@ -381,7 +381,7 @@ public class JsonPullParserTest {
 		assertThat(type, is(State.VALUE_STRING));
 
 		type = parser.getEventType();
-		assertThat(type, is(State.VALUE_INTEGER));
+		assertThat(type, is(State.VALUE_LONG));
 
 		type = parser.getEventType();
 		assertThat(type, is(State.VALUE_DOUBLE));
@@ -396,7 +396,7 @@ public class JsonPullParserTest {
 		assertThat(type, is(State.KEY));
 
 		type = parser.getEventType();
-		assertThat(type, is(State.VALUE_INTEGER));
+		assertThat(type, is(State.VALUE_LONG));
 
 		type = parser.getEventType();
 		assertThat(type, is(State.KEY));
@@ -470,7 +470,7 @@ public class JsonPullParserTest {
 		assertThat(type, is(State.VALUE_STRING));
 
 		type = parser.getEventType();
-		assertThat(type, is(State.VALUE_INTEGER));
+		assertThat(type, is(State.VALUE_LONG));
 	}
 
 	@Test(expected = JsonFormatException.class)

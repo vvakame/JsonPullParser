@@ -245,7 +245,7 @@ public class JsonAnnotationProcessor extends AbstractProcessor {
 			writeIfHeader(p);
 			p.wr("eventType = parser.getEventType();");
 			p.wr("obj.").wr(accessor.getSimpleName().toString()).wr("(");
-			p.wr("(byte)parser.getValueInteger()");
+			p.wr("(byte)parser.getValueLong()");
 			writeIfFooter(p);
 			return super.visitPrimitiveAsByte(t, p);
 		}
@@ -293,7 +293,7 @@ public class JsonAnnotationProcessor extends AbstractProcessor {
 			writeIfHeader(p);
 			p.wr("eventType = parser.getEventType();");
 			p.wr("obj.").wr(accessor.getSimpleName().toString()).wr("(");
-			p.wr("parser.getValueInteger()");
+			p.wr("(int)parser.getValueLong()");
 			writeIfFooter(p);
 			return super.visitPrimitiveAsInt(t, p);
 		}
@@ -305,7 +305,7 @@ public class JsonAnnotationProcessor extends AbstractProcessor {
 			writeIfHeader(p);
 			p.wr("eventType = parser.getEventType();");
 			p.wr("obj.").wr(accessor.getSimpleName().toString()).wr("(");
-			p.wr("parser.getValueInteger()");
+			p.wr("parser.getValueLong()");
 			writeIfFooter(p);
 			return super.visitPrimitiveAsLong(t, p);
 		}
@@ -317,7 +317,7 @@ public class JsonAnnotationProcessor extends AbstractProcessor {
 			writeIfHeader(p);
 			p.wr("eventType = parser.getEventType();");
 			p.wr("obj.").wr(accessor.getSimpleName().toString()).wr("(");
-			p.wr("(short)parser.getValueInteger()");
+			p.wr("(short)parser.getValueLong()");
 			writeIfFooter(p);
 			return super.visitPrimitiveAsShort(t, p);
 		}

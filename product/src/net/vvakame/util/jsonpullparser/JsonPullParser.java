@@ -42,7 +42,7 @@ public class JsonPullParser {
 		 * 数字の値.<br>
 		 * valueの値 → {"key":0123}
 		 */
-		VALUE_INTEGER,
+		VALUE_LONG,
 		/**
 		 * 数字の値.<br>
 		 * valueの値 → {"key":0123.11}
@@ -85,7 +85,7 @@ public class JsonPullParser {
 
 	// 値保持用
 	String valueStr;
-	int valueInteger;
+	long valueLong;
 	double valueDouble;
 	boolean valueBoolean;
 
@@ -309,7 +309,7 @@ public class JsonPullParser {
 			}
 			break;
 		case VALUE_STRING:
-		case VALUE_INTEGER:
+		case VALUE_LONG:
 		case VALUE_DOUBLE:
 		case VALUE_NULL:
 		case VALUE_BOOLEAN:
@@ -346,12 +346,12 @@ public class JsonPullParser {
 
 	/**
 	 * 値を整数値として取得します.<br> {@link JsonPullParser#getEventType()}を読んだ時に
-	 * {@link State#VALUE_INTEGER}が返ってきたときに呼び出してください.
+	 * {@link State#VALUE_LONG}が返ってきたときに呼び出してください.
 	 * 
 	 * @return 読み込んだ整数値
 	 */
-	public int getValueInteger() {
-		return valueInteger;
+	public long getValueLong() {
+		return valueLong;
 	}
 
 	/**
@@ -429,8 +429,8 @@ public class JsonPullParser {
 			valueDouble = Double.parseDouble(stb.toString());
 			stack.push(State.VALUE_DOUBLE);
 		} else {
-			valueInteger = Integer.parseInt(stb.toString());
-			stack.push(State.VALUE_INTEGER);
+			valueLong = Long.parseLong(stb.toString());
+			stack.push(State.VALUE_LONG);
 		}
 	}
 

@@ -326,6 +326,7 @@ public class JsonAnnotationProcessor extends AbstractProcessor {
 		public Void visitString(DeclaredType t, ClassWriterHelper p) {
 			Element element = p.getHolder();
 			Element accessor = getElementAccessor(element);
+			// TODO accessorがnullだった場合の処理を入れる
 			writeIfHeader(p);
 			p.wr("eventType = parser.getEventType();");
 			p.wr("obj.").wr(accessor.getSimpleName().toString()).wr("(");

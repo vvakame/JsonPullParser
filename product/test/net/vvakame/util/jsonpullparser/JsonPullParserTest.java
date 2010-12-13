@@ -112,7 +112,7 @@ public class JsonPullParserTest {
 		State type;
 		String str;
 
-		is = getStream("[\"json \\u30e1\\u30e2\", \"\\u123x\"]");
+		is = getStream("[\"json \\u30e1\\u30e2\", \"\\u123x\", \"\\u30E1\\u30E2\"]");
 		parser.setInput(is);
 		type = parser.getEventType();
 		assertThat(type, is(State.START_ARRAY));
@@ -124,6 +124,10 @@ public class JsonPullParserTest {
 		assertThat(type, is(State.VALUE_STRING));
 		str = parser.getValueString();
 		assertThat(str, is("\\u123x"));
+		type = parser.getEventType();
+		assertThat(type, is(State.VALUE_STRING));
+		str = parser.getValueString();
+		assertThat(str, is("メモ"));
 		type = parser.getEventType();
 		assertThat(type, is(State.END_ARRAY));
 	}

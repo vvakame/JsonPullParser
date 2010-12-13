@@ -82,6 +82,7 @@ public class JsonPullParser {
 	Stack<State> stack;
 
 	// 値保持用
+	State current;
 	String valueStr;
 	long valueLong;
 	double valueDouble;
@@ -329,7 +330,8 @@ public class JsonPullParser {
 			throw new JsonFormatException();
 		}
 
-		return stack.getFirst();
+		current = stack.getFirst();
+		return current;
 	}
 
 	/**
@@ -339,7 +341,15 @@ public class JsonPullParser {
 	 * @return 読み込んだ文字列
 	 */
 	public String getValueString() {
-		return valueStr;
+		if (current == State.KEY) {
+			return valueStr;
+		} else if (current == State.VALUE_STRING) {
+			return valueStr;
+		} else if (current == State.VALUE_NULL) {
+			return null;
+		} else {
+			throw new IllegalStateException();
+		}
 	}
 
 	/**
@@ -349,7 +359,13 @@ public class JsonPullParser {
 	 * @return 読み込んだ整数値
 	 */
 	public long getValueLong() {
-		return valueLong;
+		if (current == State.VALUE_LONG) {
+			return valueLong;
+		} else if (current == State.VALUE_NULL) {
+			return -1;
+		} else {
+			throw new IllegalStateException();
+		}
 	}
 
 	/**
@@ -359,7 +375,15 @@ public class JsonPullParser {
 	 * @return 読み込んだ浮動小数点の値
 	 */
 	public double getValueDouble() {
-		return valueDouble;
+		if (current == State.VALUE_DOUBLE) {
+			return valueDouble;
+		} else if (current == State.VALUE_NULL) {
+			return -1;
+		} else if (current == State.VALUE_LONG) {
+			return valueLong;
+		} else {
+			throw new IllegalStateException();
+		}
 	}
 
 	/**
@@ -369,7 +393,13 @@ public class JsonPullParser {
 	 * @return 読み込んだ真偽値の値
 	 */
 	public boolean getValueBoolean() {
-		return valueBoolean;
+		if (current == State.VALUE_BOOLEAN) {
+			return valueBoolean;
+		} else if (current == State.VALUE_NULL) {
+			return false;
+		} else {
+			throw new IllegalStateException();
+		}
 	}
 
 	private char getNextChar() throws IOException {

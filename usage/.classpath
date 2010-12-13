@@ -10,6 +10,6 @@
 			<attribute name="optional" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="libs/test.jar"/>
+	<classpathentry kind="lib" path="libs/test.jar" sourcepath="/JSONPullParser"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

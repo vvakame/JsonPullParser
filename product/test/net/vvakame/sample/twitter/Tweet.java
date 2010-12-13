@@ -7,40 +7,58 @@ import net.vvakame.util.jsonpullparser.annotation.JsonKey;
 public class Tweet {
 	@JsonKey
 	String geo;
+
 	@JsonKey
-	String truncated;
+	boolean truncated;
+
 	@JsonKey
 	String coordinates;
+
 	@JsonKey
-	String favorited;
+	boolean favorited;
+
 	@JsonKey
 	String source;
+
 	@JsonKey("id_str")
 	String idStr;
+
 	@JsonKey("in_reply_to_screen_name")
 	String inReplyToScreenName;
+
 	@JsonKey("in_reply_to_status_id_str")
 	String inReplyToStatusIdStr;
+
 	@JsonKey
 	String contributors;
-	@JsonKey
-	String retweetCount;
+
+	@JsonKey("retweet_count")
+	long retweetCount;
+
 	@JsonKey("in_reply_to_user_id_str")
 	String inReplyToUserIdStr;
+
 	@JsonKey("created_at")
 	String createdAt;
+
 	@JsonKey
 	String place;
+
 	@JsonKey
-	String retweeted;
+	boolean retweeted;
+
 	@JsonKey("in_reply_to_status_id")
-	String inReplyToStatusId;
+	long inReplyToStatusId;
+
 	@JsonKey
-	String id;
+	long id;
+
 	@JsonKey("in_reply_to_user_id")
-	String inReplyToUserId;
+	long inReplyToUserId;
+
 	@JsonKey
 	String text;
+
 	@JsonKey
 	User user;
 
@@ -62,7 +80,7 @@ public class Tweet {
 	/**
 	 * @return the truncated
 	 */
-	public String getTruncated() {
+	public boolean isTruncated() {
 		return truncated;
 	}
 
@@ -70,7 +88,7 @@ public class Tweet {
 	 * @param truncated
 	 *            the truncated to set
 	 */
-	public void setTruncated(String truncated) {
+	public void setTruncated(boolean truncated) {
 		this.truncated = truncated;
 	}
 
@@ -92,7 +110,7 @@ public class Tweet {
 	/**
 	 * @return the favorited
 	 */
-	public String getFavorited() {
+	public boolean isFavorited() {
 		return favorited;
 	}
 
@@ -100,7 +118,7 @@ public class Tweet {
 	 * @param favorited
 	 *            the favorited to set
 	 */
-	public void setFavorited(String favorited) {
+	public void setFavorited(boolean favorited) {
 		this.favorited = favorited;
 	}
 
@@ -182,7 +200,7 @@ public class Tweet {
 	/**
 	 * @return the retweetCount
 	 */
-	public String getRetweetCount() {
+	public long getRetweetCount() {
 		return retweetCount;
 	}
 
@@ -190,7 +208,7 @@ public class Tweet {
 	 * @param retweetCount
 	 *            the retweetCount to set
 	 */
-	public void setRetweetCount(String retweetCount) {
+	public void setRetweetCount(long retweetCount) {
 		this.retweetCount = retweetCount;
 	}
 
@@ -242,7 +260,7 @@ public class Tweet {
 	/**
 	 * @return the retweeted
 	 */
-	public String getRetweeted() {
+	public boolean isRetweeted() {
 		return retweeted;
 	}
 
@@ -250,14 +268,14 @@ public class Tweet {
 	 * @param retweeted
 	 *            the retweeted to set
 	 */
-	public void setRetweeted(String retweeted) {
+	public void setRetweeted(boolean retweeted) {
 		this.retweeted = retweeted;
 	}
 
 	/**
 	 * @return the inReplyToStatusId
 	 */
-	public String getInReplyToStatusId() {
+	public long getInReplyToStatusId() {
 		return inReplyToStatusId;
 	}
 
@@ -265,14 +283,14 @@ public class Tweet {
 	 * @param inReplyToStatusId
 	 *            the inReplyToStatusId to set
 	 */
-	public void setInReplyToStatusId(String inReplyToStatusId) {
+	public void setInReplyToStatusId(long inReplyToStatusId) {
 		this.inReplyToStatusId = inReplyToStatusId;
 	}
 
 	/**
 	 * @return the id
 	 */
-	public String getId() {
+	public long getId() {
 		return id;
 	}
 
@@ -280,14 +298,14 @@ public class Tweet {
 	 * @param id
 	 *            the id to set
 	 */
-	public void setId(String id) {
+	public void setId(long id) {
 		this.id = id;
 	}
 
 	/**
 	 * @return the inReplyToUserId
 	 */
-	public String getInReplyToUserId() {
+	public long getInReplyToUserId() {
 		return inReplyToUserId;
 	}
 
@@ -295,7 +313,7 @@ public class Tweet {
 	 * @param inReplyToUserId
 	 *            the inReplyToUserId to set
 	 */
-	public void setInReplyToUserId(String inReplyToUserId) {
+	public void setInReplyToUserId(long inReplyToUserId) {
 		this.inReplyToUserId = inReplyToUserId;
 	}
 

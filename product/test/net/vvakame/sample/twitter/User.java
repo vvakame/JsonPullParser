@@ -6,78 +6,111 @@ import net.vvakame.util.jsonpullparser.annotation.JsonKey;
 @JsonHash
 public class User {
 	@JsonKey("follow_request_sent")
-	String followRequestSent;
+	boolean followRequestSent;
+
 	@JsonKey("contributors_enabled")
-	String contributorsEnabled;
+	boolean contributorsEnabled;
+
 	@JsonKey("profile_sidebar_fill_color")
 	String profileSidebarFillColor;
+
 	@JsonKey
 	String description;
+
 	@JsonKey
-	String notifications;
+	boolean notifications;
+
 	@JsonKey("profile_background_tile")
-	String profileBackgroundTile;
+	boolean profileBackgroundTile;
+
 	@JsonKey("time_zone")
 	String timeZone;
+
 	@JsonKey("profile_image_url")
 	String profileImageUrl;
+
 	@JsonKey
 	String location;
+
 	@JsonKey("statuses_count")
-	String statusesCount;
+	long statusesCount;
+
 	@JsonKey("profile_link_color")
 	String profileLinkColor;
+
 	@JsonKey("listed_count")
-	String listedCount;
+	long listedCount;
+
 	@JsonKey
 	String lang;
+
 	@JsonKey("favourites_count")
-	String favouritesCount;
+	long favouritesCount;
+
 	@JsonKey("profile_sidebar_border_color")
 	String profileSidebarBorderColor;
+
 	@JsonKey
 	String url;
+
 	@JsonKey("screen_name")
 	String screenName;
+
 	@JsonKey("id_str")
 	String idStr;
+
 	@JsonKey("profile_use_background_image")
-	String profileUseBackgroundImage;
+	boolean profileUseBackgroundImage;
+
 	@JsonKey("followers_count")
-	String followersCount;
+	long followersCount;
+
 	@JsonKey
-	String following;
+	boolean following;
+
 	@JsonKey
-	String verified;
+	boolean verified;
+
 	@JsonKey("friends_count")
-	String friendsCount;
+	long friendsCount;
+
 	@JsonKey("profile_background_color")
 	String profileBackgroundColor;
+
 	@JsonKey("protected")
-	String protecte;
+	boolean protecte;
+
 	@JsonKey("is_translator")
-	String isTranslator;
+	boolean isTranslator;
+
 	@JsonKey("profile_background_image_url")
 	String profileBackgroundImageUrl;
+
 	@JsonKey("created_at")
 	String createdAt;
+
 	@JsonKey
 	String name;
+
 	@JsonKey("show_all_inline_media")
-	String showAllInlineMedia;
+	boolean showAllInlineMedia;
+
 	@JsonKey("geo_enabled")
-	String geoEnabled;
+	boolean geoEnabled;
+
 	@JsonKey
-	String id;
+	long id;
+
 	@JsonKey("utc_offset")
-	String utcOffset;
+	long utcOffset;
+
 	@JsonKey("profile_text_color")
 	String profileTextColor;
 
 	/**
 	 * @return the followRequestSent
 	 */
-	public String getFollowRequestSent() {
+	public boolean isFollowRequestSent() {
 		return followRequestSent;
 	}
 
@@ -85,14 +118,14 @@ public class User {
 	 * @param followRequestSent
 	 *            the followRequestSent to set
 	 */
-	public void setFollowRequestSent(String followRequestSent) {
+	public void setFollowRequestSent(boolean followRequestSent) {
 		this.followRequestSent = followRequestSent;
 	}
 
 	/**
 	 * @return the contributorsEnabled
 	 */
-	public String getContributorsEnabled() {
+	public boolean isContributorsEnabled() {
 		return contributorsEnabled;
 	}
 
@@ -100,7 +133,7 @@ public class User {
 	 * @param contributorsEnabled
 	 *            the contributorsEnabled to set
 	 */
-	public void setContributorsEnabled(String contributorsEnabled) {
+	public void setContributorsEnabled(boolean contributorsEnabled) {
 		this.contributorsEnabled = contributorsEnabled;
 	}
 
@@ -137,7 +170,7 @@ public class User {
 	/**
 	 * @return the notifications
 	 */
-	public String getNotifications() {
+	public boolean isNotifications() {
 		return notifications;
 	}
 
@@ -145,14 +178,14 @@ public class User {
 	 * @param notifications
 	 *            the notifications to set
 	 */
-	public void setNotifications(String notifications) {
+	public void setNotifications(boolean notifications) {
 		this.notifications = notifications;
 	}
 
 	/**
 	 * @return the profileBackgroundTile
 	 */
-	public String getProfileBackgroundTile() {
+	public boolean isProfileBackgroundTile() {
 		return profileBackgroundTile;
 	}
 
@@ -160,7 +193,7 @@ public class User {
 	 * @param profileBackgroundTile
 	 *            the profileBackgroundTile to set
 	 */
-	public void setProfileBackgroundTile(String profileBackgroundTile) {
+	public void setProfileBackgroundTile(boolean profileBackgroundTile) {
 		this.profileBackgroundTile = profileBackgroundTile;
 	}
 
@@ -212,7 +245,7 @@ public class User {
 	/**
 	 * @return the statusesCount
 	 */
-	public String getStatusesCount() {
+	public long getStatusesCount() {
 		return statusesCount;
 	}
 
@@ -220,7 +253,7 @@ public class User {
 	 * @param statusesCount
 	 *            the statusesCount to set
 	 */
-	public void setStatusesCount(String statusesCount) {
+	public void setStatusesCount(long statusesCount) {
 		this.statusesCount = statusesCount;
 	}
 
@@ -242,7 +275,7 @@ public class User {
 	/**
 	 * @return the listedCount
 	 */
-	public String getListedCount() {
+	public long getListedCount() {
 		return listedCount;
 	}
 
@@ -250,7 +283,7 @@ public class User {
 	 * @param listedCount
 	 *            the listedCount to set
 	 */
-	public void setListedCount(String listedCount) {
+	public void setListedCount(long listedCount) {
 		this.listedCount = listedCount;
 	}
 
@@ -272,7 +305,7 @@ public class User {
 	/**
 	 * @return the favouritesCount
 	 */
-	public String getFavouritesCount() {
+	public long getFavouritesCount() {
 		return favouritesCount;
 	}
 
@@ -280,7 +313,7 @@ public class User {
 	 * @param favouritesCount
 	 *            the favouritesCount to set
 	 */
-	public void setFavouritesCount(String favouritesCount) {
+	public void setFavouritesCount(long favouritesCount) {
 		this.favouritesCount = favouritesCount;
 	}
 
@@ -347,7 +380,7 @@ public class User {
 	/**
 	 * @return the profileUseBackgroundImage
 	 */
-	public String getProfileUseBackgroundImage() {
+	public boolean isProfileUseBackgroundImage() {
 		return profileUseBackgroundImage;
 	}
 
@@ -355,14 +388,14 @@ public class User {
 	 * @param profileUseBackgroundImage
 	 *            the profileUseBackgroundImage to set
 	 */
-	public void setProfileUseBackgroundImage(String profileUseBackgroundImage) {
+	public void setProfileUseBackgroundImage(boolean profileUseBackgroundImage) {
 		this.profileUseBackgroundImage = profileUseBackgroundImage;
 	}
 
 	/**
 	 * @return the followersCount
 	 */
-	public String getFollowersCount() {
+	public long getFollowersCount() {
 		return followersCount;
 	}
 
@@ -370,14 +403,14 @@ public class User {
 	 * @param followersCount
 	 *            the followersCount to set
 	 */
-	public void setFollowersCount(String followersCount) {
+	public void setFollowersCount(long followersCount) {
 		this.followersCount = followersCount;
 	}
 
 	/**
 	 * @return the following
 	 */
-	public String getFollowing() {
+	public boolean isFollowing() {
 		return following;
 	}
 
@@ -385,14 +418,14 @@ public class User {
 	 * @param following
 	 *            the following to set
 	 */
-	public void setFollowing(String following) {
+	public void setFollowing(boolean following) {
 		this.following = following;
 	}
 
 	/**
 	 * @return the verified
 	 */
-	public String getVerified() {
+	public boolean isVerified() {
 		return verified;
 	}
 
@@ -400,14 +433,14 @@ public class User {
 	 * @param verified
 	 *            the verified to set
 	 */
-	public void setVerified(String verified) {
+	public void setVerified(boolean verified) {
 		this.verified = verified;
 	}
 
 	/**
 	 * @return the friendsCount
 	 */
-	public String getFriendsCount() {
+	public long getFriendsCount() {
 		return friendsCount;
 	}
 
@@ -415,7 +448,7 @@ public class User {
 	 * @param friendsCount
 	 *            the friendsCount to set
 	 */
-	public void setFriendsCount(String friendsCount) {
+	public void setFriendsCount(long friendsCount) {
 		this.friendsCount = friendsCount;
 	}
 
@@ -437,7 +470,7 @@ public class User {
 	/**
 	 * @return the protecte
 	 */
-	public String getProtecte() {
+	public boolean isProtecte() {
 		return protecte;
 	}
 
@@ -445,14 +478,14 @@ public class User {
 	 * @param protecte
 	 *            the protecte to set
 	 */
-	public void setProtecte(String protecte) {
+	public void setProtecte(boolean protecte) {
 		this.protecte = protecte;
 	}
 
 	/**
 	 * @return the isTranslator
 	 */
-	public String getIsTranslator() {
+	public boolean isTranslator() {
 		return isTranslator;
 	}
 
@@ -460,7 +493,7 @@ public class User {
 	 * @param isTranslator
 	 *            the isTranslator to set
 	 */
-	public void setIsTranslator(String isTranslator) {
+	public void setTranslator(boolean isTranslator) {
 		this.isTranslator = isTranslator;
 	}
 
@@ -512,7 +545,7 @@ public class User {
 	/**
 	 * @return the showAllInlineMedia
 	 */
-	public String getShowAllInlineMedia() {
+	public boolean isShowAllInlineMedia() {
 		return showAllInlineMedia;
 	}
 
@@ -520,14 +553,14 @@ public class User {
 	 * @param showAllInlineMedia
 	 *            the showAllInlineMedia to set
 	 */
-	public void setShowAllInlineMedia(String showAllInlineMedia) {
+	public void setShowAllInlineMedia(boolean showAllInlineMedia) {
 		this.showAllInlineMedia = showAllInlineMedia;
 	}
 
 	/**
 	 * @return the geoEnabled
 	 */
-	public String getGeoEnabled() {
+	public boolean isGeoEnabled() {
 		return geoEnabled;
 	}
 
@@ -535,14 +568,14 @@ public class User {
 	 * @param geoEnabled
 	 *            the geoEnabled to set
 	 */
-	public void setGeoEnabled(String geoEnabled) {
+	public void setGeoEnabled(boolean geoEnabled) {
 		this.geoEnabled = geoEnabled;
 	}
 
 	/**
 	 * @return the id
 	 */
-	public String getId() {
+	public long getId() {
 		return id;
 	}
 
@@ -550,14 +583,14 @@ public class User {
 	 * @param id
 	 *            the id to set
 	 */
-	public void setId(String id) {
+	public void setId(long id) {
 		this.id = id;
 	}
 
 	/**
 	 * @return the utcOffset
 	 */
-	public String getUtcOffset() {
+	public long getUtcOffset() {
 		return utcOffset;
 	}
 
@@ -565,7 +598,7 @@ public class User {
 	 * @param utcOffset
 	 *            the utcOffset to set
 	 */
-	public void setUtcOffset(String utcOffset) {
+	public void setUtcOffset(long utcOffset) {
 		this.utcOffset = utcOffset;
 	}
 

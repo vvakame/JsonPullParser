@@ -214,6 +214,13 @@ public class JsonAnnotationProcessor extends AbstractProcessor {
 				// TODO publicかどうかの判定をいれていない
 				setter = m;
 				break;
+			} else if (element.getSimpleName().toString().startsWith("is")
+					&& ("set" + element.getSimpleName().toString().substring(2))
+							.equalsIgnoreCase(m.getSimpleName().toString())) {
+				// boolean isHoge のsetterは setHoge になる
+				// TODO publicかどうかの判定をいれていない
+				setter = m;
+				break;
 			}
 		}
 		if (setter != null) {

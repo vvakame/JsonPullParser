@@ -217,9 +217,9 @@ public class JsonPullParserTest {
 		assertThat(str, is("key"));
 		type = parser.getEventType();
 		assertThat(type, is(State.VALUE_LONG));
-		type = parser.getEventType();
 		i = parser.getValueLong();
 		assertThat(i, is(-1L));
+		type = parser.getEventType();
 		assertThat(type, is(State.END_HASH));
 	}
 

@@ -4,8 +4,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.ArrayDeque;
-import java.util.Deque;
 
 /**
  * JSONPullParserを提供します.<br>
@@ -81,7 +79,7 @@ public class JsonPullParser {
 	}
 
 	BufferedReader br;
-	Deque<State> stack;
+	Stack<State> stack;
 
 	// 値保持用
 	String valueStr;
@@ -100,7 +98,7 @@ public class JsonPullParser {
 	 */
 	public void setInput(InputStream is) throws IOException {
 		br = new BufferedReader(new InputStreamReader(is));
-		stack = new ArrayDeque<JsonPullParser.State>();
+		stack = new Stack<State>();
 		stack.push(State.ORIGIN);
 	}
 

@@ -3,15 +3,12 @@ package net.vvakame.util.jsonpullparser.factory;
 import static javax.lang.model.util.ElementFilter.typesIn;
 
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.io.Writer;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 import javax.annotation.processing.AbstractProcessor;
-import javax.annotation.processing.Filer;
 import javax.annotation.processing.RoundEnvironment;
 import javax.annotation.processing.SupportedAnnotationTypes;
 import javax.annotation.processing.SupportedSourceVersion;
@@ -24,7 +21,6 @@ import javax.lang.model.type.PrimitiveType;
 import javax.lang.model.type.TypeMirror;
 import javax.lang.model.type.WildcardType;
 import javax.lang.model.util.ElementFilter;
-import javax.tools.JavaFileObject;
 
 import net.vvakame.util.jsonpullparser.JsonFormatException;
 import net.vvakame.util.jsonpullparser.JsonPullParser;
@@ -61,54 +57,36 @@ public class JsonAnnotationProcessor extends AbstractProcessor {
 		for (Element element : typesIn(roundEnv
 				.getElementsAnnotatedWith(JsonHash.class))) {
 
-			genSupportClass(element);
+			try {
+				ClassWriterHelper w = new ClassWriterHelper(processingEnv,
+						element, classPostfix);
+				genSupportClass(w, element);
+				w.close();
+			} catch (IOException e) {
+				Log.e(e.getMessage());
+			}
 		}
 
 		return true;
 	}
 
-	void genSupportClass(Element classElement) {
-		if (classElement.getKind() != ElementKind.CLASS) {
-			throw new IllegalStateException();
-		}
+	void genSupportClass(ClassWriterHelper w, Element classElement) {
+		// package名出力
+		w.writePackage();
 
-		// ここからソース生成
-		Filer filer = processingEnv.getFiler();
-		try {
+		// コメント出力
+		w.wr("// Do you know Ctrl(Command)+Shift+M?\n");
 
-			String generateClassName = ClassWriterHelper
-					.getGenerateCanonicalClassName(classElement, classPostfix);
-			JavaFileObject fileObject = filer.createSourceFile(
-					generateClassName, classElement);
+		// class宣言出力
+		w.writeClassSignature();
 
-			Writer writer = fileObject.openWriter();
-			try {
-				ClassWriterHelper w = new ClassWriterHelper(processingEnv,
-						new PrintWriter(writer), classElement, classPostfix);
-				w.setHolder(classElement);
+		genMethodGet(w, classElement);
 
-				// package名出力
-				w.writePackage();
+		genMethodGetList(w, classElement);
 
-				// コメント出力
-				w.wr("// Do you know Ctrl(Command)+Shift+M?\n");
+		w.wr("}");
 
-				// class宣言出力
-				w.writeClassSignature();
-
-				genMethodGet(w, classElement);
-
-				genMethodGetList(w, classElement);
-
-				w.wr("}");
-
-				w.flush();
-			} finally {
-				writer.close();
-			}
-		} catch (IOException e) {
-			Log.e(e.getMessage());
-		}
+		w.flush();
 	}
 
 	private void genMethodGet(ClassWriterHelper w, Element classElement) {

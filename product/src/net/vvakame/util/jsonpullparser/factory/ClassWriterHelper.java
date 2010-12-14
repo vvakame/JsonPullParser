@@ -1,14 +1,18 @@
 package net.vvakame.util.jsonpullparser.factory;
 
+import java.io.IOException;
 import java.io.PrintWriter;
+import java.io.Writer;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.processing.Filer;
 import javax.annotation.processing.ProcessingEnvironment;
 import javax.lang.model.element.Element;
 import javax.lang.model.element.ElementKind;
 import javax.lang.model.type.TypeMirror;
 import javax.lang.model.util.Elements;
+import javax.tools.JavaFileObject;
 
 public class ClassWriterHelper {
 
@@ -18,13 +22,52 @@ public class ClassWriterHelper {
 	PrintWriter pw;
 	Element classElement;
 	Element holder;
+	Mode mode;
+
+	enum Mode {
+		Real, Mock
+	}
 
 	public ClassWriterHelper(ProcessingEnvironment prosessingEnv,
-			PrintWriter pw, Element classElement, String postfix) {
+			Element classElement, String postfix) throws IOException {
+		this(prosessingEnv, classElement, postfix, Mode.Real);
+	}
+
+	public ClassWriterHelper(ProcessingEnvironment prosessingEnv,
+			Element classElement, String postfix, Mode mode) throws IOException {
+
+		if (mode == null) {
+			throw new IllegalStateException();
+		} else {
+			this.mode = mode;
+		}
+		if (classElement.getKind() != ElementKind.CLASS) {
+			throw new IllegalStateException();
+		}
+
 		this.processingEnv = prosessingEnv;
-		this.pw = pw;
 		this.classElement = classElement;
+		this.holder = classElement; // 初期値
 		classPostfix = postfix;
+
+		Filer filer = processingEnv.getFiler();
+
+		String generateClassName = getGenerateCanonicalClassName(classElement);
+		JavaFileObject fileObject;
+		Writer writer = null;
+		try {
+			fileObject = filer
+					.createSourceFile(generateClassName, classElement);
+			writer = fileObject.openWriter();
+			this.pw = new PrintWriter(writer);
+		} catch (IOException e) {
+			if (writer != null) {
+				writer.close();
+				writer = null;
+				this.pw = null;
+			}
+			throw e;
+		}
 	}
 
 	ClassWriterHelper wr(String str) {
@@ -117,6 +160,10 @@ public class ClassWriterHelper {
 
 	void flush() {
 		pw.flush();
+	}
+
+	void close() {
+		pw.close();
 	}
 
 	static String getGenerateCanonicalClassName(Element classElement,

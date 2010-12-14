@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.PushbackReader;
 
 /**
  * JSONPullParserを提供します.<br>
@@ -78,7 +79,7 @@ public class JsonPullParser {
 		END_ARRAY,
 	}
 
-	BufferedReader br;
+	PushbackReader br;
 	Stack<State> stack;
 
 	// 値保持用
@@ -98,7 +99,7 @@ public class JsonPullParser {
 	 * @throws IOException
 	 */
 	public void setInput(InputStream is) throws IOException {
-		br = new BufferedReader(new InputStreamReader(is));
+		br = new PushbackReader(new BufferedReader(new InputStreamReader(is)), 5);
 		stack = new Stack<State>();
 		stack.push(State.ORIGIN);
 	}
@@ -192,6 +193,7 @@ public class JsonPullParser {
 			default:
 				// 数字
 				try {
+					br.unread(c);
 					fetchNextNumeric();
 					break;
 				} catch (NumberFormatException e) {
@@ -300,6 +302,7 @@ public class JsonPullParser {
 			default:
 				// 数字
 				try {
+					br.unread(c);
 					fetchNextNumeric();
 					break;
 				} catch (NumberFormatException e) {
@@ -403,10 +406,8 @@ public class JsonPullParser {
 	}
 
 	private char getNextChar() throws IOException {
-		br.mark(1);
 		char c = (char) br.read();
 		while (c == ' ' || c == '\r' || c == '\n') {
-			br.mark(1);
 			c = (char) br.read();
 		}
 		return c;
@@ -424,7 +425,6 @@ public class JsonPullParser {
 
 	private void fetchNextNumeric() throws IOException {
 		stb.setLength(0);
-		br.reset();
 		char c;
 		boolean d = false;
 		loop: while (true) {
@@ -447,10 +447,9 @@ public class JsonPullParser {
 			case '-':
 				break;
 			default:
-				br.reset();
+				br.unread(c);
 				break loop;
 			}
-			br.mark(1);
 			stb.append(c);
 		}
 		if (d) {
@@ -469,7 +468,6 @@ public class JsonPullParser {
 			c = (char) br.read();
 			switch (c) {
 			case '\\':
-				br.mark(5);
 				c = (char) br.read();
 				switch (c) {
 				case '/':
@@ -492,44 +490,55 @@ public class JsonPullParser {
 					c = '\f';
 					break;
 				case 'u':
+					int c1, c2, c3, c4;
 					c = 0;
 					int r;
-					r = getNextStringHelper(br.read());
+					r = getNextStringHelper((c1=br.read()));
 					if (r == -1) {
 						c = '\\';
-						br.reset();
+						br.unread(c1);
+						br.unread('u');
 						break;
 					} else {
 						c += r * 4096;
 					}
-					r = getNextStringHelper(br.read());
+					r = getNextStringHelper((c2=br.read()));
 					if (r == -1) {
 						c = '\\';
-						br.reset();
+						br.unread(c2);
+						br.unread(c1);
+						br.unread('u');
 						break;
 					} else {
 						c += r * 256;
 					}
-					r = getNextStringHelper(br.read());
+					r = getNextStringHelper((c3=br.read()));
 					if (r == -1) {
 						c = '\\';
-						br.reset();
+						br.unread(c3);
+						br.unread(c2);
+						br.unread(c1);
+						br.unread('u');
 						break;
 					} else {
 						c += r * 16;
 					}
-					r = getNextStringHelper(br.read());
+					r = getNextStringHelper((c4=br.read()));
 					if (r == -1) {
 						c = '\\';
-						br.reset();
+						br.unread(c4);
+						br.unread(c3);
+						br.unread(c2);
+						br.unread(c1);
+						br.unread('u');
 						break;
 					} else {
 						c += r;
 					}
 					break;
 				default:
+					br.unread(c);
 					c = '\\';
-					br.reset();
 					break;
 				}
 				break;

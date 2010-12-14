@@ -27,6 +27,7 @@ import net.vvakame.util.jsonpullparser.JsonPullParser;
 import net.vvakame.util.jsonpullparser.JsonPullParser.State;
 import net.vvakame.util.jsonpullparser.annotation.JsonHash;
 import net.vvakame.util.jsonpullparser.annotation.JsonKey;
+import net.vvakame.util.jsonpullparser.factory.ClassWriterHelper.Mode;
 
 @SupportedSourceVersion(SourceVersion.RELEASE_6)
 @SupportedAnnotationTypes("net.vvakame.util.jsonpullparser.annotation.*")
@@ -58,8 +59,14 @@ public class JsonAnnotationProcessor extends AbstractProcessor {
 				.getElementsAnnotatedWith(JsonHash.class))) {
 
 			try {
-				ClassWriterHelper w = new ClassWriterHelper(processingEnv,
-						element, classPostfix);
+				ClassWriterHelper w;
+				w = new ClassWriterHelper(processingEnv, element, classPostfix,
+						Mode.Mock);
+				genSupportClass(w, element);
+				w.close();
+
+				w = new ClassWriterHelper(processingEnv, element, classPostfix,
+						Mode.Real);
 				genSupportClass(w, element);
 				w.close();
 			} catch (IOException e) {

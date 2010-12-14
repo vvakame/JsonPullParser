@@ -53,6 +53,10 @@ public class ClassWriterHelper {
 		this.holder = classElement; // 初期値
 		classPostfix = postfix;
 
+		if (mode == Mode.Mock) {
+			return;
+		}
+
 		Filer filer = processingEnv.getFiler();
 
 		String generateClassName = getGenerateCanonicalClassName(classElement);
@@ -168,9 +172,7 @@ public class ClassWriterHelper {
 	}
 
 	public ClassWriterHelper writeListInstance() {
-		if (mode == Mode.Real && pw != null) {
-			this.wr(ArrayList.class).wr("<").writeClassName().wr(">");
-		}
+		this.wr(ArrayList.class).wr("<").writeClassName().wr(">");
 		return this;
 	}
 
@@ -205,11 +207,15 @@ public class ClassWriterHelper {
 	}
 
 	public void flush() {
-		pw.flush();
+		if (mode == Mode.Real && pw != null) {
+			pw.flush();
+		}
 	}
 
 	public void close() {
-		pw.close();
+		if (mode == Mode.Real && pw != null) {
+			pw.close();
+		}
 	}
 
 	public void incrementIndent() {

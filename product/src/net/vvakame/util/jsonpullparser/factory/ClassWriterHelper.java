@@ -24,7 +24,10 @@ public class ClassWriterHelper {
 	Element holder;
 	Mode mode;
 
-	enum Mode {
+	int indentLevel = 0;
+	boolean lineFeed = true;
+
+	public enum Mode {
 		Real, Mock
 	}
 
@@ -70,86 +73,129 @@ public class ClassWriterHelper {
 		}
 	}
 
-	ClassWriterHelper wr(String str) {
-		pw.print(str);
+	public ClassWriterHelper wr() {
+		if (mode == Mode.Real && pw != null) {
+			if (lineFeed) {
+				writeIndent();
+				lineFeed = false;
+			}
+			pw.print("");
+		}
 		return this;
 	}
 
-	ClassWriterHelper wr(Element... elements) {
-		Elements utils = processingEnv.getElementUtils();
-		utils.printElements(pw, elements);
+	public ClassWriterHelper wr(String str) {
+		if (mode == Mode.Real && pw != null) {
+			if (lineFeed) {
+				writeIndent();
+				lineFeed = false;
+			}
+			pw.print(str);
+		}
 		return this;
 	}
 
-	ClassWriterHelper wr(Class<?> clazz) {
+	public ClassWriterHelper wr(Element... elements) {
+		if (mode == Mode.Real && pw != null) {
+			if (lineFeed) {
+				writeIndent();
+				lineFeed = false;
+			}
+			Elements utils = processingEnv.getElementUtils();
+			utils.printElements(pw, elements);
+		}
+		return this;
+	}
+
+	public ClassWriterHelper wr(Class<?> clazz) {
 		wr(clazz.getCanonicalName());
 		return this;
 	}
 
-	ClassWriterHelper wr(Object obj) {
+	public ClassWriterHelper wr(Object obj) {
 		wr(obj.toString());
 		return this;
 	}
 
-	ClassWriterHelper writePackage() {
-		pw.print("package ");
-		pw.print(getPackageName());
-		pw.println(";");
+	public ClassWriterHelper ln() {
+		wr("\n");
+		lineFeed = true;
 		return this;
 	}
 
-	@Deprecated
-	ClassWriterHelper writeImport(Class<?> clazz) {
-		pw.print("import ");
-		pw.print(clazz.getCanonicalName());
-		pw.println(";");
+	public ClassWriterHelper lni() {
+		incrementIndent();
+		ln();
 		return this;
 	}
 
-	ClassWriterHelper writeClassSignature() {
-		pw.print("public class ");
-		pw.print(getGenerateClassName());
-		pw.print("{");
+	public ClassWriterHelper lnd() {
+		decrementIndent();
+		ln();
 		return this;
 	}
 
-	ClassWriterHelper writeClassName() {
-		pw.print(getClassName());
+	public ClassWriterHelper writePackage() {
+		if (mode == Mode.Real && pw != null) {
+			pw.print("package ");
+			pw.print(getPackageName());
+			pw.println(";");
+			ln();
+		}
 		return this;
 	}
 
-	ClassWriterHelper writeListClassName() {
+	public ClassWriterHelper writeClassSignature() {
+		if (mode == Mode.Real && pw != null) {
+			pw.print("public class ");
+			pw.print(getGenerateClassName());
+			pw.print("{");
+			ln();
+		}
+		return this;
+	}
+
+	public ClassWriterHelper writeClassName() {
+		if (mode == Mode.Real && pw != null) {
+			pw.print(getClassName());
+		}
+		return this;
+	}
+
+	public ClassWriterHelper writeListClassName() {
 		this.wr(List.class).wr("<").writeClassName().wr(">");
 		return this;
 	}
 
-	ClassWriterHelper writeListInstance() {
-		this.wr(ArrayList.class).wr("<").writeClassName().wr(">");
+	public ClassWriterHelper writeListInstance() {
+		if (mode == Mode.Real && pw != null) {
+			this.wr(ArrayList.class).wr("<").writeClassName().wr(">");
+		}
 		return this;
 	}
 
-	String getGenerateCanonicalClassName() {
-		return getGenerateCanonicalClassName(classElement, classPostfix);
+	public String getGenerateCanonicalClassName() {
+		return classElement.asType().toString() + classPostfix;
 	}
 
-	String getGenerateCanonicalClassName(Element element) {
+	public String getGenerateCanonicalClassName(Element element) {
 		return element.asType().toString() + classPostfix;
 	}
 
-	String getGenerateCanonicalClassName(TypeMirror type) {
+	public String getGenerateCanonicalClassName(TypeMirror type) {
 		Element element = processingEnv.getTypeUtils().asElement(type);
 		return getGenerateCanonicalClassName(element);
 	}
 
-	String getGenerateClassName() {
+	public String getGenerateClassName() {
 		return classElement.getSimpleName().toString() + classPostfix;
 	}
 
-	String getClassName() {
+	public String getClassName() {
 		return classElement.getSimpleName().toString();
 	}
 
-	String getPackageName() {
+	public String getPackageName() {
 		if (classElement.getKind() != ElementKind.CLASS) {
 			throw new IllegalStateException();
 		}
@@ -158,17 +204,34 @@ public class ClassWriterHelper {
 		return str.substring(0, i);
 	}
 
-	void flush() {
+	public void flush() {
 		pw.flush();
 	}
 
-	void close() {
+	public void close() {
 		pw.close();
 	}
 
-	static String getGenerateCanonicalClassName(Element classElement,
-			String postfix) {
-		return classElement.asType().toString() + postfix;
+	public void incrementIndent() {
+		indentLevel++;
+	}
+
+	public void decrementIndent() {
+		if (0 < indentLevel) {
+			indentLevel--;
+		}
+	}
+
+	void writeIndent() {
+		if (mode == Mode.Real && pw != null) {
+			for (int i = 0; i < indentLevel; i++) {
+				pw.write("\t");
+			}
+		}
+	}
+
+	public void setIndentLevel(int indentLevel) {
+		this.indentLevel = indentLevel;
 	}
 
 	/**

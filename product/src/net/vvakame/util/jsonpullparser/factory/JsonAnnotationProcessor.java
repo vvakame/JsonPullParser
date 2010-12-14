@@ -79,38 +79,70 @@ public class JsonAnnotationProcessor extends AbstractProcessor {
 
 		// class宣言出力
 		w.writeClassSignature();
-
-		genMethodGet(w, classElement);
+		w.incrementIndent();
 
 		genMethodGetList(w, classElement);
 
+		genMethodGet(w, classElement);
+
+		w.decrementIndent();
 		w.wr("}");
 
 		w.flush();
+	}
+
+	private void genMethodGetList(ClassWriterHelper w, Element classElement) {
+		w.wr("public static ").writeListClassName();
+		w.wr(" getList(").wr(JsonPullParser.class).wr(" parser) throws ");
+		w.wr(IOException.class).wr(", ");
+		w.wr(JsonFormatException.class).wr("{").lni();
+
+		// 結果用変数生成
+		w.wr().writeListClassName().wr(" list = new ").writeListInstance();
+		w.wr("();").ln();
+		// 最初のbraceを食べる
+		w.wr(State.class).wr(" eventType = parser.getEventType();").ln();
+		w.wr("if (eventType != ").wr(State.class).wr(".").wr(State.START_ARRAY);
+		w.wr(") {").lni();
+		w.wr("throw new IllegalStateException(\"not started brace!\");").lnd();
+		w.wr("}").ln();
+		// ループ処理共通部分生成
+		w.wr("while (parser.lookAhead() != ");
+		w.wr(State.class).wr(".").wr(State.END_ARRAY);
+		w.wr("){").lni();
+		w.wr("list.add(get(parser));").lnd();
+		w.wr("}").ln();
+		w.wr("parser.getEventType();").ln();
+		// 返り値の処理
+		w.wr("return list;").lnd();
+		w.wr("}").ln();
 	}
 
 	private void genMethodGet(ClassWriterHelper w, Element classElement) {
 		w.wr("public static ").writeClassName();
 		w.wr(" get(").wr(JsonPullParser.class).wr(" parser) throws ");
 		w.wr(IOException.class).wr(", ");
-		w.wr(JsonFormatException.class).wr("{");
+		w.wr(JsonFormatException.class).wr("{").lni();
 
 		// 結果用変数生成
-		w.writeClassName().wr(" obj = new ").writeClassName().wr("();");
+		w.wr().writeClassName().wr(" obj = new ").writeClassName().wr("();");
+		w.ln();
 		// 最初のbraceを食べる
-		w.wr(State.class).wr(" eventType = parser.getEventType();");
+		w.wr(State.class).wr(" eventType = parser.getEventType();").ln();
 		w.wr("if (eventType != ").wr(State.class).wr(".").wr("START_HASH");
-		w.wr(") {");
+		w.wr(") {").lni();
 		w.wr("throw new IllegalStateException(\"not started hash brace!\");");
-		w.wr("}");
+		w.lnd();
+		w.wr("}").ln();
 		// ループ処理共通部分生成
 		w.wr("while ((eventType = parser.getEventType()) != ");
 		w.wr(State.class).wr(".").wr(State.END_HASH.toString());
-		w.wr("){");
-		w.wr("if (eventType != ").wr(State.class).wr(".KEY) {");
+		w.wr("){").lni();
+		w.wr("if (eventType != ").wr(State.class).wr(".KEY) {").lni();
 		w.wr("throw new IllegalStateException(\"expect KEY. we got unexpected value. \" + eventType);");
-		w.wr("}");
-		w.wr("String key = parser.getValueString();");
+		w.lnd();
+		w.wr("}").ln();
+		w.wr("String key = parser.getValueString();").ln();
 
 		// 値の独自処理
 		// JsonKeyの収集
@@ -126,34 +158,11 @@ public class JsonAnnotationProcessor extends AbstractProcessor {
 			}
 			genExtractValues(w, element);
 		}
-
-		w.wr("}");
+		w.lnd();
+		w.wr("}").ln();
 		// 返り値の処理
-		w.wr("return obj;}");
-	}
-
-	private void genMethodGetList(ClassWriterHelper w, Element classElement) {
-		w.wr("public static ").writeListClassName();
-		w.wr(" getList(").wr(JsonPullParser.class).wr(" parser) throws ");
-		w.wr(IOException.class).wr(", ");
-		w.wr(JsonFormatException.class).wr("{");
-
-		// 結果用変数生成
-		w.writeListClassName().wr(" list = new ").writeListInstance();
-		w.wr("();");
-		// 最初のbraceを食べる
-		w.wr(State.class).wr(" eventType = parser.getEventType();");
-		w.wr("if (eventType != ").wr(State.class).wr(".").wr(State.START_ARRAY);
-		w.wr(") {");
-		w.wr("throw new IllegalStateException(\"not started brace!\");");
-		w.wr("}");
-		// ループ処理共通部分生成
-		w.wr("while (parser.lookAhead() != ");
-		w.wr(State.class).wr(".").wr(State.END_ARRAY);
-		w.wr("){list.add(get(parser));}");
-		w.wr("parser.getEventType();");
-		// 返り値の処理
-		w.wr("return list;}");
+		w.wr("return obj;").lnd();
+		w.wr("}").ln();
 	}
 
 	private void genExtractValues(ClassWriterHelper w, Element element) {
@@ -374,11 +383,11 @@ public class JsonAnnotationProcessor extends AbstractProcessor {
 		void writeIfHeader(ClassWriterHelper w) {
 			Element element = w.getHolder();
 			w.wr("if(\"").wr(getElementKeyString(element))
-					.wr("\".equals(key)){");
+					.wr("\".equals(key)){").lni();
 		}
 
 		void writeIfFooter(ClassWriterHelper w) {
-			w.wr(");");
+			w.wr(");").lnd();
 			w.wr("}");
 		}
 	}

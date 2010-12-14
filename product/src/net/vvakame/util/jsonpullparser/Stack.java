@@ -12,8 +12,8 @@ import java.util.NoSuchElementException;
  * @author vvakame
  * 
  */
-public class Stack<T> {
-	List<T> stack = new ArrayList<T>();
+final public class Stack<T> {
+	final List<T> stack = new ArrayList<T>();
 
 	public void push(T arg) {
 		stack.add(arg);
@@ -27,11 +27,11 @@ public class Stack<T> {
 		return stack.remove(max);
 	}
 
-	public T getFirst() {
-		final int max = stack.size() - 1;
-		if (max < 0) {
+	public T peek() {
+		final int top = stack.size() - 1;
+		if (top < 0) {
 			throw new NoSuchElementException();
 		}
-		return stack.get(max);
+		return stack.get(top);
 	}
 }

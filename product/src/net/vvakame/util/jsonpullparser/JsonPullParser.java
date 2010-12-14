@@ -98,6 +98,8 @@ public class JsonPullParser {
 	 * @throws IOException
 	 */
 	public void setInput(InputStream is) throws IOException {
+		// TODO brを閉じる手段がない 入力の与え方について見当が必要
+		// TODO 文字コードの問題 http://twitter.com/#!/zaki50/statuses/14720480980246528
 		br = new BufferedReader(new InputStreamReader(is));
 		stack = new Stack<State>();
 		stack.push(State.ORIGIN);
@@ -330,7 +332,7 @@ public class JsonPullParser {
 			throw new JsonFormatException();
 		}
 
-		current = stack.getFirst();
+		current = stack.peek();
 		return current;
 	}
 
@@ -494,36 +496,14 @@ public class JsonPullParser {
 				case 'u':
 					c = 0;
 					int r;
-					r = getNextStringHelper(br.read());
-					if (r == -1) {
-						c = '\\';
-						br.reset();
-						break;
-					} else {
-						c += r * 4096;
-					}
-					r = getNextStringHelper(br.read());
-					if (r == -1) {
-						c = '\\';
-						br.reset();
-						break;
-					} else {
-						c += r * 256;
-					}
-					r = getNextStringHelper(br.read());
-					if (r == -1) {
-						c = '\\';
-						br.reset();
-						break;
-					} else {
-						c += r * 16;
-					}
-					r = getNextStringHelper(br.read());
-					if (r == -1) {
-						c = '\\';
-						br.reset();
-						break;
-					} else {
+					for (int i = 0; i < 4; i++) {
+						r = getNextStringHelper(br.read());
+						if (r == -1) {
+							c = '\\';
+							br.reset();
+							break;
+						}
+						c <<= 4;
 						c += r;
 					}
 					break;

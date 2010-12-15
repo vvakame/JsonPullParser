@@ -24,7 +24,7 @@ public class TwitterDataParseTest {
 		InputStream is;
 
 		is = getStream(twitterData);
-		parser.setInput(is);
+		parser.setSource(is);
 		List<Tweet> list = TweetGenerated.getList(parser);
 		assertThat(list.size(), is(not(0)));
 	}

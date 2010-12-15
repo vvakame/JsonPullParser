@@ -1,6 +1,7 @@
 package net.vvakame.util.jsonpullparser;
 
 import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -79,7 +80,7 @@ public class JsonPullParser {
 	}
 
 	BufferedReader br;
-	Stack<State> stack;
+	final Stack<State> stack = new Stack<State>();
 
 	// 値保持用
 	State current;
@@ -90,6 +91,10 @@ public class JsonPullParser {
 
 	State lookAhead = null;
 
+	public JsonPullParser() {
+		stack.push(State.ORIGIN);
+	}
+
 	/**
 	 * 入力ストリームを設定します.<br>
 	 * このメソッドはインスタンス生成後、一番最初に呼ぶべきです.
@@ -97,12 +102,44 @@ public class JsonPullParser {
 	 * @param is
 	 * @throws IOException
 	 */
-	public void setInput(InputStream is) throws IOException {
-		// TODO brを閉じる手段がない 入力の与え方について見当が必要
-		// TODO 文字コードの問題 http://twitter.com/#!/zaki50/statuses/14720480980246528
+	public void setSource(InputStream is) throws IOException {
 		br = new BufferedReader(new InputStreamReader(is));
-		stack = new Stack<State>();
-		stack.push(State.ORIGIN);
+	}
+
+	/**
+	 * 入力ストリームを設定します.<br>
+	 * このメソッドはインスタンス生成後、一番最初に呼ぶべきです.
+	 * 
+	 * @param is
+	 * @param charset
+	 * @throws IOException
+	 */
+	public void setSource(InputStream is, String charset) throws IOException {
+		br = new BufferedReader(new InputStreamReader(is, charset));
+	}
+
+	/**
+	 * 入力ストリームを設定します.<br>
+	 * このメソッドはインスタンス生成後、一番最初に呼ぶべきです.
+	 * 
+	 * @param json
+	 * @param charset
+	 * @throws IOException
+	 */
+	public void setSource(String json, String charset) throws IOException {
+		setSource(new ByteArrayInputStream(json.getBytes()), charset);
+	}
+
+	/**
+	 * 入力ストリームを設定します.<br>
+	 * このメソッドはインスタンス生成後、一番最初に呼ぶべきです.
+	 * 
+	 * @param json
+	 * @throws IOException
+	 */
+	public void setSource(String json) throws IOException {
+		ByteArrayInputStream stream = new ByteArrayInputStream(json.getBytes());
+		setSource(stream, "utf-8");
 	}
 
 	/**
@@ -124,7 +161,7 @@ public class JsonPullParser {
 
 	/**
 	 * 現在の状態を取得します.<br>
-	 * このメソッドを使う前に、{@link JsonPullParser#setInput(InputStream)}を呼ぶべきです.
+	 * このメソッドを使う前に、{@link JsonPullParser#setSource(InputStream)}を呼ぶべきです.
 	 * 
 	 * @return
 	 * @throws IOException

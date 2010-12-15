@@ -20,7 +20,7 @@ public class JsonPullParserTest {
 		State type;
 
 		is = getStream("{}");
-		parser.setInput(is);
+		parser.setSource(is);
 		type = parser.getEventType();
 		assertThat(type, is(State.START_HASH));
 		type = parser.getEventType();
@@ -34,7 +34,7 @@ public class JsonPullParserTest {
 		State type;
 
 		is = getStream("[]");
-		parser.setInput(is);
+		parser.setSource(is);
 		type = parser.getEventType();
 		assertThat(type, is(State.START_ARRAY));
 		type = parser.getEventType();
@@ -48,7 +48,7 @@ public class JsonPullParserTest {
 		State type;
 
 		is = getStream("[{}]");
-		parser.setInput(is);
+		parser.setSource(is);
 		type = parser.getEventType();
 		assertThat(type, is(State.START_ARRAY));
 		type = parser.getEventType();
@@ -67,7 +67,7 @@ public class JsonPullParserTest {
 		String str;
 
 		is = getStream("{\"key\":\"value\"}");
-		parser.setInput(is);
+		parser.setSource(is);
 		type = parser.getEventType();
 		assertThat(type, is(State.START_HASH));
 		type = parser.getEventType();
@@ -90,7 +90,7 @@ public class JsonPullParserTest {
 		String str;
 
 		is = getStream("{\"key\":\" \\\" \\t \\r \\n \\b \\f \\ \"}");
-		parser.setInput(is);
+		parser.setSource(is);
 		type = parser.getEventType();
 		assertThat(type, is(State.START_HASH));
 		type = parser.getEventType();
@@ -113,7 +113,7 @@ public class JsonPullParserTest {
 		String str;
 
 		is = getStream("[\"json \\u30e1\\u30e2\", \"\\u123x\", \"\\u30E1\\u30E2\"]");
-		parser.setInput(is);
+		parser.setSource(is);
 		type = parser.getEventType();
 		assertThat(type, is(State.START_ARRAY));
 		type = parser.getEventType();
@@ -142,7 +142,7 @@ public class JsonPullParserTest {
 		Boolean bool;
 
 		is = getStream("{\"key\":true}");
-		parser.setInput(is);
+		parser.setSource(is);
 		type = parser.getEventType();
 		assertThat(type, is(State.START_HASH));
 		type = parser.getEventType();
@@ -167,7 +167,7 @@ public class JsonPullParserTest {
 		Boolean bool;
 
 		is = getStream("{\"key\":false}");
-		parser.setInput(is);
+		parser.setSource(is);
 		type = parser.getEventType();
 		assertThat(type, is(State.START_HASH));
 		type = parser.getEventType();
@@ -190,7 +190,7 @@ public class JsonPullParserTest {
 		String str;
 
 		is = getStream("{\"key\":null}");
-		parser.setInput(is);
+		parser.setSource(is);
 		type = parser.getEventType();
 		assertThat(type, is(State.START_HASH));
 		type = parser.getEventType();
@@ -212,7 +212,7 @@ public class JsonPullParserTest {
 		long i;
 
 		is = getStream("{\"key\":-1}");
-		parser.setInput(is);
+		parser.setSource(is);
 		type = parser.getEventType();
 		assertThat(type, is(State.START_HASH));
 		type = parser.getEventType();
@@ -236,7 +236,7 @@ public class JsonPullParserTest {
 		double d;
 
 		is = getStream("{\"key\":-1e6}");
-		parser.setInput(is);
+		parser.setSource(is);
 		type = parser.getEventType();
 		assertThat(type, is(State.START_HASH));
 		type = parser.getEventType();
@@ -262,7 +262,7 @@ public class JsonPullParserTest {
 		boolean b;
 
 		is = getStream("{\"key1\":\"value1\", \"key2\":2, \"key3\":0.1 ,\"key4\":true ,\"key5\":false ,\"key6\":null}");
-		parser.setInput(is);
+		parser.setSource(is);
 
 		type = parser.getEventType();
 		assertThat(type, is(State.START_HASH));
@@ -340,7 +340,7 @@ public class JsonPullParserTest {
 		boolean b;
 
 		is = getStream("[\"value1\", 2, 0.1 ,true ,false ,null]");
-		parser.setInput(is);
+		parser.setSource(is);
 		type = parser.getEventType();
 		assertThat(type, is(State.START_ARRAY));
 		type = parser.getEventType();
@@ -376,7 +376,7 @@ public class JsonPullParserTest {
 		State type;
 
 		is = getStream("[\"value1\", 2, 0.1 ,true ,{\"test1\":1, \"test2\":null   \n  } ,null]");
-		parser.setInput(is);
+		parser.setSource(is);
 
 		type = parser.getEventType();
 		assertThat(type, is(State.START_ARRAY));
@@ -425,7 +425,7 @@ public class JsonPullParserTest {
 		State type;
 
 		is = getStream("{\"key\":\"value\", \"list\":[]}");
-		parser.setInput(is);
+		parser.setSource(is);
 
 		type = parser.getEventType();
 		assertThat(type, is(State.START_HASH));
@@ -456,7 +456,7 @@ public class JsonPullParserTest {
 		State type;
 
 		is = getStream("[\"value1\", 2, 0.1 ,true ,{\"test1\":1, \"test2\":null   \n  } ,null]");
-		parser.setInput(is);
+		parser.setSource(is);
 
 		type = parser.lookAhead();
 		assertThat(type, is(State.START_ARRAY));
@@ -483,7 +483,7 @@ public class JsonPullParserTest {
 		InputStream is;
 
 		is = getStream("[}");
-		parser.setInput(is);
+		parser.setSource(is);
 
 		parser.getEventType();
 		parser.getEventType();
@@ -495,7 +495,7 @@ public class JsonPullParserTest {
 		InputStream is;
 
 		is = getStream("[+0]");
-		parser.setInput(is);
+		parser.setSource(is);
 
 		parser.getEventType();
 		parser.getEventType();
@@ -507,7 +507,7 @@ public class JsonPullParserTest {
 		InputStream is;
 
 		is = getStream("[0-0]");
-		parser.setInput(is);
+		parser.setSource(is);
 
 		parser.getEventType();
 		parser.getEventType();
@@ -519,7 +519,7 @@ public class JsonPullParserTest {
 		InputStream is;
 
 		is = getStream("[0,,0]");
-		parser.setInput(is);
+		parser.setSource(is);
 
 		parser.getEventType();
 		parser.getEventType();

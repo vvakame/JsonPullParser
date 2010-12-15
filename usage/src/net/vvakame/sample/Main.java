@@ -11,7 +11,7 @@ public class Main {
 			JsonFormatException {
 		String json = "{\"name\":\"vvakame\",\"package_name\":\"net.vvakame\",\"version_code\":7,\"weight\":66.66,\"has_data\":true}";
 		JsonPullParser parser = new JsonPullParser();
-		parser.setInput(new ByteArrayInputStream(json.getBytes()));
+		parser.setSource(new ByteArrayInputStream(json.getBytes()));
 
 		TestData data = TestDataGenerated.get(parser);
 		data.toString();

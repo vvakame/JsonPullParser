@@ -23,6 +23,7 @@ public class ClassWriterHelper {
 	Element classElement;
 	Element holder;
 	Mode mode;
+	boolean encountError = false;
 
 	int indentLevel = 0;
 	boolean lineFeed = true;
@@ -260,5 +261,20 @@ public class ClassWriterHelper {
 	 */
 	public String getClassPostfix() {
 		return classPostfix;
+	}
+
+	/**
+	 * @return the encountError
+	 */
+	public boolean isEncountError() {
+		return encountError;
+	}
+
+	/**
+	 * @param encountError
+	 *            the encountError to set
+	 */
+	public void setEncountError(boolean encountError) {
+		this.encountError = encountError;
 	}
 }

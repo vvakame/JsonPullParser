@@ -64,6 +64,10 @@ public class JsonAnnotationProcessor extends AbstractProcessor {
 						Mode.Mock);
 				genSupportClass(w, element);
 				w.close();
+				// 構文上のエラーに遭遇していたら処理を中断する
+				if (w.isEncountError()) {
+					continue;
+				}
 
 				w = new ClassWriterHelper(processingEnv, element, classPostfix,
 						Mode.Real);
@@ -231,6 +235,11 @@ public class JsonAnnotationProcessor extends AbstractProcessor {
 		public Void visitPrimitiveAsBoolean(PrimitiveType t, ClassWriterHelper p) {
 			Element element = p.getHolder();
 			Element accessor = getElementAccessor(element);
+			if (accessor == null) {
+				Log.e("can't find accessor method", p.getHolder());
+				p.setEncountError(true);
+				return defaultAction(t, p);
+			}
 			writeIfHeader(p);
 			p.wr("eventType = parser.getEventType();");
 			p.wr("obj.").wr(accessor.getSimpleName().toString()).wr("(");
@@ -243,6 +252,11 @@ public class JsonAnnotationProcessor extends AbstractProcessor {
 		public Void visitPrimitiveAsByte(PrimitiveType t, ClassWriterHelper p) {
 			Element element = p.getHolder();
 			Element accessor = getElementAccessor(element);
+			if (accessor == null) {
+				Log.e("can't find accessor method", p.getHolder());
+				p.setEncountError(true);
+				return defaultAction(t, p);
+			}
 			writeIfHeader(p);
 			p.wr("eventType = parser.getEventType();");
 			p.wr("obj.").wr(accessor.getSimpleName().toString()).wr("(");
@@ -255,6 +269,11 @@ public class JsonAnnotationProcessor extends AbstractProcessor {
 		public Void visitPrimitiveAsChar(PrimitiveType t, ClassWriterHelper p) {
 			Element element = p.getHolder();
 			Element accessor = getElementAccessor(element);
+			if (accessor == null) {
+				Log.e("can't find accessor method", p.getHolder());
+				p.setEncountError(true);
+				return defaultAction(t, p);
+			}
 			writeIfHeader(p);
 			p.wr("eventType = parser.getEventType();");
 			p.wr("obj.").wr(accessor.getSimpleName().toString()).wr("(");
@@ -267,6 +286,11 @@ public class JsonAnnotationProcessor extends AbstractProcessor {
 		public Void visitPrimitiveAsDouble(PrimitiveType t, ClassWriterHelper p) {
 			Element element = p.getHolder();
 			Element accessor = getElementAccessor(element);
+			if (accessor == null) {
+				Log.e("can't find accessor method", p.getHolder());
+				p.setEncountError(true);
+				return defaultAction(t, p);
+			}
 			writeIfHeader(p);
 			p.wr("eventType = parser.getEventType();");
 			p.wr("obj.").wr(accessor.getSimpleName().toString()).wr("(");
@@ -279,6 +303,11 @@ public class JsonAnnotationProcessor extends AbstractProcessor {
 		public Void visitPrimitiveAsFloat(PrimitiveType t, ClassWriterHelper p) {
 			Element element = p.getHolder();
 			Element accessor = getElementAccessor(element);
+			if (accessor == null) {
+				Log.e("can't find accessor method", p.getHolder());
+				p.setEncountError(true);
+				return defaultAction(t, p);
+			}
 			writeIfHeader(p);
 			p.wr("eventType = parser.getEventType();");
 			p.wr("obj.").wr(accessor.getSimpleName().toString()).wr("(");
@@ -291,6 +320,11 @@ public class JsonAnnotationProcessor extends AbstractProcessor {
 		public Void visitPrimitiveAsInt(PrimitiveType t, ClassWriterHelper p) {
 			Element element = p.getHolder();
 			Element accessor = getElementAccessor(element);
+			if (accessor == null) {
+				Log.e("can't find accessor method", p.getHolder());
+				p.setEncountError(true);
+				return defaultAction(t, p);
+			}
 			writeIfHeader(p);
 			p.wr("eventType = parser.getEventType();");
 			p.wr("obj.").wr(accessor.getSimpleName().toString()).wr("(");
@@ -303,6 +337,11 @@ public class JsonAnnotationProcessor extends AbstractProcessor {
 		public Void visitPrimitiveAsLong(PrimitiveType t, ClassWriterHelper p) {
 			Element element = p.getHolder();
 			Element accessor = getElementAccessor(element);
+			if (accessor == null) {
+				Log.e("can't find accessor method", p.getHolder());
+				p.setEncountError(true);
+				return defaultAction(t, p);
+			}
 			writeIfHeader(p);
 			p.wr("eventType = parser.getEventType();");
 			p.wr("obj.").wr(accessor.getSimpleName().toString()).wr("(");
@@ -315,6 +354,11 @@ public class JsonAnnotationProcessor extends AbstractProcessor {
 		public Void visitPrimitiveAsShort(PrimitiveType t, ClassWriterHelper p) {
 			Element element = p.getHolder();
 			Element accessor = getElementAccessor(element);
+			if (accessor == null) {
+				Log.e("can't find accessor method", p.getHolder());
+				p.setEncountError(true);
+				return defaultAction(t, p);
+			}
 			writeIfHeader(p);
 			p.wr("eventType = parser.getEventType();");
 			p.wr("obj.").wr(accessor.getSimpleName().toString()).wr("(");
@@ -327,7 +371,11 @@ public class JsonAnnotationProcessor extends AbstractProcessor {
 		public Void visitString(DeclaredType t, ClassWriterHelper p) {
 			Element element = p.getHolder();
 			Element accessor = getElementAccessor(element);
-			// TODO accessorがnullだった場合の処理を入れる
+			if (accessor == null) {
+				Log.e("can't find accessor method", p.getHolder());
+				p.setEncountError(true);
+				return defaultAction(t, p);
+			}
 			writeIfHeader(p);
 			p.wr("eventType = parser.getEventType();");
 			p.wr("obj.").wr(accessor.getSimpleName().toString()).wr("(");
@@ -341,6 +389,7 @@ public class JsonAnnotationProcessor extends AbstractProcessor {
 			List<? extends TypeMirror> generics = t.getTypeArguments();
 			if (generics.size() != 1) {
 				Log.e("expected single type generics.", p.getHolder());
+				p.setEncountError(true);
 				return defaultAction(t, p);
 			}
 			TypeMirror tm = generics.get(0);
@@ -361,12 +410,18 @@ public class JsonAnnotationProcessor extends AbstractProcessor {
 			if (hash == null) {
 				Log.e("expect for use decorated class by JsonHash annotation.",
 						p.getHolder());
+				p.setEncountError(true);
 				return defaultAction(t, p);
 			}
 
 			writeIfHeader(p);
 			Element element = p.getHolder();
 			Element accessor = getElementAccessor(element);
+			if (accessor == null) {
+				Log.e("can't find accessor method", p.getHolder());
+				p.setEncountError(true);
+				return defaultAction(t, p);
+			}
 			p.wr("obj.").wr(accessor.getSimpleName().toString()).wr("(");
 			String generatedClassName = p.getGenerateCanonicalClassName(tm);
 			p.wr(generatedClassName).wr(".getList(parser)");
@@ -380,6 +435,11 @@ public class JsonAnnotationProcessor extends AbstractProcessor {
 			writeIfHeader(p);
 			Element element = p.getHolder();
 			Element accessor = getElementAccessor(element);
+			if (accessor == null) {
+				Log.e("can't find accessor method", p.getHolder());
+				p.setEncountError(true);
+				return defaultAction(t, p);
+			}
 			p.wr("obj.").wr(accessor.getSimpleName().toString()).wr("(");
 			String generatedClassName = p.getGenerateCanonicalClassName(t);
 			p.wr(generatedClassName).wr(".get(parser)");

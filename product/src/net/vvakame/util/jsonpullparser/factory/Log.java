@@ -37,4 +37,20 @@ public class Log {
 	public static void e(Throwable e) {
 		messager.printMessage(Diagnostic.Kind.ERROR, e.getMessage());
 	}
+
+	static String getStackInfo() {
+		StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
+		for (StackTraceElement stack : stackTrace) {
+			if (Thread.class.getCanonicalName().equals(stack.getClassName())) {
+				continue;
+			} else if (Log.class.getCanonicalName()
+					.equals(stack.getClassName())) {
+				continue;
+			} else {
+				return stack.getClassName() + "#" + stack.getMethodName()
+						+ "@L" + stack.getLineNumber();
+			}
+		}
+		return "unknown";
+	}
 }

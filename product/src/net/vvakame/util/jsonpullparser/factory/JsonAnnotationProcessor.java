@@ -9,6 +9,7 @@ import java.util.Map;
 import java.util.Set;
 
 import javax.annotation.processing.AbstractProcessor;
+import javax.annotation.processing.ProcessingEnvironment;
 import javax.annotation.processing.RoundEnvironment;
 import javax.annotation.processing.SupportedAnnotationTypes;
 import javax.annotation.processing.SupportedSourceVersion;
@@ -40,10 +41,15 @@ public class JsonAnnotationProcessor extends AbstractProcessor {
 	RoundEnvironment roundEnv;
 
 	@Override
+	public synchronized void init(ProcessingEnvironment processingEnv) {
+		super.init(processingEnv);
+		Log.init(processingEnv.getMessager());
+	}
+
+	@Override
 	public boolean process(Set<? extends TypeElement> annotations,
 			RoundEnvironment roundEnv) {
 
-		Log.init(processingEnv.getMessager());
 		this.annotations = annotations;
 		this.roundEnv = roundEnv;
 

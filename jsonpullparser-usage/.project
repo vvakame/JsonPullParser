@@ -1,0 +1,24 @@
+<projectDescription>
+  <name>jsonpullparser-usage</name>
+  <comment>NO_M2ECLIPSE_SUPPORT: Project files created with the maven-eclipse-plugin are not supported in M2Eclipse.</comment>
+  <projects/>
+  <buildSpec>
+    <buildCommand>
+      <name>org.eclipse.jdt.core.javabuilder</name>
+    </buildCommand>
+    <buildCommand>
+      <name>com.google.gdt.eclipse.core.webAppProjectValidator</name>
+    </buildCommand>
+    <buildCommand>
+      <name>com.google.appengine.eclipse.core.enhancerbuilder</name>
+    </buildCommand>
+    <buildCommand>
+      <name>com.google.appengine.eclipse.core.projectValidator</name>
+    </buildCommand>
+  </buildSpec>
+  <natures>
+    <nature>org.eclipse.jdt.core.javanature</nature>
+    <nature>com.google.appengine.eclipse.core.gaeNature</nature>
+    <nature>com.google.gdt.eclipse.core.webAppNature</nature>
+  </natures>
+</projectDescription>

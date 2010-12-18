@@ -1,0 +1,27 @@
+[INFO] Scanning for projects...
+[INFO] ------------------------------------------------------------------------
+[INFO] Building Unnamed - net.vvakame:jsonpullparser-apt:jar:0.1
+[INFO]    task-segment: [clean, test, jar:jar]
+[INFO] ------------------------------------------------------------------------
+[INFO] [clean:clean {execution: default-clean}]
+[INFO] Deleting directory /Users/vvakame/Dropbox/work/JSONPullPurser/jsonpullparser-apt/target
+[INFO] [resources:resources {execution: default-resources}]
+[WARNING] Using platform encoding (SJIS actually) to copy filtered resources, i.e. build is platform dependent!
+[INFO] Copying 1 resource
+[INFO] [compiler:compile {execution: default-compile}]
+[INFO] Compiling 6 source files to /Users/vvakame/Dropbox/work/JSONPullPurser/jsonpullparser-apt/target/classes
+[INFO] ------------------------------------------------------------------------
+[ERROR] BUILD FAILURE
+[INFO] ------------------------------------------------------------------------
+[INFO] Compilation failure
+Failure executing javac, but could not parse the error:
+エラー:サービス構成ファイルが不正であるか、プロセッサオブジェクトの構築中に例外がスローされました: javax.annotation.processing.Processor: Provider JsonAnnotationProcessor not found
+
+
+[INFO] ------------------------------------------------------------------------
+[INFO] For more information, run Maven with the -e switch
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time: 3 seconds
+[INFO] Finished at: Sat Dec 18 23:50:27 JST 2010
+[INFO] Final Memory: 25M/81M
+[INFO] ------------------------------------------------------------------------

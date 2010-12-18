@@ -1,0 +1,46 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<artifactId>jsonpullparser-apt</artifactId>
+	<packaging>jar</packaging>
+
+	<parent>
+		<groupId>net.vvakame</groupId>
+		<artifactId>jsonpullparser</artifactId>
+		<version>0.1</version>
+	</parent>
+
+	<build>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<artifactId>maven-compiler-plugin</artifactId>
+					<configuration>
+						<compilerArgument>-proc:none</compilerArgument>
+					</configuration>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+	</build>
+
+	<dependencies>
+		<dependency>
+			<groupId>net.vvakame</groupId>
+			<artifactId>jsonpullparser-core</artifactId>
+			<version>${version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.seasar.aptina</groupId>
+			<artifactId>aptina-commons</artifactId>
+			<version>1.0.0</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.seasar.aptina</groupId>
+			<artifactId>aptina-unit</artifactId>
+			<version>1.0.0</version>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+</project>

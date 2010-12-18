@@ -43,7 +43,7 @@ public class BenchmarkTest {
 		InputStream is;
 
 		is = getStream(tweet);
-		parser.setInput(is);
+		parser.setSource(is);
 		List<Tweet> list = TweetGen.getList(parser);
 		assertThat(list.size(), is(not(0)));
 	}

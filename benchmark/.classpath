@@ -10,6 +10,6 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="lib" path="libs/test.jar"/>
-	<classpathentry kind="lib" path="libs/jsonic-1.2.4.jar"/>
+	<classpathentry kind="lib" path="libs/jsonic-1.2.5.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

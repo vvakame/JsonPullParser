@@ -28,6 +28,7 @@ import net.vvakame.util.jsonpullparser.JsonPullParser;
 import net.vvakame.util.jsonpullparser.JsonPullParser.State;
 import net.vvakame.util.jsonpullparser.annotation.JsonHash;
 import net.vvakame.util.jsonpullparser.annotation.JsonKey;
+import net.vvakame.util.jsonpullparser.annotation.OnJsonObjectAddListener;
 import net.vvakame.util.jsonpullparser.factory.ClassWriterHelper.Mode;
 
 @SupportedSourceVersion(SourceVersion.RELEASE_6)
@@ -101,6 +102,8 @@ public class JsonAnnotationProcessor extends AbstractProcessor {
 
 		genMethodGetList(w, classElement);
 
+		w.ln();
+
 		genMethodGet(w, classElement);
 
 		w.decrementIndent();
@@ -110,8 +113,19 @@ public class JsonAnnotationProcessor extends AbstractProcessor {
 	}
 
 	private void genMethodGetList(ClassWriterHelper w, Element classElement) {
+
+		// 引数1つ版
 		w.wr("public static ").writeListClassName();
 		w.wr(" getList(").wr(JsonPullParser.class).wr(" parser) throws ");
+		w.wr(IOException.class).wr(", ");
+		w.wr(JsonFormatException.class).wr("{").lni();
+		w.wr("return getList(parser, null);").lnd();
+		w.wr("}").ln().ln();
+
+		// 引数2つ版
+		w.wr("public static ").writeListClassName();
+		w.wr(" getList(").wr(JsonPullParser.class).wr(" parser, ");
+		w.wr(OnJsonObjectAddListener.class).wr(" listener) throws ");
 		w.wr(IOException.class).wr(", ");
 		w.wr(JsonFormatException.class).wr("{").lni();
 
@@ -128,7 +142,11 @@ public class JsonAnnotationProcessor extends AbstractProcessor {
 		w.wr("while (parser.lookAhead() != ");
 		w.wr(State.class).wr(".").wr(State.END_ARRAY);
 		w.wr("){").lni();
-		w.wr("list.add(get(parser));").lnd();
+		w.wr(classElement).wr(" tmp = get(parser, listener);").ln();
+		w.wr("list.add(tmp);").ln();
+		w.wr("if(listener != null){").lni();
+		w.wr("listener.onAdd(tmp);").lnd();
+		w.wr("}").lnd();
 		w.wr("}").ln();
 		w.wr("parser.getEventType();").ln();
 		// 返り値の処理
@@ -137,8 +155,19 @@ public class JsonAnnotationProcessor extends AbstractProcessor {
 	}
 
 	private void genMethodGet(ClassWriterHelper w, Element classElement) {
+
+		// 引数1つ版
 		w.wr("public static ").writeClassName();
 		w.wr(" get(").wr(JsonPullParser.class).wr(" parser) throws ");
+		w.wr(IOException.class).wr(", ");
+		w.wr(JsonFormatException.class).wr("{").lni();
+		w.wr("return get(parser, null);").lnd();
+		w.wr("}").ln().ln();
+
+		// 引数2つ版
+		w.wr("public static ").writeClassName();
+		w.wr(" get(").wr(JsonPullParser.class).wr(" parser, ");
+		w.wr(OnJsonObjectAddListener.class).wr(" listener) throws ");
 		w.wr(IOException.class).wr(", ");
 		w.wr(JsonFormatException.class).wr("{").lni();
 
@@ -251,7 +280,7 @@ public class JsonAnnotationProcessor extends AbstractProcessor {
 			writeIfHeader(p);
 			p.wr("eventType = parser.getEventType();");
 			p.wr("obj.").wr(accessor.getSimpleName().toString()).wr("(");
-			p.wr("parser.getValueBoolean()");
+			p.wr("parser.getValueBoolean()").wr(");").lnd();
 			writeIfFooter(p);
 			return super.visitPrimitiveAsBoolean(t, p);
 		}
@@ -269,7 +298,7 @@ public class JsonAnnotationProcessor extends AbstractProcessor {
 			writeIfHeader(p);
 			p.wr("eventType = parser.getEventType();");
 			p.wr("obj.").wr(accessor.getSimpleName().toString()).wr("(");
-			p.wr("(byte)parser.getValueLong()");
+			p.wr("(byte)parser.getValueLong()").wr(");").lnd();
 			writeIfFooter(p);
 			return super.visitPrimitiveAsByte(t, p);
 		}
@@ -287,7 +316,7 @@ public class JsonAnnotationProcessor extends AbstractProcessor {
 			writeIfHeader(p);
 			p.wr("eventType = parser.getEventType();");
 			p.wr("obj.").wr(accessor.getSimpleName().toString()).wr("(");
-			p.wr("parser.getValueString().charAt(0)");
+			p.wr("parser.getValueString().charAt(0)").wr(");").lnd();
 			writeIfFooter(p);
 			return super.visitPrimitiveAsChar(t, p);
 		}
@@ -305,7 +334,7 @@ public class JsonAnnotationProcessor extends AbstractProcessor {
 			writeIfHeader(p);
 			p.wr("eventType = parser.getEventType();");
 			p.wr("obj.").wr(accessor.getSimpleName().toString()).wr("(");
-			p.wr("parser.getValueDouble()");
+			p.wr("parser.getValueDouble()").wr(");").lnd();
 			writeIfFooter(p);
 			return super.visitPrimitiveAsDouble(t, p);
 		}
@@ -323,7 +352,7 @@ public class JsonAnnotationProcessor extends AbstractProcessor {
 			writeIfHeader(p);
 			p.wr("eventType = parser.getEventType();");
 			p.wr("obj.").wr(accessor.getSimpleName().toString()).wr("(");
-			p.wr("(float)parser.getValueDouble()");
+			p.wr("(float)parser.getValueDouble()").wr(");").lnd();
 			writeIfFooter(p);
 			return super.visitPrimitiveAsFloat(t, p);
 		}
@@ -341,7 +370,7 @@ public class JsonAnnotationProcessor extends AbstractProcessor {
 			writeIfHeader(p);
 			p.wr("eventType = parser.getEventType();");
 			p.wr("obj.").wr(accessor.getSimpleName().toString()).wr("(");
-			p.wr("(int)parser.getValueLong()");
+			p.wr("(int)parser.getValueLong()").wr(");").lnd();
 			writeIfFooter(p);
 			return super.visitPrimitiveAsInt(t, p);
 		}
@@ -359,7 +388,7 @@ public class JsonAnnotationProcessor extends AbstractProcessor {
 			writeIfHeader(p);
 			p.wr("eventType = parser.getEventType();");
 			p.wr("obj.").wr(accessor.getSimpleName().toString()).wr("(");
-			p.wr("parser.getValueLong()");
+			p.wr("parser.getValueLong()").wr(");").lnd();
 			writeIfFooter(p);
 			return super.visitPrimitiveAsLong(t, p);
 		}
@@ -377,7 +406,7 @@ public class JsonAnnotationProcessor extends AbstractProcessor {
 			writeIfHeader(p);
 			p.wr("eventType = parser.getEventType();");
 			p.wr("obj.").wr(accessor.getSimpleName().toString()).wr("(");
-			p.wr("(short)parser.getValueLong()");
+			p.wr("(short)parser.getValueLong()").wr(");").lnd();
 			writeIfFooter(p);
 			return super.visitPrimitiveAsShort(t, p);
 		}
@@ -393,9 +422,9 @@ public class JsonAnnotationProcessor extends AbstractProcessor {
 				return defaultAction(t, p);
 			}
 			writeIfHeader(p);
-			p.wr("eventType = parser.getEventType();");
+			p.wr("eventType = parser.getEventType();").ln();
 			p.wr("obj.").wr(accessor.getSimpleName().toString()).wr("(");
-			p.wr("parser.getValueString()");
+			p.wr("parser.getValueString()").wr(");").lnd();
 			writeIfFooter(p);
 			return super.visitString(t, p);
 		}
@@ -441,7 +470,7 @@ public class JsonAnnotationProcessor extends AbstractProcessor {
 			}
 			p.wr("obj.").wr(accessor.getSimpleName().toString()).wr("(");
 			String generatedClassName = p.getGenerateCanonicalClassName(tm);
-			p.wr(generatedClassName).wr(".getList(parser)");
+			p.wr(generatedClassName).wr(".getList(parser)").wr(");").lnd();
 			writeIfFooter(p);
 
 			return super.visitList(t, p);
@@ -458,9 +487,14 @@ public class JsonAnnotationProcessor extends AbstractProcessor {
 				p.setEncountError(true);
 				return defaultAction(t, p);
 			}
-			p.wr("obj.").wr(accessor.getSimpleName().toString()).wr("(");
 			String generatedClassName = p.getGenerateCanonicalClassName(t);
-			p.wr(generatedClassName).wr(".get(parser)");
+			p.wr(element.asType()).wr(" tmp = ");
+			p.wr(generatedClassName).wr(".get(parser);").ln();
+			p.wr("obj.").wr(accessor.getSimpleName().toString());
+			p.wr("(tmp);").ln();
+			p.wr("if(listener != null){").lni();
+			p.wr("listener.onAdd(tmp);").lnd();
+			p.wr("}").lnd();
 			writeIfFooter(p);
 			return super.visitUndefinedClass(t, p);
 		}
@@ -472,7 +506,6 @@ public class JsonAnnotationProcessor extends AbstractProcessor {
 		}
 
 		void writeIfFooter(ClassWriterHelper w) {
-			w.wr(");").lnd();
 			w.wr("}");
 		}
 	}

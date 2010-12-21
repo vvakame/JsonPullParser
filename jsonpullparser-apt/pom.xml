@@ -35,7 +35,7 @@
 						<configuration>
 							<filters>
 								<filter>
-									<artifact>jsonpullparser-core:jsonpullparser-core</artifact>
+									<artifact>net.vvakame:jsonpullparser-core</artifact>
 								</filter>
 							</filters>
 						</configuration>

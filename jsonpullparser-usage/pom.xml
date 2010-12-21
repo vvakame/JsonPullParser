@@ -66,6 +66,13 @@
 					<configuration>
 						<factory>net.vvakame.jsonpullparser.factiory.JsonAnnotationProcessor</factory>
 					</configuration>
+					<dependencies>
+						<dependency>
+							<groupId>net.vvakame</groupId>
+							<artifactId>jsonpullparser-apt</artifactId>
+							<version>0.1</version>
+						</dependency>
+					</dependencies>
 				</plugin>
 			</plugins>
 		</pluginManagement>
@@ -95,6 +102,14 @@
 					<outputDirectory>${generated.src}</outputDirectory>
 					<factory>net.vvakame.jsonpullparser.factiory.JsonAnnotationProcessor</factory>
 				</configuration>
+				<executions>
+					<execution>
+						<phase>process-sources</phase>
+						<goals>
+							<goal>process</goal>
+						</goals>
+					</execution>
+				</executions>
 			</plugin>
 			<plugin>
 				<artifactId>maven-dependency-plugin</artifactId>

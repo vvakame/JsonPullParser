@@ -55,7 +55,8 @@ public class JsonAnnotationProcessor extends AbstractProcessor {
 
 		// 生成するクラスのpostfixが指定されてたらそっちにする
 		Map<String, String> options = processingEnv.getOptions();
-		if (options.containsKey(CLASS_POSTFIX_OPTION)) {
+		if (options.containsKey(CLASS_POSTFIX_OPTION)
+				&& !"".equals(options.get(CLASS_POSTFIX_OPTION))) {
 			classPostfix = options.get(CLASS_POSTFIX_OPTION);
 		} else {
 			classPostfix = "Gen";
@@ -239,6 +240,7 @@ public class JsonAnnotationProcessor extends AbstractProcessor {
 
 		@Override
 		public Void visitPrimitiveAsBoolean(PrimitiveType t, ClassWriterHelper p) {
+
 			Element element = p.getHolder();
 			Element accessor = getElementAccessor(element);
 			if (accessor == null) {
@@ -256,6 +258,7 @@ public class JsonAnnotationProcessor extends AbstractProcessor {
 
 		@Override
 		public Void visitPrimitiveAsByte(PrimitiveType t, ClassWriterHelper p) {
+
 			Element element = p.getHolder();
 			Element accessor = getElementAccessor(element);
 			if (accessor == null) {
@@ -273,6 +276,7 @@ public class JsonAnnotationProcessor extends AbstractProcessor {
 
 		@Override
 		public Void visitPrimitiveAsChar(PrimitiveType t, ClassWriterHelper p) {
+
 			Element element = p.getHolder();
 			Element accessor = getElementAccessor(element);
 			if (accessor == null) {
@@ -290,6 +294,7 @@ public class JsonAnnotationProcessor extends AbstractProcessor {
 
 		@Override
 		public Void visitPrimitiveAsDouble(PrimitiveType t, ClassWriterHelper p) {
+
 			Element element = p.getHolder();
 			Element accessor = getElementAccessor(element);
 			if (accessor == null) {
@@ -307,6 +312,7 @@ public class JsonAnnotationProcessor extends AbstractProcessor {
 
 		@Override
 		public Void visitPrimitiveAsFloat(PrimitiveType t, ClassWriterHelper p) {
+
 			Element element = p.getHolder();
 			Element accessor = getElementAccessor(element);
 			if (accessor == null) {
@@ -324,6 +330,7 @@ public class JsonAnnotationProcessor extends AbstractProcessor {
 
 		@Override
 		public Void visitPrimitiveAsInt(PrimitiveType t, ClassWriterHelper p) {
+
 			Element element = p.getHolder();
 			Element accessor = getElementAccessor(element);
 			if (accessor == null) {
@@ -341,6 +348,7 @@ public class JsonAnnotationProcessor extends AbstractProcessor {
 
 		@Override
 		public Void visitPrimitiveAsLong(PrimitiveType t, ClassWriterHelper p) {
+
 			Element element = p.getHolder();
 			Element accessor = getElementAccessor(element);
 			if (accessor == null) {
@@ -358,6 +366,7 @@ public class JsonAnnotationProcessor extends AbstractProcessor {
 
 		@Override
 		public Void visitPrimitiveAsShort(PrimitiveType t, ClassWriterHelper p) {
+
 			Element element = p.getHolder();
 			Element accessor = getElementAccessor(element);
 			if (accessor == null) {
@@ -375,6 +384,7 @@ public class JsonAnnotationProcessor extends AbstractProcessor {
 
 		@Override
 		public Void visitString(DeclaredType t, ClassWriterHelper p) {
+
 			Element element = p.getHolder();
 			Element accessor = getElementAccessor(element);
 			if (accessor == null) {
@@ -392,6 +402,7 @@ public class JsonAnnotationProcessor extends AbstractProcessor {
 
 		@Override
 		public Void visitList(DeclaredType t, ClassWriterHelper p) {
+
 			List<? extends TypeMirror> generics = t.getTypeArguments();
 			if (generics.size() != 1) {
 				Log.e("expected single type generics.", p.getHolder());
@@ -438,6 +449,7 @@ public class JsonAnnotationProcessor extends AbstractProcessor {
 
 		@Override
 		public Void visitUndefinedClass(DeclaredType t, ClassWriterHelper p) {
+
 			writeIfHeader(p);
 			Element element = p.getHolder();
 			Element accessor = getElementAccessor(element);

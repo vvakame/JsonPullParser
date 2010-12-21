@@ -10,6 +10,7 @@ import java.io.InputStream;
 import java.util.List;
 
 import net.arnx.jsonic.JSON;
+import net.sf.json.JSONArray;
 import net.vvakame.util.jsonpullparser.JsonFormatException;
 import net.vvakame.util.jsonpullparser.JsonPullParser;
 
@@ -55,6 +56,12 @@ public class BenchmarkTest {
 		is = getStream(tweet);
 		Tweet[] array = JSON.decode(is, Tweet[].class);
 		assertThat(array.length, is(not(0)));
+	}
+
+	@Test
+	public void byJsonLib() throws IOException, JsonFormatException {
+		JSONArray jsonArray = JSONArray.fromObject(tweet);
+		assertThat(jsonArray.size(), is(not(0)));
 	}
 
 	public InputStream getStream(String str) {

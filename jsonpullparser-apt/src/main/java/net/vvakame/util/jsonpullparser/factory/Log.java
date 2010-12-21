@@ -11,6 +11,10 @@ public class Log {
 		messager = msgr;
 	}
 
+	public static void d() {
+		d(getStackInfo());
+	}
+
 	public static void d(String msg) {
 		if (messager == null) {
 			return;
@@ -35,7 +39,8 @@ public class Log {
 	}
 
 	public static void e(Throwable e) {
-		messager.printMessage(Diagnostic.Kind.ERROR, e.getMessage());
+		messager.printMessage(Diagnostic.Kind.ERROR,
+				"exception thrown! " + e.getMessage());
 	}
 
 	static String getStackInfo() {

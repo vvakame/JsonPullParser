@@ -7,8 +7,6 @@ import javax.lang.model.util.TypeKindVisitor6;
 
 public class StandardTypeKindVisitor<R, P> extends TypeKindVisitor6<R, P> {
 
-	ClassLoader loader = getClass().getClassLoader();
-
 	public R visitString(DeclaredType t, P p) {
 		return defaultAction(t, p);
 	}
@@ -26,17 +24,10 @@ public class StandardTypeKindVisitor<R, P> extends TypeKindVisitor6<R, P> {
 	 */
 	@Override
 	public R visitDeclared(DeclaredType t, P p) {
-		Class<?> clazz;
-		try {
-			clazz = loader.loadClass(t.asElement().toString());
-		} catch (ClassNotFoundException e) {
-			Log.e(e);
-			return null;
-		}
-
-		if (String.class == clazz) {
+		if (String.class.getCanonicalName().equals(t.asElement().toString())) {
 			return visitString(t, p);
-		} else if (List.class == clazz) {
+		} else if (List.class.getCanonicalName().equals(
+				t.asElement().toString())) {
 			return visitList(t, p);
 		} else {
 			return visitUndefinedClass(t, p);

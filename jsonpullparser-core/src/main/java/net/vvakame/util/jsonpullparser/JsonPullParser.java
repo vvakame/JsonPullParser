@@ -85,9 +85,16 @@ public class JsonPullParser {
 	
 	/**
 	 * バイトストリームに対してエンコーディング指定がされてなかった場合の
+	 * デフォルトエンコーディング名です。
+	 */
+	public static final String DEFAULT_CHARSET_NAME = "UTF-8";
+	
+	/**
+	 * バイトストリームに対してエンコーディング指定がされてなかった場合の
 	 * デフォルトエンコーディングです。
 	 */
-	public static final Charset DEFAULT_CHARSET = Charset.forName("UTF-8");
+	public static final Charset DEFAULT_CHARSET = Charset
+			.forName(DEFAULT_CHARSET_NAME);
 
 	BufferedReader br;
 	final Stack<State> stack = new Stack<State>();
@@ -106,24 +113,43 @@ public class JsonPullParser {
 	}
 
 	/**
-	 * 入力ストリームを設定します.<br>
-	 * このメソッドはインスタンス生成後、一番最初に呼ぶべきです.
+	 * パース対象の {@code JSON} データを返す入力ストリームを設定します。
+	 * 
+	 * <p>
+	 * ストリームから読み込むバイト列は {@link #DEFAULT_CHARSET_NAME} として扱います。
+	 * </p>
+	 * <p>
+	 * インスタンス生成後、他のメソッドを呼ぶ前に一度だけ {@code setSource(...)} のうちの
+	 * いずれかを一度だけ呼び出してください。
+	 * </p>
 	 * 
 	 * @param is
+	 * パース対象の {@code JSON} 文字列に対するバイトストリーム。読み込まれるバイト列は、
+	 * {@link #DEFAULT_CHARSET_NAME} として処理します。{@code null} 禁止。
 	 * @throws IllegalArgumentException
+	 * {@code null} 禁止の引き数に {@code null} が渡された場合。
 	 */
 	public void setSource(InputStream is) {
 		setSource(is, DEFAULT_CHARSET);
 	}
 
 	/**
-	 * 入力ストリームを設定します.<br>
-	 * このメソッドはインスタンス生成後、一番最初に呼ぶべきです.
+	 * パース対象の {@code JSON} データを返す入力ストリームを設定します。
+	 * 
+	 * <p>
+	 * インスタンス生成後、他のメソッドを呼ぶ前に一度だけ {@code setSource(...)} のうちの
+	 * いずれかを一度だけ呼び出してください。
+	 * </p>
 	 * 
 	 * @param is
+	 * パース対象の {@code JSON} 文字列に対するバイトストリーム。{@code null} 禁止。
 	 * @param charsetName
+	 * {@code is} が返すバイト列のエンコーディング名を指定します。{@code null} が渡された
+	 * 場合は {@link #DEFAULT_CHARSET_NAME} として処理します。
 	 * @throws UnsupportedEncodingException
+	 * {@code charsetName} で指定されたエンコーディングがサポートされていない場合。
 	 * @throws IllegalArgumentException
+	 * {@code null} 禁止の引き数に {@code null} が渡された場合。
 	 */
 	public void setSource(InputStream is, String charsetName)
 			throws UnsupportedEncodingException {
@@ -141,12 +167,20 @@ public class JsonPullParser {
 	}
 
 	/**
-	 * 入力ストリームを設定します.<br>
-	 * このメソッドはインスタンス生成後、一番最初に呼ぶべきです.
+	 * パース対象の {@code JSON} データを返す入力ストリームを設定します。
+	 * 
+	 * <p>
+	 * インスタンス生成後、他のメソッドを呼ぶ前に一度だけ {@code setSource(...)} のうちの
+	 * いずれかを一度だけ呼び出してください。
+	 * </p>
 	 * 
 	 * @param is
+	 * 入力ストリーム。{@code null} 禁止。
 	 * @param charset
+	 * {@code is} が返すバイト列のエンコーディングを指定します。{@code null} が渡された
+	 * 場合は {@link #DEFAULT_CHARSET_NAME} として処理します。
 	 * @throws IllegalArgumentException
+	 * {@code null} 禁止の引き数に {@code null} が渡された場合。
 	 */
 	public void setSource(InputStream is, Charset charset) {
 		if (is == null) {
@@ -159,11 +193,17 @@ public class JsonPullParser {
 	}
 
 	/**
-	 * 入力ストリームを設定します.<br>
-	 * このメソッドはインスタンス生成後、一番最初に呼ぶべきです.
+	 * パース対象の {@code JSON} 文字列を設定します。
+	 * 
+	 * <p>
+	 * インスタンス生成後、他のメソッドを呼ぶ前に一度だけ {@code setSource(...)} のうちの
+	 * いずれかを一度だけ呼び出してください。
+	 * </p>
 	 * 
 	 * @param json
+	 * パース対象の {@code JSON} 文字列。{@code null} 禁止。
 	 * @throws IllegalArgumentException
+	 * {@code null} 禁止の引き数に {@code null} が渡された場合。
 	 */
 	public void setSource(String json) {
 		if (json == null) {
@@ -174,11 +214,17 @@ public class JsonPullParser {
 	}
 
 	/**
-	 * 入力ストリームを設定します.<br>
-	 * このメソッドはインスタンス生成後、一番最初に呼ぶべきです.
+	 * パース対象の {@code JSON} データを返すリーダーを設定します。
+	 * 
+	 * <p>
+	 * インスタンス生成後、他のメソッドを呼ぶ前に一度だけ {@code setSource(...)} のうちの
+	 * いずれかを一度だけ呼び出してください。
+	 * </p>
 	 * 
 	 * @param reader
+	 * パース対象の {@code JSON} 文字列を返すリーダー。{@code null} 禁止。
 	 * @throws IllegalArgumentException
+	 * {@code null} 禁止の引き数に {@code null} が渡された場合。
 	 */
 	public void setSource(Reader reader) {
 		if (reader == null) {
@@ -190,14 +236,23 @@ public class JsonPullParser {
 	}
 
 	/**
-	 * 一つ先の要素を先読みます.<br>
-	 * このメソッドは真のlookAheadではありません.呼び出した途端、getValueXxx()の返り値は壊れてしまいます.<br>
-	 * なるべく、このメソッドは使わないほうがよいでしょう<br>
-	 * lookAheadは何回呼び出しても、 getEventType() を呼び出すまで、同じ値を返します.<br>
+	 * 一つ先の要素を先読みます。
+	 * 
+	 * <p>
+	 * このメソッドは真のlookAheadではありません.呼び出した途端、getValueXxx()の返り値は
+	 * 壊れてしまいます。なるべく、このメソッドは使わないほうがよいでしょう。
+	 * </p>
+	 * <p>
+	 * lookAheadは何回呼び出しても、 {@link #getEventType()} を呼び出すまで、同じ値を
+	 * 返します。
+	 * </p>
 	 * 
 	 * @return
+	 * 一つ先の要素のトークンの種別。
 	 * @throws IOException
+	 * {@code JSON} データの読み込みが正常に行えなかった場合。
 	 * @throws JsonFormatException
+	 * 入力データが {@code JSON} として正しくない場合。
 	 */
 	public State lookAhead() throws IOException, JsonFormatException {
 		if (lookAhead == null) {
@@ -207,12 +262,14 @@ public class JsonPullParser {
 	}
 
 	/**
-	 * 現在の状態を取得します.<br>
-	 * このメソッドを使う前に、{@link JsonPullParser#setSource(InputStream)}を呼ぶべきです.
+	 * 現在の状態を取得します。
 	 * 
 	 * @return
+	 * 現在のトークンの種別。
 	 * @throws IOException
+	 * {@code JSON} データの読み込みが正常に行えなかった場合。
 	 * @throws JsonFormatException
+	 * 入力データが {@code JSON} として正しくない場合。
 	 */
 	public State getEventType() throws IOException, JsonFormatException {
 		if (lookAhead != null) {
@@ -421,8 +478,12 @@ public class JsonPullParser {
 	}
 
 	/**
-	 * 値を文字列として取得します.<br> {@link JsonPullParser#getEventType()}を読んだ時に
-	 * {@link State#KEY}もしくは{@link State#VALUE_STRING}が返ってきたときに呼び出してください.
+	 * 値を文字列として取得します。
+	 * 
+	 * <p>
+	 * {@link JsonPullParser#getEventType()} を読んだ時に {@link State#KEY}
+	 * もしくは {@link State#VALUE_STRING} が返ってきたときに呼び出してください。
+	 * </p>
 	 * 
 	 * @return 読み込んだ文字列
 	 */
@@ -439,8 +500,12 @@ public class JsonPullParser {
 	}
 
 	/**
-	 * 値を整数値として取得します.<br> {@link JsonPullParser#getEventType()}を読んだ時に
-	 * {@link State#VALUE_LONG}が返ってきたときに呼び出してください.
+	 * 値を整数値として取得します。
+	 * 
+	 * <p>
+	 * {@link JsonPullParser#getEventType()}を呼んだ時に
+	 * {@link State#VALUE_LONG}が返ってきたときに呼び出してください。
+	 * </p>
 	 * 
 	 * @return 読み込んだ整数値
 	 */
@@ -455,8 +520,12 @@ public class JsonPullParser {
 	}
 
 	/**
-	 * 値を整数値として取得します.<br> {@link JsonPullParser#getEventType()}を読んだ時に
-	 * {@link State#VALUE_DOUBLE}が返ってきたときに呼び出してください.
+	 * 値を整数値として取得します。
+	 * 
+	 * <p>
+	 * {@link JsonPullParser#getEventType()} を呼んだ時に
+	 * {@link State#VALUE_DOUBLE} が返ってきたときに呼び出してください。
+	 * </p>
 	 * 
 	 * @return 読み込んだ浮動小数点の値
 	 */
@@ -473,8 +542,12 @@ public class JsonPullParser {
 	}
 
 	/**
-	 * 値を整数値として取得します.<br> {@link JsonPullParser#getEventType()}を読んだ時に
-	 * {@link State#VALUE_BOOLEAN}が返ってきたときに呼び出してください.
+	 * 値を整数値として取得します。
+	 * 
+	 * <p>
+	 * {@link JsonPullParser#getEventType()} を呼んだ時に
+	 * {@link State#VALUE_BOOLEAN} が返ってきたときに呼び出してください。
+	 * </p>
 	 * 
 	 * @return 読み込んだ真偽値の値
 	 */

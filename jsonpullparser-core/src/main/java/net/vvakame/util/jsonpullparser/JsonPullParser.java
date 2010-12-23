@@ -1,10 +1,14 @@
 package net.vvakame.util.jsonpullparser;
 
 import java.io.BufferedReader;
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.Reader;
+import java.io.StringReader;
+import java.io.UnsupportedEncodingException;
+import java.nio.charset.Charset;
+import java.nio.charset.UnsupportedCharsetException;
 
 /**
  * JSONPullParserを提供します.<br>
@@ -78,6 +82,12 @@ public class JsonPullParser {
 		 */
 		END_ARRAY,
 	}
+	
+	/**
+	 * バイトストリームに対してエンコーディング指定がされてなかった場合の
+	 * デフォルトエンコーディングです。
+	 */
+	public static final Charset DEFAULT_CHARSET = Charset.forName("UTF-8");
 
 	BufferedReader br;
 	final Stack<State> stack = new Stack<State>();
@@ -100,10 +110,34 @@ public class JsonPullParser {
 	 * このメソッドはインスタンス生成後、一番最初に呼ぶべきです.
 	 * 
 	 * @param is
-	 * @throws IOException
+	 * @throws IllegalArgumentException
 	 */
-	public void setSource(InputStream is) throws IOException {
-		br = new BufferedReader(new InputStreamReader(is));
+	public void setSource(InputStream is) {
+		setSource(is, DEFAULT_CHARSET);
+	}
+
+	/**
+	 * 入力ストリームを設定します.<br>
+	 * このメソッドはインスタンス生成後、一番最初に呼ぶべきです.
+	 * 
+	 * @param is
+	 * @param charsetName
+	 * @throws UnsupportedEncodingException
+	 * @throws IllegalArgumentException
+	 */
+	public void setSource(InputStream is, String charsetName)
+			throws UnsupportedEncodingException {
+		if (is == null) {
+			throw new IllegalArgumentException("'is' must not be null.");
+		}
+		
+		try {
+			final Charset charset = (charsetName == null) ? null : Charset
+					.forName(charsetName);
+			setSource(is, charset);
+		} catch (UnsupportedCharsetException e) {
+			throw new UnsupportedEncodingException(e.getCharsetName());
+		}
 	}
 
 	/**
@@ -112,10 +146,16 @@ public class JsonPullParser {
 	 * 
 	 * @param is
 	 * @param charset
-	 * @throws IOException
+	 * @throws IllegalArgumentException
 	 */
-	public void setSource(InputStream is, String charset) throws IOException {
-		br = new BufferedReader(new InputStreamReader(is, charset));
+	public void setSource(InputStream is, Charset charset) {
+		if (is == null) {
+			throw new IllegalArgumentException("'is' must not be null.");
+		}
+		
+		final Reader reader = new InputStreamReader(is,
+				(charset == null) ? DEFAULT_CHARSET : charset);
+		setSource(reader);
 	}
 
 	/**
@@ -123,23 +163,30 @@ public class JsonPullParser {
 	 * このメソッドはインスタンス生成後、一番最初に呼ぶべきです.
 	 * 
 	 * @param json
-	 * @param charset
-	 * @throws IOException
+	 * @throws IllegalArgumentException
 	 */
-	public void setSource(String json, String charset) throws IOException {
-		setSource(new ByteArrayInputStream(json.getBytes()), charset);
+	public void setSource(String json) {
+		if (json == null) {
+			throw new IllegalArgumentException("'json' must not be null.");
+		}
+		
+		setSource(new StringReader(json));
 	}
 
 	/**
 	 * 入力ストリームを設定します.<br>
 	 * このメソッドはインスタンス生成後、一番最初に呼ぶべきです.
 	 * 
-	 * @param json
-	 * @throws IOException
+	 * @param reader
+	 * @throws IllegalArgumentException
 	 */
-	public void setSource(String json) throws IOException {
-		ByteArrayInputStream stream = new ByteArrayInputStream(json.getBytes());
-		setSource(stream, "utf-8");
+	public void setSource(Reader reader) {
+		if (reader == null) {
+			throw new IllegalArgumentException("'reader' must not be null.");
+		}
+		
+		br = (reader instanceof BufferedReader) ? (BufferedReader) reader
+				: new BufferedReader(reader);
 	}
 
 	/**

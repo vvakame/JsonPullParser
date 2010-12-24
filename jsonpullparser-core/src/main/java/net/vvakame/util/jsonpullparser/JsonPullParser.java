@@ -82,16 +82,14 @@ public class JsonPullParser {
 		 */
 		END_ARRAY,
 	}
-	
+
 	/**
-	 * バイトストリームに対してエンコーディング指定がされてなかった場合の
-	 * デフォルトエンコーディング名です。
+	 * バイトストリームに対してエンコーディング指定がされてなかった場合の デフォルトエンコーディング名です。
 	 */
 	public static final String DEFAULT_CHARSET_NAME = "UTF-8";
-	
+
 	/**
-	 * バイトストリームに対してエンコーディング指定がされてなかった場合の
-	 * デフォルトエンコーディングです。
+	 * バイトストリームに対してエンコーディング指定がされてなかった場合の デフォルトエンコーディングです。
 	 */
 	public static final Charset DEFAULT_CHARSET = Charset
 			.forName(DEFAULT_CHARSET_NAME);
@@ -119,15 +117,14 @@ public class JsonPullParser {
 	 * ストリームから読み込むバイト列は {@link #DEFAULT_CHARSET_NAME} として扱います。
 	 * </p>
 	 * <p>
-	 * インスタンス生成後、他のメソッドを呼ぶ前に一度だけ {@code setSource(...)} のうちの
-	 * いずれかを一度だけ呼び出してください。
+	 * インスタンス生成後、他のメソッドを呼ぶ前に一度だけ {@code setSource(...)} のうちの いずれかを一度だけ呼び出してください。
 	 * </p>
 	 * 
 	 * @param is
-	 * パース対象の {@code JSON} 文字列に対するバイトストリーム。読み込まれるバイト列は、
-	 * {@link #DEFAULT_CHARSET_NAME} として処理します。{@code null} 禁止。
+	 *            パース対象の {@code JSON} 文字列に対するバイトストリーム。読み込まれるバイト列は、
+	 *            {@link #DEFAULT_CHARSET_NAME} として処理します。{@code null} 禁止。
 	 * @throws IllegalArgumentException
-	 * {@code null} 禁止の引き数に {@code null} が渡された場合。
+	 *             {@code null} 禁止の引き数に {@code null} が渡された場合。
 	 */
 	public void setSource(InputStream is) {
 		setSource(is, DEFAULT_CHARSET);
@@ -137,26 +134,25 @@ public class JsonPullParser {
 	 * パース対象の {@code JSON} データを返す入力ストリームを設定します。
 	 * 
 	 * <p>
-	 * インスタンス生成後、他のメソッドを呼ぶ前に一度だけ {@code setSource(...)} のうちの
-	 * いずれかを一度だけ呼び出してください。
+	 * インスタンス生成後、他のメソッドを呼ぶ前に一度だけ {@code setSource(...)} のうちの いずれかを一度だけ呼び出してください。
 	 * </p>
 	 * 
 	 * @param is
-	 * パース対象の {@code JSON} 文字列に対するバイトストリーム。{@code null} 禁止。
+	 *            パース対象の {@code JSON} 文字列に対するバイトストリーム。{@code null} 禁止。
 	 * @param charsetName
-	 * {@code is} が返すバイト列のエンコーディング名を指定します。{@code null} が渡された
-	 * 場合は {@link #DEFAULT_CHARSET_NAME} として処理します。
+	 *            {@code is} が返すバイト列のエンコーディング名を指定します。{@code null} が渡された 場合は
+	 *            {@link #DEFAULT_CHARSET_NAME} として処理します。
 	 * @throws UnsupportedEncodingException
-	 * {@code charsetName} で指定されたエンコーディングがサポートされていない場合。
+	 *             {@code charsetName} で指定されたエンコーディングがサポートされていない場合。
 	 * @throws IllegalArgumentException
-	 * {@code null} 禁止の引き数に {@code null} が渡された場合。
+	 *             {@code null} 禁止の引き数に {@code null} が渡された場合。
 	 */
 	public void setSource(InputStream is, String charsetName)
 			throws UnsupportedEncodingException {
 		if (is == null) {
 			throw new IllegalArgumentException("'is' must not be null.");
 		}
-		
+
 		try {
 			final Charset charset = (charsetName == null) ? null : Charset
 					.forName(charsetName);
@@ -170,23 +166,22 @@ public class JsonPullParser {
 	 * パース対象の {@code JSON} データを返す入力ストリームを設定します。
 	 * 
 	 * <p>
-	 * インスタンス生成後、他のメソッドを呼ぶ前に一度だけ {@code setSource(...)} のうちの
-	 * いずれかを一度だけ呼び出してください。
+	 * インスタンス生成後、他のメソッドを呼ぶ前に一度だけ {@code setSource(...)} のうちの いずれかを一度だけ呼び出してください。
 	 * </p>
 	 * 
 	 * @param is
-	 * 入力ストリーム。{@code null} 禁止。
+	 *            入力ストリーム。{@code null} 禁止。
 	 * @param charset
-	 * {@code is} が返すバイト列のエンコーディングを指定します。{@code null} が渡された
-	 * 場合は {@link #DEFAULT_CHARSET_NAME} として処理します。
+	 *            {@code is} が返すバイト列のエンコーディングを指定します。{@code null} が渡された 場合は
+	 *            {@link #DEFAULT_CHARSET_NAME} として処理します。
 	 * @throws IllegalArgumentException
-	 * {@code null} 禁止の引き数に {@code null} が渡された場合。
+	 *             {@code null} 禁止の引き数に {@code null} が渡された場合。
 	 */
 	public void setSource(InputStream is, Charset charset) {
 		if (is == null) {
 			throw new IllegalArgumentException("'is' must not be null.");
 		}
-		
+
 		final Reader reader = new InputStreamReader(is,
 				(charset == null) ? DEFAULT_CHARSET : charset);
 		setSource(reader);
@@ -196,20 +191,19 @@ public class JsonPullParser {
 	 * パース対象の {@code JSON} 文字列を設定します。
 	 * 
 	 * <p>
-	 * インスタンス生成後、他のメソッドを呼ぶ前に一度だけ {@code setSource(...)} のうちの
-	 * いずれかを一度だけ呼び出してください。
+	 * インスタンス生成後、他のメソッドを呼ぶ前に一度だけ {@code setSource(...)} のうちの いずれかを一度だけ呼び出してください。
 	 * </p>
 	 * 
 	 * @param json
-	 * パース対象の {@code JSON} 文字列。{@code null} 禁止。
+	 *            パース対象の {@code JSON} 文字列。{@code null} 禁止。
 	 * @throws IllegalArgumentException
-	 * {@code null} 禁止の引き数に {@code null} が渡された場合。
+	 *             {@code null} 禁止の引き数に {@code null} が渡された場合。
 	 */
 	public void setSource(String json) {
 		if (json == null) {
 			throw new IllegalArgumentException("'json' must not be null.");
 		}
-		
+
 		setSource(new StringReader(json));
 	}
 
@@ -217,20 +211,19 @@ public class JsonPullParser {
 	 * パース対象の {@code JSON} データを返すリーダーを設定します。
 	 * 
 	 * <p>
-	 * インスタンス生成後、他のメソッドを呼ぶ前に一度だけ {@code setSource(...)} のうちの
-	 * いずれかを一度だけ呼び出してください。
+	 * インスタンス生成後、他のメソッドを呼ぶ前に一度だけ {@code setSource(...)} のうちの いずれかを一度だけ呼び出してください。
 	 * </p>
 	 * 
 	 * @param reader
-	 * パース対象の {@code JSON} 文字列を返すリーダー。{@code null} 禁止。
+	 *            パース対象の {@code JSON} 文字列を返すリーダー。{@code null} 禁止。
 	 * @throws IllegalArgumentException
-	 * {@code null} 禁止の引き数に {@code null} が渡された場合。
+	 *             {@code null} 禁止の引き数に {@code null} が渡された場合。
 	 */
 	public void setSource(Reader reader) {
 		if (reader == null) {
 			throw new IllegalArgumentException("'reader' must not be null.");
 		}
-		
+
 		br = (reader instanceof BufferedReader) ? (BufferedReader) reader
 				: new BufferedReader(reader);
 	}
@@ -243,16 +236,14 @@ public class JsonPullParser {
 	 * 壊れてしまいます。なるべく、このメソッドは使わないほうがよいでしょう。
 	 * </p>
 	 * <p>
-	 * lookAheadは何回呼び出しても、 {@link #getEventType()} を呼び出すまで、同じ値を
-	 * 返します。
+	 * lookAheadは何回呼び出しても、 {@link #getEventType()} を呼び出すまで、同じ値を 返します。
 	 * </p>
 	 * 
-	 * @return
-	 * 一つ先の要素のトークンの種別。
+	 * @return 一つ先の要素のトークンの種別。
 	 * @throws IOException
-	 * {@code JSON} データの読み込みが正常に行えなかった場合。
+	 *             {@code JSON} データの読み込みが正常に行えなかった場合。
 	 * @throws JsonFormatException
-	 * 入力データが {@code JSON} として正しくない場合。
+	 *             入力データが {@code JSON} として正しくない場合。
 	 */
 	public State lookAhead() throws IOException, JsonFormatException {
 		if (lookAhead == null) {
@@ -264,12 +255,11 @@ public class JsonPullParser {
 	/**
 	 * 現在の状態を取得します。
 	 * 
-	 * @return
-	 * 現在のトークンの種別。
+	 * @return 現在のトークンの種別。
 	 * @throws IOException
-	 * {@code JSON} データの読み込みが正常に行えなかった場合。
+	 *             {@code JSON} データの読み込みが正常に行えなかった場合。
 	 * @throws JsonFormatException
-	 * 入力データが {@code JSON} として正しくない場合。
+	 *             入力データが {@code JSON} として正しくない場合。
 	 */
 	public State getEventType() throws IOException, JsonFormatException {
 		if (lookAhead != null) {
@@ -481,8 +471,8 @@ public class JsonPullParser {
 	 * 値を文字列として取得します。
 	 * 
 	 * <p>
-	 * {@link JsonPullParser#getEventType()} を読んだ時に {@link State#KEY}
-	 * もしくは {@link State#VALUE_STRING} が返ってきたときに呼び出してください。
+	 * {@link JsonPullParser#getEventType()} を読んだ時に {@link State#KEY} もしくは
+	 * {@link State#VALUE_STRING} が返ってきたときに呼び出してください。
 	 * </p>
 	 * 
 	 * @return 読み込んだ文字列
@@ -503,8 +493,8 @@ public class JsonPullParser {
 	 * 値を整数値として取得します。
 	 * 
 	 * <p>
-	 * {@link JsonPullParser#getEventType()}を呼んだ時に
-	 * {@link State#VALUE_LONG}が返ってきたときに呼び出してください。
+	 * {@link JsonPullParser#getEventType()}を呼んだ時に {@link State#VALUE_LONG}
+	 * が返ってきたときに呼び出してください。
 	 * </p>
 	 * 
 	 * @return 読み込んだ整数値
@@ -523,8 +513,8 @@ public class JsonPullParser {
 	 * 値を整数値として取得します。
 	 * 
 	 * <p>
-	 * {@link JsonPullParser#getEventType()} を呼んだ時に
-	 * {@link State#VALUE_DOUBLE} が返ってきたときに呼び出してください。
+	 * {@link JsonPullParser#getEventType()} を呼んだ時に {@link State#VALUE_DOUBLE}
+	 * が返ってきたときに呼び出してください。
 	 * </p>
 	 * 
 	 * @return 読み込んだ浮動小数点の値
@@ -545,8 +535,8 @@ public class JsonPullParser {
 	 * 値を整数値として取得します。
 	 * 
 	 * <p>
-	 * {@link JsonPullParser#getEventType()} を呼んだ時に
-	 * {@link State#VALUE_BOOLEAN} が返ってきたときに呼び出してください。
+	 * {@link JsonPullParser#getEventType()} を呼んだ時に {@link State#VALUE_BOOLEAN}
+	 * が返ってきたときに呼び出してください。
 	 * </p>
 	 * 
 	 * @return 読み込んだ真偽値の値

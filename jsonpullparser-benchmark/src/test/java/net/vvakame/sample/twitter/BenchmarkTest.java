@@ -45,7 +45,7 @@ public class BenchmarkTest {
 
 		is = getStream(tweet);
 		parser.setSource(is);
-		List<Tweet> list = TweetGen.getList(parser);
+		List<Tweet> list = TweetGenerated.getList(parser);
 		assertThat(list.size(), is(not(0)));
 	}
 

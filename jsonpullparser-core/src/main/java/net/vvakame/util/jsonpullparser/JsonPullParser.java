@@ -116,12 +116,10 @@ public class JsonPullParser {
 	 * @param is
 	 *            パース対象の {@code JSON} 文字列に対するバイトストリーム。読み込まれるバイト列は、
 	 *            {@link #DEFAULT_CHARSET_NAME} として処理します。{@code null} 禁止。
-	 * @throws UnsupportedEncodingException
 	 * @throws IllegalArgumentException
 	 *             {@code null} 禁止の引き数に {@code null} が渡された場合。
 	 */
-	public static JsonPullParser newParser(InputStream is)
-			throws UnsupportedEncodingException {
+	public static JsonPullParser newParser(InputStream is) {
 		return newParser(is, DEFAULT_CHARSET);
 	}
 
@@ -172,8 +170,7 @@ public class JsonPullParser {
 	 * @throws IllegalArgumentException
 	 *             {@code null} 禁止の引き数に {@code null} が渡された場合。
 	 */
-	public static JsonPullParser newParser(InputStream is, Charset charset)
-			throws UnsupportedEncodingException {
+	public static JsonPullParser newParser(InputStream is, Charset charset) {
 		if (is == null) {
 			throw new IllegalArgumentException("'is' must not be null.");
 		}
@@ -195,8 +192,7 @@ public class JsonPullParser {
 	 * @throws IllegalArgumentException
 	 *             {@code null} 禁止の引き数に {@code null} が渡された場合。
 	 */
-	public static JsonPullParser newParser(String json)
-			throws UnsupportedEncodingException {
+	public static JsonPullParser newParser(String json) {
 		if (json == null) {
 			throw new IllegalArgumentException("'json' must not be null.");
 		}
@@ -204,8 +200,7 @@ public class JsonPullParser {
 		return newParser(new StringReader(json));
 	}
 
-	public static JsonPullParser newParser(Reader reader)
-			throws UnsupportedEncodingException {
+	public static JsonPullParser newParser(Reader reader) {
 		if (reader == null) {
 			throw new IllegalArgumentException("'reader' must not be null.");
 		}
@@ -284,7 +279,7 @@ public class JsonPullParser {
 				stack.push(State.START_ARRAY);
 				break;
 			default:
-				throw new JsonFormatException();
+				throw new JsonFormatException("unexpected token. token=" + c);
 			}
 			break;
 		case START_ARRAY:
@@ -355,17 +350,18 @@ public class JsonPullParser {
 				valueStr = getNextString();
 				c = getNextChar();
 				if (c != ':') {
-					throw new JsonFormatException();
+					throw new JsonFormatException("unexpected token. token="
+							+ c);
 				}
 				break;
 			default:
-				throw new JsonFormatException();
+				throw new JsonFormatException("unexpected token. token=" + c);
 			}
 			break;
 
 		case END_ARRAY:
 			if (!State.START_ARRAY.equals(stack.pop())) {
-				throw new JsonFormatException();
+				throw new JsonFormatException("unexpected token.");
 			}
 			switch (c) {
 			case ',':
@@ -378,12 +374,12 @@ public class JsonPullParser {
 				stack.push(State.END_HASH);
 				break;
 			default:
-				throw new JsonFormatException();
+				throw new JsonFormatException("unexpected token. token=" + c);
 			}
 			break;
 		case END_HASH:
 			if (!State.START_HASH.equals(stack.pop())) {
-				throw new JsonFormatException();
+				throw new JsonFormatException("unexpected token.");
 			}
 			switch (c) {
 			case ',':
@@ -396,7 +392,7 @@ public class JsonPullParser {
 				stack.push(State.END_HASH);
 				break;
 			default:
-				throw new JsonFormatException();
+				throw new JsonFormatException("unexpected token. token=" + c);
 			}
 			break;
 		case KEY:
@@ -461,11 +457,11 @@ public class JsonPullParser {
 				stack.push(State.END_ARRAY);
 				break;
 			default:
-				throw new JsonFormatException();
+				throw new JsonFormatException("unexpected token. token=" + c);
 			}
 			break;
 		default:
-			throw new JsonFormatException();
+			throw new JsonFormatException("unexpected token.");
 		}
 
 		current = stack.peek();
@@ -490,7 +486,8 @@ public class JsonPullParser {
 		} else if (current == State.VALUE_NULL) {
 			return null;
 		} else {
-			throw new IllegalStateException();
+			throw new IllegalStateException("unexpected state. state="
+					+ current);
 		}
 	}
 
@@ -510,7 +507,8 @@ public class JsonPullParser {
 		} else if (current == State.VALUE_NULL) {
 			return -1;
 		} else {
-			throw new IllegalStateException();
+			throw new IllegalStateException("unexpected state. state="
+					+ current);
 		}
 	}
 
@@ -532,7 +530,8 @@ public class JsonPullParser {
 		} else if (current == State.VALUE_LONG) {
 			return valueLong;
 		} else {
-			throw new IllegalStateException();
+			throw new IllegalStateException("unexpected state. state="
+					+ current);
 		}
 	}
 
@@ -552,7 +551,8 @@ public class JsonPullParser {
 		} else if (current == State.VALUE_NULL) {
 			return false;
 		} else {
-			throw new IllegalStateException();
+			throw new IllegalStateException("unexpected state. state="
+					+ current);
 		}
 	}
 
@@ -570,7 +570,8 @@ public class JsonPullParser {
 			JsonFormatException {
 		char c = getNextChar();
 		if (c != expect) {
-			throw new JsonFormatException();
+			throw new JsonFormatException("unexpected char. expected=" + expect
+					+ ", char=" + c);
 		}
 	}
 

@@ -40,11 +40,7 @@ public class BenchmarkTest {
 
 	@Test
 	public void byJsonPullParser() throws IOException, JsonFormatException {
-		JsonPullParser parser = new JsonPullParser();
-		InputStream is;
-
-		is = getStream(tweet);
-		parser.setSource(is);
+		JsonPullParser parser = JsonPullParser.newParser(tweet);
 		List<Tweet> list = TweetGenerated.getList(parser);
 		assertThat(list.size(), is(not(0)));
 	}

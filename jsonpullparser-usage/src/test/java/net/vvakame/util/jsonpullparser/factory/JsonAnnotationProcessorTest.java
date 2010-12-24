@@ -24,8 +24,8 @@ public class JsonAnnotationProcessorTest {
 	@Test
 	public void jsonHash() throws IOException, JsonFormatException {
 		String json = "{\"name\":\"vvakame\",\"package_name\":\"net.vvakame\",\"version_code\":7,\"weight\":66.66,\"has_data\":true}";
-		JsonPullParser parser = new JsonPullParser();
-		parser.setSource(getStream(json));
+
+		JsonPullParser parser = JsonPullParser.newParser(json);
 
 		TestData data = TestDataGenerated.get(parser);
 
@@ -39,8 +39,8 @@ public class JsonAnnotationProcessorTest {
 	@Test
 	public void jsonHashPrimitive() throws IOException, JsonFormatException {
 		String json = "{\"bool\":true,\"c\":\"char\",\"b\":127,\"s\":32767,\"i\":2147483647,\"l\":9223372036854775807,\"f\":3.4028235E38,\"d\":1.7976931348623157E308}";
-		JsonPullParser parser = new JsonPullParser();
-		parser.setSource(getStream(json));
+
+		JsonPullParser parser = JsonPullParser.newParser(json);
 
 		PrimitiveTypeData data = PrimitiveTypeDataGenerated.get(parser);
 
@@ -57,8 +57,8 @@ public class JsonAnnotationProcessorTest {
 	@Test
 	public void jsonArray() throws IOException, JsonFormatException {
 		String json = "[{\"bool\":false,\"c\":\"CHAR\",\"b\":-128,\"s\":1,\"i\":1,\"l\":1,\"f\":1,\"d\":1}, {\"bool\":true,\"c\":\"char\",\"b\":127,\"s\":32767,\"i\":2147483647,\"l\":2147483647,\"f\":3.4028235E38,\"d\":1.7976931348623157E308}]";
-		JsonPullParser parser = new JsonPullParser();
-		parser.setSource(getStream(json));
+
+		JsonPullParser parser = JsonPullParser.newParser(json);
 
 		List<PrimitiveTypeData> list = PrimitiveTypeDataGenerated
 				.getList(parser);
@@ -87,8 +87,8 @@ public class JsonAnnotationProcessorTest {
 				.append(String.format(tmpl, "c1", "fi.zz", 111, 0.01, false))
 				.append("}");
 
-		JsonPullParser parser = new JsonPullParser();
-		parser.setSource(getStream(jsonBuilder.toString()));
+		JsonPullParser parser = JsonPullParser
+				.newParser(jsonBuilder.toString());
 
 		ComplexData data = ComplexDataGenerated.get(parser);
 

@@ -66,8 +66,7 @@ public class MainActivity extends ListActivity {
 				try {
 					InputStream in = new BufferedInputStream(
 							urlConnection.getInputStream());
-					JsonPullParser parser = new JsonPullParser();
-					parser.setSource(in);
+					JsonPullParser parser = JsonPullParser.newParser(in);
 					TweetGen.getList(parser, listener);
 				} finally {
 					urlConnection.disconnect();

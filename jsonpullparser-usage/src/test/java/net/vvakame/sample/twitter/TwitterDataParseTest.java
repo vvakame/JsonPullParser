@@ -4,9 +4,7 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.not;
 import static org.junit.Assert.assertThat;
 
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.List;
 
 import net.vvakame.util.jsonpullparser.JsonFormatException;
@@ -20,16 +18,8 @@ public class TwitterDataParseTest {
 
 	@Test
 	public void parse() throws IOException, JsonFormatException {
-		JsonPullParser parser = new JsonPullParser();
-		InputStream is;
-
-		is = getStream(twitterData);
-		parser.setSource(is);
+		JsonPullParser parser = JsonPullParser.newParser(twitterData);
 		List<Tweet> list = TweetGenerated.getList(parser);
 		assertThat(list.size(), is(not(0)));
-	}
-
-	public InputStream getStream(String str) {
-		return new ByteArrayInputStream(str.getBytes());
 	}
 }

@@ -1,11 +1,16 @@
 package net.vvakame.util.jsonpullparser.factory;
 
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.nullValue;
 import static org.junit.Assert.assertThat;
 
+import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.List;
 
 import net.vvakame.sample.ComplexData;
@@ -14,6 +19,8 @@ import net.vvakame.sample.PrimitiveTypeData;
 import net.vvakame.sample.PrimitiveTypeDataGenerated;
 import net.vvakame.sample.TestData;
 import net.vvakame.sample.TestDataGenerated;
+import net.vvakame.sample.twitter.Tweet;
+import net.vvakame.sample.twitter.TweetGenerated;
 import net.vvakame.util.jsonpullparser.JsonFormatException;
 import net.vvakame.util.jsonpullparser.JsonPullParser;
 
@@ -97,6 +104,61 @@ public class JsonAnnotationProcessorTest {
 		assertThat(data.getList2().size(), is(1));
 		assertThat(data.getList3().size(), is(0));
 		assertThat(data.getData().getPackageName(), is("fi.zz"));
+	}
+
+	@Test
+	public void jsonHashComplexWithNull() throws IOException,
+			JsonFormatException {
+		String tmpl = "{\"name\":\"%s\",\"package_name\":\"%s\",\"version_code\":%d,\"weight\":%f,\"has_data\":%b}";
+		StringBuilder jsonBuilder = new StringBuilder();
+		jsonBuilder.append("{\"name\":\"hoge\",");
+		jsonBuilder.append("\"list1\":null,");
+		jsonBuilder.append("\"list2\":[");
+		jsonBuilder.append(String.format(tmpl, "b1", "th.is", 10, 11.11, true))
+				.append("],");
+		jsonBuilder.append("\"list3\":[],");
+		jsonBuilder.append("\"data\":null}");
+
+		JsonPullParser parser = JsonPullParser
+				.newParser(jsonBuilder.toString());
+
+		ComplexData data = ComplexDataGenerated.get(parser);
+
+		assertThat(data.getName(), is("hoge"));
+		assertThat(data.getList1(), is(nullValue()));
+		assertThat(data.getList2().size(), is(1));
+		assertThat(data.getList3().size(), is(0));
+		assertThat(data.getData(), is(nullValue()));
+	}
+
+	@Test
+	public void twitterPublicTimeline() throws IOException, JsonFormatException {
+		final String PUBLIC_TIMELINE_URL = "http://api.twitter.com/1/statuses/public_timeline.json";
+
+		URL url = new URL(PUBLIC_TIMELINE_URL);
+		HttpURLConnection urlConnection = (HttpURLConnection) url
+				.openConnection();
+		try {
+			String json;
+			{
+				StringBuilder builder = new StringBuilder();
+				BufferedReader br = new BufferedReader(new InputStreamReader(
+						urlConnection.getInputStream()));
+				String line;
+				while ((line = br.readLine()) != null) {
+					builder.append(line).append("\n");
+				}
+				json = builder.toString();
+			}
+			System.out.println(json);
+
+			JsonPullParser parser = JsonPullParser.newParser(json);
+			List<Tweet> list = TweetGenerated.getList(parser);
+			list.toString();
+		} finally {
+			urlConnection.disconnect();
+		}
+
 	}
 
 	public InputStream getStream(String str) {

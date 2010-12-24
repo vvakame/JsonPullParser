@@ -134,6 +134,12 @@ public class JsonAnnotationProcessor extends AbstractProcessor {
 		w.wr("();").ln();
 		// 最初のbraceを食べる
 		w.wr(State.class).wr(" eventType = parser.getEventType();").ln();
+		// nullの考慮
+		w.wr("if(eventType == ").wr(State.class).wr(".");
+		w.wr(State.VALUE_NULL).wr("){").lni();
+		w.wr("return null;").lnd();
+		w.wr("}").ln();
+
 		w.wr("if (eventType != ").wr(State.class).wr(".").wr(State.START_ARRAY);
 		w.wr(") {").lni();
 		w.wr("throw new IllegalStateException(\"not started brace!\");").lnd();
@@ -176,6 +182,12 @@ public class JsonAnnotationProcessor extends AbstractProcessor {
 		w.ln();
 		// 最初のbraceを食べる
 		w.wr(State.class).wr(" eventType = parser.getEventType();").ln();
+		// nullの考慮
+		w.wr("if(eventType == ").wr(State.class).wr(".");
+		w.wr(State.VALUE_NULL).wr("){").lni();
+		w.wr("return null;").lnd();
+		w.wr("}").ln();
+
 		w.wr("if (eventType != ").wr(State.class).wr(".").wr("START_HASH");
 		w.wr(") {").lni();
 		w.wr("throw new IllegalStateException(\"not started hash brace!\");");

@@ -106,28 +106,23 @@ public class JsonPullParser {
 
 	State lookAhead = null;
 
-	public JsonPullParser() {
-		stack.push(State.ORIGIN);
-	}
-
 	/**
 	 * パース対象の {@code JSON} データを返す入力ストリームを設定します。
 	 * 
 	 * <p>
 	 * ストリームから読み込むバイト列は {@link #DEFAULT_CHARSET_NAME} として扱います。
 	 * </p>
-	 * <p>
-	 * インスタンス生成後、他のメソッドを呼ぶ前に一度だけ {@code setSource(...)} のうちの いずれかを一度だけ呼び出してください。
-	 * </p>
 	 * 
 	 * @param is
 	 *            パース対象の {@code JSON} 文字列に対するバイトストリーム。読み込まれるバイト列は、
 	 *            {@link #DEFAULT_CHARSET_NAME} として処理します。{@code null} 禁止。
+	 * @throws UnsupportedEncodingException
 	 * @throws IllegalArgumentException
 	 *             {@code null} 禁止の引き数に {@code null} が渡された場合。
 	 */
-	public void setSource(InputStream is) {
-		setSource(is, DEFAULT_CHARSET);
+	public static JsonPullParser newParser(InputStream is)
+			throws UnsupportedEncodingException {
+		return newParser(is, DEFAULT_CHARSET);
 	}
 
 	/**
@@ -147,7 +142,7 @@ public class JsonPullParser {
 	 * @throws IllegalArgumentException
 	 *             {@code null} 禁止の引き数に {@code null} が渡された場合。
 	 */
-	public void setSource(InputStream is, String charsetName)
+	public static JsonPullParser newParser(InputStream is, String charsetName)
 			throws UnsupportedEncodingException {
 		if (is == null) {
 			throw new IllegalArgumentException("'is' must not be null.");
@@ -156,7 +151,7 @@ public class JsonPullParser {
 		try {
 			final Charset charset = (charsetName == null) ? null : Charset
 					.forName(charsetName);
-			setSource(is, charset);
+			return newParser(is, charset);
 		} catch (UnsupportedCharsetException e) {
 			throw new UnsupportedEncodingException(e.getCharsetName());
 		}
@@ -177,14 +172,15 @@ public class JsonPullParser {
 	 * @throws IllegalArgumentException
 	 *             {@code null} 禁止の引き数に {@code null} が渡された場合。
 	 */
-	public void setSource(InputStream is, Charset charset) {
+	public static JsonPullParser newParser(InputStream is, Charset charset)
+			throws UnsupportedEncodingException {
 		if (is == null) {
 			throw new IllegalArgumentException("'is' must not be null.");
 		}
 
 		final Reader reader = new InputStreamReader(is,
 				(charset == null) ? DEFAULT_CHARSET : charset);
-		setSource(reader);
+		return newParser(reader);
 	}
 
 	/**
@@ -199,27 +195,36 @@ public class JsonPullParser {
 	 * @throws IllegalArgumentException
 	 *             {@code null} 禁止の引き数に {@code null} が渡された場合。
 	 */
-	public void setSource(String json) {
+	public static JsonPullParser newParser(String json)
+			throws UnsupportedEncodingException {
 		if (json == null) {
 			throw new IllegalArgumentException("'json' must not be null.");
 		}
 
-		setSource(new StringReader(json));
+		return newParser(new StringReader(json));
+	}
+
+	public static JsonPullParser newParser(Reader reader)
+			throws UnsupportedEncodingException {
+		if (reader == null) {
+			throw new IllegalArgumentException("'reader' must not be null.");
+		}
+
+		BufferedReader br = (reader instanceof BufferedReader) ? (BufferedReader) reader
+				: new BufferedReader(reader);
+		JsonPullParser parser = new JsonPullParser();
+		parser.setSource(br);
+		return parser;
+	}
+
+	JsonPullParser() {
+		stack.push(State.ORIGIN);
 	}
 
 	/**
 	 * パース対象の {@code JSON} データを返すリーダーを設定します。
-	 * 
-	 * <p>
-	 * インスタンス生成後、他のメソッドを呼ぶ前に一度だけ {@code setSource(...)} のうちの いずれかを一度だけ呼び出してください。
-	 * </p>
-	 * 
-	 * @param reader
-	 *            パース対象の {@code JSON} 文字列を返すリーダー。{@code null} 禁止。
-	 * @throws IllegalArgumentException
-	 *             {@code null} 禁止の引き数に {@code null} が渡された場合。
 	 */
-	public void setSource(Reader reader) {
+	void setSource(Reader reader) {
 		if (reader == null) {
 			throw new IllegalArgumentException("'reader' must not be null.");
 		}

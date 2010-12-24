@@ -15,12 +15,9 @@ public class JsonPullParserTest {
 
 	@Test
 	public void parseEmptyHash() throws IOException, JsonFormatException {
-		JsonPullParser parser = new JsonPullParser();
-		InputStream is;
 		State type;
 
-		is = getStream("{}");
-		parser.setSource(is);
+		JsonPullParser parser = JsonPullParser.newParser("{}");
 		type = parser.getEventType();
 		assertThat(type, is(State.START_HASH));
 		type = parser.getEventType();
@@ -29,12 +26,9 @@ public class JsonPullParserTest {
 
 	@Test
 	public void parseEmptyArray() throws IOException, JsonFormatException {
-		JsonPullParser parser = new JsonPullParser();
-		InputStream is;
 		State type;
 
-		is = getStream("[]");
-		parser.setSource(is);
+		JsonPullParser parser = JsonPullParser.newParser("[]");
 		type = parser.getEventType();
 		assertThat(type, is(State.START_ARRAY));
 		type = parser.getEventType();
@@ -43,12 +37,9 @@ public class JsonPullParserTest {
 
 	@Test
 	public void parseEmptyJSON() throws IOException, JsonFormatException {
-		JsonPullParser parser = new JsonPullParser();
-		InputStream is;
 		State type;
 
-		is = getStream("[{}]");
-		parser.setSource(is);
+		JsonPullParser parser = JsonPullParser.newParser("[{}]");
 		type = parser.getEventType();
 		assertThat(type, is(State.START_ARRAY));
 		type = parser.getEventType();
@@ -61,13 +52,10 @@ public class JsonPullParserTest {
 
 	@Test
 	public void parseSimpleString() throws IOException, JsonFormatException {
-		JsonPullParser parser = new JsonPullParser();
-		InputStream is;
 		State type;
 		String str;
 
-		is = getStream("{\"key\":\"value\"}");
-		parser.setSource(is);
+		JsonPullParser parser = JsonPullParser.newParser("{\"key\":\"value\"}");
 		type = parser.getEventType();
 		assertThat(type, is(State.START_HASH));
 		type = parser.getEventType();
@@ -84,13 +72,11 @@ public class JsonPullParserTest {
 
 	@Test
 	public void parseSpecialChar() throws IOException, JsonFormatException {
-		JsonPullParser parser = new JsonPullParser();
-		InputStream is;
 		State type;
 		String str;
 
-		is = getStream("{\"key\":\" \\\" \\t \\r \\n \\b \\f \\ \"}");
-		parser.setSource(is);
+		JsonPullParser parser = JsonPullParser
+				.newParser("{\"key\":\" \\\" \\t \\r \\n \\b \\f \\ \"}");
 		type = parser.getEventType();
 		assertThat(type, is(State.START_HASH));
 		type = parser.getEventType();
@@ -107,13 +93,11 @@ public class JsonPullParserTest {
 
 	@Test
 	public void parseCharByHex() throws IOException, JsonFormatException {
-		JsonPullParser parser = new JsonPullParser();
-		InputStream is;
 		State type;
 		String str;
 
-		is = getStream("[\"json \\u30e1\\u30e2\", \"\\u123x\", \"\\u30E1\\u30E2\"]");
-		parser.setSource(is);
+		JsonPullParser parser = JsonPullParser
+				.newParser("[\"json \\u30e1\\u30e2\", \"\\u123x\", \"\\u30E1\\u30E2\"]");
 		type = parser.getEventType();
 		assertThat(type, is(State.START_ARRAY));
 		type = parser.getEventType();
@@ -135,14 +119,11 @@ public class JsonPullParserTest {
 	@Test
 	public void parseSimpleBooleanTrue() throws IOException,
 			JsonFormatException {
-		JsonPullParser parser = new JsonPullParser();
-		InputStream is;
 		State type;
 		String str;
 		Boolean bool;
 
-		is = getStream("{\"key\":true}");
-		parser.setSource(is);
+		JsonPullParser parser = JsonPullParser.newParser("{\"key\":true}");
 		type = parser.getEventType();
 		assertThat(type, is(State.START_HASH));
 		type = parser.getEventType();
@@ -160,14 +141,11 @@ public class JsonPullParserTest {
 	@Test
 	public void parseSimpleBooleanFalse() throws IOException,
 			JsonFormatException {
-		JsonPullParser parser = new JsonPullParser();
-		InputStream is;
 		State type;
 		String str;
 		Boolean bool;
 
-		is = getStream("{\"key\":false}");
-		parser.setSource(is);
+		JsonPullParser parser = JsonPullParser.newParser("{\"key\":false}");
 		type = parser.getEventType();
 		assertThat(type, is(State.START_HASH));
 		type = parser.getEventType();
@@ -184,13 +162,10 @@ public class JsonPullParserTest {
 
 	@Test
 	public void parseSimpleNull() throws IOException, JsonFormatException {
-		JsonPullParser parser = new JsonPullParser();
-		InputStream is;
 		State type;
 		String str;
 
-		is = getStream("{\"key\":null}");
-		parser.setSource(is);
+		JsonPullParser parser = JsonPullParser.newParser("{\"key\":null}");
 		type = parser.getEventType();
 		assertThat(type, is(State.START_HASH));
 		type = parser.getEventType();
@@ -205,14 +180,11 @@ public class JsonPullParserTest {
 
 	@Test
 	public void parseSimpleLong() throws IOException, JsonFormatException {
-		JsonPullParser parser = new JsonPullParser();
-		InputStream is;
 		State type;
 		String str;
 		long i;
 
-		is = getStream("{\"key\":-1}");
-		parser.setSource(is);
+		JsonPullParser parser = JsonPullParser.newParser("{\"key\":-1}");
 		type = parser.getEventType();
 		assertThat(type, is(State.START_HASH));
 		type = parser.getEventType();
@@ -229,14 +201,11 @@ public class JsonPullParserTest {
 
 	@Test
 	public void parseSimpleDouble() throws IOException, JsonFormatException {
-		JsonPullParser parser = new JsonPullParser();
-		InputStream is;
 		State type;
 		String str;
 		double d;
 
-		is = getStream("{\"key\":-1e6}");
-		parser.setSource(is);
+		JsonPullParser parser = JsonPullParser.newParser("{\"key\":-1e6}");
 		type = parser.getEventType();
 		assertThat(type, is(State.START_HASH));
 		type = parser.getEventType();
@@ -253,17 +222,14 @@ public class JsonPullParserTest {
 
 	@Test
 	public void parseHash() throws IOException, JsonFormatException {
-		JsonPullParser parser = new JsonPullParser();
-		InputStream is;
 		State type;
 		String str;
 		long i;
 		double d;
 		boolean b;
 
-		is = getStream("{\"key1\":\"value1\", \"key2\":2, \"key3\":0.1 ,\"key4\":true ,\"key5\":false ,\"key6\":null}");
-		parser.setSource(is);
-
+		JsonPullParser parser = JsonPullParser
+				.newParser("{\"key1\":\"value1\", \"key2\":2, \"key3\":0.1 ,\"key4\":true ,\"key5\":false ,\"key6\":null}");
 		type = parser.getEventType();
 		assertThat(type, is(State.START_HASH));
 
@@ -331,16 +297,14 @@ public class JsonPullParserTest {
 
 	@Test
 	public void parseArray() throws IOException, JsonFormatException {
-		JsonPullParser parser = new JsonPullParser();
-		InputStream is;
 		State type;
 		String str;
 		long i;
 		double d;
 		boolean b;
 
-		is = getStream("[\"value1\", 2, 0.1 ,true ,false ,null]");
-		parser.setSource(is);
+		JsonPullParser parser = JsonPullParser
+				.newParser("[\"value1\", 2, 0.1 ,true ,false ,null]");
 		type = parser.getEventType();
 		assertThat(type, is(State.START_ARRAY));
 		type = parser.getEventType();
@@ -371,12 +335,10 @@ public class JsonPullParserTest {
 
 	@Test
 	public void parseComplex1() throws IOException, JsonFormatException {
-		JsonPullParser parser = new JsonPullParser();
-		InputStream is;
 		State type;
 
-		is = getStream("[\"value1\", 2, 0.1 ,true ,{\"test1\":1, \"test2\":null   \n  } ,null]");
-		parser.setSource(is);
+		JsonPullParser parser = JsonPullParser
+				.newParser("[\"value1\", 2, 0.1 ,true ,{\"test1\":1, \"test2\":null   \n  } ,null]");
 
 		type = parser.getEventType();
 		assertThat(type, is(State.START_ARRAY));
@@ -420,12 +382,10 @@ public class JsonPullParserTest {
 
 	@Test
 	public void parseComplex2() throws IOException, JsonFormatException {
-		JsonPullParser parser = new JsonPullParser();
-		InputStream is;
 		State type;
 
-		is = getStream("{\"key\":\"value\", \"list\":[]}");
-		parser.setSource(is);
+		JsonPullParser parser = JsonPullParser
+				.newParser("{\"key\":\"value\", \"list\":[]}");
 
 		type = parser.getEventType();
 		assertThat(type, is(State.START_HASH));
@@ -451,12 +411,10 @@ public class JsonPullParserTest {
 
 	@Test
 	public void lookAhead() throws IOException, JsonFormatException {
-		JsonPullParser parser = new JsonPullParser();
-		InputStream is;
 		State type;
 
-		is = getStream("[\"value1\", 2, 0.1 ,true ,{\"test1\":1, \"test2\":null   \n  } ,null]");
-		parser.setSource(is);
+		JsonPullParser parser = JsonPullParser
+				.newParser("[\"value1\", 2, 0.1 ,true ,{\"test1\":1, \"test2\":null   \n  } ,null]");
 
 		type = parser.lookAhead();
 		assertThat(type, is(State.START_ARRAY));
@@ -479,11 +437,7 @@ public class JsonPullParserTest {
 
 	@Test(expected = JsonFormatException.class)
 	public void parseFailure1() throws IOException, JsonFormatException {
-		JsonPullParser parser = new JsonPullParser();
-		InputStream is;
-
-		is = getStream("[}");
-		parser.setSource(is);
+		JsonPullParser parser = JsonPullParser.newParser("[}");
 
 		parser.getEventType();
 		parser.getEventType();
@@ -491,11 +445,7 @@ public class JsonPullParserTest {
 
 	@Test(expected = JsonFormatException.class)
 	public void parseFailure2() throws IOException, JsonFormatException {
-		JsonPullParser parser = new JsonPullParser();
-		InputStream is;
-
-		is = getStream("[+0]");
-		parser.setSource(is);
+		JsonPullParser parser = JsonPullParser.newParser("[+0]");
 
 		parser.getEventType();
 		parser.getEventType();
@@ -503,11 +453,7 @@ public class JsonPullParserTest {
 
 	@Test(expected = JsonFormatException.class)
 	public void parseFailure3() throws IOException, JsonFormatException {
-		JsonPullParser parser = new JsonPullParser();
-		InputStream is;
-
-		is = getStream("[0-0]");
-		parser.setSource(is);
+		JsonPullParser parser = JsonPullParser.newParser("[0-0]");
 
 		parser.getEventType();
 		parser.getEventType();
@@ -515,11 +461,7 @@ public class JsonPullParserTest {
 
 	@Test(expected = JsonFormatException.class)
 	public void parseFailure4() throws IOException, JsonFormatException {
-		JsonPullParser parser = new JsonPullParser();
-		InputStream is;
-
-		is = getStream("[0,,0]");
-		parser.setSource(is);
+		JsonPullParser parser = JsonPullParser.newParser("[0,,0]");
 
 		parser.getEventType();
 		parser.getEventType();

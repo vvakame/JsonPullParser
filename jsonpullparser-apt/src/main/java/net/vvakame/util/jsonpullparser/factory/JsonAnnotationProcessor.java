@@ -493,6 +493,17 @@ public class JsonAnnotationProcessor extends AbstractProcessor {
 
 			writeIfHeader(p);
 			Element element = p.getHolder();
+
+			TypeMirror tm = t.asElement().asType();
+			Element type = processingEnv.getTypeUtils().asElement(tm);
+			JsonHash hash = type.getAnnotation(JsonHash.class);
+			if (hash == null) {
+				Log.e("expect for use decorated class by JsonHash annotation.",
+						p.getHolder());
+				p.setEncountError(true);
+				return defaultAction(t, p);
+			}
+
 			Element accessor = getElementAccessor(element);
 			if (accessor == null) {
 				Log.e("can't find accessor method", p.getHolder());

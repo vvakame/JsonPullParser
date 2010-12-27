@@ -58,6 +58,20 @@ public class JsonArrayTest {
 	}
 
 	@Test
+	public void parseAppendable() throws IOException, JsonFormatException {
+		String json = "[[1,2],[3,4]]";
+		JsonPullParser parser = JsonPullParser.newParser(json);
+		// 読み捨て
+		parser.getEventType();
+		JsonArray jsonArray = JsonArray.fromParser(parser);
+
+		assertThat(jsonArray.size(), is(2));
+
+		assertThat(jsonArray.getLongOrNull(0), is(1L));
+		assertThat(jsonArray.getLongOrNull(1), is(2L));
+	}
+
+	@Test
 	public void parseAllTypes() throws IOException, JsonFormatException {
 		String json = "[null, true, \"fuga\", 2.3, 1, []]";
 		JsonPullParser parser = JsonPullParser.newParser(json);

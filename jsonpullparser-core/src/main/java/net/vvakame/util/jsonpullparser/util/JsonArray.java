@@ -152,6 +152,8 @@ public class JsonArray extends ArrayList<Object> {
 			state = State.VALUE_LONG;
 		} else if (obj instanceof JsonArray) {
 			state = State.START_ARRAY;
+		} else if (obj instanceof JsonHash) {
+			state = State.START_HASH;
 		} else {
 			throw new IllegalArgumentException(obj.getClass()
 					.getCanonicalName() + " is not supported");

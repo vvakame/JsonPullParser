@@ -2,6 +2,9 @@ package net.vvakame.util.jsonpullparser.factory;
 
 import net.vvakame.sample.ComplexData;
 import net.vvakame.sample.SampleData;
+import net.vvakame.sample.twitter.Attribute;
+import net.vvakame.sample.twitter.BoundingBox;
+import net.vvakame.sample.twitter.Place;
 import net.vvakame.sample.twitter.Tweet;
 import net.vvakame.sample.twitter.User;
 
@@ -25,6 +28,9 @@ public class JsonAnnotationProcessorTest extends AptinaTestCase {
 
 		addCompilationUnit(Tweet.class);
 		addCompilationUnit(User.class);
+		addCompilationUnit(Place.class);
+		addCompilationUnit(BoundingBox.class);
+		addCompilationUnit(Attribute.class);
 
 		compile();
 	}

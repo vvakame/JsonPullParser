@@ -1,9 +1,9 @@
 package net.vvakame.sample.twitter;
 
-import net.vvakame.util.jsonpullparser.annotation.JsonHash;
 import net.vvakame.util.jsonpullparser.annotation.JsonKey;
+import net.vvakame.util.jsonpullparser.annotation.JsonModel;
 
-@JsonHash
+@JsonModel
 public class Tweet {
 	@JsonKey
 	String geo;
@@ -42,7 +42,7 @@ public class Tweet {
 	String createdAt;
 
 	@JsonKey
-	String place;
+	Place place;
 
 	@JsonKey
 	boolean retweeted;
@@ -245,7 +245,7 @@ public class Tweet {
 	/**
 	 * @return the place
 	 */
-	public String getPlace() {
+	public Place getPlace() {
 		return place;
 	}
 
@@ -253,7 +253,7 @@ public class Tweet {
 	 * @param place
 	 *            the place to set
 	 */
-	public void setPlace(String place) {
+	public void setPlace(Place place) {
 		this.place = place;
 	}
 

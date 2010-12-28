@@ -2,10 +2,10 @@ package net.vvakame.sample;
 
 import java.util.List;
 
-import net.vvakame.util.jsonpullparser.annotation.JsonHash;
+import net.vvakame.util.jsonpullparser.annotation.JsonModel;
 import net.vvakame.util.jsonpullparser.annotation.JsonKey;
 
-@JsonHash
+@JsonModel
 public class ComplexData {
 
 	@JsonKey

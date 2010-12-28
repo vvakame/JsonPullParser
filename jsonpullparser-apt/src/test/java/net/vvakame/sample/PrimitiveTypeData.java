@@ -1,9 +1,9 @@
 package net.vvakame.sample;
 
-import net.vvakame.util.jsonpullparser.annotation.JsonHash;
+import net.vvakame.util.jsonpullparser.annotation.JsonModel;
 import net.vvakame.util.jsonpullparser.annotation.JsonKey;
 
-@JsonHash
+@JsonModel
 public class PrimitiveTypeData {
 
 	@JsonKey

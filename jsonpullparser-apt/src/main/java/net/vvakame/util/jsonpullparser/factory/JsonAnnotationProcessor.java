@@ -26,10 +26,12 @@ import javax.lang.model.util.ElementFilter;
 import net.vvakame.util.jsonpullparser.JsonFormatException;
 import net.vvakame.util.jsonpullparser.JsonPullParser;
 import net.vvakame.util.jsonpullparser.JsonPullParser.State;
-import net.vvakame.util.jsonpullparser.annotation.JsonHash;
 import net.vvakame.util.jsonpullparser.annotation.JsonKey;
-import net.vvakame.util.jsonpullparser.annotation.OnJsonObjectAddListener;
+import net.vvakame.util.jsonpullparser.annotation.JsonModel;
 import net.vvakame.util.jsonpullparser.factory.ClassWriterHelper.Mode;
+import net.vvakame.util.jsonpullparser.util.JsonArray;
+import net.vvakame.util.jsonpullparser.util.JsonHash;
+import net.vvakame.util.jsonpullparser.util.OnJsonObjectAddListener;
 
 @SupportedSourceVersion(SourceVersion.RELEASE_6)
 @SupportedAnnotationTypes("net.vvakame.util.jsonpullparser.annotation.*")
@@ -64,7 +66,7 @@ public class JsonAnnotationProcessor extends AbstractProcessor {
 		}
 
 		for (Element element : typesIn(roundEnv
-				.getElementsAnnotatedWith(JsonHash.class))) {
+				.getElementsAnnotatedWith(JsonModel.class))) {
 
 			try {
 				ClassWriterHelper w;
@@ -463,16 +465,42 @@ public class JsonAnnotationProcessor extends AbstractProcessor {
 				}
 			}
 
-			Element type = processingEnv.getTypeUtils().asElement(tm);
-			JsonHash hash = type.getAnnotation(JsonHash.class);
-			if (hash == null) {
-				Log.e("expect for use decorated class by JsonHash annotation.",
-						p.getHolder());
-				p.setEncountError(true);
-				return defaultAction(t, p);
-			}
+			if (List.class.getCanonicalName().equals(tm.toString())) {
+				// GenericにListが指定されていた場合
+				tm.accept(this, p);
 
-			writeIfHeader(p);
+				return super.visitList(t, p);
+			} else {
+				// GenericにList以外が指定されていた場合
+
+				Element type = processingEnv.getTypeUtils().asElement(tm);
+				JsonModel hash = type.getAnnotation(JsonModel.class);
+				if (hash == null) {
+					Log.e("expect for use decorated class by JsonHash annotation.",
+							p.getHolder());
+					p.setEncountError(true);
+					return defaultAction(t, p);
+				}
+
+				writeIfHeader(p);
+				Element element = p.getHolder();
+				Element accessor = getElementAccessor(element);
+				if (accessor == null) {
+					Log.e("can't find accessor method", p.getHolder());
+					p.setEncountError(true);
+					return defaultAction(t, p);
+				}
+				p.wr("obj.").wr(accessor.getSimpleName().toString()).wr("(");
+				String generatedClassName = p.getGenerateCanonicalClassName(tm);
+				p.wr(generatedClassName).wr(".getList(parser)").wr(");").lnd();
+				writeIfFooter(p);
+
+				return super.visitList(t, p);
+			}
+		}
+
+		@Override
+		public Void visitJsonHash(DeclaredType t, ClassWriterHelper p) {
 			Element element = p.getHolder();
 			Element accessor = getElementAccessor(element);
 			if (accessor == null) {
@@ -480,12 +508,29 @@ public class JsonAnnotationProcessor extends AbstractProcessor {
 				p.setEncountError(true);
 				return defaultAction(t, p);
 			}
+			writeIfHeader(p);
 			p.wr("obj.").wr(accessor.getSimpleName().toString()).wr("(");
-			String generatedClassName = p.getGenerateCanonicalClassName(tm);
-			p.wr(generatedClassName).wr(".getList(parser)").wr(");").lnd();
+			p.wr(JsonHash.class).wr(".fromParser(parser));").ln();
 			writeIfFooter(p);
 
-			return super.visitList(t, p);
+			return super.visitJsonHash(t, p);
+		}
+
+		@Override
+		public Void visitJsonArray(DeclaredType t, ClassWriterHelper p) {
+			Element element = p.getHolder();
+			Element accessor = getElementAccessor(element);
+			if (accessor == null) {
+				Log.e("can't find accessor method", p.getHolder());
+				p.setEncountError(true);
+				return defaultAction(t, p);
+			}
+			writeIfHeader(p);
+			p.wr("obj.").wr(accessor.getSimpleName().toString()).wr("(");
+			p.wr(JsonArray.class).wr(".fromParser(parser));").ln();
+			writeIfFooter(p);
+
+			return super.visitJsonArray(t, p);
 		}
 
 		@Override
@@ -496,7 +541,7 @@ public class JsonAnnotationProcessor extends AbstractProcessor {
 
 			TypeMirror tm = t.asElement().asType();
 			Element type = processingEnv.getTypeUtils().asElement(tm);
-			JsonHash hash = type.getAnnotation(JsonHash.class);
+			JsonModel hash = type.getAnnotation(JsonModel.class);
 			if (hash == null) {
 				Log.e("expect for use decorated class by JsonHash annotation.",
 						p.getHolder());

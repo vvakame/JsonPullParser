@@ -99,6 +99,18 @@ public class JsonArray extends ArrayList<Object> {
 		}
 	}
 
+	public JsonHash getJsonHashOrNull(int index) throws JsonFormatException {
+		State state = stateList.get(index);
+		switch (state) {
+		case VALUE_NULL:
+			return null;
+		case START_HASH:
+			return (JsonHash) get(index);
+		default:
+			throw new JsonFormatException("unexpected token. token=" + state);
+		}
+	}
+
 	public State getState(int index) {
 		return stateList.get(index);
 	}
@@ -124,6 +136,8 @@ public class JsonArray extends ArrayList<Object> {
 			return null;
 		case START_ARRAY:
 			return fromParser(parser);
+		case START_HASH:
+			return JsonHash.fromParser(parser);
 		default:
 			// TODO JsonHash的な何かへの対応
 			throw new JsonFormatException("unexpected token. token=" + state);

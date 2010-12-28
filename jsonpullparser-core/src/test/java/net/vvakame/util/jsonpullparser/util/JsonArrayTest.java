@@ -73,11 +73,11 @@ public class JsonArrayTest {
 
 	@Test
 	public void parseAllTypes() throws IOException, JsonFormatException {
-		String json = "[null, true, \"fuga\", 2.3, 1, []]";
+		String json = "[null, true, \"fuga\", 2.3, 1, [], {}]";
 		JsonPullParser parser = JsonPullParser.newParser(json);
 		JsonArray jsonArray = JsonArray.fromParser(parser);
 
-		assertThat(jsonArray.size(), is(6));
+		assertThat(jsonArray.size(), is(7));
 
 		int i = 0;
 		assertThat(jsonArray.getStringOrNull(i), is(nullValue()));
@@ -102,6 +102,10 @@ public class JsonArrayTest {
 		i++;
 		assertThat(jsonArray.getJsonArrayOrNull(i).size(), is(0));
 		assertThat(jsonArray.getState(i), is(State.START_ARRAY));
+
+		i++;
+		assertThat(jsonArray.getJsonHashOrNull(i).size(), is(0));
+		assertThat(jsonArray.getState(i), is(State.START_HASH));
 	}
 
 	// TODO テストを書いてない操作用関数が多数ある…

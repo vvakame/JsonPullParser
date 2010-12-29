@@ -1,9 +1,9 @@
 package net.vvakame.sample.twitter;
 
-import net.vvakame.util.jsonpullparser.annotation.JsonHash;
 import net.vvakame.util.jsonpullparser.annotation.JsonKey;
+import net.vvakame.util.jsonpullparser.annotation.JsonModel;
 
-@JsonHash
+@JsonModel
 public class User {
 	@JsonKey("follow_request_sent")
 	boolean followRequestSent;

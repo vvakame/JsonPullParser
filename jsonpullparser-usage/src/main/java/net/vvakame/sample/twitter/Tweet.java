@@ -1,18 +1,19 @@
 package net.vvakame.sample.twitter;
 
-import net.vvakame.util.jsonpullparser.annotation.JsonHash;
 import net.vvakame.util.jsonpullparser.annotation.JsonKey;
+import net.vvakame.util.jsonpullparser.annotation.JsonModel;
+import net.vvakame.util.jsonpullparser.util.JsonHash;
 
-@JsonHash
+@JsonModel
 public class Tweet {
 	@JsonKey
-	String geo;
+	JsonHash geo;
 
 	@JsonKey
 	boolean truncated;
 
 	@JsonKey
-	String coordinates;
+	JsonHash coordinates;
 
 	@JsonKey
 	boolean favorited;
@@ -30,7 +31,7 @@ public class Tweet {
 	String inReplyToStatusIdStr;
 
 	@JsonKey
-	String contributors;
+	JsonHash contributors;
 
 	@JsonKey("retweet_count")
 	long retweetCount;
@@ -42,7 +43,7 @@ public class Tweet {
 	String createdAt;
 
 	@JsonKey
-	String place;
+	Place place;
 
 	@JsonKey
 	boolean retweeted;
@@ -65,7 +66,7 @@ public class Tweet {
 	/**
 	 * @return the geo
 	 */
-	public String getGeo() {
+	public JsonHash getGeo() {
 		return geo;
 	}
 
@@ -73,7 +74,7 @@ public class Tweet {
 	 * @param geo
 	 *            the geo to set
 	 */
-	public void setGeo(String geo) {
+	public void setGeo(JsonHash geo) {
 		this.geo = geo;
 	}
 
@@ -95,7 +96,7 @@ public class Tweet {
 	/**
 	 * @return the coordinates
 	 */
-	public String getCoordinates() {
+	public JsonHash getCoordinates() {
 		return coordinates;
 	}
 
@@ -103,7 +104,7 @@ public class Tweet {
 	 * @param coordinates
 	 *            the coordinates to set
 	 */
-	public void setCoordinates(String coordinates) {
+	public void setCoordinates(JsonHash coordinates) {
 		this.coordinates = coordinates;
 	}
 
@@ -185,7 +186,7 @@ public class Tweet {
 	/**
 	 * @return the contributors
 	 */
-	public String getContributors() {
+	public JsonHash getContributors() {
 		return contributors;
 	}
 
@@ -193,7 +194,7 @@ public class Tweet {
 	 * @param contributors
 	 *            the contributors to set
 	 */
-	public void setContributors(String contributors) {
+	public void setContributors(JsonHash contributors) {
 		this.contributors = contributors;
 	}
 
@@ -245,7 +246,7 @@ public class Tweet {
 	/**
 	 * @return the place
 	 */
-	public String getPlace() {
+	public Place getPlace() {
 		return place;
 	}
 
@@ -253,7 +254,7 @@ public class Tweet {
 	 * @param place
 	 *            the place to set
 	 */
-	public void setPlace(String place) {
+	public void setPlace(Place place) {
 		this.place = place;
 	}
 

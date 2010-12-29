@@ -9,14 +9,15 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 
-import org.junit.Before;
-import org.junit.Test;
-
 import net.vvakame.sample.twitter.Tweet;
 import net.vvakame.sample.twitter.TweetGenerated;
 import net.vvakame.sample.twitter.User;
 import net.vvakame.util.jsonpullparser.JsonFormatException;
 import net.vvakame.util.jsonpullparser.JsonPullParser;
+import net.vvakame.util.jsonpullparser.util.OnJsonObjectAddListener;
+
+import org.junit.Before;
+import org.junit.Test;
 
 public class OnJsonObjectAddListenerTest {
 	String s = "";
@@ -45,7 +46,7 @@ public class OnJsonObjectAddListenerTest {
 		assertThat(list.size(), is(not(0)));
 		String expected = "";
 		for (int i = 0; i < 20; i++) {
-			expected += "ut";
+			expected += "uot";
 		}
 		assertThat(s, is(expected));
 	}

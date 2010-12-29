@@ -13,6 +13,7 @@ import net.arnx.jsonic.JSON;
 import net.sf.json.JSONArray;
 import net.vvakame.util.jsonpullparser.JsonFormatException;
 import net.vvakame.util.jsonpullparser.JsonPullParser;
+import net.vvakame.util.jsonpullparser.util.JsonArray;
 
 import org.junit.After;
 import org.junit.Before;
@@ -39,9 +40,18 @@ public class BenchmarkTest {
 	}
 
 	@Test
-	public void byJsonPullParser() throws IOException, JsonFormatException {
+	public void byJsonPullParserToPojo() throws IOException,
+			JsonFormatException {
 		JsonPullParser parser = JsonPullParser.newParser(tweet);
 		List<Tweet> list = TweetGenerated.getList(parser);
+		assertThat(list.size(), is(not(0)));
+	}
+
+	@Test
+	public void byJsonPullParserToJsonArray() throws IOException,
+			JsonFormatException {
+		JsonPullParser parser = JsonPullParser.newParser(tweet);
+		JsonArray list = JsonArray.fromParser(parser);
 		assertThat(list.size(), is(not(0)));
 	}
 

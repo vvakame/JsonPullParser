@@ -10,7 +10,7 @@ import net.vvakame.twitter.Tweet;
 import net.vvakame.twitter.TweetGen;
 import net.vvakame.util.jsonpullparser.JsonFormatException;
 import net.vvakame.util.jsonpullparser.JsonPullParser;
-import net.vvakame.util.jsonpullparser.annotation.OnJsonObjectAddListener;
+import net.vvakame.util.jsonpullparser.util.OnJsonObjectAddListener;
 import android.app.ListActivity;
 import android.os.AsyncTask;
 import android.os.Bundle;

@@ -2,23 +2,43 @@ package net.vvakame.sample.twitter;
 
 import net.vvakame.util.jsonpullparser.annotation.JsonKey;
 import net.vvakame.util.jsonpullparser.annotation.JsonModel;
+import net.vvakame.util.jsonpullparser.util.JsonHash;
 
 @JsonModel
 public class Place {
 	@JsonKey
+	String id;
+	@JsonKey
 	String url;
 	@JsonKey("bounding_box")
-	BoundingBox boundingBox;
+	JsonHash boundingBox;
 	@JsonKey
-	Attribute attribute;
+	JsonHash attributes;
 	@JsonKey("full_name")
 	String fullName;
 	@JsonKey
 	String name;
 	@JsonKey("country_code")
 	String countryCode;
-	@JsonKey
+	@JsonKey("place_type")
 	String placeType;
+	@JsonKey
+	String country;
+
+	/**
+	 * @return the id
+	 */
+	public String getId() {
+		return id;
+	}
+
+	/**
+	 * @param id
+	 *            the id to set
+	 */
+	public void setId(String id) {
+		this.id = id;
+	}
 
 	/**
 	 * @return the url
@@ -38,7 +58,7 @@ public class Place {
 	/**
 	 * @return the boundingBox
 	 */
-	public BoundingBox getBoundingBox() {
+	public JsonHash getBoundingBox() {
 		return boundingBox;
 	}
 
@@ -46,23 +66,23 @@ public class Place {
 	 * @param boundingBox
 	 *            the boundingBox to set
 	 */
-	public void setBoundingBox(BoundingBox boundingBox) {
+	public void setBoundingBox(JsonHash boundingBox) {
 		this.boundingBox = boundingBox;
 	}
 
 	/**
-	 * @return the attribute
+	 * @return the attributes
 	 */
-	public Attribute getAttribute() {
-		return attribute;
+	public JsonHash getAttributes() {
+		return attributes;
 	}
 
 	/**
-	 * @param attribute
-	 *            the attribute to set
+	 * @param attributes
+	 *            the attributes to set
 	 */
-	public void setAttribute(Attribute attribute) {
-		this.attribute = attribute;
+	public void setAttributes(JsonHash attributes) {
+		this.attributes = attributes;
 	}
 
 	/**
@@ -123,5 +143,20 @@ public class Place {
 	 */
 	public void setPlaceType(String placeType) {
 		this.placeType = placeType;
+	}
+
+	/**
+	 * @return the country
+	 */
+	public String getCountry() {
+		return country;
+	}
+
+	/**
+	 * @param country
+	 *            the country to set
+	 */
+	public void setCountry(String country) {
+		this.country = country;
 	}
 }

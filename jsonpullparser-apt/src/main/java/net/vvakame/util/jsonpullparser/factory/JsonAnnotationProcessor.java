@@ -219,8 +219,12 @@ public class JsonAnnotationProcessor extends AbstractProcessor {
 			}
 			genExtractValues(w, element);
 		}
-		w.lnd();
+		w.wr("else {").lni();
+		w.wr("throw new ").wr(JsonFormatException.class).wr("(");
+		w.wr("\"unsupported key. key=\" + key);").lnd();
+		w.wr("}").lnd();
 		w.wr("}").ln();
+
 		// 返り値の処理
 		w.wr("return obj;").lnd();
 		w.wr("}").ln();
@@ -510,7 +514,7 @@ public class JsonAnnotationProcessor extends AbstractProcessor {
 			}
 			writeIfHeader(p);
 			p.wr("obj.").wr(accessor.getSimpleName().toString()).wr("(");
-			p.wr(JsonHash.class).wr(".fromParser(parser));").ln();
+			p.wr(JsonHash.class).wr(".fromParser(parser));").lnd();
 			writeIfFooter(p);
 
 			return super.visitJsonHash(t, p);
@@ -527,7 +531,7 @@ public class JsonAnnotationProcessor extends AbstractProcessor {
 			}
 			writeIfHeader(p);
 			p.wr("obj.").wr(accessor.getSimpleName().toString()).wr("(");
-			p.wr(JsonArray.class).wr(".fromParser(parser));").ln();
+			p.wr(JsonArray.class).wr(".fromParser(parser));").lnd();
 			writeIfFooter(p);
 
 			return super.visitJsonArray(t, p);

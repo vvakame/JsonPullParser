@@ -23,6 +23,7 @@ import net.vvakame.sample.twitter.Tweet;
 import net.vvakame.sample.twitter.TweetGenerated;
 import net.vvakame.util.jsonpullparser.JsonFormatException;
 import net.vvakame.util.jsonpullparser.JsonPullParser;
+import net.vvakame.util.jsonpullparser.util.JsonArray;
 
 import org.junit.Test;
 
@@ -132,7 +133,8 @@ public class JsonAnnotationProcessorTest {
 	}
 
 	@Test
-	public void twitterPublicTimeline() throws IOException, JsonFormatException {
+	public void twitterPublicTimelinePOJO() throws IOException,
+			JsonFormatException {
 		final String PUBLIC_TIMELINE_URL = "http://api.twitter.com/1/statuses/public_timeline.json";
 
 		URL url = new URL(PUBLIC_TIMELINE_URL);
@@ -155,6 +157,37 @@ public class JsonAnnotationProcessorTest {
 			JsonPullParser parser = JsonPullParser.newParser(json);
 			List<Tweet> list = TweetGenerated.getList(parser);
 			list.toString();
+		} finally {
+			urlConnection.disconnect();
+		}
+
+	}
+
+	@Test
+	public void twitterPublicTimelineJson() throws IOException,
+			JsonFormatException {
+		final String PUBLIC_TIMELINE_URL = "http://api.twitter.com/1/statuses/public_timeline.json";
+
+		URL url = new URL(PUBLIC_TIMELINE_URL);
+		HttpURLConnection urlConnection = (HttpURLConnection) url
+				.openConnection();
+		try {
+			String json;
+			{
+				StringBuilder builder = new StringBuilder();
+				BufferedReader br = new BufferedReader(new InputStreamReader(
+						urlConnection.getInputStream()));
+				String line;
+				while ((line = br.readLine()) != null) {
+					builder.append(line).append("\n");
+				}
+				json = builder.toString();
+			}
+			System.out.println(json);
+
+			JsonPullParser parser = JsonPullParser.newParser(json);
+			JsonArray jsonArray = JsonArray.fromParser(parser);
+			jsonArray.toString();
 		} finally {
 			urlConnection.disconnect();
 		}

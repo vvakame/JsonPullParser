@@ -15,6 +15,7 @@ import net.vvakame.util.jsonpullparser.JsonFormatException;
 import net.vvakame.util.jsonpullparser.JsonPullParser;
 import net.vvakame.util.jsonpullparser.util.JsonArray;
 
+import org.codehaus.jackson.map.ObjectMapper;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -42,6 +43,7 @@ public class BenchmarkTest {
 	@Test
 	public void byJsonPullParserToPojo() throws IOException,
 			JsonFormatException {
+		System.out.println("byJsonPullParserToPojo");
 		JsonPullParser parser = JsonPullParser.newParser(tweet);
 		List<Tweet> list = TweetGenerated.getList(parser);
 		assertThat(list.size(), is(not(0)));
@@ -50,24 +52,51 @@ public class BenchmarkTest {
 	@Test
 	public void byJsonPullParserToJsonArray() throws IOException,
 			JsonFormatException {
+		System.out.println("byJsonPullParserToJsonArray");
 		JsonPullParser parser = JsonPullParser.newParser(tweet);
 		JsonArray list = JsonArray.fromParser(parser);
 		assertThat(list.size(), is(not(0)));
 	}
 
 	@Test
-	public void byJsonic() throws IOException, JsonFormatException {
-		InputStream is;
-
-		is = getStream(tweet);
-		Tweet[] array = JSON.decode(is, Tweet[].class);
+	public void byJsonicToPojo() throws IOException, JsonFormatException {
+		System.out.println("byJsonicToPojo");
+		Tweet[] array = JSON.decode(tweet, Tweet[].class);
 		assertThat(array.length, is(not(0)));
 	}
 
 	@Test
-	public void byJsonLib() throws IOException, JsonFormatException {
+	public void byJsonicToList() throws IOException, JsonFormatException {
+		System.out.println("byJsonicToList");
+		List<?> list = (List<?>) JSON.decode(tweet);
+		assertThat(list.size(), is(not(0)));
+	}
+
+	@Test
+	public void byJsonLibToPojo() throws IOException, JsonFormatException {
+		System.out.println("byJsonLibToPojo");
+		// TODO やり方わからん…
+	}
+
+	@Test
+	public void byJsonLibToJSONArray() throws IOException, JsonFormatException {
+		System.out.println("byJsonLibToJSONArray");
 		JSONArray jsonArray = JSONArray.fromObject(tweet);
 		assertThat(jsonArray.size(), is(not(0)));
+	}
+
+	@Test
+	public void byJacksonToPojo() throws IOException, JsonFormatException {
+		System.out.println("byJacksonToPojo");
+		// TODO やり方わからん…
+	}
+
+	@Test
+	public void byJacksonToList() throws IOException, JsonFormatException {
+		System.out.println("byJacksonToList");
+		ObjectMapper mapper = new ObjectMapper();
+		List<?> list = mapper.readValue(tweet, List.class);
+		assertThat(list.size(), is(not(0)));
 	}
 
 	public InputStream getStream(String str) {
@@ -86,6 +115,6 @@ public class BenchmarkTest {
 	@After
 	public void teardown() {
 		end = System.currentTimeMillis();
-		System.out.println(end - start + " millisecond");
+		System.out.println("  " + (end - start) + " millisecond");
 	}
 }

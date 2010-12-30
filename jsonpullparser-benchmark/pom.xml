@@ -4,7 +4,7 @@
 
 	<groupId>net.vvakame</groupId>
 	<artifactId>jsonpullparser-benchmark</artifactId>
-	<version>0.1</version>
+	<version>0.2-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
 	<properties>
@@ -25,12 +25,12 @@
 		<dependency>
 			<groupId>net.vvakame</groupId>
 			<artifactId>jsonpullparser-core</artifactId>
-			<version>0.1</version>
+			<version>0.2-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>net.vvakame</groupId>
 			<artifactId>jsonpullparser-apt</artifactId>
-			<version>0.1</version>
+			<version>0.2-SNAPSHOT</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
@@ -55,6 +55,17 @@
 			<artifactId>json-lib</artifactId>
 			<version>2.4</version>
 			<classifier>jdk15</classifier>
+		</dependency>
+		<dependency>
+			<groupId>net.sf.json-lib</groupId>
+			<artifactId>json-lib</artifactId>
+			<version>2.4</version>
+			<classifier>jdk15</classifier>
+		</dependency>
+		<dependency>
+			<groupId>org.codehaus.jackson</groupId>
+			<artifactId>jackson-jaxrs</artifactId>
+			<version>1.6.3</version>
 		</dependency>
 	</dependencies>
 

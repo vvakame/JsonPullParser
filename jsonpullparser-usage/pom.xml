@@ -4,7 +4,7 @@
 
 	<groupId>net.vvakame</groupId>
 	<artifactId>jsonpullparser-usage</artifactId>
-	<version>0.1</version>
+	<version>0.2-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
 	<properties>
@@ -17,12 +17,12 @@
 		<dependency>
 			<groupId>net.vvakame</groupId>
 			<artifactId>jsonpullparser-core</artifactId>
-			<version>0.1</version>
+			<version>0.2-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>net.vvakame</groupId>
 			<artifactId>jsonpullparser-apt</artifactId>
-			<version>0.1</version>
+			<version>0.2-SNAPSHOT</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
@@ -70,7 +70,7 @@
 						<dependency>
 							<groupId>net.vvakame</groupId>
 							<artifactId>jsonpullparser-apt</artifactId>
-							<version>0.1</version>
+							<version>0.2-SNAPSHOT</version>
 						</dependency>
 					</dependencies>
 				</plugin>

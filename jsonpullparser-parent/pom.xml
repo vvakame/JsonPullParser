@@ -5,11 +5,11 @@
 
 	<groupId>net.vvakame</groupId>
 	<artifactId>jsonpullparser-parent</artifactId>
-	<version>0.1</version>
+	<version>0.2-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
 	<properties>
-		<version>0.1</version>
+		<version>0.2-SNAPSHOT</version>
 		<eclipse.lib>eclipse.lib</eclipse.lib>
 	</properties>
 

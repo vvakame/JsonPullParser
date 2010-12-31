@@ -36,6 +36,7 @@
 							<filters>
 								<filter>
 									<artifact>net.vvakame:jsonpullparser-core</artifact>
+									<artifact>org.apache.velocity:velocity</artifact>
 								</filter>
 							</filters>
 						</configuration>

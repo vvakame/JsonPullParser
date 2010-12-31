@@ -139,7 +139,6 @@ public class JsonArray extends ArrayList<Object> {
 		case START_HASH:
 			return JsonHash.fromParser(parser);
 		default:
-			// TODO JsonHash的な何かへの対応
 			throw new JsonFormatException("unexpected token. token=" + state);
 		}
 	}

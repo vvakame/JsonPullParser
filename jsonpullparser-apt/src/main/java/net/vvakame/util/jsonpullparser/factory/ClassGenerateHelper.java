@@ -1,7 +1,6 @@
 package net.vvakame.util.jsonpullparser.factory;
 
 import java.io.IOException;
-import java.io.Writer;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,10 +18,6 @@ import javax.tools.JavaFileObject;
 import net.vvakame.util.jsonpullparser.annotation.JsonKey;
 import net.vvakame.util.jsonpullparser.annotation.JsonModel;
 import net.vvakame.util.jsonpullparser.factory.JsonElement.Kind;
-
-import org.apache.velocity.Template;
-import org.apache.velocity.VelocityContext;
-import org.apache.velocity.app.Velocity;
 
 public class ClassGenerateHelper {
 	static ProcessingEnvironment processingEnv = null;
@@ -56,30 +51,13 @@ public class ClassGenerateHelper {
 	}
 
 	public void write() throws IOException {
-		Velocity.init();
-		VelocityContext context = new VelocityContext();
-		context.put("model", g);
-		Template template = Velocity.getTemplate(
-				"src/main/resources/JsonModelGen.java.vm", "UTF-8");
 
 		Filer filer = processingEnv.getFiler();
-
 		String generateClassName = classElement.asType().toString() + postfix;
 		JavaFileObject fileObject;
-		Writer writer = null;
-		try {
-			fileObject = filer
-					.createSourceFile(generateClassName, classElement);
-			writer = fileObject.openWriter();
-			template.merge(context, writer);
-			writer.flush();
-		} catch (IOException e) {
-			if (writer != null) {
-				writer.close();
-				writer = null;
-			}
-			throw e;
-		}
+
+		fileObject = filer.createSourceFile(generateClassName, classElement);
+		Velocity.write(fileObject, g);
 	}
 
 	public void process() {

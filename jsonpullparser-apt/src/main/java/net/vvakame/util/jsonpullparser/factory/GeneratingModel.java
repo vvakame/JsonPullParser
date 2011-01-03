@@ -3,9 +3,6 @@ package net.vvakame.util.jsonpullparser.factory;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.vvakame.util.jsonpullparser.util.JsonArray;
-import net.vvakame.util.jsonpullparser.util.JsonHash;
-
 public class GeneratingModel {
 	static List<String> ignoreImport;
 	{
@@ -13,8 +10,6 @@ public class GeneratingModel {
 		ignoreImport.add(String.class.getCanonicalName());
 		ignoreImport.add(List.class.getCanonicalName());
 		ignoreImport.add(ArrayList.class.getCanonicalName());
-		ignoreImport.add(JsonHash.class.getCanonicalName());
-		ignoreImport.add(JsonArray.class.getCanonicalName());
 		ignoreImport.add("byte");
 		ignoreImport.add("short");
 		ignoreImport.add("int");

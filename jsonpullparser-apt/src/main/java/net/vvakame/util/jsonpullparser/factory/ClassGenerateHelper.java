@@ -19,6 +19,8 @@ import net.vvakame.util.jsonpullparser.annotation.JsonKey;
 import net.vvakame.util.jsonpullparser.annotation.JsonModel;
 import net.vvakame.util.jsonpullparser.factory.JsonElement.Kind;
 import net.vvakame.util.jsonpullparser.factory.template.Template;
+import net.vvakame.util.jsonpullparser.util.JsonArray;
+import net.vvakame.util.jsonpullparser.util.JsonHash;
 
 public class ClassGenerateHelper {
 	static ProcessingEnvironment processingEnv = null;
@@ -55,8 +57,8 @@ public class ClassGenerateHelper {
 
 		Filer filer = processingEnv.getFiler();
 		String generateClassName = classElement.asType().toString() + postfix;
-		JavaFileObject fileObject;
-		fileObject = filer.createSourceFile(generateClassName, classElement);
+		JavaFileObject fileObject = filer.createSourceFile(generateClassName,
+				classElement);
 		Template.write(fileObject, g);
 	}
 
@@ -239,38 +241,43 @@ public class ClassGenerateHelper {
 				}
 			}
 
-			if (List.class.getCanonicalName().equals(tm.toString())) {
-				// GenericにListが指定されていた場合
-				// TODO 再調整
-				g.addImport(tm.toString());
-				tm.accept(this, el);
-
-				return super.visitList(t, el);
-			} else {
-				// GenericにList以外が指定されていた場合
-
-				Element type = processingEnv.getTypeUtils().asElement(tm);
-				JsonModel hash = type.getAnnotation(JsonModel.class);
-				if (hash == null) {
-					Log.e("expect for use decorated class by JsonModel annotation.",
-							el);
-					encountError = true;
-					return defaultAction(t, el);
-				}
-
-				return genJsonElement(t, el, Kind.LIST);
+			Element type = processingEnv.getTypeUtils().asElement(tm);
+			JsonModel hash = type.getAnnotation(JsonModel.class);
+			if (hash == null) {
+				Log.e("expect for use decorated class by JsonModel annotation.",
+						el);
+				encountError = true;
+				return defaultAction(t, el);
 			}
+
+			JsonElement jsonElement = new JsonElement();
+			jsonElement.setKey(getElementKeyString(el));
+
+			String setter = getElementAccessor(el);
+			if (setter == null) {
+				Log.e("can't find setter method", el);
+				encountError = true;
+				return defaultAction(t, el);
+			}
+			jsonElement.setSetter(setter);
+			jsonElement.setModelName(tm.toString());
+			jsonElement.setKind(Kind.LIST);
+			g.addImport(tm.toString());
+
+			return jsonElement;
 		}
 
 		@Override
 		public JsonElement visitJsonHash(DeclaredType t, Element el) {
 			g.addImport(el.asType().toString());
+			g.addImport(JsonHash.class.getCanonicalName());
 			return genJsonElement(t, el, Kind.JSON_HASH);
 		}
 
 		@Override
 		public JsonElement visitJsonArray(DeclaredType t, Element el) {
 			g.addImport(el.asType().toString());
+			g.addImport(JsonArray.class.getCanonicalName());
 			return genJsonElement(t, el, Kind.JSON_ARRAY);
 		}
 

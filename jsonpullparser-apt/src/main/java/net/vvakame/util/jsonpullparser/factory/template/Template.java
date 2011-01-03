@@ -13,10 +13,11 @@ public class Template {
 
 	public static void write(JavaFileObject fileObject, GeneratingModel model)
 			throws IOException {
-		boolean flg = false;
+		boolean flg = true;
 		if (flg) {
 			MvelTemplate.write(fileObject, model);
 		} else {
+			// TODO not work correctly.
 			VelocityTemplate.write(fileObject, model);
 		}
 	}

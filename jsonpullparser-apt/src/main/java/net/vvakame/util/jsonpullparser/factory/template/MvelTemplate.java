@@ -4,6 +4,8 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.io.Writer;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -18,26 +20,20 @@ import net.vvakame.util.jsonpullparser.factory.Log;
 import org.mvel2.templates.TemplateRuntime;
 
 public class MvelTemplate {
-	static String TEMPLATE;
-	static {
-		InputStream stream = MvelTemplate.class
-				.getResourceAsStream("/JsonModelGen.java.mvel");
-		try {
-			TEMPLATE = streamToString(stream);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-
 	private MvelTemplate() {
 	}
 
 	public static void write(JavaFileObject fileObject, GeneratingModel model)
 			throws IOException {
 		Map<String, Object> map = convModelToMap(model);
-		Log.d(TEMPLATE);
-		Object object = TemplateRuntime.eval(TEMPLATE, map);
-		System.out.println(object);
+
+		Writer writer = fileObject.openWriter();
+		PrintWriter printWriter = new PrintWriter(writer);
+		String generated = (String) TemplateRuntime.eval(getTemplateString(),
+				map);
+		printWriter.write(generated);
+		printWriter.flush();
+		printWriter.close();
 	}
 
 	static Map<String, Object> convModelToMap(GeneratingModel model) {
@@ -63,6 +59,19 @@ public class MvelTemplate {
 		map.put("kind", el.getKind().toString());
 
 		return map;
+	}
+
+	static String getTemplateString() {
+		InputStream stream = MvelTemplate.class.getClassLoader()
+				.getResourceAsStream("JsonModelGen.java.mvel");
+		try {
+			String template = streamToString(stream);
+			// Log.d(template);
+			return template;
+		} catch (IOException e) {
+			Log.e(e);
+			return null;
+		}
 	}
 
 	static String streamToString(InputStream is) throws IOException {

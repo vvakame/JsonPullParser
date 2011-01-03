@@ -31,7 +31,7 @@ public class VelocityTemplate {
 
 	public static Template newTemplate() {
 		VelocityEngine engine = newEngine();
-		Template template = engine.getTemplate("/JsonModelGen.java.vm");
+		Template template = engine.getTemplate("JsonModelGen.java.vm");
 
 		return template;
 	}

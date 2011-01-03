@@ -36,6 +36,9 @@
 							<filters>
 								<filter>
 									<artifact>net.vvakame:jsonpullparser-core</artifact>
+									<artifact>org.apache.velocity:velocity</artifact>
+									<artifact>commons-collections:commons-collections</artifact>
+									<artifact>commons-lang:commons-lang</artifact>
 									<artifact>org.mvel:mvel2</artifact>
 								</filter>
 							</filters>
@@ -63,6 +66,11 @@
 			<artifactId>aptina-unit</artifactId>
 			<version>1.0.0</version>
 			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.velocity</groupId>
+			<artifactId>velocity</artifactId>
+			<version>1.7</version>
 		</dependency>
 		<dependency>
 			<groupId>org.mvel</groupId>

@@ -1,0 +1,107 @@
+#set( $genClass = "${model.target}${model.postfix}")
+package ${model.packageName};
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+import net.vvakame.util.jsonpullparser.JsonFormatException;
+import net.vvakame.util.jsonpullparser.JsonPullParser;
+import net.vvakame.util.jsonpullparser.JsonPullParser.State;
+import net.vvakame.util.jsonpullparser.util.JsonHash;
+import net.vvakame.util.jsonpullparser.util.OnJsonObjectAddListener;
+
+#foreach($obj in $model.imports)
+import ${obj};
+#end
+
+public class ${genClass} {
+	public static List<${model.target}> getList(JsonPullParser parser) throws IOException, JsonFormatException {
+		return getList(parser, null);
+	}
+
+	public static List<${model.target}> getList(JsonPullParser parser, OnJsonObjectAddListener listener) throws IOException, JsonFormatException {
+		List<${model.target}> list = new ArrayList<${model.target}>();
+		State eventType = parser.getEventType();
+		if (eventType == State.VALUE_NULL) {
+			return null;
+		}
+		if (eventType != State.START_ARRAY) {
+			throw new IllegalStateException("not started brace!");
+		}
+		while (parser.lookAhead() != State.END_ARRAY) {
+			${model.target} tmp = get(parser, listener);
+			list.add(tmp);
+			if (listener != null) {
+				listener.onAdd(tmp);
+			}
+		}
+		parser.getEventType();
+		return list;
+	}
+
+	public static ${model.target} get(JsonPullParser parser) throws IOException, JsonFormatException {
+		return get(parser, null);
+	}
+
+	public static ${model.target} get(JsonPullParser parser, OnJsonObjectAddListener listener) throws IOException, JsonFormatException {
+		${model.target} obj = new ${model.target}();
+		State eventType = parser.getEventType();
+		if (eventType == State.VALUE_NULL) {
+			return null;
+		}
+		if (eventType != State.START_HASH) {
+			throw new IllegalStateException("not started hash brace!");
+		}
+		while ((eventType = parser.getEventType()) != State.END_HASH) {
+			if (eventType != State.KEY) {
+				throw new IllegalStateException("expect KEY. we got unexpected value. " + eventType);
+			}
+			String key = parser.getValueString();
+#foreach($obj in $model.elements)
+#if($obj.first)
+			if("${obj.key}".equals(key)) {
+#else
+			} else if("${obj.key}".equals(key)) {
+#end ## end-if
+#if($obj.kind == "BOOLEAN")
+				obj.${obj.setter}(parser.getValueBoolean());
+#elseif($obj.kind == "CHAR")
+				obj.${obj.setter}(parser.getValueString().charAt(0));
+#elseif($obj.kind == "BYTE")
+				obj.${obj.setter}((byte)parser.getValueLong());
+#elseif($obj.kind == "SHORT")
+				obj.${obj.setter}((short)parser.getValueLong());
+#elseif($obj.kind == "INT")
+				obj.${obj.setter}((int)parser.getValueLong());
+#elseif($obj.kind == "LONG")
+				obj.${obj.setter}(parser.getValueLong());
+#elseif($obj.kind == "FLOAT")
+				obj.${obj.setter}((float)parser.getValueDouble());
+#elseif($obj.kind == "DOUBLE")
+				obj.${obj.setter}(parser.getValueDouble());
+#elseif($obj.kind == "STRING")
+				obj.${obj.setter}(parser.getValueString());
+#elseif($obj.kind == "LIST")
+				obj.${obj.setter}(${obj.modelName}${genClass}.getList(parser));
+#elseif($obj.kind == "JSON_ARRAY")
+				obj.${obj.setter}(JsonArray.fromParser(parser));
+#elseif($obj.kind == "JSON_HASH")
+				obj.${obj.setter}(JsonHash.fromParser(parser));
+#elseif($obj.kind == "MODEL")
+				${obj.modelName} tmp = ${obj.modelName}${genClass}.get(parser);
+				obj.${obj.setter}(tmp);
+				if (listener != null) {
+					listener.onAdd(tmp);
+				}
+#end ## end-if
+#end ## end-foreach
+#if($model.elements.size() != 0)
+			} else {
+				throw new JsonFormatException("unsupported key. key=" + key);
+			}
+#end ## end-if
+		}
+		return obj;
+	}
+}

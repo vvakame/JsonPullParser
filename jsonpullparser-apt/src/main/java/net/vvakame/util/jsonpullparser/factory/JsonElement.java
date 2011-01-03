@@ -1,6 +1,5 @@
 package net.vvakame.util.jsonpullparser.factory;
 
-
 public class JsonElement {
 	boolean first = false;
 	String key;
@@ -8,7 +7,7 @@ public class JsonElement {
 	Kind kind;
 	String modelName;
 
-	public enum Kind {
+	public static enum Kind {
 		STRING, BOOLEAN, DOUBLE, LONG, MODEL, BYTE, CHAR, FLOAT, INT, SHORT, LIST, JSON_HASH, JSON_ARRAY
 	}
 

@@ -1,0 +1,85 @@
+package @{packageName};
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+import net.vvakame.util.jsonpullparser.JsonFormatException;
+import net.vvakame.util.jsonpullparser.JsonPullParser;
+import net.vvakame.util.jsonpullparser.JsonPullParser.State;
+import net.vvakame.util.jsonpullparser.util.JsonHash;
+import net.vvakame.util.jsonpullparser.util.OnJsonObjectAddListener;
+
+@foreach{imp : imports}import @{imp};@end{}
+
+public class @{target}@{postfix} {
+	public static List<@{target}> getList(JsonPullParser parser) throws IOException, JsonFormatException {
+		return getList(parser, null);
+	}
+
+	public static List<@{target}> getList(JsonPullParser parser, OnJsonObjectAddListener listener) throws IOException, JsonFormatException {
+		List<@{target}> list = new ArrayList<@{target}>();
+		State eventType = parser.getEventType();
+		if (eventType == State.VALUE_NULL) {
+			return null;
+		}
+		if (eventType != State.START_ARRAY) {
+			throw new IllegalStateException("not started brace!");
+		}
+		while (parser.lookAhead() != State.END_ARRAY) {
+			@{target} tmp = get(parser, listener);
+			list.add(tmp);
+			if (listener != null) {
+				listener.onAdd(tmp);
+			}
+		}
+		parser.getEventType();
+		return list;
+	}
+
+	public static @{target} get(JsonPullParser parser) throws IOException, JsonFormatException {
+		return get(parser, null);
+	}
+
+	public static @{target} get(JsonPullParser parser, OnJsonObjectAddListener listener) throws IOException, JsonFormatException {
+		@{target} obj = new @{target}();
+		State eventType = parser.getEventType();
+		if (eventType == State.VALUE_NULL) {
+			return null;
+		}
+		if (eventType != State.START_HASH) {
+			throw new IllegalStateException("not started hash brace!");
+		}
+		while ((eventType = parser.getEventType()) != State.END_HASH) {
+			if (eventType != State.KEY) {
+				throw new IllegalStateException("expect KEY. we got unexpected value. " + eventType);
+			}
+			String key = parser.getValueString();
+			@foreach{obj : elements}if("@{obj.key}".equals(key)) {
+@if{obj.kind == "BOOLEAN"}				obj.@{obj.setter}(parser.getValueBoolean());
+@else{obj.kind == "CHAR"}				obj.@{obj.setter}(parser.getValueString().charAt(0));
+@else{obj.kind == "BYTE"}				obj.@{obj.setter}((byte)parser.getValueLong());
+@else{obj.kind == "SHORT"}				obj.@{obj.setter}((short)parser.getValueLong());
+@else{obj.kind == "INT"}				obj.@{obj.setter}((int)parser.getValueLong());
+@else{obj.kind == "LONG"}				obj.@{obj.setter}(parser.getValueLong());
+@else{obj.kind == "FLOAT"}				obj.@{obj.setter}((float)parser.getValueDouble());
+@else{obj.kind == "DOUBLE"}				obj.@{obj.setter}(parser.getValueDouble());
+@else{obj.kind == "STRING"}				obj.@{obj.setter}(parser.getValueString());
+@else{obj.kind == "LIST"}				obj.@{obj.setter}(@{obj.modelName}@{postfix}.getList(parser));
+@else{obj.kind == "JSON_ARRAY"}				obj.@{obj.setter}(JsonArray.fromParser(parser));
+@else{obj.kind == "JSON_HASH"}				obj.@{obj.setter}(JsonHash.fromParser(parser));
+@else{obj.kind == "MODEL"}				@{obj.modelName} tmp = @{obj.modelName}@{postfix}.get(parser);
+				obj.@{obj.setter}(tmp);
+				if (listener != null) {
+					listener.onAdd(tmp);
+				}
+@end{}@end{'			} else '}
+@if{elements.size() != 0}
+			} else {
+				throw new JsonFormatException("unsupported key. key=" + key);
+			}
+@end{}
+		}
+		return obj;
+	}
+}

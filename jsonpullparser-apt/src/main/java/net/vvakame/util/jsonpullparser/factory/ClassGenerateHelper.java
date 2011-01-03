@@ -18,7 +18,7 @@ import javax.tools.JavaFileObject;
 import net.vvakame.util.jsonpullparser.annotation.JsonKey;
 import net.vvakame.util.jsonpullparser.annotation.JsonModel;
 import net.vvakame.util.jsonpullparser.factory.JsonElement.Kind;
-import net.vvakame.util.jsonpullparser.factory.velocity.Velocity;
+import net.vvakame.util.jsonpullparser.factory.template.Template;
 
 public class ClassGenerateHelper {
 	static ProcessingEnvironment processingEnv = null;
@@ -56,9 +56,8 @@ public class ClassGenerateHelper {
 		Filer filer = processingEnv.getFiler();
 		String generateClassName = classElement.asType().toString() + postfix;
 		JavaFileObject fileObject;
-
 		fileObject = filer.createSourceFile(generateClassName, classElement);
-		Velocity.write(fileObject, g);
+		Template.write(fileObject, g);
 	}
 
 	public void process() {

@@ -75,6 +75,21 @@ public class GeneratingModel {
 	}
 
 	/**
+	 * @return the ignoreImport
+	 */
+	public static List<String> getIgnoreImport() {
+		return ignoreImport;
+	}
+
+	/**
+	 * @param ignoreImport
+	 *            the ignoreImport to set
+	 */
+	public static void setIgnoreImport(List<String> ignoreImport) {
+		GeneratingModel.ignoreImport = ignoreImport;
+	}
+
+	/**
 	 * @return the packageName
 	 */
 	public String getPackageName() {
@@ -120,10 +135,33 @@ public class GeneratingModel {
 	}
 
 	/**
+	 * @return the imports
+	 */
+	public List<String> getImports() {
+		return imports;
+	}
+
+	/**
+	 * @param imports
+	 *            the imports to set
+	 */
+	public void setImports(List<String> imports) {
+		this.imports = imports;
+	}
+
+	/**
 	 * @return the elements
 	 */
 	public List<JsonElement> getElements() {
 		return elements;
+	}
+
+	/**
+	 * @param elements
+	 *            the elements to set
+	 */
+	public void setElements(List<JsonElement> elements) {
+		this.elements = elements;
 	}
 
 	/**

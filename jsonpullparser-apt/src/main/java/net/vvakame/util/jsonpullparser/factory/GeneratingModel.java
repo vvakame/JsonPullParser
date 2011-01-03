@@ -3,7 +3,28 @@ package net.vvakame.util.jsonpullparser.factory;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.vvakame.util.jsonpullparser.util.JsonArray;
+import net.vvakame.util.jsonpullparser.util.JsonHash;
+
 public class GeneratingModel {
+	static List<String> ignoreImport;
+	{
+		ignoreImport = new ArrayList<String>();
+		ignoreImport.add(String.class.getCanonicalName());
+		ignoreImport.add(List.class.getCanonicalName());
+		ignoreImport.add(ArrayList.class.getCanonicalName());
+		ignoreImport.add(JsonHash.class.getCanonicalName());
+		ignoreImport.add(JsonArray.class.getCanonicalName());
+		ignoreImport.add("byte");
+		ignoreImport.add("short");
+		ignoreImport.add("int");
+		ignoreImport.add("long");
+		ignoreImport.add("char");
+		ignoreImport.add("float");
+		ignoreImport.add("double");
+		ignoreImport.add("boolean");
+	}
+
 	String packageName = "invalid";
 	String postfix = "Invalid";
 	String target = "Invalid";
@@ -14,9 +35,37 @@ public class GeneratingModel {
 
 	public void addImport(String importStr) {
 		// Velocity is not support Set...?
-		if (!imports.contains(importStr)) {
-			imports.add(importStr);
+		if (imports.contains(importStr)) {
+			return;
 		}
+
+		String packageName = "";
+		String fqnClassName = "";
+
+		{
+			int i;
+			i = importStr.lastIndexOf(".");
+			if (i > 0) {
+				packageName = importStr.substring(0, i);
+			} else {
+				packageName = "";
+			}
+			i = importStr.lastIndexOf("<");
+			if (i > 0) {
+				fqnClassName = importStr.substring(0, i);
+			} else {
+				fqnClassName = importStr;
+			}
+		}
+
+		if (this.packageName.equals(packageName)) {
+			return;
+		}
+		if (ignoreImport.contains(fqnClassName)) {
+			return;
+		}
+
+		imports.add(fqnClassName);
 	}
 
 	public void addJsonElement(JsonElement jsonElement) {

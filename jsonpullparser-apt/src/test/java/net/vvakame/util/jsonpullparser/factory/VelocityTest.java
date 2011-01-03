@@ -5,6 +5,7 @@ import java.io.StringWriter;
 import net.vvakame.sample.twitter.Tweet;
 import net.vvakame.sample.twitter.User;
 import net.vvakame.util.jsonpullparser.factory.JsonElement.Kind;
+import net.vvakame.util.jsonpullparser.factory.velocity.Velocity;
 
 import org.junit.Test;
 

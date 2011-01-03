@@ -18,6 +18,7 @@ import javax.tools.JavaFileObject;
 import net.vvakame.util.jsonpullparser.annotation.JsonKey;
 import net.vvakame.util.jsonpullparser.annotation.JsonModel;
 import net.vvakame.util.jsonpullparser.factory.JsonElement.Kind;
+import net.vvakame.util.jsonpullparser.factory.velocity.Velocity;
 
 public class ClassGenerateHelper {
 	static ProcessingEnvironment processingEnv = null;
@@ -109,6 +110,12 @@ public class ClassGenerateHelper {
 		return str.substring(i + 1);
 	}
 
+	static String getSimpleName(TypeMirror tm) {
+		String str = tm.toString();
+		int i = str.lastIndexOf(".");
+		return str.substring(i + 1);
+	}
+
 	String getElementKeyString(Element element) {
 		JsonKey key = element.getAnnotation(JsonKey.class);
 		return "".equals(key.value()) ? element.toString() : key.value();
@@ -159,8 +166,9 @@ public class ClassGenerateHelper {
 				return defaultAction(t, el);
 			}
 			jsonElement.setSetter(setter);
-			jsonElement.setModelName(el.getSimpleName().toString());
+			jsonElement.setModelName(getSimpleName(t));
 			jsonElement.setKind(kind);
+			g.addImport(t.toString());
 
 			return jsonElement;
 		}

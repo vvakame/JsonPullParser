@@ -1,27 +1,30 @@
-package net.vvakame.util.jsonpullparser.factory;
+package net.vvakame.util.jsonpullparser.factory.velocity;
 
 import java.io.IOException;
 import java.io.Writer;
-import java.util.Properties;
 
 import javax.tools.JavaFileObject;
+
+import net.vvakame.util.jsonpullparser.factory.GeneratingModel;
 
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;
 import org.apache.velocity.runtime.RuntimeConstants;
+import org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader;
 
 public class Velocity {
 	public static VelocityEngine newEngine() {
 		VelocityEngine engine = new VelocityEngine();
-		Properties p = new Properties();
-		p.setProperty(RuntimeConstants.RESOURCE_LOADER, "class");
-		p.setProperty("class.resource.loader.class",
-				"org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader");
-		p.setProperty("input.encoding", "UTF-8");
-		p.setProperty(VelocityEngine.RUNTIME_LOG_LOGSYSTEM_CLASS,
-				"org.apache.velocity.runtime.log.NullLogChute");
-		engine.init(p);
+
+		engine.addProperty(RuntimeConstants.RUNTIME_LOG_LOGSYSTEM_CLASS,
+				MessagerLog.class.getCanonicalName());
+		engine.addProperty(RuntimeConstants.RESOURCE_LOADER, "class");
+		engine.addProperty("class.resource.loader.class",
+				ClasspathResourceLoader.class.getCanonicalName());
+		engine.addProperty("input.encoding", "UTF-8");
+
+		engine.init();
 
 		return engine;
 	}

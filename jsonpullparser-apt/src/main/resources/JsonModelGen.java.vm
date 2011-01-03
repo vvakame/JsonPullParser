@@ -60,9 +60,9 @@ public class ${genClass} {
 			String key = parser.getValueString();
 #foreach($obj in $model.elements)
 #if($obj.first)
-			if("${obj.key}".equals(key) {
+			if("${obj.key}".equals(key)) {
 #else
-			}else if("${obj.key}".equals(key) {
+			} else if("${obj.key}".equals(key)) {
 #end ## end-if
 #if($obj.kind == "BOOLEAN")
 				obj.${obj.setter}(parser.getValueBoolean());

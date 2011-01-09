@@ -435,6 +435,100 @@ public class JsonPullParserTest {
 		assertThat(type, is(State.VALUE_LONG));
 	}
 
+	@Test
+	public void discardToken() throws IOException, JsonFormatException {
+		State type;
+
+		JsonPullParser parser = JsonPullParser
+				.newParser("[null,\"str\",true,1,1.1,{},[],{\"key1\":true,\"key2\":false}]");
+
+		type = parser.getEventType();
+		assertThat(type, is(State.START_ARRAY));
+
+		parser.discardToken();
+		parser.discardToken();
+		parser.discardToken();
+		parser.discardToken();
+		parser.discardToken();
+		parser.discardToken();
+		parser.discardToken();
+
+		type = parser.getEventType();
+		assertThat(type, is(State.START_HASH));
+
+		parser.discardToken();
+
+		type = parser.getEventType();
+		assertThat(type, is(State.KEY));
+
+		type = parser.getEventType();
+		assertThat(type, is(State.VALUE_BOOLEAN));
+
+		type = parser.getEventType();
+		assertThat(type, is(State.END_HASH));
+
+		type = parser.getEventType();
+		assertThat(type, is(State.END_ARRAY));
+	}
+
+	@Test
+	public void discardArrayToken() throws IOException, JsonFormatException {
+		State type;
+
+		JsonPullParser parser = JsonPullParser.newParser("[null,[[{}]]]");
+
+		type = parser.getEventType();
+		assertThat(type, is(State.START_ARRAY));
+
+		type = parser.getEventType();
+		assertThat(type, is(State.VALUE_NULL));
+
+		type = parser.getEventType();
+		assertThat(type, is(State.START_ARRAY));
+
+		parser.discardArrayToken();
+
+		type = parser.getEventType();
+		assertThat(type, is(State.END_ARRAY));
+	}
+
+	@Test
+	public void discardHashToken() throws IOException, JsonFormatException {
+		State type;
+
+		JsonPullParser parser = JsonPullParser
+				.newParser("[null,{\"key1\":true,{\"key2\":false,\"key3\":{\"key4\":{}}}}]");
+
+		type = parser.getEventType();
+		assertThat(type, is(State.START_ARRAY));
+
+		parser.discardToken();
+
+		type = parser.getEventType();
+		assertThat(type, is(State.START_HASH));
+
+		parser.discardToken();
+
+		type = parser.getEventType();
+		assertThat(type, is(State.START_HASH));
+
+		parser.discardToken();
+
+		type = parser.getEventType();
+		assertThat(type, is(State.KEY));
+
+		parser.discardHashToken();
+
+		type = parser.getEventType();
+		assertThat(type, is(State.END_HASH));
+
+		type = parser.getEventType();
+		assertThat(type, is(State.END_HASH));
+
+		type = parser.getEventType();
+		assertThat(type, is(State.END_ARRAY));
+	}
+
 	@Test(expected = JsonFormatException.class)
 	public void parseFailure1() throws IOException, JsonFormatException {
 		JsonPullParser parser = JsonPullParser.newParser("[}");

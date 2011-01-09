@@ -468,6 +468,104 @@ public class JsonPullParser {
 		return current;
 	}
 
+	public void discardToken() throws IOException, JsonFormatException {
+		State state = lookAhead();
+		switch (state) {
+		case START_ARRAY:
+			discardArrayToken();
+			break;
+		case START_HASH:
+			discardHashToken();
+			break;
+		case KEY:
+			getEventType();
+			discardToken();
+			break;
+		case VALUE_NULL:
+		case VALUE_STRING:
+		case VALUE_BOOLEAN:
+		case VALUE_LONG:
+		case VALUE_DOUBLE:
+			getEventType();
+			break;
+		default:
+			throw new IllegalStateException("unexpected token. token=" + state);
+		}
+	}
+
+	public void discardArrayToken() throws IOException, JsonFormatException {
+		State state = lookAhead();
+		switch (state) {
+		case START_ARRAY:
+			getEventType();
+			while ((state = lookAhead()) != State.END_ARRAY) {
+				switch (state) {
+				case START_ARRAY:
+					discardArrayToken();
+					break;
+				case START_HASH:
+					discardHashToken();
+					break;
+				case VALUE_NULL:
+				case VALUE_STRING:
+				case VALUE_BOOLEAN:
+				case VALUE_LONG:
+				case VALUE_DOUBLE:
+					getEventType();
+					break;
+				default:
+					throw new IllegalStateException("unexpected token. token="
+							+ state);
+				}
+			}
+			getEventType();
+
+			break;
+		case VALUE_NULL:
+			getEventType();
+			break;
+		default:
+			throw new IllegalStateException("unexpected token. token=" + state);
+		}
+	}
+
+	public void discardHashToken() throws IOException, JsonFormatException {
+		State state = lookAhead();
+		switch (state) {
+		case START_HASH:
+			getEventType();
+			while ((state = lookAhead()) != State.END_HASH) {
+				switch (state) {
+				case START_ARRAY:
+					discardArrayToken();
+					break;
+				case START_HASH:
+					discardHashToken();
+					break;
+				case KEY:
+				case VALUE_NULL:
+				case VALUE_STRING:
+				case VALUE_BOOLEAN:
+				case VALUE_LONG:
+				case VALUE_DOUBLE:
+					getEventType();
+					break;
+				default:
+					throw new IllegalStateException("unexpected token. token="
+							+ state);
+				}
+			}
+			getEventType();
+
+			break;
+		case VALUE_NULL:
+			getEventType();
+			break;
+		default:
+			throw new IllegalStateException("unexpected token. token=" + state);
+		}
+	}
+
 	/**
 	 * 値を文字列として取得します。
 	 * 

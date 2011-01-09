@@ -39,7 +39,6 @@ public class MvelTemplate {
 	static Map<String, Object> convModelToMap(GeneratingModel model) {
 		Map<String, Object> map = new LinkedHashMap<String, Object>();
 		map.put("packageName", model.getPackageName());
-		map.put("imports", model.getImports());
 		map.put("postfix", model.getPostfix());
 		map.put("target", model.getTarget());
 		List<Map<String, String>> jsonElements = new ArrayList<Map<String, String>>();

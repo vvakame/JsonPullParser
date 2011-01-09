@@ -19,8 +19,6 @@ import net.vvakame.util.jsonpullparser.annotation.JsonKey;
 import net.vvakame.util.jsonpullparser.annotation.JsonModel;
 import net.vvakame.util.jsonpullparser.factory.JsonElement.Kind;
 import net.vvakame.util.jsonpullparser.factory.template.Template;
-import net.vvakame.util.jsonpullparser.util.JsonArray;
-import net.vvakame.util.jsonpullparser.util.JsonHash;
 
 public class ClassGenerateHelper {
 	static ProcessingEnvironment processingEnv = null;
@@ -117,6 +115,16 @@ public class ClassGenerateHelper {
 		return str.substring(i + 1);
 	}
 
+	static String getFullQualifiedName(TypeMirror tm) {
+		String str = tm.toString();
+		int i = str.lastIndexOf("<");
+		if (0 < i) {
+			return str.substring(i + 1);
+		} else {
+			return str;
+		}
+	}
+
 	String getElementKeyString(Element element) {
 		JsonKey key = element.getAnnotation(JsonKey.class);
 		return "".equals(key.value()) ? element.toString() : key.value();
@@ -167,9 +175,8 @@ public class ClassGenerateHelper {
 				return defaultAction(t, el);
 			}
 			jsonElement.setSetter(setter);
-			jsonElement.setModelName(getSimpleName(t));
+			jsonElement.setModelName(getFullQualifiedName(t));
 			jsonElement.setKind(kind);
-			g.addImport(t.toString());
 
 			return jsonElement;
 		}
@@ -262,22 +269,17 @@ public class ClassGenerateHelper {
 			jsonElement.setSetter(setter);
 			jsonElement.setModelName(tm.toString());
 			jsonElement.setKind(Kind.LIST);
-			g.addImport(tm.toString());
 
 			return jsonElement;
 		}
 
 		@Override
 		public JsonElement visitJsonHash(DeclaredType t, Element el) {
-			g.addImport(el.asType().toString());
-			g.addImport(JsonHash.class.getCanonicalName());
 			return genJsonElement(t, el, Kind.JSON_HASH);
 		}
 
 		@Override
 		public JsonElement visitJsonArray(DeclaredType t, Element el) {
-			g.addImport(el.asType().toString());
-			g.addImport(JsonArray.class.getCanonicalName());
 			return genJsonElement(t, el, Kind.JSON_ARRAY);
 		}
 
@@ -294,7 +296,6 @@ public class ClassGenerateHelper {
 				return defaultAction(t, el);
 			}
 
-			g.addImport(el.asType().toString());
 			return genJsonElement(t, el, Kind.MODEL);
 		}
 	}

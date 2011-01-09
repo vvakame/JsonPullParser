@@ -9,8 +9,6 @@ import net.vvakame.util.jsonpullparser.JsonPullParser;
 import net.vvakame.util.jsonpullparser.JsonPullParser.State;
 import net.vvakame.util.jsonpullparser.util.OnJsonObjectAddListener;
 
-@foreach{imp : imports}import @{imp};@end{}
-
 public class @{target}@{postfix} {
 	public static List<@{target}> getList(JsonPullParser parser) throws IOException, JsonFormatException {
 		return getList(parser, null);
@@ -85,9 +83,9 @@ public class @{target}@{postfix} {
 @else{obj.kind == "LIST"}
 				obj.@{obj.setter}(@{obj.modelName}@{postfix}.getList(parser));
 @else{obj.kind == "JSON_ARRAY"}
-				obj.@{obj.setter}(JsonArray.fromParser(parser));
+				obj.@{obj.setter}(net.vvakame.util.jsonpullparser.util.JsonArray.fromParser(parser));
 @else{obj.kind == "JSON_HASH"}
-				obj.@{obj.setter}(JsonHash.fromParser(parser));
+				obj.@{obj.setter}(net.vvakame.util.jsonpullparser.util.JsonHash.fromParser(parser));
 @else{obj.kind == "MODEL"}
 				@{obj.modelName} tmp = @{obj.modelName}@{postfix}.get(parser);
 				obj.@{obj.setter}(tmp);

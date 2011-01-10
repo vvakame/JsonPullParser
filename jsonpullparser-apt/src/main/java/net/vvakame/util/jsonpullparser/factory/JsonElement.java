@@ -6,9 +6,10 @@ public class JsonElement {
 	String setter;
 	Kind kind;
 	String modelName;
+	String converter;
 
 	public static enum Kind {
-		STRING, BOOLEAN, DOUBLE, LONG, MODEL, BYTE, CHAR, FLOAT, INT, SHORT, LIST, JSON_HASH, JSON_ARRAY
+		STRING, BOOLEAN, DOUBLE, LONG, MODEL, BYTE, CHAR, FLOAT, INT, SHORT, LIST, JSON_HASH, JSON_ARRAY, CONVERTER
 	}
 
 	/**
@@ -84,5 +85,20 @@ public class JsonElement {
 	 */
 	public void setModelName(String modelName) {
 		this.modelName = modelName;
+	}
+
+	/**
+	 * @return the converter
+	 */
+	public String getConverter() {
+		return converter;
+	}
+
+	/**
+	 * @param converter
+	 *            the converter to set
+	 */
+	public void setConverter(String converter) {
+		this.converter = converter;
 	}
 }

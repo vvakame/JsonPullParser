@@ -56,6 +56,7 @@ public class MvelTemplate {
 		map.put("modelName", el.getModelName());
 		map.put("setter", el.getSetter());
 		map.put("kind", el.getKind().toString());
+		map.put("converter", el.getConverter());
 
 		return map;
 	}

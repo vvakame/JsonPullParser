@@ -3,11 +3,15 @@ package net.vvakame.util.jsonpullparser.factory;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.processing.Filer;
 import javax.annotation.processing.ProcessingEnvironment;
+import javax.lang.model.element.AnnotationMirror;
+import javax.lang.model.element.AnnotationValue;
 import javax.lang.model.element.Element;
 import javax.lang.model.element.ElementKind;
+import javax.lang.model.element.ExecutableElement;
 import javax.lang.model.type.DeclaredType;
 import javax.lang.model.type.PrimitiveType;
 import javax.lang.model.type.TypeMirror;
@@ -19,6 +23,7 @@ import net.vvakame.util.jsonpullparser.annotation.JsonKey;
 import net.vvakame.util.jsonpullparser.annotation.JsonModel;
 import net.vvakame.util.jsonpullparser.factory.JsonElement.Kind;
 import net.vvakame.util.jsonpullparser.factory.template.Template;
+import net.vvakame.util.jsonpullparser.util.TokenConverter;
 
 public class ClassGenerateHelper {
 	static ProcessingEnvironment processingEnv = null;
@@ -174,9 +179,37 @@ public class ClassGenerateHelper {
 				encountError = true;
 				return defaultAction(t, el);
 			}
+
+			String converterClassName = null;
+			AnnotationValue converter = null;
+
+			for (AnnotationMirror am : el.getAnnotationMirrors()) {
+				Map<? extends ExecutableElement, ? extends AnnotationValue> elementValues = am
+						.getElementValues();
+				for (ExecutableElement e : elementValues.keySet()) {
+					if ("converter".equals(e.getSimpleName().toString())) {
+						converter = elementValues.get(e);
+					}
+				}
+			}
+
+			if (converter != null
+					&& !TokenConverter.class.getCanonicalName().equals(
+							converter)) {
+				kind = Kind.CONVERTER;
+				String tmp = converter.toString();
+				if (tmp.endsWith(".class")) {
+					int i = tmp.lastIndexOf('.');
+					converterClassName = tmp.substring(0, i);
+				} else {
+					converterClassName = tmp;
+				}
+			}
+
 			jsonElement.setSetter(setter);
 			jsonElement.setModelName(getFullQualifiedName(t));
 			jsonElement.setKind(kind);
+			jsonElement.setConverter(converterClassName);
 
 			return jsonElement;
 		}

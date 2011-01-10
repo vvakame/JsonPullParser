@@ -92,6 +92,10 @@ public class @{target}@{postfix} {
 				if (listener != null) {
 					listener.onAdd(tmp);
 				}
+@else{obj.kind == "CONVERTER"}
+				@{obj.converter} converter = @{obj.converter}.getInstance();
+				@{obj.modelName} tmp = converter.parse(parser);
+				obj.@{obj.setter}(tmp);
 @end{}@end{'			} else '}
 @if{elements.size() != 0}
 			} else {

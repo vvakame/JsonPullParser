@@ -160,6 +160,35 @@ public class ClassGenerateHelper {
 		}
 	}
 
+	String getConverterClassName(Element el) {
+
+		AnnotationValue converter = null;
+
+		for (AnnotationMirror am : el.getAnnotationMirrors()) {
+			Map<? extends ExecutableElement, ? extends AnnotationValue> elementValues = am
+					.getElementValues();
+			for (ExecutableElement e : elementValues.keySet()) {
+				if ("converter".equals(e.getSimpleName().toString())) {
+					converter = elementValues.get(e);
+				}
+			}
+		}
+
+		String result = null;
+		if (converter != null
+				&& !TokenConverter.class.getCanonicalName().equals(converter)) {
+			String tmp = converter.toString();
+			if (tmp.endsWith(".class")) {
+				int i = tmp.lastIndexOf('.');
+				result = tmp.substring(0, i);
+			} else {
+				result = tmp;
+			}
+		}
+
+		return result;
+	}
+
 	class ValueExtractVisitor extends
 			StandardTypeKindVisitor<JsonElement, Element> {
 
@@ -180,34 +209,13 @@ public class ClassGenerateHelper {
 				return defaultAction(t, el);
 			}
 
-			String converterClassName = null;
-			AnnotationValue converter = null;
-
-			for (AnnotationMirror am : el.getAnnotationMirrors()) {
-				Map<? extends ExecutableElement, ? extends AnnotationValue> elementValues = am
-						.getElementValues();
-				for (ExecutableElement e : elementValues.keySet()) {
-					if ("converter".equals(e.getSimpleName().toString())) {
-						converter = elementValues.get(e);
-					}
-				}
-			}
-
-			if (converter != null
-					&& !TokenConverter.class.getCanonicalName().equals(
-							converter)) {
+			String converterClassName = getConverterClassName(el);
+			if (converterClassName != null) {
 				kind = Kind.CONVERTER;
-				String tmp = converter.toString();
-				if (tmp.endsWith(".class")) {
-					int i = tmp.lastIndexOf('.');
-					converterClassName = tmp.substring(0, i);
-				} else {
-					converterClassName = tmp;
-				}
 			}
 
 			jsonElement.setSetter(setter);
-			jsonElement.setModelName(getFullQualifiedName(t));
+			jsonElement.setModelName(t.toString());
 			jsonElement.setKind(kind);
 			jsonElement.setConverter(converterClassName);
 
@@ -262,46 +270,55 @@ public class ClassGenerateHelper {
 		@Override
 		public JsonElement visitList(DeclaredType t, Element el) {
 
-			List<? extends TypeMirror> generics = t.getTypeArguments();
-			if (generics.size() != 1) {
-				Log.e("expected single type generics.", el);
-				encountError = true;
-				return defaultAction(t, el);
-			}
-			TypeMirror tm = generics.get(0);
-			if (tm instanceof WildcardType) {
-				WildcardType wt = (WildcardType) tm;
-				TypeMirror extendsBound = wt.getExtendsBound();
-				if (extendsBound != null) {
-					tm = extendsBound;
+			JsonElement jsonElement;
+
+			String converterClassName = getConverterClassName(el);
+			if (converterClassName != null) {
+				jsonElement = genJsonElement(t, el, Kind.CONVERTER);
+
+			} else {
+
+				List<? extends TypeMirror> generics = t.getTypeArguments();
+				if (generics.size() != 1) {
+					Log.e("expected single type generics.", el);
+					encountError = true;
+					return defaultAction(t, el);
 				}
-				TypeMirror superBound = wt.getSuperBound();
-				if (superBound != null) {
-					tm = superBound;
+				TypeMirror tm = generics.get(0);
+				if (tm instanceof WildcardType) {
+					WildcardType wt = (WildcardType) tm;
+					TypeMirror extendsBound = wt.getExtendsBound();
+					if (extendsBound != null) {
+						tm = extendsBound;
+					}
+					TypeMirror superBound = wt.getSuperBound();
+					if (superBound != null) {
+						tm = superBound;
+					}
 				}
-			}
 
-			Element type = processingEnv.getTypeUtils().asElement(tm);
-			JsonModel hash = type.getAnnotation(JsonModel.class);
-			if (hash == null) {
-				Log.e("expect for use decorated class by JsonModel annotation.",
-						el);
-				encountError = true;
-				return defaultAction(t, el);
-			}
+				Element type = processingEnv.getTypeUtils().asElement(tm);
+				JsonModel hash = type.getAnnotation(JsonModel.class);
+				if (hash == null) {
+					Log.e("expect for use decorated class by JsonModel annotation.",
+							el);
+					encountError = true;
+					return defaultAction(t, el);
+				}
 
-			JsonElement jsonElement = new JsonElement();
-			jsonElement.setKey(getElementKeyString(el));
+				jsonElement = new JsonElement();
+				jsonElement.setKey(getElementKeyString(el));
 
-			String setter = getElementAccessor(el);
-			if (setter == null) {
-				Log.e("can't find setter method", el);
-				encountError = true;
-				return defaultAction(t, el);
+				String setter = getElementAccessor(el);
+				if (setter == null) {
+					Log.e("can't find setter method", el);
+					encountError = true;
+					return defaultAction(t, el);
+				}
+				jsonElement.setSetter(setter);
+				jsonElement.setModelName(tm.toString());
+				jsonElement.setKind(Kind.LIST);
 			}
-			jsonElement.setSetter(setter);
-			jsonElement.setModelName(tm.toString());
-			jsonElement.setKind(Kind.LIST);
 
 			return jsonElement;
 		}

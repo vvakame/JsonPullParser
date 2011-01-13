@@ -23,7 +23,7 @@ public @interface JsonKey {
 		@Override
 		public Void parse(JsonPullParser parser) throws IOException,
 				JsonFormatException {
-			parser.discardToken();
+			parser.discardValue();
 			return null;
 		}
 	}

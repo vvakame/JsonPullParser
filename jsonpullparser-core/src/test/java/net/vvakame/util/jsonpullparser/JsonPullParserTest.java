@@ -445,18 +445,18 @@ public class JsonPullParserTest {
 		type = parser.getEventType();
 		assertThat(type, is(State.START_ARRAY));
 
-		parser.discardToken();
-		parser.discardToken();
-		parser.discardToken();
-		parser.discardToken();
-		parser.discardToken();
-		parser.discardToken();
-		parser.discardToken();
+		parser.discardValue();
+		parser.discardValue();
+		parser.discardValue();
+		parser.discardValue();
+		parser.discardValue();
+		parser.discardValue();
+		parser.discardValue();
 
 		type = parser.getEventType();
 		assertThat(type, is(State.START_HASH));
 
-		parser.discardToken();
+		parser.discardValue();
 
 		type = parser.getEventType();
 		assertThat(type, is(State.KEY));
@@ -502,17 +502,17 @@ public class JsonPullParserTest {
 		type = parser.getEventType();
 		assertThat(type, is(State.START_ARRAY));
 
-		parser.discardToken();
+		parser.discardValue();
 
 		type = parser.getEventType();
 		assertThat(type, is(State.START_HASH));
 
-		parser.discardToken();
+		parser.discardValue();
 
 		type = parser.getEventType();
 		assertThat(type, is(State.START_HASH));
 
-		parser.discardToken();
+		parser.discardValue();
 
 		type = parser.getEventType();
 		assertThat(type, is(State.KEY));

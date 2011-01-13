@@ -7,7 +7,7 @@ import net.vvakame.sample.converter.StringDiscardConverter;
 import net.vvakame.util.jsonpullparser.annotation.JsonModel;
 import net.vvakame.util.jsonpullparser.annotation.JsonKey;
 
-@JsonModel
+@JsonModel(treatUnknownKeyAsError = true)
 public class ConverterData {
 	@JsonKey(converter = StringDiscardConverter.class)
 	String str1;

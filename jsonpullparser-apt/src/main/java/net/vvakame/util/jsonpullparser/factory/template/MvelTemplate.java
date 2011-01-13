@@ -46,6 +46,7 @@ public class MvelTemplate {
 			jsonElements.add(convJsonElementToMap(jsonElement));
 		}
 		map.put("elements", jsonElements);
+		map.put("treatUnknownKeyAsError", model.isTreatUnknownKeyAsError());
 
 		return map;
 	}

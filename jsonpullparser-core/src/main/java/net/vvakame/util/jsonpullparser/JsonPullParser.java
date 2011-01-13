@@ -468,7 +468,7 @@ public class JsonPullParser {
 		return current;
 	}
 
-	public void discardToken() throws IOException, JsonFormatException {
+	public void discardValue() throws IOException, JsonFormatException {
 		State state = lookAhead();
 		switch (state) {
 		case START_ARRAY:
@@ -479,7 +479,7 @@ public class JsonPullParser {
 			break;
 		case KEY:
 			getEventType();
-			discardToken();
+			discardValue();
 			break;
 		case VALUE_NULL:
 		case VALUE_STRING:

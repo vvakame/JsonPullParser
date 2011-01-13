@@ -249,9 +249,15 @@ public class @{target}@{postfix} {
 				obj.@{obj.setter}(tmp);
 @end{}@end{'			} else '}
 @if{elements.size() != 0}
+@if{treatUnknownKeyAsError == true}
 			} else {
 				throw new IllegalStateException("unsupported key. key=" + key);
 			}
+@else{}
+			} else {
+				parser.discardValue();
+			}
+@end{}
 @end{}
 		}
 

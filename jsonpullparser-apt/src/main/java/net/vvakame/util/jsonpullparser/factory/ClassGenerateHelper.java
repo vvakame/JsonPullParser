@@ -48,6 +48,7 @@ public class ClassGenerateHelper {
 		g.setPackageName(getPackageName(element));
 		g.setTarget(getSimpleName(element));
 		g.setPostfix(postfix);
+		g.setTreatUnknownKeyAsError(getTreatUnknownKeyAsError(element));
 	}
 
 	public void addElement(Element element) {
@@ -187,6 +188,14 @@ public class ClassGenerateHelper {
 		}
 
 		return result;
+	}
+
+	boolean getTreatUnknownKeyAsError(Element element) {
+		JsonModel model = element.getAnnotation(JsonModel.class);
+		if (model == null) {
+			throw new IllegalArgumentException();
+		}
+		return model.treatUnknownKeyAsError();
 	}
 
 	class ValueExtractVisitor extends

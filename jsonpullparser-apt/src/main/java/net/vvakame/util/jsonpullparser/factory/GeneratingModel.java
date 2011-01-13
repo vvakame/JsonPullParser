@@ -11,6 +11,7 @@ public class GeneratingModel {
 
 	List<JsonElement> elements = new ArrayList<JsonElement>();
 	boolean first = true;
+	boolean treatUnknownKeyAsError;
 
 	public void addJsonElement(JsonElement jsonElement) {
 		jsonElement.first = first;
@@ -91,5 +92,20 @@ public class GeneratingModel {
 	 */
 	public void setFirst(boolean first) {
 		this.first = first;
+	}
+
+	/**
+	 * @return the treatUnknownKeyAsError
+	 */
+	public boolean isTreatUnknownKeyAsError() {
+		return treatUnknownKeyAsError;
+	}
+
+	/**
+	 * @param treatUnknownKeyAsError
+	 *            the treatUnknownKeyAsError to set
+	 */
+	public void setTreatUnknownKeyAsError(boolean treatUnknownKeyAsError) {
+		this.treatUnknownKeyAsError = treatUnknownKeyAsError;
 	}
 }

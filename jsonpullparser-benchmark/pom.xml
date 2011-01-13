@@ -8,6 +8,7 @@
 	<packaging>jar</packaging>
 
 	<properties>
+		<jsonpullparser.version>${version}</jsonpullparser.version>
 		<eclipse.lib>eclipse.lib</eclipse.lib>
 		<generated.src>.apt_generated</generated.src>
 		<genclass.postfix>Generated</genclass.postfix>
@@ -25,12 +26,12 @@
 		<dependency>
 			<groupId>net.vvakame</groupId>
 			<artifactId>jsonpullparser-core</artifactId>
-			<version>0.2-SNAPSHOT</version>
+			<version>${jsonpullparser.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>net.vvakame</groupId>
 			<artifactId>jsonpullparser-apt</artifactId>
-			<version>0.2-SNAPSHOT</version>
+			<version>${jsonpullparser.version}</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
@@ -182,7 +183,7 @@
 				                <![CDATA[
 <factorypath>
     <factorypathentry kind="PLUGIN" id="org.eclipse.jst.ws.annotations.core" enabled="true" runInBatchMode="false"/>
-    <factorypathentry kind="WKSPJAR" id="/${artifactId}/${eclipse.lib}/jsonpullparser-apt-${version}.jar" enabled="true" runInBatchMode="false"/>
+    <factorypathentry kind="WKSPJAR" id="/${artifactId}/${eclipse.lib}/jsonpullparser-apt-${jsonpullparser.version}.jar" enabled="true" runInBatchMode="false"/>
 </factorypath>
 				                ]]>
 							</content>

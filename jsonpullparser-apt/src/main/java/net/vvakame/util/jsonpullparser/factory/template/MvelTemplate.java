@@ -79,7 +79,8 @@ public class MvelTemplate {
 			Log.e("not expected null value.");
 			throw new IllegalStateException("not expected null value.");
 		}
-		BufferedReader br = new BufferedReader(new InputStreamReader(is));
+		BufferedReader br = new BufferedReader(new InputStreamReader(is,
+				"utf-8"));
 		StringBuilder builder = new StringBuilder();
 		String line;
 		while ((line = br.readLine()) != null) {

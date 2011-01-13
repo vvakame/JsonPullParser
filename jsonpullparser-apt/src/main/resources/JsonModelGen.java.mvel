@@ -1,5 +1,6 @@
 package @{packageName};
 
+import java.io.InputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -9,12 +10,91 @@ import net.vvakame.util.jsonpullparser.JsonPullParser;
 import net.vvakame.util.jsonpullparser.JsonPullParser.State;
 import net.vvakame.util.jsonpullparser.util.OnJsonObjectAddListener;
 
+/**
+ * JSONを {@link JsonPullParser} を用いて {@link @{target}} に変換するクラスです.<br>
+ * APTにより自動生成されています.
+ */
 public class @{target}@{postfix} {
-	public static List<@{target}> getList(JsonPullParser parser) throws IOException, JsonFormatException {
+
+	/**
+	 * JSONを {@link @{target}} の {@link List} に変換します.
+	 * 
+	 * @param json JSONによる {@link @{target}} の表現
+	 * @return {@link @{target}} の {@link List}
+	 * @throws JsonFormatException JSONとして正しくない形式だった場合に投げられます
+	 * @throws IllegalStateException JSONとしては正しくても {@link @{target}} に合致しない場合に投げられます
+	 */
+	public static List<@{target}> getList(String json) throws IOException, IllegalStateException, JsonFormatException {
+		JsonPullParser parser = JsonPullParser.newParser(json);
 		return getList(parser, null);
 	}
 
-	public static List<@{target}> getList(JsonPullParser parser, OnJsonObjectAddListener listener) throws IOException, JsonFormatException {
+	/**
+	 * JSONを {@link @{target}} の {@link List} に変換します.<br>
+	 * {@link OnJsonObjectAddListener} のサブクラスを渡すことにより、生成中に発生する各種インスタンスを逐次うけとることが可能です.
+	 * 
+	 * @param json JSONによる {@link @{target}} の表現
+	 * @param listener {@link @{target}} 生成中に発生するインスタンスを逐次受け取る {@link OnJsonObjectAddListener} のサブクラス
+	 * @return {@link @{target}} の {@link List}
+	 * @throws JsonFormatException JSONとして正しくない形式だった場合に投げられます
+	 * @throws IllegalStateException JSONとしては正しくても {@link @{target}} に合致しない場合に投げられます
+	 */
+	public static List<@{target}> getList(String json, OnJsonObjectAddListener listener) throws IOException, IllegalStateException, JsonFormatException {
+		JsonPullParser parser = JsonPullParser.newParser(json);
+		return getList(parser, listener);
+	}
+
+	/**
+	 * JSONを {@link @{target}} の {@link List} に変換します.
+	 * 
+	 * @param json JSONによる {@link @{target}} の表現
+	 * @return {@link @{target}} の {@link List}
+	 * @throws JsonFormatException JSONとして正しくない形式だった場合に投げられます
+	 * @throws IllegalStateException JSONとしては正しくても {@link @{target}} に合致しない場合に投げられます
+	 */
+	public static List<@{target}> getList(InputStream stream) throws IOException, IllegalStateException, JsonFormatException {
+		JsonPullParser parser = JsonPullParser.newParser(stream);
+		return getList(parser, null);
+	}
+
+	/**
+	 * JSONを {@link @{target}} の {@link List} に変換します.<br>
+	 * {@link OnJsonObjectAddListener} のサブクラスを渡すことにより、生成中に発生する各種インスタンスを逐次うけとることが可能です.
+	 * 
+	 * @param json JSONによる {@link @{target}} の表現
+	 * @param listener {@link @{target}} 生成中に発生するインスタンスを逐次受け取る {@link OnJsonObjectAddListener} のサブクラス
+	 * @return {@link @{target}} の {@link List}
+	 * @throws JsonFormatException JSONとして正しくない形式だった場合に投げられます
+	 * @throws IllegalStateException JSONとしては正しくても {@link @{target}} に合致しない場合に投げられます
+	 */
+	public static List<@{target}> getList(InputStream stream, OnJsonObjectAddListener listener) throws IOException, IllegalStateException, JsonFormatException {
+		JsonPullParser parser = JsonPullParser.newParser(stream);
+		return getList(parser, listener);
+	}
+
+	/**
+	 * JSONを {@link @{target}} の {@link List} に変換します.
+	 * 
+	 * @param json JSONによる {@link @{target}} の表現
+	 * @return {@link @{target}} の {@link List}
+	 * @throws JsonFormatException JSONとして正しくない形式だった場合に投げられます
+	 * @throws IllegalStateException JSONとしては正しくても {@link @{target}} に合致しない場合に投げられます
+	 */
+	public static List<@{target}> getList(JsonPullParser parser) throws IOException, IllegalStateException, JsonFormatException {
+		return getList(parser, null);
+	}
+
+	/**
+	 * JSONを {@link @{target}} の {@link List} に変換します.<br>
+	 * {@link OnJsonObjectAddListener} のサブクラスを渡すことにより、生成中に発生する各種インスタンスを逐次うけとることが可能です.
+	 * 
+	 * @param json JSONによる {@link @{target}} の表現
+	 * @param listener {@link @{target}} 生成中に発生するインスタンスを逐次受け取る {@link OnJsonObjectAddListener} のサブクラス
+	 * @return {@link @{target}} の {@link List}
+	 * @throws JsonFormatException JSONとして正しくない形式だった場合に投げられます
+	 * @throws IllegalStateException JSONとしては正しくても {@link @{target}} に合致しない場合に投げられます
+	 */
+	public static List<@{target}> getList(JsonPullParser parser, OnJsonObjectAddListener listener) throws IOException, IllegalStateException, JsonFormatException {
 		List<@{target}> list = new ArrayList<@{target}>();
 		State eventType = parser.getEventType();
 		if (eventType == State.VALUE_NULL) {
@@ -26,19 +106,90 @@ public class @{target}@{postfix} {
 		while (parser.lookAhead() != State.END_ARRAY) {
 			@{target} tmp = get(parser, listener);
 			list.add(tmp);
-			if (listener != null) {
-				listener.onAdd(tmp);
-			}
 		}
 		parser.getEventType();
 		return list;
 	}
 
-	public static @{target} get(JsonPullParser parser) throws IOException, JsonFormatException {
+	/**
+	 * JSONを {@link @{target}} に変換します.
+	 * 
+	 * @param json JSONによる {@link @{target}} の表現
+	 * @return {@link @{target}}
+	 * @throws JsonFormatException JSONとして正しくない形式だった場合に投げられます
+	 * @throws IllegalStateException JSONとしては正しくても {@link @{target}} に合致しない場合に投げられます
+	 */
+	public static @{target} get(String json) throws IOException, IllegalStateException, JsonFormatException {
+		JsonPullParser parser = JsonPullParser.newParser(json);
 		return get(parser, null);
 	}
 
-	public static @{target} get(JsonPullParser parser, OnJsonObjectAddListener listener) throws IOException, JsonFormatException {
+	/**
+	 * JSONを {@link @{target}} に変換します.<br>
+	 * {@link OnJsonObjectAddListener} のサブクラスを渡すことにより、生成中に発生する各種インスタンスを逐次うけとることが可能です.
+	 * 
+	 * @param json JSONによる {@link @{target}} の表現
+	 * @param listener {@link @{target}} 生成中に発生するインスタンスを逐次受け取る {@link OnJsonObjectAddListener} のサブクラス
+	 * @return {@link @{target}}
+	 * @throws JsonFormatException JSONとして正しくない形式だった場合に投げられます
+	 * @throws IllegalStateException JSONとしては正しくても {@link @{target}} に合致しない場合に投げられます
+	 */
+	public static @{target} get(String json, OnJsonObjectAddListener listener) throws IOException, IllegalStateException, JsonFormatException {
+		JsonPullParser parser = JsonPullParser.newParser(json);
+		return get(parser, listener);
+	}
+
+	/**
+	 * JSONを {@link @{target}} に変換します.
+	 * 
+	 * @param json JSONによる {@link @{target}} の表現
+	 * @return {@link @{target}}
+	 * @throws JsonFormatException JSONとして正しくない形式だった場合に投げられます
+	 * @throws IllegalStateException JSONとしては正しくても {@link @{target}} に合致しない場合に投げられます
+	 */
+	public static @{target} get(InputStream stream) throws IOException, IllegalStateException, JsonFormatException {
+		JsonPullParser parser = JsonPullParser.newParser(stream);
+		return get(parser, null);
+	}
+
+	/**
+	 * JSONを {@link @{target}} に変換します.<br>
+	 * {@link OnJsonObjectAddListener} のサブクラスを渡すことにより、生成中に発生する各種インスタンスを逐次うけとることが可能です.
+	 * 
+	 * @param json JSONによる {@link @{target}} の表現
+	 * @param listener {@link @{target}} 生成中に発生するインスタンスを逐次受け取る {@link OnJsonObjectAddListener} のサブクラス
+	 * @return {@link @{target}}
+	 * @throws JsonFormatException JSONとして正しくない形式だった場合に投げられます
+	 * @throws IllegalStateException JSONとしては正しくても {@link @{target}} に合致しない場合に投げられます
+	 */
+	public static @{target} get(InputStream stream, OnJsonObjectAddListener listener) throws IOException, IllegalStateException, JsonFormatException {
+		JsonPullParser parser = JsonPullParser.newParser(stream);
+		return get(parser, listener);
+	}
+
+	/**
+	 * JSONを {@link @{target}} に変換します.
+	 * 
+	 * @param json JSONによる {@link @{target}} の表現
+	 * @return {@link @{target}}
+	 * @throws JsonFormatException JSONとして正しくない形式だった場合に投げられます
+	 * @throws IllegalStateException JSONとしては正しくても {@link @{target}} に合致しない場合に投げられます
+	 */
+	public static @{target} get(JsonPullParser parser) throws IOException, IllegalStateException, JsonFormatException {
+		return get(parser, null);
+	}
+
+	/**
+	 * JSONを {@link @{target}} に変換します.<br>
+	 * {@link OnJsonObjectAddListener} のサブクラスを渡すことにより、生成中に発生する各種インスタンスを逐次うけとることが可能です.
+	 * 
+	 * @param json JSONによる {@link @{target}} の表現
+	 * @param listener {@link @{target}} 生成中に発生するインスタンスを逐次受け取る {@link OnJsonObjectAddListener} のサブクラス
+	 * @return {@link @{target}}
+	 * @throws JsonFormatException JSONとして正しくない形式だった場合に投げられます
+	 * @throws IllegalStateException JSONとしては正しくても {@link @{target}} に合致しない場合に投げられます
+	 */
+	public static @{target} get(JsonPullParser parser, OnJsonObjectAddListener listener) throws IOException, IllegalStateException, JsonFormatException {
 		@{target} obj = new @{target}();
 		State eventType = parser.getEventType();
 		if (eventType == State.VALUE_NULL) {
@@ -99,10 +250,15 @@ public class @{target}@{postfix} {
 @end{}@end{'			} else '}
 @if{elements.size() != 0}
 			} else {
-				throw new JsonFormatException("unsupported key. key=" + key);
+				throw new IllegalStateException("unsupported key. key=" + key);
 			}
 @end{}
 		}
+
+		if (listener != null) {
+			listener.onAdd(obj);
+		}
+
 		return obj;
 	}
 }

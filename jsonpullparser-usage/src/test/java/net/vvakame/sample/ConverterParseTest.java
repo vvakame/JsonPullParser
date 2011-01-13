@@ -6,7 +6,6 @@ import static org.junit.Assert.assertThat;
 import java.io.IOException;
 
 import net.vvakame.util.jsonpullparser.JsonFormatException;
-import net.vvakame.util.jsonpullparser.JsonPullParser;
 
 import org.junit.Test;
 
@@ -16,9 +15,7 @@ public class ConverterParseTest {
 	public void stringConverter() throws IOException, JsonFormatException {
 		String twitterData = "{\"str1\":\"value1\", \"str2\":\"value2\"}";
 
-		JsonPullParser parser = JsonPullParser.newParser(twitterData);
-
-		ConverterData converterData = ConverterDataGenerated.get(parser);
+		ConverterData converterData = ConverterDataGenerated.get(twitterData);
 
 		assertThat(converterData.getStr1(), is("value1"));
 		assertThat(converterData.getStr2(), is("value2"));
@@ -29,9 +26,7 @@ public class ConverterParseTest {
 			JsonFormatException {
 		String twitterData = "{\"str1\":\"value1\", \"str2\":\"value2\", \"flatten\":[1,[2,3],[[4,[5,6],7]],[],8]}";
 
-		JsonPullParser parser = JsonPullParser.newParser(twitterData);
-
-		ConverterData converterData = ConverterDataGenerated.get(parser);
+		ConverterData converterData = ConverterDataGenerated.get(twitterData);
 
 		assertThat(converterData.getStr1(), is("value1"));
 		assertThat(converterData.getStr2(), is("value2"));

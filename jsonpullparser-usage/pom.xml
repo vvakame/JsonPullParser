@@ -65,6 +65,8 @@
 					<artifactId>apt-maven-plugin</artifactId>
 					<version>1.0-alpha-4</version>
 					<configuration>
+						<encoding>utf-8</encoding>
+						<outputDirectory>${generated.src}</outputDirectory>
 						<factory>net.vvakame.jsonpullparser.factiory.JsonAnnotationProcessor</factory>
 					</configuration>
 					<dependencies>
@@ -98,11 +100,6 @@
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>apt-maven-plugin</artifactId>
-				<configuration>
-					<encoding>utf-8</encoding>
-					<outputDirectory>${generated.src}</outputDirectory>
-					<factory>net.vvakame.jsonpullparser.factiory.JsonAnnotationProcessor</factory>
-				</configuration>
 				<executions>
 					<execution>
 						<phase>process-sources</phase>

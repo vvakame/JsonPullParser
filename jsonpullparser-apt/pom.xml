@@ -36,7 +36,6 @@
 							<filters>
 								<filter>
 									<artifact>net.vvakame:jsonpullparser-core</artifact>
-									<artifact>org.apache.velocity:velocity</artifact>
 									<artifact>commons-collections:commons-collections</artifact>
 									<artifact>commons-lang:commons-lang</artifact>
 									<artifact>org.mvel:mvel2</artifact>
@@ -53,7 +52,7 @@
 		<dependency>
 			<groupId>net.vvakame</groupId>
 			<artifactId>jsonpullparser-core</artifactId>
-			<version>${version}</version>
+			<version>${jsonpullparser.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.seasar.aptina</groupId>

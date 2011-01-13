@@ -6,16 +6,27 @@ import javax.tools.Diagnostic;
 
 public class Log {
 	static Messager messager = null;
+	static boolean debug = false;
 
 	public static void init(Messager msgr) {
 		messager = msgr;
 	}
 
+	public static void setDebug(boolean d) {
+		debug = d;
+	}
+
 	public static void d() {
+		if (debug) {
+			return;
+		}
 		d(getStackInfo());
 	}
 
 	public static void d(String msg) {
+		if (debug) {
+			return;
+		}
 		if (messager == null) {
 			return;
 		}

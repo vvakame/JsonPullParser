@@ -88,8 +88,7 @@ public class TestData {
 	}
 
 	/**
-	 * @param hasData
-	 *            the hasData to set
+	 * @param hasData the hasData to set
 	 */
 	public void setHasData(boolean hasData) {
 		this.hasData = hasData;

@@ -22,11 +22,20 @@ import net.vvakame.util.jsonpullparser.annotation.JsonModel;
 public class JsonAnnotationProcessor extends AbstractProcessor {
 
 	private static final String CLASS_POSTFIX_OPTION = "JsonPullParserClassPostfix";
+	private static final String DEBUG_OPTION = "JsonPullParserDebug";
 
 	@Override
 	public synchronized void init(ProcessingEnvironment processingEnv) {
 		super.init(processingEnv);
 		Log.init(processingEnv.getMessager());
+
+		// デバッグログ出力の設定を行う
+		String debug = getOption(DEBUG_OPTION);
+		if ("true".equalsIgnoreCase(debug)) {
+			Log.setDebug(true);
+		}
+
+		Log.d("init JsonAnotationProcessor");
 	}
 
 	@Override
@@ -35,21 +44,22 @@ public class JsonAnnotationProcessor extends AbstractProcessor {
 
 		ClassGenerateHelper.init(processingEnv);
 
+		Log.d("start process method.");
+
 		// 生成するクラスのpostfixが指定されてたらそっちにする
-		{
-			String postfix;
-			Map<String, String> options = processingEnv.getOptions();
-			if (options.containsKey(CLASS_POSTFIX_OPTION)
-					&& !"".equals(options.get(CLASS_POSTFIX_OPTION))) {
-				postfix = options.get(CLASS_POSTFIX_OPTION);
-			} else {
-				postfix = "Gen";
-			}
-			ClassGenerateHelper.setPostfix(postfix);
+		String postfix;
+		String optPostfix = getOption(CLASS_POSTFIX_OPTION);
+		if (optPostfix == null) {
+			postfix = "Gen";
+		} else {
+			postfix = optPostfix;
 		}
+		ClassGenerateHelper.setPostfix(postfix);
 
 		for (Element element : typesIn(roundEnv
 				.getElementsAnnotatedWith(JsonModel.class))) {
+
+			Log.d("process " + element.toString());
 
 			ClassGenerateHelper generater = ClassGenerateHelper
 					.newInstance(element);
@@ -69,5 +79,14 @@ public class JsonAnnotationProcessor extends AbstractProcessor {
 		}
 
 		return true;
+	}
+
+	String getOption(String key) {
+		Map<String, String> options = processingEnv.getOptions();
+		if (options.containsKey(key) && !"".equals(options.get(key))) {
+			return options.get(key);
+		} else {
+			return null;
+		}
 	}
 }

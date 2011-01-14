@@ -9,6 +9,7 @@
 
 	<properties>
 		<jsonpullparser.version>${version}</jsonpullparser.version>
+		<jsonpullparser.debug>true</jsonpullparser.debug>
 		<eclipse.lib>eclipse.lib</eclipse.lib>
 		<generated.src>.apt_generated</generated.src>
 		<genclass.postfix>Generated</genclass.postfix>
@@ -187,6 +188,7 @@ eclipse.preferences.version=1
 org.eclipse.jdt.apt.aptEnabled=true
 org.eclipse.jdt.apt.genSrcDir=${generated.src}
 org.eclipse.jdt.apt.processorOptions/JsonPullParserClassPostfix=${genclass.postfix}
+org.eclipse.jdt.apt.processorOptions/JsonPullParserDebug=${jsonpullparser.debug}
 org.eclipse.jdt.apt.reconcileEnabled=false
 				                ]]>
 							</content>

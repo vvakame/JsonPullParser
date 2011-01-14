@@ -17,14 +17,14 @@ public class Log {
 	}
 
 	public static void d() {
-		if (debug) {
+		if (!debug) {
 			return;
 		}
 		d(getStackInfo());
 	}
 
 	public static void d(String msg) {
-		if (debug) {
+		if (!debug) {
 			return;
 		}
 		if (messager == null) {

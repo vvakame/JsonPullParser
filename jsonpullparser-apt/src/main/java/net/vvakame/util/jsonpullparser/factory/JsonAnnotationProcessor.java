@@ -33,6 +33,8 @@ public class JsonAnnotationProcessor extends AbstractProcessor {
 		String debug = getOption(DEBUG_OPTION);
 		if ("true".equalsIgnoreCase(debug)) {
 			Log.setDebug(true);
+		} else {
+			Log.setDebug(false);
 		}
 
 		Log.d("init JsonAnotationProcessor");

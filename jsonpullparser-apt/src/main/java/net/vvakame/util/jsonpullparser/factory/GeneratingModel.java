@@ -14,6 +14,9 @@ public class GeneratingModel {
 	boolean treatUnknownKeyAsError;
 
 	public void addJsonElement(JsonElement jsonElement) {
+		if (jsonElement == null) {
+			return;
+		}
 		jsonElement.first = first;
 		elements.add(jsonElement);
 		first = false;

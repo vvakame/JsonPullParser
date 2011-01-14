@@ -1,7 +1,6 @@
 package net.vvakame.util.jsonpullparser.factory;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -16,9 +15,9 @@ import javax.lang.model.type.DeclaredType;
 import javax.lang.model.type.PrimitiveType;
 import javax.lang.model.type.TypeMirror;
 import javax.lang.model.type.WildcardType;
-import javax.lang.model.util.ElementFilter;
 import javax.tools.JavaFileObject;
 
+import static net.vvakame.apt.AptUtil.*;
 import net.vvakame.util.jsonpullparser.annotation.JsonKey;
 import net.vvakame.util.jsonpullparser.annotation.JsonModel;
 import net.vvakame.util.jsonpullparser.factory.JsonElement.Kind;
@@ -68,7 +67,8 @@ public class ClassGenerateHelper {
 
 	public void process() {
 		// JsonKeyの収集
-		List<Element> elements = filterJsonKeyElement(classElement);
+		List<Element> elements = getEnclosedElementsByAnnotation(classElement,
+				JsonKey.class, ElementKind.FIELD);
 		if (elements.size() == 0) {
 			Log.e("not exists any @JsonKey decorated field.", classElement);
 		}
@@ -79,86 +79,9 @@ public class ClassGenerateHelper {
 		}
 	}
 
-	static List<Element> filterJsonKeyElement(Element parent) {
-		List<? extends Element> elements = parent.getEnclosedElements();
-		List<Element> results = new ArrayList<Element>();
-
-		for (Element element : elements) {
-			if (element.getKind() != ElementKind.FIELD) {
-				continue;
-			}
-			JsonKey key = element.getAnnotation(JsonKey.class);
-			if (key == null) {
-				continue;
-			}
-			results.add(element);
-		}
-
-		return results;
-	}
-
-	static String getPackageName(Element element) {
-		if (element.getKind() != ElementKind.CLASS) {
-			throw new IllegalStateException();
-		}
-		String str = element.asType().toString();
-		int i = str.lastIndexOf(".");
-		return str.substring(0, i);
-	}
-
-	static String getSimpleName(Element element) {
-		if (element.getKind() != ElementKind.CLASS) {
-			throw new IllegalStateException();
-		}
-		String str = element.asType().toString();
-		int i = str.lastIndexOf(".");
-		return str.substring(i + 1);
-	}
-
-	static String getSimpleName(TypeMirror tm) {
-		String str = tm.toString();
-		int i = str.lastIndexOf(".");
-		return str.substring(i + 1);
-	}
-
-	static String getFullQualifiedName(TypeMirror tm) {
-		String str = tm.toString();
-		int i = str.lastIndexOf("<");
-		if (0 < i) {
-			return str.substring(i + 1);
-		} else {
-			return str;
-		}
-	}
-
 	String getElementKeyString(Element element) {
 		JsonKey key = element.getAnnotation(JsonKey.class);
 		return "".equals(key.value()) ? element.toString() : key.value();
-	}
-
-	String getElementAccessor(Element element) {
-		Element setter = null;
-		for (Element m : ElementFilter.methodsIn(element.getEnclosingElement()
-				.getEnclosedElements())) {
-			if (("set" + element.getSimpleName().toString()).equalsIgnoreCase(m
-					.getSimpleName().toString())) {
-				// TODO publicかどうかの判定をいれていない
-				setter = m;
-				break;
-			} else if (element.getSimpleName().toString().startsWith("is")
-					&& ("set" + element.getSimpleName().toString().substring(2))
-							.equalsIgnoreCase(m.getSimpleName().toString())) {
-				// boolean isHoge のsetterは setHoge になる
-				// TODO publicかどうかの判定をいれていない
-				setter = m;
-				break;
-			}
-		}
-		if (setter != null) {
-			return setter.getSimpleName().toString();
-		} else {
-			return null;
-		}
 	}
 
 	String getConverterClassName(Element el) {
@@ -211,7 +134,7 @@ public class ClassGenerateHelper {
 			JsonElement jsonElement = new JsonElement();
 			jsonElement.setKey(getElementKeyString(el));
 
-			String setter = getElementAccessor(el);
+			String setter = getElementSetter(el);
 			if (setter == null) {
 				Log.e("can't find setter method", el);
 				encountError = true;
@@ -318,7 +241,7 @@ public class ClassGenerateHelper {
 				jsonElement = new JsonElement();
 				jsonElement.setKey(getElementKeyString(el));
 
-				String setter = getElementAccessor(el);
+				String setter = getElementSetter(el);
 				if (setter == null) {
 					Log.e("can't find setter method", el);
 					encountError = true;

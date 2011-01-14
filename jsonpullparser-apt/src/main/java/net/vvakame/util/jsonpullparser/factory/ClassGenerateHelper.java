@@ -11,6 +11,8 @@ import javax.lang.model.element.AnnotationValue;
 import javax.lang.model.element.Element;
 import javax.lang.model.element.ElementKind;
 import javax.lang.model.element.ExecutableElement;
+import javax.lang.model.element.Modifier;
+import javax.lang.model.element.TypeElement;
 import javax.lang.model.type.DeclaredType;
 import javax.lang.model.type.PrimitiveType;
 import javax.lang.model.type.TypeMirror;
@@ -143,6 +145,15 @@ public class ClassGenerateHelper {
 
 			String converterClassName = getConverterClassName(el);
 			if (converterClassName != null) {
+				TypeElement element = processingEnv.getElementUtils()
+						.getTypeElement(converterClassName);
+				Log.d(element.asType().toString());
+				if (element == null
+						|| !isMethodExists(element, "getInstance",
+								Modifier.PUBLIC, Modifier.STATIC)) {
+					Log.e("converter needs [public static getInstance()].",
+							element);
+				}
 				kind = Kind.CONVERTER;
 			}
 

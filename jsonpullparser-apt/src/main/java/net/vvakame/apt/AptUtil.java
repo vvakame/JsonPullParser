@@ -2,10 +2,12 @@ package net.vvakame.apt;
 
 import java.lang.annotation.Annotation;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.lang.model.element.Element;
 import javax.lang.model.element.ElementKind;
+import javax.lang.model.element.ExecutableElement;
 import javax.lang.model.element.Modifier;
 import javax.lang.model.type.TypeMirror;
 import javax.lang.model.util.ElementFilter;
@@ -107,6 +109,24 @@ public class AptUtil {
 
 	public static boolean isStatic(Element element) {
 		return checkModifier(element, Modifier.STATIC);
+	}
+
+	public static boolean isMethodExists(Element element, String methodName,
+			Modifier... modifiers) {
+		if (element.getKind() != ElementKind.CLASS) {
+			throw new IllegalStateException();
+		}
+		List<Modifier> modifiersList = Arrays.asList(modifiers);
+
+		List<ExecutableElement> methods = ElementFilter.methodsIn(element
+				.getEnclosedElements());
+		for (ExecutableElement method : methods) {
+			if (method.getSimpleName().toString().equals(methodName)
+					&& method.getModifiers().containsAll(modifiersList)) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	static String cutAfterString(String base, char key) {

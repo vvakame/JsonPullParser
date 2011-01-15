@@ -7,6 +7,7 @@ import java.util.List;
 import net.vvakame.util.jsonpullparser.JsonFormatException;
 import net.vvakame.util.jsonpullparser.JsonPullParser;
 import net.vvakame.util.jsonpullparser.JsonPullParser.State;
+import net.vvakame.util.jsonpullparser.util.OnJsonObjectAddListener;
 import net.vvakame.util.jsonpullparser.util.TokenConverter;
 
 public class IntFlattenConverter extends TokenConverter<List<Integer>> {
@@ -21,20 +22,24 @@ public class IntFlattenConverter extends TokenConverter<List<Integer>> {
 	}
 
 	@Override
-	public List<Integer> parse(JsonPullParser parser) throws IOException,
+	public List<Integer> parse(JsonPullParser parser,
+			OnJsonObjectAddListener listener) throws IOException,
 			JsonFormatException {
 		if (parser == null) {
 			throw new IllegalArgumentException();
 		}
 
-		State state = parser.lookAhead();
+		State state = parser.getEventType();
 
 		switch (state) {
 		case VALUE_NULL:
-			parser.getEventType();
 			return null;
 		case START_ARRAY:
-			return parse(parser, new ArrayList<Integer>());
+			List<Integer> list = parse(parser, new ArrayList<Integer>());
+			if (listener != null) {
+				listener.onAdd(list);
+			}
+			return list;
 		default:
 			throw new IllegalStateException();
 		}
@@ -43,10 +48,7 @@ public class IntFlattenConverter extends TokenConverter<List<Integer>> {
 	List<Integer> parse(JsonPullParser parser, List<Integer> list)
 			throws IOException, JsonFormatException {
 
-		State state = parser.getEventType();
-		if (state != State.START_ARRAY) {
-			throw new IllegalStateException();
-		}
+		State state;
 		while ((state = parser.lookAhead()) != State.END_ARRAY) {
 			switch (state) {
 			case VALUE_LONG:
@@ -60,7 +62,6 @@ public class IntFlattenConverter extends TokenConverter<List<Integer>> {
 				throw new IllegalStateException();
 			}
 		}
-		parser.getEventType();
 
 		return list;
 	}

@@ -15,6 +15,7 @@ import net.vvakame.util.jsonpullparser.annotation.JsonKey;
  * @author vvakame
  */
 public abstract class TokenConverter<T> {
-	public abstract T parse(JsonPullParser parser) throws IOException,
+	public abstract T parse(JsonPullParser parser,
+			OnJsonObjectAddListener listener) throws IOException,
 			JsonFormatException;
 }

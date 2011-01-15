@@ -5,6 +5,7 @@ import java.io.IOException;
 import net.vvakame.util.jsonpullparser.JsonFormatException;
 import net.vvakame.util.jsonpullparser.JsonPullParser;
 import net.vvakame.util.jsonpullparser.JsonPullParser.State;
+import net.vvakame.util.jsonpullparser.util.OnJsonObjectAddListener;
 import net.vvakame.util.jsonpullparser.util.TokenConverter;
 
 public class StringDiscardConverter extends TokenConverter<String> {
@@ -14,8 +15,8 @@ public class StringDiscardConverter extends TokenConverter<String> {
 	}
 
 	@Override
-	public String parse(JsonPullParser parser) throws IOException,
-			JsonFormatException {
+	public String parse(JsonPullParser parser, OnJsonObjectAddListener listener)
+			throws IOException, JsonFormatException {
 		if (parser == null) {
 			throw new IllegalArgumentException();
 		}

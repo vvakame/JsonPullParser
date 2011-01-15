@@ -8,6 +8,7 @@ import java.lang.annotation.Target;
 
 import net.vvakame.util.jsonpullparser.JsonFormatException;
 import net.vvakame.util.jsonpullparser.JsonPullParser;
+import net.vvakame.util.jsonpullparser.util.OnJsonObjectAddListener;
 import net.vvakame.util.jsonpullparser.util.TokenConverter;
 
 @Retention(RetentionPolicy.SOURCE)
@@ -21,7 +22,8 @@ public @interface JsonKey {
 		}
 
 		@Override
-		public Void parse(JsonPullParser parser) throws IOException,
+		public Void parse(JsonPullParser parser,
+				OnJsonObjectAddListener listener) throws IOException,
 				JsonFormatException {
 			parser.discardValue();
 			return null;

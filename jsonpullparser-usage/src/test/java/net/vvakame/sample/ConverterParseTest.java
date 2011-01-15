@@ -13,20 +13,20 @@ public class ConverterParseTest {
 
 	@Test
 	public void stringConverter() throws IOException, JsonFormatException {
-		String twitterData = "{\"str1\":\"value1\", \"str2\":\"value2\"}";
+		String json = "{\"str1\":\"value1\", \"str2\":\"value2\"}";
 
-		ConverterData converterData = ConverterDataGenerated.get(twitterData);
+		ConverterData converterData = ConverterDataGenerated.get(json);
 
 		assertThat(converterData.getStr1(), is("value1"));
 		assertThat(converterData.getStr2(), is("value2"));
 	}
 
 	@Test
-	public void initegerFlattenConverter() throws IOException,
+	public void integerFlattenConverter() throws IOException,
 			JsonFormatException {
-		String twitterData = "{\"str1\":\"value1\", \"str2\":\"value2\", \"flatten\":[1,[2,3],[[4,[5,6],7]],[],8]}";
+		String json = "{\"str1\":\"value1\", \"str2\":\"value2\", \"flatten\":[1,[2,3],[[4,[5,6],7]],[],8]}";
 
-		ConverterData converterData = ConverterDataGenerated.get(twitterData);
+		ConverterData converterData = ConverterDataGenerated.get(json);
 
 		assertThat(converterData.getStr1(), is("value1"));
 		assertThat(converterData.getStr2(), is("value2"));

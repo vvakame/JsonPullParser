@@ -56,12 +56,14 @@ public class IntFlattenConverter extends TokenConverter<List<Integer>> {
 				list.add((int) parser.getValueLong());
 				break;
 			case START_ARRAY:
+				parser.getEventType();
 				parse(parser, list);
 				break;
 			default:
 				throw new IllegalStateException();
 			}
 		}
+		parser.getEventType();
 
 		return list;
 	}

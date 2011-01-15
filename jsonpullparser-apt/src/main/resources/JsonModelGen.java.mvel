@@ -232,7 +232,7 @@ public class @{target}@{postfix} {
 				parser.getEventType();
 				obj.@{obj.setter}(parser.getValueString());
 @else{obj.kind == "LIST"}
-				obj.@{obj.setter}(@{obj.modelName}@{postfix}.getList(parser));
+				obj.@{obj.setter}(@{obj.modelName}@{postfix}.getList(parser, listener));
 @else{obj.kind == "JSON_ARRAY"}
 				obj.@{obj.setter}(net.vvakame.util.jsonpullparser.util.JsonArray.fromParser(parser));
 @else{obj.kind == "JSON_HASH"}
@@ -245,7 +245,7 @@ public class @{target}@{postfix} {
 				}
 @else{obj.kind == "CONVERTER"}
 				@{obj.converter} converter = @{obj.converter}.getInstance();
-				@{obj.modelName} tmp = converter.parse(parser);
+				@{obj.modelName} tmp = converter.parse(parser, listener);
 				obj.@{obj.setter}(tmp);
 @end{}@end{'			} else '}
 @if{elements.size() != 0}

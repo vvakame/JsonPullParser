@@ -21,6 +21,7 @@ public class @{target}@{postfix} {
 	 * 
 	 * @param json JSONによる {@link @{target}} の表現
 	 * @return {@link @{target}} の {@link List}
+	 * @throws IOException 
 	 * @throws JsonFormatException JSONとして正しくない形式だった場合に投げられます
 	 * @throws IllegalStateException JSONとしては正しくても {@link @{target}} に合致しない場合に投げられます
 	 */
@@ -36,6 +37,7 @@ public class @{target}@{postfix} {
 	 * @param json JSONによる {@link @{target}} の表現
 	 * @param listener {@link @{target}} 生成中に発生するインスタンスを逐次受け取る {@link OnJsonObjectAddListener} のサブクラス
 	 * @return {@link @{target}} の {@link List}
+	 * @throws IOException 
 	 * @throws JsonFormatException JSONとして正しくない形式だった場合に投げられます
 	 * @throws IllegalStateException JSONとしては正しくても {@link @{target}} に合致しない場合に投げられます
 	 */
@@ -47,8 +49,9 @@ public class @{target}@{postfix} {
 	/**
 	 * JSONを {@link @{target}} の {@link List} に変換します.
 	 * 
-	 * @param json JSONによる {@link @{target}} の表現
+	 * @param stream JSONによる {@link @{target}} の表現
 	 * @return {@link @{target}} の {@link List}
+	 * @throws IOException 
 	 * @throws JsonFormatException JSONとして正しくない形式だった場合に投げられます
 	 * @throws IllegalStateException JSONとしては正しくても {@link @{target}} に合致しない場合に投げられます
 	 */
@@ -61,9 +64,10 @@ public class @{target}@{postfix} {
 	 * JSONを {@link @{target}} の {@link List} に変換します.<br>
 	 * {@link OnJsonObjectAddListener} のサブクラスを渡すことにより、生成中に発生する各種インスタンスを逐次うけとることが可能です.
 	 * 
-	 * @param json JSONによる {@link @{target}} の表現
+	 * @param stream JSONによる {@link @{target}} の表現
 	 * @param listener {@link @{target}} 生成中に発生するインスタンスを逐次受け取る {@link OnJsonObjectAddListener} のサブクラス
 	 * @return {@link @{target}} の {@link List}
+	 * @throws IOException 
 	 * @throws JsonFormatException JSONとして正しくない形式だった場合に投げられます
 	 * @throws IllegalStateException JSONとしては正しくても {@link @{target}} に合致しない場合に投げられます
 	 */
@@ -75,8 +79,9 @@ public class @{target}@{postfix} {
 	/**
 	 * JSONを {@link @{target}} の {@link List} に変換します.
 	 * 
-	 * @param json JSONによる {@link @{target}} の表現
+	 * @param parser {@link @{target}} の表現をセットされた {@link JsonPullParser}
 	 * @return {@link @{target}} の {@link List}
+	 * @throws IOException 
 	 * @throws JsonFormatException JSONとして正しくない形式だった場合に投げられます
 	 * @throws IllegalStateException JSONとしては正しくても {@link @{target}} に合致しない場合に投げられます
 	 */
@@ -88,9 +93,10 @@ public class @{target}@{postfix} {
 	 * JSONを {@link @{target}} の {@link List} に変換します.<br>
 	 * {@link OnJsonObjectAddListener} のサブクラスを渡すことにより、生成中に発生する各種インスタンスを逐次うけとることが可能です.
 	 * 
-	 * @param json JSONによる {@link @{target}} の表現
+	 * @param parser {@link @{target}} の表現をセットされた {@link JsonPullParser}
 	 * @param listener {@link @{target}} 生成中に発生するインスタンスを逐次受け取る {@link OnJsonObjectAddListener} のサブクラス
 	 * @return {@link @{target}} の {@link List}
+	 * @throws IOException 
 	 * @throws JsonFormatException JSONとして正しくない形式だった場合に投げられます
 	 * @throws IllegalStateException JSONとしては正しくても {@link @{target}} に合致しない場合に投げられます
 	 */
@@ -116,6 +122,7 @@ public class @{target}@{postfix} {
 	 * 
 	 * @param json JSONによる {@link @{target}} の表現
 	 * @return {@link @{target}}
+	 * @throws IOException 
 	 * @throws JsonFormatException JSONとして正しくない形式だった場合に投げられます
 	 * @throws IllegalStateException JSONとしては正しくても {@link @{target}} に合致しない場合に投げられます
 	 */
@@ -131,6 +138,7 @@ public class @{target}@{postfix} {
 	 * @param json JSONによる {@link @{target}} の表現
 	 * @param listener {@link @{target}} 生成中に発生するインスタンスを逐次受け取る {@link OnJsonObjectAddListener} のサブクラス
 	 * @return {@link @{target}}
+	 * @throws IOException 
 	 * @throws JsonFormatException JSONとして正しくない形式だった場合に投げられます
 	 * @throws IllegalStateException JSONとしては正しくても {@link @{target}} に合致しない場合に投げられます
 	 */
@@ -142,8 +150,9 @@ public class @{target}@{postfix} {
 	/**
 	 * JSONを {@link @{target}} に変換します.
 	 * 
-	 * @param json JSONによる {@link @{target}} の表現
+	 * @param stream JSONによる {@link @{target}} の表現
 	 * @return {@link @{target}}
+	 * @throws IOException 
 	 * @throws JsonFormatException JSONとして正しくない形式だった場合に投げられます
 	 * @throws IllegalStateException JSONとしては正しくても {@link @{target}} に合致しない場合に投げられます
 	 */
@@ -156,9 +165,10 @@ public class @{target}@{postfix} {
 	 * JSONを {@link @{target}} に変換します.<br>
 	 * {@link OnJsonObjectAddListener} のサブクラスを渡すことにより、生成中に発生する各種インスタンスを逐次うけとることが可能です.
 	 * 
-	 * @param json JSONによる {@link @{target}} の表現
+	 * @param stream JSONによる {@link @{target}} の表現
 	 * @param listener {@link @{target}} 生成中に発生するインスタンスを逐次受け取る {@link OnJsonObjectAddListener} のサブクラス
 	 * @return {@link @{target}}
+	 * @throws IOException 
 	 * @throws JsonFormatException JSONとして正しくない形式だった場合に投げられます
 	 * @throws IllegalStateException JSONとしては正しくても {@link @{target}} に合致しない場合に投げられます
 	 */
@@ -170,8 +180,9 @@ public class @{target}@{postfix} {
 	/**
 	 * JSONを {@link @{target}} に変換します.
 	 * 
-	 * @param json JSONによる {@link @{target}} の表現
+	 * @param parser {@link @{target}} の表現をセットされた {@link JsonPullParser}
 	 * @return {@link @{target}}
+	 * @throws IOException 
 	 * @throws JsonFormatException JSONとして正しくない形式だった場合に投げられます
 	 * @throws IllegalStateException JSONとしては正しくても {@link @{target}} に合致しない場合に投げられます
 	 */
@@ -183,9 +194,10 @@ public class @{target}@{postfix} {
 	 * JSONを {@link @{target}} に変換します.<br>
 	 * {@link OnJsonObjectAddListener} のサブクラスを渡すことにより、生成中に発生する各種インスタンスを逐次うけとることが可能です.
 	 * 
-	 * @param json JSONによる {@link @{target}} の表現
+	 * @param parser {@link @{target}} の表現をセットされた {@link JsonPullParser}
 	 * @param listener {@link @{target}} 生成中に発生するインスタンスを逐次受け取る {@link OnJsonObjectAddListener} のサブクラス
 	 * @return {@link @{target}}
+	 * @throws IOException 
 	 * @throws JsonFormatException JSONとして正しくない形式だった場合に投げられます
 	 * @throws IllegalStateException JSONとしては正しくても {@link @{target}} に合致しない場合に投げられます
 	 */

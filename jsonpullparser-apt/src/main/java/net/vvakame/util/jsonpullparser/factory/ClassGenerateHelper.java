@@ -16,6 +16,8 @@
 
 package net.vvakame.util.jsonpullparser.factory;
 
+import static net.vvakame.apt.AptUtil.*;
+
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
@@ -35,7 +37,6 @@ import javax.lang.model.type.TypeMirror;
 import javax.lang.model.type.WildcardType;
 import javax.tools.JavaFileObject;
 
-import static net.vvakame.apt.AptUtil.*;
 import net.vvakame.util.jsonpullparser.annotation.JsonKey;
 import net.vvakame.util.jsonpullparser.annotation.JsonModel;
 import net.vvakame.util.jsonpullparser.factory.JsonElement.Kind;

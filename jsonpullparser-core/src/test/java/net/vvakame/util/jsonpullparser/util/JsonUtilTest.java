@@ -16,16 +16,9 @@
 
 package net.vvakame.util.jsonpullparser.util;
 
-import static net.vvakame.util.jsonpullparser.util.JsonUtil.addSeparator;
-import static net.vvakame.util.jsonpullparser.util.JsonUtil.endArray;
-import static net.vvakame.util.jsonpullparser.util.JsonUtil.endHash;
-import static net.vvakame.util.jsonpullparser.util.JsonUtil.put;
-import static net.vvakame.util.jsonpullparser.util.JsonUtil.putKey;
-import static net.vvakame.util.jsonpullparser.util.JsonUtil.startArray;
-import static net.vvakame.util.jsonpullparser.util.JsonUtil.startHash;
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.nullValue;
-import static org.junit.Assert.assertThat;
+import static net.vvakame.util.jsonpullparser.util.JsonUtil.*;
+import static org.hamcrest.CoreMatchers.*;
+import static org.junit.Assert.*;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 

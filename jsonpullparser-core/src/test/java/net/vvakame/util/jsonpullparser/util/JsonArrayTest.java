@@ -123,5 +123,17 @@ public class JsonArrayTest {
 		assertThat(jsonArray.getState(i), is(State.START_HASH));
 	}
 
+	@Test
+	public void toJson() throws IOException, JsonFormatException {
+		String json = "[null, true, \"fuga\", 2.3, 1, [], {}]";
+		JsonPullParser parser = JsonPullParser.newParser(json);
+		JsonArray jsonArray = JsonArray.fromParser(parser);
+
+		StringBuilder builder = jsonArray.toJson();
+		JsonArray jsonArray2 = JsonArray.fromString(builder.toString());
+
+		assertThat(jsonArray, equalTo(jsonArray2));
+	}
+
 	// TODO テストを書いてない操作用関数が多数ある…
 }

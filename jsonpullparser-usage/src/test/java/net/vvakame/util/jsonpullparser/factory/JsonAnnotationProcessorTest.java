@@ -16,9 +16,8 @@
 
 package net.vvakame.util.jsonpullparser.factory;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.nullValue;
-import static org.junit.Assert.assertThat;
+import static org.hamcrest.CoreMatchers.*;
+import static org.junit.Assert.*;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;

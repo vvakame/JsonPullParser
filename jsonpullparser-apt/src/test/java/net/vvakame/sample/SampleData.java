@@ -16,8 +16,8 @@
 
 package net.vvakame.sample;
 
-import net.vvakame.util.jsonpullparser.annotation.JsonModel;
 import net.vvakame.util.jsonpullparser.annotation.JsonKey;
+import net.vvakame.util.jsonpullparser.annotation.JsonModel;
 
 @JsonModel
 public class SampleData {

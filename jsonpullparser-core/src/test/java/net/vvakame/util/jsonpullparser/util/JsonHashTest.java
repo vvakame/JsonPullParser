@@ -16,10 +16,8 @@
 
 package net.vvakame.util.jsonpullparser.util;
 
-import static org.hamcrest.CoreMatchers.instanceOf;
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.nullValue;
-import static org.junit.Assert.assertThat;
+import static org.hamcrest.CoreMatchers.*;
+import static org.junit.Assert.*;
 
 import java.io.IOException;
 
@@ -70,9 +68,9 @@ public class JsonHashTest {
 		JsonHash jsonHash2;
 
 		assertThat(jsonHash.size(), is(2));
-		jsonHash2 = (JsonHash) jsonHash.getJsonHashOrNull("key1");
+		jsonHash2 = jsonHash.getJsonHashOrNull("key1");
 		assertThat(jsonHash2.size(), is(0));
-		jsonHash2 = (JsonHash) jsonHash.getJsonHashOrNull("key2");
+		jsonHash2 = jsonHash.getJsonHashOrNull("key2");
 		assertThat(jsonHash2.size(), is(1));
 	}
 

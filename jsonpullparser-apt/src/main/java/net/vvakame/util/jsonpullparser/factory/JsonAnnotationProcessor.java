@@ -16,7 +16,7 @@
 
 package net.vvakame.util.jsonpullparser.factory;
 
-import static javax.lang.model.util.ElementFilter.typesIn;
+import static javax.lang.model.util.ElementFilter.*;
 
 import java.io.IOException;
 import java.util.Map;

@@ -126,5 +126,18 @@ public class JsonHashTest {
 				instanceOf(JsonHash.class));
 		assertThat(jsonHash2.getState("key"), is(State.START_HASH));
 	}
+
+	@Test
+	public void toJson() throws IOException, JsonFormatException {
+		String json = "   {\"key1\":{\"key\":null}, \"key2\":{\"key\":true}, \"key3\":{\"key\":\"fuga\"}, \"key4\":{\"key\":2.3}, \"key5\":{\"key\":1}, \"key6\":{\"key\":[]}, \"key7\":{\"key\":{}}}";
+		JsonPullParser parser = JsonPullParser.newParser(json);
+		JsonHash jsonHash = JsonHash.fromParser(parser);
+
+		StringBuilder builder = jsonHash.toJson();
+		JsonHash jsonHash2 = JsonHash.fromString(builder.toString());
+
+		assertThat(jsonHash, equalTo(jsonHash2));
+	}
+
 	// TODO テストを書いてない操作用関数が多数ある…
 }

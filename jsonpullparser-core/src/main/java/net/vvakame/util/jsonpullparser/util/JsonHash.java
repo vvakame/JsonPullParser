@@ -16,6 +16,8 @@
 
 package net.vvakame.util.jsonpullparser.util;
 
+import static net.vvakame.util.jsonpullparser.util.JsonUtil.*;
+
 import java.io.IOException;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -61,6 +63,32 @@ public class JsonHash extends LinkedHashMap<String, Object> {
 		parser.getEventType();
 
 		return jsonHash;
+	}
+
+	public StringBuilder toJson() {
+		return toJson(new StringBuilder());
+	}
+
+	public StringBuilder toJson(StringBuilder builder) {
+		startHash(builder);
+
+		int size = size();
+		Set<String> set = keySet();
+		int i = 0;
+		for (String key : set) {
+
+			putKey(builder, key);
+			JsonUtil.put(builder, get(key));
+
+			if (i + 1 < size) {
+				addSeparator(builder);
+			}
+			i++;
+		}
+
+		endHash(builder);
+
+		return builder;
 	}
 
 	@Override
@@ -239,9 +267,33 @@ public class JsonHash extends LinkedHashMap<String, Object> {
 	@Override
 	public boolean equals(Object obj) {
 		if (obj instanceof JsonHash) {
-			return equals(obj);
+			JsonHash hash = (JsonHash) obj;
+			int size = size();
+			if (size != hash.size()) {
+				return false;
+			}
+			Set<String> set = keySet();
+			for (String key : set) {
+				if (!hash.containsKey(key)) {
+					return false;
+				} else if (!stateMap.get(key).equals(hash.stateMap.get(key))) {
+					return false;
+				} else if (get(key) == null && hash.get(key) != null) {
+					return false;
+				} else if (get(key) == null && hash.get(key) == null) {
+					continue;
+				} else if (!get(key).equals(hash.get(key))) {
+					return false;
+				}
+			}
+			return true;
 		} else {
 			return false;
 		}
+	}
+
+	@Override
+	public String toString() {
+		return toJson().toString();
 	}
 }

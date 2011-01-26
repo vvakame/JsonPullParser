@@ -16,6 +16,7 @@
 
 package net.vvakame.util.jsonpullparser.util;
 
+import static net.vvakame.util.jsonpullparser.util.JsonUtil.*;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -53,6 +54,26 @@ public class JsonArray extends ArrayList<Object> {
 		parser.getEventType();
 
 		return jsonArray;
+	}
+
+	public StringBuilder toJson() {
+		return toJson(new StringBuilder());
+	}
+
+	public StringBuilder toJson(StringBuilder builder) {
+		startArray(builder);
+
+		int size = size();
+		for (int i = 0; i < size; i++) {
+			put(builder, get(i));
+			if (i + 1 < size) {
+				addSeparator(builder);
+			}
+		}
+
+		endArray(builder);
+
+		return builder;
 	}
 
 	public Boolean getBooleanOrNull(int index) throws JsonFormatException {
@@ -376,7 +397,23 @@ public class JsonArray extends ArrayList<Object> {
 	@Override
 	public boolean equals(Object obj) {
 		if (obj instanceof JsonArray) {
-			return equals(obj);
+			JsonArray ary = (JsonArray) obj;
+			int size = size();
+			if (size != ary.size()) {
+				return false;
+			}
+			for (int i = 0; i < size; i++) {
+				if (!stateList.get(i).equals(ary.stateList.get(i))) {
+					return false;
+				} else if (get(i) == null && ary.get(i) != null) {
+					return false;
+				} else if (get(i) == null && ary.get(i) == null) {
+					continue;
+				} else if (!get(i).equals(ary.get(i))) {
+					return false;
+				}
+			}
+			return true;
 		} else {
 			return false;
 		}
@@ -390,5 +427,10 @@ public class JsonArray extends ArrayList<Object> {
 	@Override
 	public boolean retainAll(Collection<?> args) {
 		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public String toString() {
+		return toJson().toString();
 	}
 }

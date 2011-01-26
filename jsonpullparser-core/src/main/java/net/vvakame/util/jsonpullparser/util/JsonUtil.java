@@ -42,6 +42,26 @@ public class JsonUtil {
 		builder.append("\"").append(sanitize(key)).append("\":");
 	}
 
+	public static void put(StringBuilder builder, Object value) {
+		if (value == null) {
+			builder.append("null");
+		} else if (value instanceof String) {
+			put(builder, (String) value);
+		} else if (value instanceof Boolean) {
+			put(builder, (boolean) (Boolean) value);
+		} else if (value instanceof Long) {
+			put(builder, (long) (Long) value);
+		} else if (value instanceof Double) {
+			put(builder, (double) (Double) value);
+		} else if (value instanceof JsonHash) {
+			JsonHash jsonHash = (JsonHash) value;
+			jsonHash.toJson(builder);
+		} else if (value instanceof JsonArray) {
+			JsonArray jsonArray = (JsonArray) value;
+			jsonArray.toJson(builder);
+		}
+	}
+
 	public static void put(StringBuilder builder, String value) {
 		if (value == null) {
 			builder.append("null");

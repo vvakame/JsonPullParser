@@ -14,18 +14,21 @@
  * limitations under the License.
  */
 
-package net.vvakame.sample;
+package net.vvakame.util.jsonpullparser.util;
 
-import static org.hamcrest.CoreMatchers.*;
-import static org.junit.Assert.*;
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertThat;
 
 import java.io.IOException;
+import java.io.StringWriter;
 
+import net.vvakame.sample.ConverterData;
+import net.vvakame.sample.ConverterDataGenerated;
 import net.vvakame.util.jsonpullparser.JsonFormatException;
 
 import org.junit.Test;
 
-public class ConverterParseTest {
+public class TokenConverterTest {
 
 	@Test
 	public void stringConverter() throws IOException, JsonFormatException {
@@ -50,5 +53,12 @@ public class ConverterParseTest {
 		for (int i = 1; i <= 8; i++) {
 			assertThat(converterData.getFlatten().get(i - 1), is(i));
 		}
+
+		StringWriter writer = new StringWriter();
+		ConverterDataGenerated.put(writer, converterData);
+		String toJson = writer.toString();
+
+		JsonHash jsonHash = JsonHash.fromString(toJson);
+		assertThat(jsonHash.size(), is(3));
 	}
 }

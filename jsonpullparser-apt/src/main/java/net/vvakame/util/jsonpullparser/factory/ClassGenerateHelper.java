@@ -153,9 +153,18 @@ public class ClassGenerateHelper {
 			JsonElement jsonElement = new JsonElement();
 			jsonElement.setKey(getElementKeyString(el));
 
+			JsonKey key = el.getAnnotation(JsonKey.class);
+
 			String setter = getElementSetter(el);
-			if (setter == null) {
+			if (key.in() && setter == null) {
 				Log.e("can't find setter method", el);
+				encountError = true;
+				return defaultAction(t, el);
+			}
+
+			String getter = getElementGetter(el);
+			if (key.out() && getter == null) {
+				Log.e("can't find getter method", el);
 				encountError = true;
 				return defaultAction(t, el);
 			}
@@ -174,7 +183,10 @@ public class ClassGenerateHelper {
 				kind = Kind.CONVERTER;
 			}
 
+			jsonElement.setIn(key.in());
 			jsonElement.setSetter(setter);
+			jsonElement.setOut(key.out());
+			jsonElement.setGetter(getter);
 			jsonElement.setModelName(t.toString());
 			jsonElement.setKind(kind);
 			jsonElement.setConverter(converterClassName);
@@ -253,7 +265,9 @@ public class ClassGenerateHelper {
 					}
 					TypeMirror superBound = wt.getSuperBound();
 					if (superBound != null) {
-						tm = superBound;
+						Log.e("super is not supported.", el);
+						encountError = true;
+						return defaultAction(t, el);
 					}
 				}
 
@@ -269,13 +283,26 @@ public class ClassGenerateHelper {
 				jsonElement = new JsonElement();
 				jsonElement.setKey(getElementKeyString(el));
 
+				JsonKey key = el.getAnnotation(JsonKey.class);
+
 				String setter = getElementSetter(el);
-				if (setter == null) {
+				if (key.in() && setter == null) {
 					Log.e("can't find setter method", el);
 					encountError = true;
 					return defaultAction(t, el);
 				}
+
+				String getter = getElementGetter(el);
+				if (key.out() && getter == null) {
+					Log.e("can't find getter method", el);
+					encountError = true;
+					return defaultAction(t, el);
+				}
+
+				jsonElement.setIn(key.in());
 				jsonElement.setSetter(setter);
+				jsonElement.setOut(key.out());
+				jsonElement.setGetter(getter);
 				jsonElement.setModelName(tm.toString());
 				jsonElement.setKind(Kind.LIST);
 			}

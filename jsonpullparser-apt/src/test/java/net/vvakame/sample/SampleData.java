@@ -21,10 +21,10 @@ import net.vvakame.util.jsonpullparser.annotation.JsonModel;
 
 @JsonModel
 public class SampleData {
-	@JsonKey
+	@JsonKey(in = true, out = false)
 	String name;
 
-	@JsonKey("package_name")
+	@JsonKey(value = "package_name", in = false, out = true)
 	String packageName;
 
 	@JsonKey("version_code")

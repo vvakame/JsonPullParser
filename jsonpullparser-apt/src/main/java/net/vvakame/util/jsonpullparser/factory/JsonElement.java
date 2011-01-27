@@ -17,30 +17,17 @@
 package net.vvakame.util.jsonpullparser.factory;
 
 public class JsonElement {
-	boolean first = false;
 	String key;
+	boolean in;
 	String setter;
+	boolean out;
+	String getter;
 	Kind kind;
 	String modelName;
 	String converter;
 
 	public static enum Kind {
 		STRING, BOOLEAN, DOUBLE, LONG, MODEL, BYTE, CHAR, FLOAT, INT, SHORT, LIST, JSON_HASH, JSON_ARRAY, CONVERTER
-	}
-
-	/**
-	 * @return the first
-	 */
-	public boolean isFirst() {
-		return first;
-	}
-
-	/**
-	 * @param first
-	 *            the first to set
-	 */
-	public void setFirst(boolean first) {
-		this.first = first;
 	}
 
 	/**
@@ -59,6 +46,21 @@ public class JsonElement {
 	}
 
 	/**
+	 * @return the in
+	 */
+	public boolean isIn() {
+		return in;
+	}
+
+	/**
+	 * @param in
+	 *            the in to set
+	 */
+	public void setIn(boolean in) {
+		this.in = in;
+	}
+
+	/**
 	 * @return the setter
 	 */
 	public String getSetter() {
@@ -71,6 +73,36 @@ public class JsonElement {
 	 */
 	public void setSetter(String setter) {
 		this.setter = setter;
+	}
+
+	/**
+	 * @return the out
+	 */
+	public boolean isOut() {
+		return out;
+	}
+
+	/**
+	 * @param out
+	 *            the out to set
+	 */
+	public void setOut(boolean out) {
+		this.out = out;
+	}
+
+	/**
+	 * @return the getter
+	 */
+	public String getGetter() {
+		return getter;
+	}
+
+	/**
+	 * @param getter
+	 *            the getter to set
+	 */
+	public void setGetter(String getter) {
+		this.getter = getter;
 	}
 
 	/**

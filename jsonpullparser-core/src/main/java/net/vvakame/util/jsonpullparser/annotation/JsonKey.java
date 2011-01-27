@@ -52,9 +52,7 @@ public @interface JsonKey {
 		}
 
 		@Override
-		public Void put(Writer writer, Void obj) throws IOException,
-				JsonFormatException {
-			return null;
+		public void put(Writer writer, Void obj) throws IOException {
 		}
 	}
 

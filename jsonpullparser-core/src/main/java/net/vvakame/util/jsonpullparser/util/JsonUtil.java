@@ -64,6 +64,9 @@ public class JsonUtil {
 		} else if (value instanceof JsonArray) {
 			JsonArray jsonArray = (JsonArray) value;
 			jsonArray.toJson(writer);
+		} else {
+			throw new IllegalStateException("unknown class. class="
+					+ value.getClass().getCanonicalName());
 		}
 	}
 

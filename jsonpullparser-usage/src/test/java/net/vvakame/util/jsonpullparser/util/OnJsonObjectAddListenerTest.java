@@ -14,10 +14,11 @@
  * limitations under the License.
  */
 
-package net.vvakame.util.jsonpullparser.annotation;
+package net.vvakame.util.jsonpullparser.util;
 
-import static org.hamcrest.CoreMatchers.*;
-import static org.junit.Assert.*;
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.not;
+import static org.junit.Assert.assertThat;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -29,7 +30,6 @@ import net.vvakame.sample.twitter.TweetGenerated;
 import net.vvakame.sample.twitter.User;
 import net.vvakame.util.jsonpullparser.JsonFormatException;
 import net.vvakame.util.jsonpullparser.JsonPullParser;
-import net.vvakame.util.jsonpullparser.util.OnJsonObjectAddListener;
 
 import org.junit.Before;
 import org.junit.Test;

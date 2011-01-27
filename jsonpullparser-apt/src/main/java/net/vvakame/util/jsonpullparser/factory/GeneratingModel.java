@@ -26,16 +26,13 @@ public class GeneratingModel {
 	String target = "Invalid";
 
 	List<JsonElement> elements = new ArrayList<JsonElement>();
-	boolean first = true;
 	boolean treatUnknownKeyAsError;
 
 	public void addJsonElement(JsonElement jsonElement) {
 		if (jsonElement == null) {
 			return;
 		}
-		jsonElement.first = first;
 		elements.add(jsonElement);
-		first = false;
 	}
 
 	/**
@@ -96,21 +93,6 @@ public class GeneratingModel {
 	 */
 	public void setElements(List<JsonElement> elements) {
 		this.elements = elements;
-	}
-
-	/**
-	 * @return the first
-	 */
-	public boolean isFirst() {
-		return first;
-	}
-
-	/**
-	 * @param first
-	 *            the first to set
-	 */
-	public void setFirst(boolean first) {
-		this.first = first;
 	}
 
 	/**

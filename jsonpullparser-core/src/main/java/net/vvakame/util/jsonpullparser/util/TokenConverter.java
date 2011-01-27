@@ -36,6 +36,5 @@ public abstract class TokenConverter<T> {
 			OnJsonObjectAddListener listener) throws IOException,
 			JsonFormatException;
 
-	public abstract T put(Writer writer, T obj) throws IOException,
-			JsonFormatException;
+	public abstract void put(Writer writer, T obj) throws IOException;
 }

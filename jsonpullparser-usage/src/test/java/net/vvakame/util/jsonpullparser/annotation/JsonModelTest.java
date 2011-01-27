@@ -14,16 +14,18 @@
  * limitations under the License.
  */
 
-package net.vvakame.sample;
+package net.vvakame.util.jsonpullparser.annotation;
 
 import java.io.IOException;
 
+import net.vvakame.sample.ConverterDataGenerated;
+import net.vvakame.sample.TestDataGenerated;
 import net.vvakame.util.jsonpullparser.JsonFormatException;
 
 import org.junit.Test;
 
 public class JsonModelTest {
-	
+
 	@Test(expected = IllegalStateException.class)
 	public void treatUnknownKeyAsError() throws IllegalStateException,
 			IOException, JsonFormatException {
@@ -33,8 +35,8 @@ public class JsonModelTest {
 	}
 
 	@Test
-	public void ignoreUnknownKeyAsError() throws IllegalStateException,
-			IOException, JsonFormatException {
+	public void ignoreUnknownKey() throws IllegalStateException, IOException,
+			JsonFormatException {
 		String json = "{\"name\":\"hoge\", \"unknown\":{\"test\":[]}, \"str2\":\"fuga\"}";
 
 		TestDataGenerated.get(json);

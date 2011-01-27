@@ -187,4 +187,42 @@ public class AptUtil {
 			return null;
 		}
 	}
+
+	public static String getElementGetter(Element element) {
+		// TODO 型(boolean)による絞り込みをするべき
+		String getterName1 = "get" + element.getSimpleName().toString();
+		String getterName2 = "is" + element.getSimpleName().toString();
+		String getterName3 = element.getSimpleName().toString();
+
+		Element getter = null;
+		for (Element method : ElementFilter.methodsIn(element
+				.getEnclosingElement().getEnclosedElements())) {
+			String methodName = method.getSimpleName().toString();
+
+			if (getterName1.equalsIgnoreCase(methodName)) {
+				if (isStatic(method) == false && isPublic(method)
+						|| isPackagePrivate(method)) {
+					getter = method;
+					break;
+				}
+			} else if (getterName2.equalsIgnoreCase(methodName)) {
+				if (isStatic(method) == false && isPublic(method)
+						|| isPackagePrivate(method)) {
+					getter = method;
+					break;
+				}
+			} else if (getterName3.equalsIgnoreCase(methodName)) {
+				if (isStatic(method) == false && isPublic(method)
+						|| isPackagePrivate(method)) {
+					getter = method;
+					break;
+				}
+			}
+		}
+		if (getter != null) {
+			return getter.getSimpleName().toString();
+		} else {
+			return null;
+		}
+	}
 }

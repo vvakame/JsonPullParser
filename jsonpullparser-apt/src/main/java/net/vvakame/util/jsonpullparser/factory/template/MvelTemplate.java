@@ -57,21 +57,55 @@ public class MvelTemplate {
 		map.put("packageName", model.getPackageName());
 		map.put("postfix", model.getPostfix());
 		map.put("target", model.getTarget());
-		List<Map<String, String>> jsonElements = new ArrayList<Map<String, String>>();
-		for (JsonElement jsonElement : model.getElements()) {
-			jsonElements.add(convJsonElementToMap(jsonElement));
+		{
+			List<Map<String, String>> jsonElements = new ArrayList<Map<String, String>>();
+			for (JsonElement jsonElement : model.getElements()) {
+				Map<String, String> toMap = convInJsonElementToMap(jsonElement);
+				if (toMap != null) {
+					jsonElements.add(toMap);
+				}
+			}
+			map.put("inElements", jsonElements);
 		}
-		map.put("elements", jsonElements);
+		{
+			List<Map<String, String>> jsonElements = new ArrayList<Map<String, String>>();
+			for (JsonElement jsonElement : model.getElements()) {
+				Map<String, String> toMap = convOutJsonElementToMap(jsonElement);
+				if (toMap != null) {
+					jsonElements.add(toMap);
+				}
+			}
+			map.put("outElements", jsonElements);
+		}
 		map.put("treatUnknownKeyAsError", model.isTreatUnknownKeyAsError());
 
 		return map;
 	}
 
-	static Map<String, String> convJsonElementToMap(JsonElement el) {
+	static Map<String, String> convInJsonElementToMap(JsonElement el) {
+		if (!el.isIn()) {
+			return null;
+		}
 		Map<String, String> map = new LinkedHashMap<String, String>();
 		map.put("key", el.getKey());
 		map.put("modelName", el.getModelName());
 		map.put("setter", el.getSetter());
+		map.put("getter", el.getGetter());
+		map.put("kind", el.getKind().toString());
+		map.put("converter", el.getConverter());
+
+		return map;
+	}
+
+	static Map<String, String> convOutJsonElementToMap(JsonElement el) {
+		if (!el.isOut()) {
+			return null;
+		}
+		Map<String, String> map = new LinkedHashMap<String, String>();
+		map.put("key", el.getKey());
+		map.put("modelName", el.getModelName());
+		map.put("setter", el.getSetter());
+		map.put("getter", el.getGetter());
 		map.put("kind", el.getKind().toString());
 		map.put("converter", el.getConverter());
 

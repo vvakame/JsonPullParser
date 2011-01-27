@@ -22,22 +22,19 @@ import net.vvakame.util.jsonpullparser.annotation.JsonKey;
 import net.vvakame.util.jsonpullparser.annotation.JsonModel;
 
 @JsonModel
-public class ComplexData {
+public class ComplexData2 {
 
-	@JsonKey
+	@JsonKey(in = false)
 	String name;
 
-	@JsonKey
-	List<TestData> list1;
+	@JsonKey(out = false)
+	List<MiniData> list1;
+
+	@JsonKey(in = false, out = false)
+	List<? extends MiniData> list2;
 
 	@JsonKey
-	List<? extends TestData> list2;
-
-	@JsonKey
-	List<? extends TestData> list3;
-
-	@JsonKey
-	TestData data;
+	MiniData data;
 
 	/**
 	 * @return the name
@@ -50,14 +47,14 @@ public class ComplexData {
 	 * @param name
 	 *            the name to set
 	 */
-	void setName(String name) {
+	public void setName(String name) {
 		this.name = name;
 	}
 
 	/**
 	 * @return the list1
 	 */
-	public List<TestData> getList1() {
+	public List<MiniData> getList1() {
 		return list1;
 	}
 
@@ -65,14 +62,14 @@ public class ComplexData {
 	 * @param list1
 	 *            the list1 to set
 	 */
-	void setList1(List<TestData> list1) {
+	public void setList1(List<MiniData> list1) {
 		this.list1 = list1;
 	}
 
 	/**
 	 * @return the list2
 	 */
-	public List<? extends TestData> getList2() {
+	public List<? extends MiniData> getList2() {
 		return list2;
 	}
 
@@ -80,29 +77,14 @@ public class ComplexData {
 	 * @param list2
 	 *            the list2 to set
 	 */
-	public void setList2(List<? extends TestData> list2) {
+	public void setList2(List<? extends MiniData> list2) {
 		this.list2 = list2;
-	}
-
-	/**
-	 * @return the list3
-	 */
-	public List<? extends TestData> getList3() {
-		return list3;
-	}
-
-	/**
-	 * @param list3
-	 *            the list3 to set
-	 */
-	public void setList3(List<? extends TestData> list3) {
-		this.list3 = list3;
 	}
 
 	/**
 	 * @return the data
 	 */
-	public TestData getData() {
+	public MiniData getData() {
 		return data;
 	}
 
@@ -110,7 +92,7 @@ public class ComplexData {
 	 * @param data
 	 *            the data to set
 	 */
-	public void setData(TestData data) {
+	public void setData(MiniData data) {
 		this.data = data;
 	}
 }

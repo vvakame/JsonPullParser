@@ -16,13 +16,19 @@
 
 package net.vvakame.sample.converter;
 
+import static net.vvakame.util.jsonpullparser.util.JsonUtil.addSeparator;
+import static net.vvakame.util.jsonpullparser.util.JsonUtil.endArray;
+import static net.vvakame.util.jsonpullparser.util.JsonUtil.startArray;
+
 import java.io.IOException;
+import java.io.Writer;
 import java.util.ArrayList;
 import java.util.List;
 
 import net.vvakame.util.jsonpullparser.JsonFormatException;
 import net.vvakame.util.jsonpullparser.JsonPullParser;
 import net.vvakame.util.jsonpullparser.JsonPullParser.State;
+import net.vvakame.util.jsonpullparser.util.JsonUtil;
 import net.vvakame.util.jsonpullparser.util.OnJsonObjectAddListener;
 import net.vvakame.util.jsonpullparser.util.TokenConverter;
 
@@ -82,5 +88,24 @@ public class IntFlattenConverter extends TokenConverter<List<Integer>> {
 		parser.getEventType();
 
 		return list;
+	}
+
+	@Override
+	public void put(Writer writer, List<Integer> obj) throws IOException {
+		if (obj == null) {
+			writer.write("null");
+		}
+
+		startArray(writer);
+
+		int size = obj.size();
+		for (int i = 0; i < size; i++) {
+			JsonUtil.put(writer, (int) obj.get(i));
+			if (i + 1 < size) {
+				addSeparator(writer);
+			}
+		}
+
+		endArray(writer);
 	}
 }

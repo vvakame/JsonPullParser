@@ -2,12 +2,14 @@ package @{packageName};
 
 import java.io.InputStream;
 import java.io.IOException;
+import java.io.Writer;
 import java.util.ArrayList;
 import java.util.List;
 
 import net.vvakame.util.jsonpullparser.JsonFormatException;
 import net.vvakame.util.jsonpullparser.JsonPullParser;
 import net.vvakame.util.jsonpullparser.JsonPullParser.State;
+import net.vvakame.util.jsonpullparser.util.JsonUtil;
 import net.vvakame.util.jsonpullparser.util.OnJsonObjectAddListener;
 
 /**
@@ -215,61 +217,63 @@ public class @{target}@{postfix} {
 				throw new IllegalStateException("expect KEY. we got unexpected value. " + eventType);
 			}
 			String key = parser.getValueString();
-			@foreach{obj : elements}if ("@{obj.key}".equals(key)) {
-@if{obj.kind == "BOOLEAN"}
+@foreach{obj : inElements}
+			if ("@{obj.key}".equals(key)) {
+	@if{obj.kind == "BOOLEAN"}
 				parser.getEventType();
 				obj.@{obj.setter}(parser.getValueBoolean());
-@else{obj.kind == "CHAR"}
+	@else{obj.kind == "CHAR"}
 				parser.getEventType();
 				obj.@{obj.setter}(parser.getValueString().charAt(0));
-@else{obj.kind == "BYTE"}
+	@else{obj.kind == "BYTE"}
 				parser.getEventType();
 				obj.@{obj.setter}((byte)parser.getValueLong());
-@else{obj.kind == "SHORT"}
+	@else{obj.kind == "SHORT"}
 				parser.getEventType();
 				obj.@{obj.setter}((short)parser.getValueLong());
-@else{obj.kind == "INT"}
+	@else{obj.kind == "INT"}
 				parser.getEventType();
 				obj.@{obj.setter}((int)parser.getValueLong());
-@else{obj.kind == "LONG"}
+	@else{obj.kind == "LONG"}
 				parser.getEventType();
 				obj.@{obj.setter}(parser.getValueLong());
-@else{obj.kind == "FLOAT"}
+	@else{obj.kind == "FLOAT"}
 				parser.getEventType();
 				obj.@{obj.setter}((float)parser.getValueDouble());
-@else{obj.kind == "DOUBLE"}
+	@else{obj.kind == "DOUBLE"}
 				parser.getEventType();
 				obj.@{obj.setter}(parser.getValueDouble());
-@else{obj.kind == "STRING"}
+	@else{obj.kind == "STRING"}
 				parser.getEventType();
 				obj.@{obj.setter}(parser.getValueString());
-@else{obj.kind == "LIST"}
+	@else{obj.kind == "LIST"}
 				obj.@{obj.setter}(@{obj.modelName}@{postfix}.getList(parser, listener));
-@else{obj.kind == "JSON_ARRAY"}
+	@else{obj.kind == "JSON_ARRAY"}
 				obj.@{obj.setter}(net.vvakame.util.jsonpullparser.util.JsonArray.fromParser(parser));
-@else{obj.kind == "JSON_HASH"}
+	@else{obj.kind == "JSON_HASH"}
 				obj.@{obj.setter}(net.vvakame.util.jsonpullparser.util.JsonHash.fromParser(parser));
-@else{obj.kind == "MODEL"}
+	@else{obj.kind == "MODEL"}
 				@{obj.modelName} tmp = @{obj.modelName}@{postfix}.get(parser);
 				obj.@{obj.setter}(tmp);
 				if (listener != null) {
 					listener.onAdd(tmp);
 				}
-@else{obj.kind == "CONVERTER"}
+	@else{obj.kind == "CONVERTER"}
 				@{obj.converter} converter = @{obj.converter}.getInstance();
 				@{obj.modelName} tmp = converter.parse(parser, listener);
 				obj.@{obj.setter}(tmp);
-@end{}@end{'			} else '}
-@if{elements.size() != 0}
-@if{treatUnknownKeyAsError == true}
+	@end{}
+@end{'			} else '}
+@if{inElements.size() != 0}
+	@if{treatUnknownKeyAsError == true}
 			} else {
 				throw new IllegalStateException("unsupported key. key=" + key);
 			}
-@else{}
+	@else{}
 			} else {
 				parser.discardValue();
 			}
-@end{}
+	@end{}
 @end{}
 		}
 
@@ -278,5 +282,88 @@ public class @{target}@{postfix} {
 		}
 
 		return obj;
+	}
+
+	/**
+	 * {@link @{target}} の {@link List} のJSON表現を生成します.
+	 * 
+	 * @param writer JSONを追記する {@link Writer}
+	 * @param list JSON変換したい {@link @{target}} の {@link List}
+	 * @throws IOException 
+	 */
+	public static void put(Writer writer, List<? extends @{target}> list) throws IOException {
+		if (list == null) {
+			writer.write("[]");
+			return;
+		}
+		
+		putInner(writer, list);
+	}
+
+	static void putInner(Writer writer, List<? extends @{target}> list) throws IOException {
+		if (list == null) {
+			writer.write("null");
+			return;
+		}
+		JsonUtil.startArray(writer);
+
+		int size = list.size();
+		for (int i = 0; i < size; i++) {
+
+			putInner(writer, list.get(i));
+
+			if (i + 1 < size) {
+				JsonUtil.addSeparator(writer);
+			}
+		}
+
+		JsonUtil.endArray(writer);
+	}
+
+	/**
+	 * {@link @{target}} のJSON表現を生成します.
+	 * 
+	 * @param writer JSONを追記する {@link Writer}
+	 * @param obj JSON変換したい {@link @{target}}
+	 * @throws IOException 
+	 */
+	public static void put(Writer writer, @{target} obj) throws IOException {
+		if (obj == null) {
+			writer.write("{}");
+			return;
+		}
+
+		putInner(writer, obj);
+	}
+	
+	
+	static void putInner(Writer writer, @{target} obj) throws IOException {
+		if (obj == null) {
+			writer.write("null");
+			return;
+		}
+
+		JsonUtil.startHash(writer);
+
+@foreach{obj : outElements}
+		JsonUtil.putKey(writer, "@{obj.key}");
+	@if{obj.kind == "LIST"}
+		@{obj.modelName}@{postfix}.putInner(writer, obj.@{obj.getter}());
+	@else{obj.kind == "JSON_ARRAY"}
+		obj.@{obj.getter}().toJson(writer);
+	@else{obj.kind == "JSON_HASH"}
+		obj.@{obj.getter}().toJson(writer);
+	@else{obj.kind == "MODEL"}
+		@{obj.modelName}@{postfix}.putInner(writer, obj.@{obj.getter}());
+	@else{obj.kind == "CONVERTER"}
+		@{obj.converter}.getInstance().put(writer, obj.@{obj.getter}());
+	@else{}
+		JsonUtil.put(writer, obj.@{obj.getter}());
+	@end{}
+@end{'		JsonUtil.addSeparator(writer);'}
+
+		JsonUtil.endHash(writer);
+		
+		writer.flush();
 	}
 }

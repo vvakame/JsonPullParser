@@ -17,6 +17,7 @@
 package net.vvakame.util.jsonpullparser.annotation;
 
 import java.io.IOException;
+import java.io.Writer;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -27,6 +28,11 @@ import net.vvakame.util.jsonpullparser.JsonPullParser;
 import net.vvakame.util.jsonpullparser.util.OnJsonObjectAddListener;
 import net.vvakame.util.jsonpullparser.util.TokenConverter;
 
+/**
+ * Jsonとしてマッピングしたいクラスのフィールドを装飾するアノテーション.<br> {@link JsonModel}
+ * 
+ * @author vvakame
+ */
 @Retention(RetentionPolicy.SOURCE)
 @Target({ ElementType.FIELD })
 public @interface JsonKey {
@@ -44,9 +50,19 @@ public @interface JsonKey {
 			parser.discardValue();
 			return null;
 		}
+
+		@Override
+		public Void put(Writer writer, Void obj) throws IOException,
+				JsonFormatException {
+			return null;
+		}
 	}
 
 	public String value() default "";
 
 	public Class<? extends TokenConverter<?>> converter() default DiscardAllConverter.class;
+
+	public boolean in() default true;
+
+	public boolean out() default true;
 }

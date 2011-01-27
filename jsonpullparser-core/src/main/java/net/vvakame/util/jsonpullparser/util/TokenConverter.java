@@ -17,6 +17,7 @@
 package net.vvakame.util.jsonpullparser.util;
 
 import java.io.IOException;
+import java.io.Writer;
 
 import net.vvakame.util.jsonpullparser.JsonFormatException;
 import net.vvakame.util.jsonpullparser.JsonPullParser;
@@ -33,5 +34,8 @@ import net.vvakame.util.jsonpullparser.annotation.JsonKey;
 public abstract class TokenConverter<T> {
 	public abstract T parse(JsonPullParser parser,
 			OnJsonObjectAddListener listener) throws IOException,
+			JsonFormatException;
+
+	public abstract T put(Writer writer, T obj) throws IOException,
 			JsonFormatException;
 }

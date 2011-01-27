@@ -20,6 +20,7 @@ import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.*;
 
 import java.io.IOException;
+import java.io.StringWriter;
 
 import net.vvakame.util.jsonpullparser.JsonFormatException;
 import net.vvakame.util.jsonpullparser.JsonPullParser;
@@ -133,8 +134,9 @@ public class JsonHashTest {
 		JsonPullParser parser = JsonPullParser.newParser(json);
 		JsonHash jsonHash = JsonHash.fromParser(parser);
 
-		StringBuilder builder = jsonHash.toJson();
-		JsonHash jsonHash2 = JsonHash.fromString(builder.toString());
+		StringWriter writer = new StringWriter();
+		jsonHash.toJson(writer);
+		JsonHash jsonHash2 = JsonHash.fromString(writer.toString());
 
 		assertThat(jsonHash, equalTo(jsonHash2));
 	}

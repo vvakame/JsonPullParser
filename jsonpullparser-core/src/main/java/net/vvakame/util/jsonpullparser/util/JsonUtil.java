@@ -16,90 +16,99 @@
 
 package net.vvakame.util.jsonpullparser.util;
 
+import java.io.IOException;
+import java.io.Writer;
+
 public class JsonUtil {
 
-	public static void startHash(StringBuilder builder) {
-		builder.append("{");
+	public static void startHash(Writer writer) throws IOException {
+		writer.write("{");
 	}
 
-	public static void endHash(StringBuilder builder) {
-		builder.append("}");
+	public static void endHash(Writer writer) throws IOException {
+		writer.write("}");
 	}
 
-	public static void startArray(StringBuilder builder) {
-		builder.append("[");
+	public static void startArray(Writer writer) throws IOException {
+		writer.write("[");
 	}
 
-	public static void endArray(StringBuilder builder) {
-		builder.append("]");
+	public static void endArray(Writer writer) throws IOException {
+		writer.write("]");
 	}
 
-	public static void addSeparator(StringBuilder builder) {
-		builder.append(",");
+	public static void addSeparator(Writer writer) throws IOException {
+		writer.write(",");
 	}
 
-	public static void putKey(StringBuilder builder, String key) {
-		builder.append("\"").append(sanitize(key)).append("\":");
+	public static void putKey(Writer writer, String key) throws IOException {
+		writer.write("\"");
+		writer.write(sanitize(key));
+		writer.write("\":");
 	}
 
-	public static void put(StringBuilder builder, Object value) {
+	public static void put(Writer writer, Object value) throws IOException {
 		if (value == null) {
-			builder.append("null");
+			writer.write("null");
 		} else if (value instanceof String) {
-			put(builder, (String) value);
+			put(writer, (String) value);
 		} else if (value instanceof Boolean) {
-			put(builder, (boolean) (Boolean) value);
+			put(writer, (boolean) (Boolean) value);
 		} else if (value instanceof Long) {
-			put(builder, (long) (Long) value);
+			put(writer, (long) (Long) value);
 		} else if (value instanceof Double) {
-			put(builder, (double) (Double) value);
+			put(writer, (double) (Double) value);
 		} else if (value instanceof JsonHash) {
 			JsonHash jsonHash = (JsonHash) value;
-			jsonHash.toJson(builder);
+			jsonHash.toJson(writer);
 		} else if (value instanceof JsonArray) {
 			JsonArray jsonArray = (JsonArray) value;
-			jsonArray.toJson(builder);
+			jsonArray.toJson(writer);
 		}
 	}
 
-	public static void put(StringBuilder builder, String value) {
+	public static void put(Writer writer, String value) throws IOException {
 		if (value == null) {
-			builder.append("null");
+			writer.write("null");
 		} else {
-			builder.append("\"").append(sanitize(value)).append("\"");
+			writer.write("\"");
+			writer.write(sanitize(value));
+			writer.write("\"");
 		}
 	}
 
-	public static void put(StringBuilder builder, char value) {
-		builder.append("\"").append(sanitize(value)).append("\"");
+	public static void put(Writer writer, char value) throws IOException {
+		writer.write("\"");
+		writer.write(sanitize(value));
+		writer.write("\"");
 	}
 
-	public static void put(StringBuilder builder, byte value) {
-		builder.append(value);
+	public static void put(Writer writer, byte value) throws IOException {
+		writer.write(String.valueOf(value));
 	}
 
-	public static void put(StringBuilder builder, short value) {
-		builder.append(value);
+	public static void put(Writer writer, short value) throws IOException {
+		writer.write(String.valueOf(value));
 	}
 
-	public static void put(StringBuilder builder, int value) {
-		builder.append(value);
+	public static void put(Writer writer, int value) throws IOException {
+		writer.write(String.valueOf(value));
 	}
 
-	public static void put(StringBuilder builder, long value) {
-		builder.append(value);
+	public static void put(Writer writer, long value) throws IOException {
+		writer.write(String.valueOf(value));
 	}
 
-	public static void put(StringBuilder builder, float value) {
-		builder.append(value);
+	public static void put(Writer writer, float value) throws IOException {
+		writer.write(String.valueOf(value));
 	}
 
-	public static void put(StringBuilder builder, double value) {
-		builder.append(value);
+	public static void put(Writer writer, double value) throws IOException {
+		writer.write(String.valueOf(value));
 	}
 
-	public static void put(StringBuilder builder, boolean value) {
-		builder.append(value);
+	public static void put(Writer writer, boolean value) throws IOException {
+		writer.write(String.valueOf(value));
 	}
 
 	static String sanitize(char orig) {

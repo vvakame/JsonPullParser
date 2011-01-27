@@ -19,6 +19,10 @@ package net.vvakame.util.jsonpullparser.util;
 import static net.vvakame.util.jsonpullparser.util.JsonUtil.*;
 import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.*;
+
+import java.io.IOException;
+import java.io.StringWriter;
+
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
@@ -32,36 +36,36 @@ import org.junit.Test;
 public class JsonUtilTest {
 
 	@Test
-	public void toJsonArray() {
-		StringBuilder builder = new StringBuilder();
+	public void toJsonArray() throws IOException {
+		StringWriter writer = new StringWriter();
 
-		startArray(builder);
+		startArray(writer);
 
-		put(builder, (byte) 1);
+		put(writer, (byte) 1);
 
-		addSeparator(builder);
+		addSeparator(writer);
 
-		put(builder, (short) 2);
+		put(writer, (short) 2);
 
-		addSeparator(builder);
+		addSeparator(writer);
 
-		put(builder, 3);
+		put(writer, 3);
 
-		addSeparator(builder);
+		addSeparator(writer);
 
-		put(builder, 4L);
+		put(writer, 4L);
 
-		addSeparator(builder);
+		addSeparator(writer);
 
-		put(builder, 5.1f);
+		put(writer, 5.1f);
 
-		addSeparator(builder);
+		addSeparator(writer);
 
-		put(builder, 6.2);
+		put(writer, 6.2);
 
-		endArray(builder);
+		endArray(writer);
 
-		JSONArray jsonArray = JSONArray.fromObject(builder.toString());
+		JSONArray jsonArray = JSONArray.fromObject(writer.toString());
 
 		assertThat(jsonArray.getLong(0), is(1L));
 		assertThat(jsonArray.getLong(1), is(2L));
@@ -72,32 +76,32 @@ public class JsonUtilTest {
 	}
 
 	@Test
-	public void toJsonHash() {
-		StringBuilder builder = new StringBuilder();
+	public void toJsonHash() throws IOException {
+		StringWriter writer = new StringWriter();
 
-		startHash(builder);
+		startHash(writer);
 
-		putKey(builder, "hoge");
-		put(builder, null);
+		putKey(writer, "hoge");
+		put(writer, null);
 
-		addSeparator(builder);
+		addSeparator(writer);
 
-		putKey(builder, "\"");
-		put(builder, "\\");
+		putKey(writer, "\"");
+		put(writer, "\\");
 
-		addSeparator(builder);
+		addSeparator(writer);
 
-		putKey(builder, "海藻系ぬこ");
-		put(builder, "にゃー!!");
+		putKey(writer, "海藻系ぬこ");
+		put(writer, "にゃー!!");
 
-		addSeparator(builder);
+		addSeparator(writer);
 
-		putKey(builder, "char");
-		put(builder, 'c');
+		putKey(writer, "char");
+		put(writer, 'c');
 
-		endHash(builder);
+		endHash(writer);
 
-		JSONObject json = JSONObject.fromObject(builder.toString());
+		JSONObject json = JSONObject.fromObject(writer.toString());
 
 		assertThat(json.getJSONObject("hoge").isNullObject(), is(true));
 		assertThat(json.getString("\""), is("\\"));

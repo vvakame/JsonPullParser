@@ -19,6 +19,8 @@ package net.vvakame.util.jsonpullparser.util;
 import static net.vvakame.util.jsonpullparser.util.JsonUtil.*;
 
 import java.io.IOException;
+import java.io.StringWriter;
+import java.io.Writer;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
@@ -65,30 +67,24 @@ public class JsonHash extends LinkedHashMap<String, Object> {
 		return jsonHash;
 	}
 
-	public StringBuilder toJson() {
-		return toJson(new StringBuilder());
-	}
-
-	public StringBuilder toJson(StringBuilder builder) {
-		startHash(builder);
+	public void toJson(Writer writer) throws IOException {
+		startHash(writer);
 
 		int size = size();
 		Set<String> set = keySet();
 		int i = 0;
 		for (String key : set) {
 
-			putKey(builder, key);
-			JsonUtil.put(builder, get(key));
+			putKey(writer, key);
+			JsonUtil.put(writer, get(key));
 
 			if (i + 1 < size) {
-				addSeparator(builder);
+				addSeparator(writer);
 			}
 			i++;
 		}
 
-		endHash(builder);
-
-		return builder;
+		endHash(writer);
 	}
 
 	@Override
@@ -294,6 +290,12 @@ public class JsonHash extends LinkedHashMap<String, Object> {
 
 	@Override
 	public String toString() {
-		return toJson().toString();
+		StringWriter writer = new StringWriter();
+		try {
+			toJson(writer);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return writer.toString();
 	}
 }

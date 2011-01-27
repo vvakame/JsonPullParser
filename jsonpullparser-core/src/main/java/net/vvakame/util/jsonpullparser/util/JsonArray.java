@@ -18,6 +18,8 @@ package net.vvakame.util.jsonpullparser.util;
 
 import static net.vvakame.util.jsonpullparser.util.JsonUtil.*;
 import java.io.IOException;
+import java.io.StringWriter;
+import java.io.Writer;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -56,24 +58,18 @@ public class JsonArray extends ArrayList<Object> {
 		return jsonArray;
 	}
 
-	public StringBuilder toJson() {
-		return toJson(new StringBuilder());
-	}
-
-	public StringBuilder toJson(StringBuilder builder) {
-		startArray(builder);
+	public void toJson(Writer writer) throws IOException {
+		startArray(writer);
 
 		int size = size();
 		for (int i = 0; i < size; i++) {
-			put(builder, get(i));
+			put(writer, get(i));
 			if (i + 1 < size) {
-				addSeparator(builder);
+				addSeparator(writer);
 			}
 		}
 
-		endArray(builder);
-
-		return builder;
+		endArray(writer);
 	}
 
 	public Boolean getBooleanOrNull(int index) throws JsonFormatException {
@@ -431,6 +427,12 @@ public class JsonArray extends ArrayList<Object> {
 
 	@Override
 	public String toString() {
-		return toJson().toString();
+		StringWriter writer = new StringWriter();
+		try {
+			toJson(writer);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return writer.toString();
 	}
 }

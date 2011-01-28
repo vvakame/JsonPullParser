@@ -13,6 +13,17 @@
 		<eclipse.lib>eclipse.lib</eclipse.lib>
 	</properties>
 
+	<distributionManagement>
+		<repository>
+			<id>repo</id>
+			<url>http://vvakame.github.com/JsonPullParser/release</url>
+		</repository>
+		<snapshotRepository>
+			<id>snapshot-repo</id>
+			<url>http://vvakame.github.com/JsonPullParser/snapshots</url>
+		</snapshotRepository>
+	</distributionManagement>
+
 	<licenses>
 		<license>
 			<name>The Apache Software License, Version 2.0</name>

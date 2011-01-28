@@ -7,11 +7,23 @@
 	<artifactId>jsonpullparser</artifactId>
 	<version>0.2</version>
 	<packaging>pom</packaging>
+
 	<modules>
 		<module>jsonpullparser-parent</module>
 		<module>jsonpullparser-core</module>
 		<module>jsonpullparser-apt</module>
 	</modules>
+
+	<distributionManagement>
+		<repository>
+			<id>repo</id>
+			<url>http://vvakame.github.com/JsonPullParser/release</url>
+		</repository>
+		<snapshotRepository>
+			<id>snapshot-repo</id>
+			<url>http://vvakame.github.com/JsonPullParser/snapshots</url>
+		</snapshotRepository>
+	</distributionManagement>
 
 	<licenses>
 		<license>

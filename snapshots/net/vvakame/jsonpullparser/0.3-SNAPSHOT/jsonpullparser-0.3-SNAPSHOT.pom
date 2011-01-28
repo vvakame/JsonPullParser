@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>net.vvakame</groupId>
+	<artifactId>jsonpullparser</artifactId>
+	<version>0.3-SNAPSHOT</version>
+	<packaging>pom</packaging>
+
+	<modules>
+		<module>jsonpullparser-parent</module>
+		<module>jsonpullparser-core</module>
+		<module>jsonpullparser-apt</module>
+	</modules>
+
+	<distributionManagement>
+		<repository>
+			<id>repo</id>
+			<url>http://vvakame.github.com/JsonPullParser/release</url>
+		</repository>
+		<snapshotRepository>
+			<id>snapshot-repo</id>
+			<url>http://vvakame.github.com/JsonPullParser/snapshots</url>
+		</snapshotRepository>
+	</distributionManagement>
+
+	<licenses>
+		<license>
+			<name>The Apache Software License, Version 2.0</name>
+			<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+			<distribution>repo</distribution>
+		</license>
+	</licenses>
+	<developers>
+		<developer>
+			<id>vvakame</id>
+			<name>wakame masahiro</name>
+			<email></email>
+			<url>http://d.hatena.ne.jp/vvakame/</url>
+			<timezone>+9</timezone>
+		</developer>
+	</developers>
+</project>
+

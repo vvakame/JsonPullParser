@@ -2,6 +2,8 @@ package @{packageName};
 
 import java.io.InputStream;
 import java.io.IOException;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.util.ArrayList;
 import java.util.List;
@@ -286,6 +288,20 @@ public class @{target}@{postfix} {
 
 	/**
 	 * {@link @{target}} の {@link List} のJSON表現を生成します.<br>
+	 * out は {@link JsonPullParser#DEFAULT_CHARSET} で処理されます.<br>
+	 * このメソッドは{@link #encodeListNullToBlank(Writer, List)} へのaliasです.
+	 * 
+	 * @param out JSONを追記する {@link OutputStream}
+	 * @param list JSON変換したい {@link @{target}} の {@link List}
+	 * @throws IOException 
+	 */
+	public static void encodeList(OutputStream out, List<? extends @{target}> list) throws IOException {
+		OutputStreamWriter writer = new OutputStreamWriter(out, JsonPullParser.DEFAULT_CHARSET);
+		encodeListNullToBlank(writer, list);
+	}
+
+	/**
+	 * {@link @{target}} の {@link List} のJSON表現を生成します.<br>
 	 * このメソッドは{@link #encodeListNullToBlank(Writer, List)} へのaliasです.
 	 * 
 	 * @param writer JSONを追記する {@link Writer}
@@ -306,6 +322,7 @@ public class @{target}@{postfix} {
 	public static void encodeListNullToBlank(Writer writer, List<? extends @{target}> list) throws IOException {
 		if (list == null) {
 			writer.write("[]");
+			writer.flush();
 			return;
 		}
 		
@@ -322,6 +339,7 @@ public class @{target}@{postfix} {
 	public static void encodeListNullToNull(Writer writer, List<? extends @{target}> list) throws IOException {
 		if (list == null) {
 			writer.write("null");
+			writer.flush();
 			return;
 		}
 		JsonUtil.startArray(writer);
@@ -337,13 +355,29 @@ public class @{target}@{postfix} {
 		}
 
 		JsonUtil.endArray(writer);
+
+		writer.flush();
+	}
+
+	/**
+	 * {@link @{target}} のJSON表現を生成します.<br>
+	 * out は {@link JsonPullParser#DEFAULT_CHARSET} で処理されます.<br>
+	 * このメソッドは{@link #encodeNullToBlank(Writer, @{target})} へのaliasです.
+	 * 
+	 * @param writer JSONを追記する {@link Writer}
+	 * @param list JSON変換したい {@link @{target}} の {@link List}
+	 * @throws IOException 
+	 */
+	public static void encodeList(OutputStream out, @{target} obj) throws IOException {
+		OutputStreamWriter writer = new OutputStreamWriter(out, JsonPullParser.DEFAULT_CHARSET);
+		encodeNullToBlank(writer, obj);
 	}
 	
 	/**
 	 * {@link @{target}} のJSON表現を生成します.<br>
 	 * このメソッドは{@link #encodeNullToBlank(Writer, @{target})} へのaliasです.
 	 * 
-	 * @param writer JSONを追記する {@link Writer}
+	 * @param out JSONを追記する {@link OutputStream}
 	 * @param list JSON変換したい {@link @{target}} の {@link List}
 	 * @throws IOException 
 	 */
@@ -362,6 +396,7 @@ public class @{target}@{postfix} {
 	public static void encodeNullToBlank(Writer writer, @{target} obj) throws IOException {
 		if (obj == null) {
 			writer.write("{}");
+			writer.flush();
 			return;
 		}
 

@@ -18,7 +18,6 @@ package net.vvakame.util.jsonpullparser.util;
 
 import java.io.IOException;
 import java.io.Writer;
-import java.util.List;
 
 import net.vvakame.util.jsonpullparser.JsonFormatException;
 import net.vvakame.util.jsonpullparser.JsonPullParser;
@@ -40,34 +39,7 @@ public class TokenConverter<T> {
 				"if you use this method. override it.");
 	}
 
-	public void encode(Writer writer, T obj) throws IOException {
-		throw new UnsupportedOperationException(
-				"if you use this method. override it.");
-	}
-
-	public void encodeList(Writer writer, List<T> list) throws IOException {
-		throw new UnsupportedOperationException(
-				"if you use this method. override it.");
-	}
-
 	public void encodeNullToNull(Writer writer, T obj) throws IOException {
-		throw new UnsupportedOperationException(
-				"if you use this method. override it.");
-	}
-
-	public void encodeListNullToNull(Writer writer, List<T> list)
-			throws IOException {
-		throw new UnsupportedOperationException(
-				"if you use this method. override it.");
-	}
-
-	public void encodeNullToBlank(Writer writer, T obj) throws IOException {
-		throw new UnsupportedOperationException(
-				"if you use this method. override it.");
-	}
-
-	public void encodeListNullToBlank(Writer writer, List<T> list)
-			throws IOException {
 		throw new UnsupportedOperationException(
 				"if you use this method. override it.");
 	}

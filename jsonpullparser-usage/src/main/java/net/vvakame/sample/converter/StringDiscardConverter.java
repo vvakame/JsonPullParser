@@ -16,14 +16,13 @@
 
 package net.vvakame.sample.converter;
 
-import static net.vvakame.util.jsonpullparser.util.JsonUtil.*;
-
 import java.io.IOException;
 import java.io.Writer;
 
 import net.vvakame.util.jsonpullparser.JsonFormatException;
 import net.vvakame.util.jsonpullparser.JsonPullParser;
 import net.vvakame.util.jsonpullparser.JsonPullParser.State;
+import net.vvakame.util.jsonpullparser.util.JsonUtil;
 import net.vvakame.util.jsonpullparser.util.OnJsonObjectAddListener;
 import net.vvakame.util.jsonpullparser.util.TokenConverter;
 
@@ -53,20 +52,7 @@ public class StringDiscardConverter extends TokenConverter<String> {
 	}
 
 	@Override
-	public void encode(Writer writer, String obj) throws IOException {
-		encodeNullToNull(writer, obj);
-	}
-
-	@Override
 	public void encodeNullToNull(Writer writer, String obj) throws IOException {
-		if (obj == null) {
-			put(writer, "null");
-		}
-		put(writer, obj);
-	}
-
-	@Override
-	public void encodeNullToBlank(Writer writer, String obj) throws IOException {
-		encodeNullToNull(writer, obj);
+		JsonUtil.put(writer, obj);
 	}
 }

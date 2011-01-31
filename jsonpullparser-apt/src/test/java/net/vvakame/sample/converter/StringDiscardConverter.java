@@ -52,7 +52,7 @@ public class StringDiscardConverter extends TokenConverter<String> {
 	}
 
 	@Override
-	public void encode(Writer writer, String obj) throws IOException {
+	public void encodeNullToNull(Writer writer, String obj) throws IOException {
 		JsonUtil.put(writer, obj);
 	}
 }

@@ -325,9 +325,10 @@ public class ClassGenerateHelper {
 
 			TypeMirror tm = t.asElement().asType();
 			Element type = processingEnv.getTypeUtils().asElement(tm);
-			JsonModel hash = type.getAnnotation(JsonModel.class);
-			if (hash == null) {
-				Log.e("expect for use decorated class by JsonHash annotation.",
+			JsonModel model = type.getAnnotation(JsonModel.class);
+			String converterClassName = getConverterClassName(el);
+			if (model == null && converterClassName == null) {
+				Log.e("expect for use decorated class by JsonModel annotation.",
 						el);
 				encountError = true;
 				return defaultAction(t, el);

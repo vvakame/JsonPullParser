@@ -285,22 +285,41 @@ public class @{target}@{postfix} {
 	}
 
 	/**
+	 * {@link @{target}} の {@link List} のJSON表現を生成します.<br>
+	 * このメソッドは{@link #encodeListNullToBlank(Writer, List)} へのaliasです.
+	 * 
+	 * @param writer JSONを追記する {@link Writer}
+	 * @param list JSON変換したい {@link @{target}} の {@link List}
+	 * @throws IOException 
+	 */
+	public static void encodeList(Writer writer, List<? extends @{target}> list) throws IOException {
+		encodeListNullToBlank(writer, list);
+	}
+
+	/**
 	 * {@link @{target}} の {@link List} のJSON表現を生成します.
 	 * 
 	 * @param writer JSONを追記する {@link Writer}
 	 * @param list JSON変換したい {@link @{target}} の {@link List}
 	 * @throws IOException 
 	 */
-	public static void put(Writer writer, List<? extends @{target}> list) throws IOException {
+	public static void encodeListNullToBlank(Writer writer, List<? extends @{target}> list) throws IOException {
 		if (list == null) {
 			writer.write("[]");
 			return;
 		}
 		
-		putInner(writer, list);
+		encodeListNullToNull(writer, list);
 	}
 
-	static void putInner(Writer writer, List<? extends @{target}> list) throws IOException {
+	/**
+	 * {@link @{target}} の {@link List} のJSON表現を生成します.
+	 * 
+	 * @param writer JSONを追記する {@link Writer}
+	 * @param list JSON変換したい {@link @{target}} の {@link List}
+	 * @throws IOException 
+	 */
+	public static void encodeListNullToNull(Writer writer, List<? extends @{target}> list) throws IOException {
 		if (list == null) {
 			writer.write("null");
 			return;
@@ -310,7 +329,7 @@ public class @{target}@{postfix} {
 		int size = list.size();
 		for (int i = 0; i < size; i++) {
 
-			putInner(writer, list.get(i));
+			encodeNullToNull(writer, list.get(i));
 
 			if (i + 1 < size) {
 				JsonUtil.addSeparator(writer);
@@ -319,25 +338,45 @@ public class @{target}@{postfix} {
 
 		JsonUtil.endArray(writer);
 	}
+	
+	/**
+	 * {@link @{target}} のJSON表現を生成します.<br>
+	 * このメソッドは{@link #encodeNullToBlank(Writer, @{target})} へのaliasです.
+	 * 
+	 * @param writer JSONを追記する {@link Writer}
+	 * @param list JSON変換したい {@link @{target}} の {@link List}
+	 * @throws IOException 
+	 */
+	public static void encode(Writer writer, @{target} obj) throws IOException {
+		encodeNullToBlank(writer, obj);
+	}
 
 	/**
-	 * {@link @{target}} のJSON表現を生成します.
+	 * {@link @{target}} のJSON表現を生成します.<br>
+	 * もし、受け取った obj が null だった場合、{@code "{}"} を出力します.
 	 * 
 	 * @param writer JSONを追記する {@link Writer}
 	 * @param obj JSON変換したい {@link @{target}}
 	 * @throws IOException 
 	 */
-	public static void put(Writer writer, @{target} obj) throws IOException {
+	public static void encodeNullToBlank(Writer writer, @{target} obj) throws IOException {
 		if (obj == null) {
 			writer.write("{}");
 			return;
 		}
 
-		putInner(writer, obj);
+		encodeNullToNull(writer, obj);
 	}
 	
-	
-	static void putInner(Writer writer, @{target} obj) throws IOException {
+	/**
+	 * {@link @{target}} のJSON表現を生成します.<br>
+	 * もし、受け取った obj が null だった場合、{@code "null"} を出力します.
+	 * 
+	 * @param writer JSONを追記する {@link Writer}
+	 * @param obj JSON変換したい {@link @{target}}
+	 * @throws IOException 
+	 */
+	public static void encodeNullToNull(Writer writer, @{target} obj) throws IOException {
 		if (obj == null) {
 			writer.write("null");
 			return;
@@ -348,15 +387,15 @@ public class @{target}@{postfix} {
 @foreach{obj : outElements}
 		JsonUtil.putKey(writer, "@{obj.key}");
 	@if{obj.kind == "LIST"}
-		@{obj.modelName}@{postfix}.putInner(writer, obj.@{obj.getter}());
+		@{obj.modelName}@{postfix}.encodeListNullToNull(writer, obj.@{obj.getter}());
 	@else{obj.kind == "JSON_ARRAY"}
 		obj.@{obj.getter}().toJson(writer);
 	@else{obj.kind == "JSON_HASH"}
 		obj.@{obj.getter}().toJson(writer);
 	@else{obj.kind == "MODEL"}
-		@{obj.modelName}@{postfix}.putInner(writer, obj.@{obj.getter}());
+		@{obj.modelName}@{postfix}.encodeNullToNull(writer, obj.@{obj.getter}());
 	@else{obj.kind == "CONVERTER"}
-		@{obj.converter}.getInstance().put(writer, obj.@{obj.getter}());
+		@{obj.converter}.getInstance().encodeNullToNull(writer, obj.@{obj.getter}());
 	@else{}
 		JsonUtil.put(writer, obj.@{obj.getter}());
 	@end{}

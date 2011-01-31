@@ -47,7 +47,7 @@ public class JsonKeyTest {
 		PrimitiveTypeData data = PrimitiveTypeDataGenerated.get(json);
 
 		StringWriter writer = new StringWriter();
-		PrimitiveTypeDataGenerated.put(writer, data);
+		PrimitiveTypeDataGenerated.encode(writer, data);
 
 		String toJson = writer.toString();
 		JsonHash jsonHash = JsonHash.fromString(toJson);
@@ -78,7 +78,7 @@ public class JsonKeyTest {
 		data.setList2(new ArrayList<MiniData>());
 
 		StringWriter writer = new StringWriter();
-		ComplexData2Generated.put(writer, data);
+		ComplexData2Generated.encode(writer, data);
 
 		String toJson = writer.toString();
 		JsonHash jsonHash = JsonHash.fromString(toJson);
@@ -93,7 +93,7 @@ public class JsonKeyTest {
 			JsonFormatException {
 
 		StringWriter writer = new StringWriter();
-		ComplexData2Generated.put(writer, (ComplexData2) null);
+		ComplexData2Generated.encode(writer, (ComplexData2) null);
 
 		String toJson = writer.toString();
 		assertThat(toJson, is("{}"));
@@ -105,7 +105,7 @@ public class JsonKeyTest {
 
 		ComplexData2 data = new ComplexData2();
 		StringWriter writer = new StringWriter();
-		ComplexData2Generated.put(writer, data);
+		ComplexData2Generated.encode(writer, data);
 
 		String toJson = writer.toString();
 		JsonHash jsonHash = JsonHash.fromString(toJson);
@@ -119,7 +119,7 @@ public class JsonKeyTest {
 			JsonFormatException {
 
 		StringWriter writer = new StringWriter();
-		ComplexData2Generated.put(writer, (List<ComplexData2>) null);
+		ComplexData2Generated.encodeList(writer, (List<ComplexData2>) null);
 
 		String toJson = writer.toString();
 		assertThat(toJson, is("[]"));
@@ -132,7 +132,7 @@ public class JsonKeyTest {
 		List<ComplexData2> list = new ArrayList<ComplexData2>();
 		list.add(new ComplexData2());
 		StringWriter writer = new StringWriter();
-		ComplexData2Generated.put(writer, list);
+		ComplexData2Generated.encodeList(writer, list);
 
 		String toJson = writer.toString();
 		JsonArray jsonArray = JsonArray.fromString(toJson);

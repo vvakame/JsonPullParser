@@ -91,7 +91,7 @@ public class IntFlattenConverter extends TokenConverter<List<Integer>> {
 	}
 
 	@Override
-	public void put(Writer writer, List<Integer> obj) throws IOException {
+	public void encode(Writer writer, List<Integer> obj) throws IOException {
 		if (obj == null) {
 			writer.write("null");
 		}

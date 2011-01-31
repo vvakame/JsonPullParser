@@ -55,7 +55,7 @@ public class TokenConverterTest {
 		}
 
 		StringWriter writer = new StringWriter();
-		ConverterDataGenerated.put(writer, converterData);
+		ConverterDataGenerated.encode(writer, converterData);
 		String toJson = writer.toString();
 
 		JsonHash jsonHash = JsonHash.fromString(toJson);

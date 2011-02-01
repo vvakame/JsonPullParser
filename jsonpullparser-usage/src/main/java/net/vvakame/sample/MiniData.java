@@ -21,8 +21,10 @@ import net.vvakame.util.jsonpullparser.annotation.JsonModel;
 
 @JsonModel
 public class MiniData {
+
 	@JsonKey
 	long id;
+
 
 	/**
 	 * @return the id

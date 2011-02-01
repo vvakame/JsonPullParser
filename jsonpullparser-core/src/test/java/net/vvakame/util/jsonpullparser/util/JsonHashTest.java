@@ -90,7 +90,8 @@ public class JsonHashTest {
 
 	@Test
 	public void parseAllTypes() throws IOException, JsonFormatException {
-		String json = "{\"key1\":{\"key\":null}, \"key2\":{\"key\":true}, \"key3\":{\"key\":\"fuga\"}, \"key4\":{\"key\":2.3}, \"key5\":{\"key\":1}, \"key6\":{\"key\":[]}, \"key7\":{\"key\":{}}}";
+		String json =
+				"{\"key1\":{\"key\":null}, \"key2\":{\"key\":true}, \"key3\":{\"key\":\"fuga\"}, \"key4\":{\"key\":2.3}, \"key5\":{\"key\":1}, \"key6\":{\"key\":[]}, \"key7\":{\"key\":{}}}";
 		JsonPullParser parser = JsonPullParser.newParser(json);
 		JsonHash jsonHash = JsonHash.fromParser(parser);
 		JsonHash jsonHash2;
@@ -118,19 +119,18 @@ public class JsonHashTest {
 		assertThat(jsonHash2.getState("key"), is(State.VALUE_LONG));
 
 		jsonHash2 = jsonHash.getJsonHashOrNull("key6");
-		assertThat(jsonHash2.getJsonArrayOrNull("key"),
-				instanceOf(JsonArray.class));
+		assertThat(jsonHash2.getJsonArrayOrNull("key"), instanceOf(JsonArray.class));
 		assertThat(jsonHash2.getState("key"), is(State.START_ARRAY));
 
 		jsonHash2 = jsonHash.getJsonHashOrNull("key7");
-		assertThat(jsonHash2.getJsonHashOrNull("key"),
-				instanceOf(JsonHash.class));
+		assertThat(jsonHash2.getJsonHashOrNull("key"), instanceOf(JsonHash.class));
 		assertThat(jsonHash2.getState("key"), is(State.START_HASH));
 	}
 
 	@Test
 	public void toJson() throws IOException, JsonFormatException {
-		String json = "   {\"key1\":{\"key\":null}, \"key2\":{\"key\":true}, \"key3\":{\"key\":\"fuga\"}, \"key4\":{\"key\":2.3}, \"key5\":{\"key\":1}, \"key6\":{\"key\":[]}, \"key7\":{\"key\":{}}}";
+		String json =
+				"   {\"key1\":{\"key\":null}, \"key2\":{\"key\":true}, \"key3\":{\"key\":\"fuga\"}, \"key4\":{\"key\":2.3}, \"key5\":{\"key\":1}, \"key6\":{\"key\":[]}, \"key7\":{\"key\":{}}}";
 		JsonPullParser parser = JsonPullParser.newParser(json);
 		JsonHash jsonHash = JsonHash.fromParser(parser);
 

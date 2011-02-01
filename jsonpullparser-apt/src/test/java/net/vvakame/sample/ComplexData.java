@@ -39,6 +39,7 @@ public class ComplexData {
 	@JsonKey
 	SampleData data;
 
+
 	/**
 	 * @return the name
 	 */

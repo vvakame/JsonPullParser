@@ -53,14 +53,11 @@ public class StandardTypeKindVisitor<R, P> extends TypeKindVisitor6<R, P> {
 	public R visitDeclared(DeclaredType t, P p) {
 		if (String.class.getCanonicalName().equals(t.asElement().toString())) {
 			return visitString(t, p);
-		} else if (List.class.getCanonicalName().equals(
-				t.asElement().toString())) {
+		} else if (List.class.getCanonicalName().equals(t.asElement().toString())) {
 			return visitList(t, p);
-		} else if (JsonHash.class.getCanonicalName().equals(
-				t.asElement().toString())) {
+		} else if (JsonHash.class.getCanonicalName().equals(t.asElement().toString())) {
 			return visitJsonHash(t, p);
-		} else if (JsonArray.class.getCanonicalName().equals(
-				t.asElement().toString())) {
+		} else if (JsonArray.class.getCanonicalName().equals(t.asElement().toString())) {
 			return visitJsonArray(t, p);
 		} else {
 			return visitUndefinedClass(t, p);

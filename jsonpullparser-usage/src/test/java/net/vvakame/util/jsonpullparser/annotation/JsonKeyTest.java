@@ -40,9 +40,9 @@ import org.junit.Test;
 public class JsonKeyTest {
 
 	@Test
-	public void inAndOut1() throws IllegalStateException, IOException,
-			JsonFormatException {
-		String json = "{\"bool\":true,\"c\":\"g\",\"b\":1,\"s\":2,\"i\":3,\"l\":4,\"f\":1.1,\"d\":2.2}";
+	public void inAndOut1() throws IllegalStateException, IOException, JsonFormatException {
+		String json =
+				"{\"bool\":true,\"c\":\"g\",\"b\":1,\"s\":2,\"i\":3,\"l\":4,\"f\":1.1,\"d\":2.2}";
 
 		PrimitiveTypeData data = PrimitiveTypeDataGenerated.get(json);
 
@@ -63,9 +63,9 @@ public class JsonKeyTest {
 	}
 
 	@Test
-	public void inAndOut2() throws IllegalStateException, IOException,
-			JsonFormatException {
-		String json = "{\"name\":\"hoge\",\"list1\":[{\"id\":1}],\"list2\":[{\"id\":2},{\"id\":3}],\"data\":{\"id\":4}}";
+	public void inAndOut2() throws IllegalStateException, IOException, JsonFormatException {
+		String json =
+				"{\"name\":\"hoge\",\"list1\":[{\"id\":1}],\"list2\":[{\"id\":2},{\"id\":3}],\"data\":{\"id\":4}}";
 
 		ComplexData2 data = ComplexData2Generated.get(json);
 
@@ -84,13 +84,11 @@ public class JsonKeyTest {
 		JsonHash jsonHash = JsonHash.fromString(toJson);
 		assertThat(jsonHash.size(), is(2));
 		assertThat(jsonHash.getStringOrNull("name"), is("fuga"));
-		assertThat(jsonHash.getJsonHashOrNull("data").getLongOrNull("id"),
-				is(4L));
+		assertThat(jsonHash.getJsonHashOrNull("data").getLongOrNull("id"), is(4L));
 	}
 
 	@Test
-	public void Out1() throws IllegalStateException, IOException,
-			JsonFormatException {
+	public void Out1() throws IllegalStateException, IOException, JsonFormatException {
 
 		StringWriter writer = new StringWriter();
 		ComplexData2Generated.encode(writer, (ComplexData2) null);
@@ -100,8 +98,7 @@ public class JsonKeyTest {
 	}
 
 	@Test
-	public void Out2() throws IllegalStateException, IOException,
-			JsonFormatException {
+	public void Out2() throws IllegalStateException, IOException, JsonFormatException {
 
 		ComplexData2 data = new ComplexData2();
 		StringWriter writer = new StringWriter();
@@ -115,8 +112,7 @@ public class JsonKeyTest {
 	}
 
 	@Test
-	public void Out3() throws IllegalStateException, IOException,
-			JsonFormatException {
+	public void Out3() throws IllegalStateException, IOException, JsonFormatException {
 
 		StringWriter writer = new StringWriter();
 		ComplexData2Generated.encodeList(writer, (List<ComplexData2>) null);
@@ -126,8 +122,7 @@ public class JsonKeyTest {
 	}
 
 	@Test
-	public void Out4() throws IllegalStateException, IOException,
-			JsonFormatException {
+	public void Out4() throws IllegalStateException, IOException, JsonFormatException {
 
 		List<ComplexData2> list = new ArrayList<ComplexData2>();
 		list.add(new ComplexData2());

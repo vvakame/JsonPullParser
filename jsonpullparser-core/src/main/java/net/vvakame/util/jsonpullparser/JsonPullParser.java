@@ -37,6 +37,7 @@ import java.nio.charset.UnsupportedCharsetException;
  * 
  */
 public class JsonPullParser {
+
 	/**
 	 * 現在処理中のトークン.
 	 * 
@@ -99,6 +100,7 @@ public class JsonPullParser {
 		END_ARRAY,
 	}
 
+
 	/**
 	 * バイトストリームに対してエンコーディング指定がされてなかった場合の デフォルトエンコーディング名です。
 	 */
@@ -107,20 +109,25 @@ public class JsonPullParser {
 	/**
 	 * バイトストリームに対してエンコーディング指定がされてなかった場合の デフォルトエンコーディングです。
 	 */
-	public static final Charset DEFAULT_CHARSET = Charset
-			.forName(DEFAULT_CHARSET_NAME);
+	public static final Charset DEFAULT_CHARSET = Charset.forName(DEFAULT_CHARSET_NAME);
 
 	BufferedReader br;
+
 	final Stack<State> stack = new Stack<State>();
 
 	// 値保持用
 	State current;
+
 	String valueStr;
+
 	long valueLong;
+
 	double valueDouble;
+
 	boolean valueBoolean;
 
 	State lookAhead = null;
+
 
 	/**
 	 * パース対象の {@code JSON} データを返す入力ストリームを設定します。
@@ -163,8 +170,7 @@ public class JsonPullParser {
 		}
 
 		try {
-			final Charset charset = (charsetName == null) ? null : Charset
-					.forName(charsetName);
+			final Charset charset = (charsetName == null) ? null : Charset.forName(charsetName);
 			return newParser(is, charset);
 		} catch (UnsupportedCharsetException e) {
 			throw new UnsupportedEncodingException(e.getCharsetName());
@@ -191,8 +197,8 @@ public class JsonPullParser {
 			throw new IllegalArgumentException("'is' must not be null.");
 		}
 
-		final Reader reader = new InputStreamReader(is,
-				(charset == null) ? DEFAULT_CHARSET : charset);
+		final Reader reader =
+				new InputStreamReader(is, (charset == null) ? DEFAULT_CHARSET : charset);
 		return newParser(reader);
 	}
 
@@ -221,8 +227,9 @@ public class JsonPullParser {
 			throw new IllegalArgumentException("'reader' must not be null.");
 		}
 
-		BufferedReader br = (reader instanceof BufferedReader) ? (BufferedReader) reader
-				: new BufferedReader(reader);
+		BufferedReader br =
+				(reader instanceof BufferedReader) ? (BufferedReader) reader : new BufferedReader(
+						reader);
 		JsonPullParser parser = new JsonPullParser();
 		parser.setSource(br);
 		return parser;
@@ -240,8 +247,9 @@ public class JsonPullParser {
 			throw new IllegalArgumentException("'reader' must not be null.");
 		}
 
-		br = (reader instanceof BufferedReader) ? (BufferedReader) reader
-				: new BufferedReader(reader);
+		br =
+				(reader instanceof BufferedReader) ? (BufferedReader) reader : new BufferedReader(
+						reader);
 	}
 
 	/**
@@ -286,198 +294,197 @@ public class JsonPullParser {
 
 		char c = getNextChar();
 		switch (stack.pop()) {
-		case ORIGIN:
-			switch (c) {
-			case '{':
-				stack.push(State.START_HASH);
-				break;
-			case '[':
-				stack.push(State.START_ARRAY);
-				break;
-			default:
-				throw new JsonFormatException("unexpected token. token=" + c);
-			}
-			break;
-		case START_ARRAY:
-			stack.push(State.START_ARRAY);
-			switch (c) {
-			case '{':
-				stack.push(State.START_HASH);
-				break;
-			case '[':
-				stack.push(State.START_ARRAY);
-				break;
-			case '"':
-				stack.push(State.VALUE_STRING);
-				valueStr = getNextString();
-				break;
-			case ']':
-				stack.push(State.END_ARRAY);
-				break;
-			case 't':
-				expectNextChar('r');
-				expectNextChar('u');
-				expectNextChar('e');
-
-				stack.push(State.VALUE_BOOLEAN);
-				valueBoolean = true;
-				break;
-			case 'f':
-				expectNextChar('a');
-				expectNextChar('l');
-				expectNextChar('s');
-				expectNextChar('e');
-
-				stack.push(State.VALUE_BOOLEAN);
-				valueBoolean = false;
-				break;
-			case 'n':
-				expectNextChar('u');
-				expectNextChar('l');
-				expectNextChar('l');
-
-				stack.push(State.VALUE_NULL);
-				break;
-			default:
-				// 数字
-				try {
-					fetchNextNumeric();
-					break;
-				} catch (NumberFormatException e) {
-					throw new JsonFormatException(e);
-				}
-			}
-			break;
-
-		case START_HASH:
-			stack.push(State.START_HASH);
-			switch (c) {
-			case '{':
-				stack.push(State.START_HASH);
-				break;
-			case '[':
-				stack.push(State.START_ARRAY);
-				break;
-			case '}':
-				stack.push(State.END_HASH);
-				break;
-			case '"':
-				stack.push(State.KEY);
-				valueStr = getNextString();
-				c = getNextChar();
-				if (c != ':') {
-					throw new JsonFormatException("unexpected token. token="
-							+ c);
+			case ORIGIN:
+				switch (c) {
+					case '{':
+						stack.push(State.START_HASH);
+						break;
+					case '[':
+						stack.push(State.START_ARRAY);
+						break;
+					default:
+						throw new JsonFormatException("unexpected token. token=" + c);
 				}
 				break;
-			default:
-				throw new JsonFormatException("unexpected token. token=" + c);
-			}
-			break;
+			case START_ARRAY:
+				stack.push(State.START_ARRAY);
+				switch (c) {
+					case '{':
+						stack.push(State.START_HASH);
+						break;
+					case '[':
+						stack.push(State.START_ARRAY);
+						break;
+					case '"':
+						stack.push(State.VALUE_STRING);
+						valueStr = getNextString();
+						break;
+					case ']':
+						stack.push(State.END_ARRAY);
+						break;
+					case 't':
+						expectNextChar('r');
+						expectNextChar('u');
+						expectNextChar('e');
 
-		case END_ARRAY:
-			if (!State.START_ARRAY.equals(stack.pop())) {
+						stack.push(State.VALUE_BOOLEAN);
+						valueBoolean = true;
+						break;
+					case 'f':
+						expectNextChar('a');
+						expectNextChar('l');
+						expectNextChar('s');
+						expectNextChar('e');
+
+						stack.push(State.VALUE_BOOLEAN);
+						valueBoolean = false;
+						break;
+					case 'n':
+						expectNextChar('u');
+						expectNextChar('l');
+						expectNextChar('l');
+
+						stack.push(State.VALUE_NULL);
+						break;
+					default:
+						// 数字
+						try {
+							fetchNextNumeric();
+							break;
+						} catch (NumberFormatException e) {
+							throw new JsonFormatException(e);
+						}
+				}
+				break;
+
+			case START_HASH:
+				stack.push(State.START_HASH);
+				switch (c) {
+					case '{':
+						stack.push(State.START_HASH);
+						break;
+					case '[':
+						stack.push(State.START_ARRAY);
+						break;
+					case '}':
+						stack.push(State.END_HASH);
+						break;
+					case '"':
+						stack.push(State.KEY);
+						valueStr = getNextString();
+						c = getNextChar();
+						if (c != ':') {
+							throw new JsonFormatException("unexpected token. token=" + c);
+						}
+						break;
+					default:
+						throw new JsonFormatException("unexpected token. token=" + c);
+				}
+				break;
+
+			case END_ARRAY:
+				if (!State.START_ARRAY.equals(stack.pop())) {
+					throw new JsonFormatException("unexpected token.");
+				}
+				switch (c) {
+					case ',':
+						getEventType();
+						break;
+					case ']':
+						stack.push(State.END_ARRAY);
+						break;
+					case '}':
+						stack.push(State.END_HASH);
+						break;
+					default:
+						throw new JsonFormatException("unexpected token. token=" + c);
+				}
+				break;
+			case END_HASH:
+				if (!State.START_HASH.equals(stack.pop())) {
+					throw new JsonFormatException("unexpected token.");
+				}
+				switch (c) {
+					case ',':
+						getEventType();
+						break;
+					case ']':
+						stack.push(State.END_ARRAY);
+						break;
+					case '}':
+						stack.push(State.END_HASH);
+						break;
+					default:
+						throw new JsonFormatException("unexpected token. token=" + c);
+				}
+				break;
+			case KEY:
+				switch (c) {
+					case '"':
+						stack.push(State.VALUE_STRING);
+						valueStr = getNextString();
+						break;
+					case '[':
+						stack.push(State.START_ARRAY);
+						break;
+					case '{':
+						stack.push(State.START_HASH);
+						break;
+					case 't':
+						expectNextChar('r');
+						expectNextChar('u');
+						expectNextChar('e');
+
+						stack.push(State.VALUE_BOOLEAN);
+						valueBoolean = true;
+						break;
+					case 'f':
+						expectNextChar('a');
+						expectNextChar('l');
+						expectNextChar('s');
+						expectNextChar('e');
+
+						stack.push(State.VALUE_BOOLEAN);
+						valueBoolean = false;
+						break;
+					case 'n':
+						expectNextChar('u');
+						expectNextChar('l');
+						expectNextChar('l');
+
+						stack.push(State.VALUE_NULL);
+						break;
+					default:
+						// 数字
+						try {
+							fetchNextNumeric();
+							break;
+						} catch (NumberFormatException e) {
+							throw new JsonFormatException(e);
+						}
+				}
+				break;
+			case VALUE_STRING:
+			case VALUE_LONG:
+			case VALUE_DOUBLE:
+			case VALUE_NULL:
+			case VALUE_BOOLEAN:
+				switch (c) {
+					case ',':
+						getEventType();
+						break;
+					case '}':
+						stack.push(State.END_HASH);
+						break;
+					case ']':
+						stack.push(State.END_ARRAY);
+						break;
+					default:
+						throw new JsonFormatException("unexpected token. token=" + c);
+				}
+				break;
+			default:
 				throw new JsonFormatException("unexpected token.");
-			}
-			switch (c) {
-			case ',':
-				getEventType();
-				break;
-			case ']':
-				stack.push(State.END_ARRAY);
-				break;
-			case '}':
-				stack.push(State.END_HASH);
-				break;
-			default:
-				throw new JsonFormatException("unexpected token. token=" + c);
-			}
-			break;
-		case END_HASH:
-			if (!State.START_HASH.equals(stack.pop())) {
-				throw new JsonFormatException("unexpected token.");
-			}
-			switch (c) {
-			case ',':
-				getEventType();
-				break;
-			case ']':
-				stack.push(State.END_ARRAY);
-				break;
-			case '}':
-				stack.push(State.END_HASH);
-				break;
-			default:
-				throw new JsonFormatException("unexpected token. token=" + c);
-			}
-			break;
-		case KEY:
-			switch (c) {
-			case '"':
-				stack.push(State.VALUE_STRING);
-				valueStr = getNextString();
-				break;
-			case '[':
-				stack.push(State.START_ARRAY);
-				break;
-			case '{':
-				stack.push(State.START_HASH);
-				break;
-			case 't':
-				expectNextChar('r');
-				expectNextChar('u');
-				expectNextChar('e');
-
-				stack.push(State.VALUE_BOOLEAN);
-				valueBoolean = true;
-				break;
-			case 'f':
-				expectNextChar('a');
-				expectNextChar('l');
-				expectNextChar('s');
-				expectNextChar('e');
-
-				stack.push(State.VALUE_BOOLEAN);
-				valueBoolean = false;
-				break;
-			case 'n':
-				expectNextChar('u');
-				expectNextChar('l');
-				expectNextChar('l');
-
-				stack.push(State.VALUE_NULL);
-				break;
-			default:
-				// 数字
-				try {
-					fetchNextNumeric();
-					break;
-				} catch (NumberFormatException e) {
-					throw new JsonFormatException(e);
-				}
-			}
-			break;
-		case VALUE_STRING:
-		case VALUE_LONG:
-		case VALUE_DOUBLE:
-		case VALUE_NULL:
-		case VALUE_BOOLEAN:
-			switch (c) {
-			case ',':
-				getEventType();
-				break;
-			case '}':
-				stack.push(State.END_HASH);
-				break;
-			case ']':
-				stack.push(State.END_ARRAY);
-				break;
-			default:
-				throw new JsonFormatException("unexpected token. token=" + c);
-			}
-			break;
-		default:
-			throw new JsonFormatException("unexpected token.");
 		}
 
 		current = stack.peek();
@@ -487,98 +494,96 @@ public class JsonPullParser {
 	public void discardValue() throws IOException, JsonFormatException {
 		State state = lookAhead();
 		switch (state) {
-		case START_ARRAY:
-			discardArrayToken();
-			break;
-		case START_HASH:
-			discardHashToken();
-			break;
-		case KEY:
-			getEventType();
-			discardValue();
-			break;
-		case VALUE_NULL:
-		case VALUE_STRING:
-		case VALUE_BOOLEAN:
-		case VALUE_LONG:
-		case VALUE_DOUBLE:
-			getEventType();
-			break;
-		default:
-			throw new IllegalStateException("unexpected token. token=" + state);
+			case START_ARRAY:
+				discardArrayToken();
+				break;
+			case START_HASH:
+				discardHashToken();
+				break;
+			case KEY:
+				getEventType();
+				discardValue();
+				break;
+			case VALUE_NULL:
+			case VALUE_STRING:
+			case VALUE_BOOLEAN:
+			case VALUE_LONG:
+			case VALUE_DOUBLE:
+				getEventType();
+				break;
+			default:
+				throw new IllegalStateException("unexpected token. token=" + state);
 		}
 	}
 
 	public void discardArrayToken() throws IOException, JsonFormatException {
 		State state = lookAhead();
 		switch (state) {
-		case START_ARRAY:
-			getEventType();
-			while ((state = lookAhead()) != State.END_ARRAY) {
-				switch (state) {
-				case START_ARRAY:
-					discardArrayToken();
-					break;
-				case START_HASH:
-					discardHashToken();
-					break;
-				case VALUE_NULL:
-				case VALUE_STRING:
-				case VALUE_BOOLEAN:
-				case VALUE_LONG:
-				case VALUE_DOUBLE:
-					getEventType();
-					break;
-				default:
-					throw new IllegalStateException("unexpected token. token="
-							+ state);
+			case START_ARRAY:
+				getEventType();
+				while ((state = lookAhead()) != State.END_ARRAY) {
+					switch (state) {
+						case START_ARRAY:
+							discardArrayToken();
+							break;
+						case START_HASH:
+							discardHashToken();
+							break;
+						case VALUE_NULL:
+						case VALUE_STRING:
+						case VALUE_BOOLEAN:
+						case VALUE_LONG:
+						case VALUE_DOUBLE:
+							getEventType();
+							break;
+						default:
+							throw new IllegalStateException("unexpected token. token=" + state);
+					}
 				}
-			}
-			getEventType();
+				getEventType();
 
-			break;
-		case VALUE_NULL:
-			getEventType();
-			break;
-		default:
-			throw new IllegalStateException("unexpected token. token=" + state);
+				break;
+			case VALUE_NULL:
+				getEventType();
+				break;
+			default:
+				throw new IllegalStateException("unexpected token. token=" + state);
 		}
 	}
 
 	public void discardHashToken() throws IOException, JsonFormatException {
 		State state = lookAhead();
 		switch (state) {
-		case START_HASH:
-			getEventType();
-			while ((state = lookAhead()) != State.END_HASH) {
-				switch (state) {
-				case START_ARRAY:
-					discardArrayToken();
-					break;
-				case START_HASH:
-					discardHashToken();
-					break;
-				case KEY:
-				case VALUE_NULL:
-				case VALUE_STRING:
-				case VALUE_BOOLEAN:
-				case VALUE_LONG:
-				case VALUE_DOUBLE:
-					getEventType();
-					break;
-				default:
-					throw new IllegalStateException("unexpected token. token="
-							+ state);
+			case START_HASH:
+				getEventType();
+				while ((state = lookAhead()) != State.END_HASH) {
+					switch (state) {
+						case START_ARRAY:
+							discardArrayToken();
+							break;
+						case START_HASH:
+							discardHashToken();
+							break;
+						case KEY:
+						case VALUE_NULL:
+						case VALUE_STRING:
+						case VALUE_BOOLEAN:
+						case VALUE_LONG:
+						case VALUE_DOUBLE:
+							getEventType();
+							break;
+						default:
+							throw new IllegalStateException("unexpected token. token=" + state);
+					}
 				}
-			}
-			getEventType();
+				getEventType();
 
-			break;
-		case VALUE_NULL:
-			getEventType();
-			break;
-		default:
-			throw new IllegalStateException("unexpected token. token=" + state);
+				break;
+			case VALUE_NULL:
+				getEventType();
+				break;
+			default:
+				throw new IllegalStateException("unexpected token. token=" + state);
 		}
 	}
 
@@ -600,8 +605,7 @@ public class JsonPullParser {
 		} else if (current == State.VALUE_NULL) {
 			return null;
 		} else {
-			throw new IllegalStateException("unexpected state. state="
-					+ current);
+			throw new IllegalStateException("unexpected state. state=" + current);
 		}
 	}
 
@@ -621,8 +625,7 @@ public class JsonPullParser {
 		} else if (current == State.VALUE_NULL) {
 			return -1;
 		} else {
-			throw new IllegalStateException("unexpected state. state="
-					+ current);
+			throw new IllegalStateException("unexpected state. state=" + current);
 		}
 	}
 
@@ -644,8 +647,7 @@ public class JsonPullParser {
 		} else if (current == State.VALUE_LONG) {
 			return valueLong;
 		} else {
-			throw new IllegalStateException("unexpected state. state="
-					+ current);
+			throw new IllegalStateException("unexpected state. state=" + current);
 		}
 	}
 
@@ -665,8 +667,7 @@ public class JsonPullParser {
 		} else if (current == State.VALUE_NULL) {
 			return false;
 		} else {
-			throw new IllegalStateException("unexpected state. state="
-					+ current);
+			throw new IllegalStateException("unexpected state. state=" + current);
 		}
 	}
 
@@ -680,16 +681,16 @@ public class JsonPullParser {
 		return c;
 	}
 
-	private void expectNextChar(char expect) throws IOException,
-			JsonFormatException {
+	private void expectNextChar(char expect) throws IOException, JsonFormatException {
 		char c = getNextChar();
 		if (c != expect) {
-			throw new JsonFormatException("unexpected char. expected=" + expect
-					+ ", char=" + c);
+			throw new JsonFormatException("unexpected char. expected=" + expect + ", char=" + c);
 		}
 	}
 
+
 	StringBuilder stb = new StringBuilder();
+
 
 	private void fetchNextNumeric() throws IOException {
 		stb.setLength(0);
@@ -699,25 +700,25 @@ public class JsonPullParser {
 		loop: while (true) {
 			c = (char) br.read();
 			switch (c) {
-			case '.':
-			case 'e':
-			case 'E':
-				d = true;
-			case '0':
-			case '1':
-			case '2':
-			case '3':
-			case '4':
-			case '5':
-			case '6':
-			case '7':
-			case '8':
-			case '9':
-			case '-':
-				break;
-			default:
-				br.reset();
-				break loop;
+				case '.':
+				case 'e':
+				case 'E':
+					d = true;
+				case '0':
+				case '1':
+				case '2':
+				case '3':
+				case '4':
+				case '5':
+				case '6':
+				case '7':
+				case '8':
+				case '9':
+				case '-':
+					break;
+				default:
+					br.reset();
+					break loop;
 			}
 			br.mark(1);
 			stb.append(c);
@@ -737,53 +738,53 @@ public class JsonPullParser {
 		loop: while (true) {
 			c = (char) br.read();
 			switch (c) {
-			case '\\':
-				br.mark(5);
-				c = (char) br.read();
-				switch (c) {
-				case '/':
-				case '"':
 				case '\\':
-					break;
-				case 'n':
-					c = '\n';
-					break;
-				case 'r':
-					c = '\r';
-					break;
-				case 't':
-					c = '\t';
-					break;
-				case 'b':
-					c = '\b';
-					break;
-				case 'f':
-					c = '\f';
-					break;
-				case 'u':
-					c = 0;
-					int r;
-					for (int i = 0; i < 4; i++) {
-						r = getNextStringHelper(br.read());
-						if (r == -1) {
+					br.mark(5);
+					c = (char) br.read();
+					switch (c) {
+						case '/':
+						case '"':
+						case '\\':
+							break;
+						case 'n':
+							c = '\n';
+							break;
+						case 'r':
+							c = '\r';
+							break;
+						case 't':
+							c = '\t';
+							break;
+						case 'b':
+							c = '\b';
+							break;
+						case 'f':
+							c = '\f';
+							break;
+						case 'u':
+							c = 0;
+							int r;
+							for (int i = 0; i < 4; i++) {
+								r = getNextStringHelper(br.read());
+								if (r == -1) {
+									c = '\\';
+									br.reset();
+									break;
+								}
+								c <<= 4;
+								c += r;
+							}
+							break;
+						default:
 							c = '\\';
 							br.reset();
 							break;
-						}
-						c <<= 4;
-						c += r;
 					}
 					break;
+				case '"':
+					break loop;
 				default:
-					c = '\\';
-					br.reset();
 					break;
-				}
-				break;
-			case '"':
-				break loop;
-			default:
-				break;
 			}
 			stb.append(c);
 		}

@@ -46,6 +46,7 @@ public class PrimitiveTypeData {
 	@JsonKey
 	double d;
 
+
 	/**
 	 * @return the bool
 	 */

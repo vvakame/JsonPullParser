@@ -27,8 +27,7 @@ public class Template {
 	private Template() {
 	}
 
-	public static void write(JavaFileObject fileObject, GeneratingModel model)
-			throws IOException {
+	public static void write(JavaFileObject fileObject, GeneratingModel model) throws IOException {
 		MvelTemplate.write(fileObject, model);
 	}
 }

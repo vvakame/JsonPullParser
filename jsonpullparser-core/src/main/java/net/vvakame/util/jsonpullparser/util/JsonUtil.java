@@ -123,8 +123,8 @@ public class JsonUtil {
 			return null;
 		}
 		// TODO Increase Process Speed
-		return orig.replace("\\", "\\\\").replace("\"", "\\\"")
-				.replace("/", "\\/").replace("\b", "\\b").replace("\f", "\\f")
-				.replace("\n", "\\n").replace("\r", "\\r").replace("\t", "\\t");
+		return orig.replace("\\", "\\\\").replace("\"", "\\\"").replace("/", "\\/")
+			.replace("\b", "\\b").replace("\f", "\\f").replace("\n", "\\n").replace("\r", "\\r")
+			.replace("\t", "\\t");
 	}
 }

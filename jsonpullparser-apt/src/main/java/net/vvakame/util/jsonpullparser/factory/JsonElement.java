@@ -17,18 +17,29 @@
 package net.vvakame.util.jsonpullparser.factory;
 
 public class JsonElement {
+
 	String key;
+
 	boolean in;
+
 	String setter;
+
 	boolean out;
+
 	String getter;
+
 	Kind kind;
+
 	String modelName;
+
 	String converter;
 
+
 	public static enum Kind {
-		STRING, BOOLEAN, DOUBLE, LONG, MODEL, BYTE, CHAR, FLOAT, INT, SHORT, LIST, JSON_HASH, JSON_ARRAY, CONVERTER
+		STRING, BOOLEAN, DOUBLE, LONG, MODEL, BYTE, CHAR, FLOAT, INT, SHORT, LIST, JSON_HASH,
+		JSON_ARRAY, CONVERTER
 	}
+
 
 	/**
 	 * @return the key

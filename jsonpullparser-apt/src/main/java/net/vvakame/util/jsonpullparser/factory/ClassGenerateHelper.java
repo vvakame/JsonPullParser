@@ -44,13 +44,17 @@ import net.vvakame.util.jsonpullparser.factory.template.Template;
 import net.vvakame.util.jsonpullparser.util.TokenConverter;
 
 public class ClassGenerateHelper {
+
 	static ProcessingEnvironment processingEnv = null;
+
 	static String postfix = "";
 
 	GeneratingModel g = new GeneratingModel();
+
 	Element classElement;
 
 	boolean encountError = false;
+
 
 	public static void init(ProcessingEnvironment env) {
 		processingEnv = env;
@@ -70,8 +74,7 @@ public class ClassGenerateHelper {
 	}
 
 	public void addElement(Element element) {
-		JsonElement jsonElement = element.asType().accept(
-				new ValueExtractVisitor(), element);
+		JsonElement jsonElement = element.asType().accept(new ValueExtractVisitor(), element);
 		g.addJsonElement(jsonElement);
 	}
 
@@ -79,15 +82,14 @@ public class ClassGenerateHelper {
 
 		Filer filer = processingEnv.getFiler();
 		String generateClassName = classElement.asType().toString() + postfix;
-		JavaFileObject fileObject = filer.createSourceFile(generateClassName,
-				classElement);
+		JavaFileObject fileObject = filer.createSourceFile(generateClassName, classElement);
 		Template.write(fileObject, g);
 	}
 
 	public void process() {
 		// JsonKeyの収集
-		List<Element> elements = getEnclosedElementsByAnnotation(classElement,
-				JsonKey.class, ElementKind.FIELD);
+		List<Element> elements =
+				getEnclosedElementsByAnnotation(classElement, JsonKey.class, ElementKind.FIELD);
 		if (elements.size() == 0) {
 			Log.e("not exists any @JsonKey decorated field.", classElement);
 		}
@@ -108,8 +110,8 @@ public class ClassGenerateHelper {
 		AnnotationValue converter = null;
 
 		for (AnnotationMirror am : el.getAnnotationMirrors()) {
-			Map<? extends ExecutableElement, ? extends AnnotationValue> elementValues = am
-					.getElementValues();
+			Map<? extends ExecutableElement, ? extends AnnotationValue> elementValues =
+					am.getElementValues();
 			for (ExecutableElement e : elementValues.keySet()) {
 				if ("converter".equals(e.getSimpleName().toString())) {
 					converter = elementValues.get(e);
@@ -118,8 +120,7 @@ public class ClassGenerateHelper {
 		}
 
 		String result = null;
-		if (converter != null
-				&& !TokenConverter.class.getCanonicalName().equals(converter)) {
+		if (converter != null && !TokenConverter.class.getCanonicalName().equals(converter)) {
 			String tmp = converter.toString();
 			if (tmp.endsWith(".class")) {
 				int i = tmp.lastIndexOf('.');
@@ -140,8 +141,8 @@ public class ClassGenerateHelper {
 		return model.treatUnknownKeyAsError();
 	}
 
-	class ValueExtractVisitor extends
-			StandardTypeKindVisitor<JsonElement, Element> {
+
+	class ValueExtractVisitor extends StandardTypeKindVisitor<JsonElement, Element> {
 
 		JsonElement genJsonElement(TypeMirror t, Element el, Kind kind) {
 			if (kind == null) {
@@ -171,14 +172,12 @@ public class ClassGenerateHelper {
 
 			String converterClassName = getConverterClassName(el);
 			if (converterClassName != null) {
-				TypeElement element = processingEnv.getElementUtils()
-						.getTypeElement(converterClassName);
+				TypeElement element =
+						processingEnv.getElementUtils().getTypeElement(converterClassName);
 				Log.d(element.asType().toString());
 				if (element == null
-						|| !isMethodExists(element, "getInstance",
-								Modifier.PUBLIC, Modifier.STATIC)) {
-					Log.e("converter needs [public static getInstance()].",
-							element);
+						|| !isMethodExists(element, "getInstance", Modifier.PUBLIC, Modifier.STATIC)) {
+					Log.e("converter needs [public static getInstance()].", element);
 				}
 				kind = Kind.CONVERTER;
 			}
@@ -274,8 +273,7 @@ public class ClassGenerateHelper {
 				Element type = processingEnv.getTypeUtils().asElement(tm);
 				JsonModel hash = type.getAnnotation(JsonModel.class);
 				if (hash == null) {
-					Log.e("expect for use decorated class by JsonModel annotation.",
-							el);
+					Log.e("expect for use decorated class by JsonModel annotation.", el);
 					encountError = true;
 					return defaultAction(t, el);
 				}
@@ -328,8 +326,7 @@ public class ClassGenerateHelper {
 			JsonModel model = type.getAnnotation(JsonModel.class);
 			String converterClassName = getConverterClassName(el);
 			if (model == null && converterClassName == null) {
-				Log.e("expect for use decorated class by JsonModel annotation.",
-						el);
+				Log.e("expect for use decorated class by JsonModel annotation.", el);
 				encountError = true;
 				return defaultAction(t, el);
 			}
@@ -337,6 +334,7 @@ public class ClassGenerateHelper {
 			return genJsonElement(t, el, Kind.MODEL);
 		}
 	}
+
 
 	/**
 	 * @param postfix

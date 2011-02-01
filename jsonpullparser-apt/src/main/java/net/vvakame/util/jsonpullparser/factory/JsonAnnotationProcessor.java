@@ -38,7 +38,9 @@ import net.vvakame.util.jsonpullparser.annotation.JsonModel;
 public class JsonAnnotationProcessor extends AbstractProcessor {
 
 	private static final String CLASS_POSTFIX_OPTION = "JsonPullParserClassPostfix";
+
 	private static final String DEBUG_OPTION = "JsonPullParserDebug";
+
 
 	@Override
 	public synchronized void init(ProcessingEnvironment processingEnv) {
@@ -57,8 +59,7 @@ public class JsonAnnotationProcessor extends AbstractProcessor {
 	}
 
 	@Override
-	public boolean process(Set<? extends TypeElement> annotations,
-			RoundEnvironment roundEnv) {
+	public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {
 
 		ClassGenerateHelper.init(processingEnv);
 
@@ -74,13 +75,11 @@ public class JsonAnnotationProcessor extends AbstractProcessor {
 		}
 		ClassGenerateHelper.setPostfix(postfix);
 
-		for (Element element : typesIn(roundEnv
-				.getElementsAnnotatedWith(JsonModel.class))) {
+		for (Element element : typesIn(roundEnv.getElementsAnnotatedWith(JsonModel.class))) {
 
 			Log.d("process " + element.toString());
 
-			ClassGenerateHelper generater = ClassGenerateHelper
-					.newInstance(element);
+			ClassGenerateHelper generater = ClassGenerateHelper.newInstance(element);
 
 			generater.process();
 

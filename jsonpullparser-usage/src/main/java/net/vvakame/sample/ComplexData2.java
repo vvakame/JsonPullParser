@@ -36,6 +36,7 @@ public class ComplexData2 {
 	@JsonKey
 	MiniData data;
 
+
 	/**
 	 * @return the name
 	 */

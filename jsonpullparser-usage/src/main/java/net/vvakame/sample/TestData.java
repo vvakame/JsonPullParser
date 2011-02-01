@@ -21,6 +21,7 @@ import net.vvakame.util.jsonpullparser.annotation.JsonModel;
 
 @JsonModel
 public class TestData {
+
 	@JsonKey
 	String name;
 
@@ -35,6 +36,7 @@ public class TestData {
 
 	@JsonKey("has_data")
 	boolean hasData;
+
 
 	/**
 	 * @return the name

@@ -21,8 +21,11 @@ import javax.lang.model.element.Element;
 import javax.tools.Diagnostic;
 
 public class Log {
+
 	static Messager messager = null;
+
 	static boolean debug = false;
+
 
 	public static void init(Messager msgr) {
 		messager = msgr;
@@ -66,8 +69,7 @@ public class Log {
 	}
 
 	public static void e(Throwable e) {
-		messager.printMessage(Diagnostic.Kind.ERROR,
-				"exception thrown! " + e.getMessage());
+		messager.printMessage(Diagnostic.Kind.ERROR, "exception thrown! " + e.getMessage());
 	}
 
 	static String getStackInfo() {
@@ -75,12 +77,11 @@ public class Log {
 		for (StackTraceElement stack : stackTrace) {
 			if (Thread.class.getCanonicalName().equals(stack.getClassName())) {
 				continue;
-			} else if (Log.class.getCanonicalName()
-					.equals(stack.getClassName())) {
+			} else if (Log.class.getCanonicalName().equals(stack.getClassName())) {
 				continue;
 			} else {
-				return stack.getClassName() + "#" + stack.getMethodName()
-						+ "@L" + stack.getLineNumber();
+				return stack.getClassName() + "#" + stack.getMethodName() + "@L"
+						+ stack.getLineNumber();
 			}
 		}
 		return "unknown";

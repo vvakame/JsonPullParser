@@ -21,6 +21,7 @@ import net.vvakame.util.jsonpullparser.annotation.JsonModel;
 
 @JsonModel
 public class User {
+
 	@JsonKey("follow_request_sent")
 	boolean followRequestSent;
 
@@ -122,6 +123,7 @@ public class User {
 
 	@JsonKey("profile_text_color")
 	String profileTextColor;
+
 
 	/**
 	 * @return the followRequestSent

@@ -35,14 +35,14 @@ public class JsonHash extends LinkedHashMap<String, Object> {
 
 	LinkedHashMap<String, State> stateMap = new LinkedHashMap<String, State>();
 
-	public static JsonHash fromString(String json) throws IOException,
-			JsonFormatException {
+
+	public static JsonHash fromString(String json) throws IOException, JsonFormatException {
 		JsonPullParser parser = JsonPullParser.newParser(json);
 		return fromParser(parser);
 	}
 
-	public static JsonHash fromParser(JsonPullParser parser)
-			throws IOException, JsonFormatException {
+	public static JsonHash fromParser(JsonPullParser parser) throws IOException,
+			JsonFormatException {
 		State state = parser.getEventType();
 
 		if (state == State.VALUE_NULL) {
@@ -55,8 +55,7 @@ public class JsonHash extends LinkedHashMap<String, Object> {
 		while ((state = parser.lookAhead()) != State.END_HASH) {
 			state = parser.getEventType();
 			if (state != State.KEY) {
-				throw new JsonFormatException("unexpected token. token="
-						+ state);
+				throw new JsonFormatException("unexpected token. token=" + state);
 			}
 			String key = parser.getValueString();
 			state = parser.lookAhead();
@@ -115,16 +114,16 @@ public class JsonHash extends LinkedHashMap<String, Object> {
 			state = State.VALUE_BOOLEAN;
 		} else if (obj instanceof Double || obj instanceof Float) {
 			state = State.VALUE_DOUBLE;
-		} else if (obj instanceof Byte || obj instanceof Short
-				|| obj instanceof Integer || obj instanceof Long) {
+		} else if (obj instanceof Byte || obj instanceof Short || obj instanceof Integer
+				|| obj instanceof Long) {
 			state = State.VALUE_LONG;
 		} else if (obj instanceof JsonArray) {
 			state = State.START_ARRAY;
 		} else if (obj instanceof JsonHash) {
 			state = State.START_HASH;
 		} else {
-			throw new IllegalArgumentException(obj.getClass()
-					.getCanonicalName() + " is not supported");
+			throw new IllegalArgumentException(obj.getClass().getCanonicalName()
+					+ " is not supported");
 		}
 		return state;
 	}
@@ -132,72 +131,72 @@ public class JsonHash extends LinkedHashMap<String, Object> {
 	public Boolean getBooleanOrNull(String key) throws JsonFormatException {
 		State state = stateMap.get(key);
 		switch (state) {
-		case VALUE_NULL:
-			return null;
-		case VALUE_BOOLEAN:
-			return (Boolean) get(key);
-		default:
-			throw new JsonFormatException("unexpected token. token=" + state);
+			case VALUE_NULL:
+				return null;
+			case VALUE_BOOLEAN:
+				return (Boolean) get(key);
+			default:
+				throw new JsonFormatException("unexpected token. token=" + state);
 		}
 	}
 
 	public String getStringOrNull(String key) throws JsonFormatException {
 		State state = stateMap.get(key);
 		switch (state) {
-		case VALUE_NULL:
-			return null;
-		case VALUE_STRING:
-			return (String) get(key);
-		default:
-			throw new JsonFormatException("unexpected token. token=" + state);
+			case VALUE_NULL:
+				return null;
+			case VALUE_STRING:
+				return (String) get(key);
+			default:
+				throw new JsonFormatException("unexpected token. token=" + state);
 		}
 	}
 
 	public Long getLongOrNull(String key) throws JsonFormatException {
 		State state = stateMap.get(key);
 		switch (state) {
-		case VALUE_NULL:
-			return null;
-		case VALUE_LONG:
-			return (Long) get(key);
-		default:
-			throw new JsonFormatException("unexpected token. token=" + state);
+			case VALUE_NULL:
+				return null;
+			case VALUE_LONG:
+				return (Long) get(key);
+			default:
+				throw new JsonFormatException("unexpected token. token=" + state);
 		}
 	}
 
 	public Double getDoubleOrNull(String key) throws JsonFormatException {
 		State state = stateMap.get(key);
 		switch (state) {
-		case VALUE_NULL:
-			return null;
-		case VALUE_DOUBLE:
-			return (Double) get(key);
-		default:
-			throw new JsonFormatException("unexpected token. token=" + state);
+			case VALUE_NULL:
+				return null;
+			case VALUE_DOUBLE:
+				return (Double) get(key);
+			default:
+				throw new JsonFormatException("unexpected token. token=" + state);
 		}
 	}
 
 	public JsonHash getJsonHashOrNull(String key) throws JsonFormatException {
 		State state = stateMap.get(key);
 		switch (state) {
-		case VALUE_NULL:
-			return null;
-		case START_HASH:
-			return (JsonHash) get(key);
-		default:
-			throw new JsonFormatException("unexpected token. token=" + state);
+			case VALUE_NULL:
+				return null;
+			case START_HASH:
+				return (JsonHash) get(key);
+			default:
+				throw new JsonFormatException("unexpected token. token=" + state);
 		}
 	}
 
 	public JsonArray getJsonArrayOrNull(String key) throws JsonFormatException {
 		State state = stateMap.get(key);
 		switch (state) {
-		case VALUE_NULL:
-			return null;
-		case START_ARRAY:
-			return (JsonArray) get(key);
-		default:
-			throw new JsonFormatException("unexpected token. token=" + state);
+			case VALUE_NULL:
+				return null;
+			case START_ARRAY:
+				return (JsonArray) get(key);
+			default:
+				throw new JsonFormatException("unexpected token. token=" + state);
 		}
 	}
 
@@ -205,31 +204,30 @@ public class JsonHash extends LinkedHashMap<String, Object> {
 		return stateMap.get(key);
 	}
 
-	static Object getValue(JsonPullParser parser) throws IOException,
-			JsonFormatException {
+	static Object getValue(JsonPullParser parser) throws IOException, JsonFormatException {
 		State state = parser.lookAhead();
 		switch (state) {
-		case VALUE_BOOLEAN:
-			parser.getEventType();
-			return parser.getValueBoolean();
-		case VALUE_STRING:
-			parser.getEventType();
-			return parser.getValueString();
-		case VALUE_DOUBLE:
-			parser.getEventType();
-			return parser.getValueDouble();
-		case VALUE_LONG:
-			parser.getEventType();
-			return parser.getValueLong();
-		case VALUE_NULL:
-			parser.getEventType();
-			return null;
-		case START_ARRAY:
-			return JsonArray.fromParser(parser);
-		case START_HASH:
-			return fromParser(parser);
-		default:
-			throw new JsonFormatException("unexpected token. token=" + state);
+			case VALUE_BOOLEAN:
+				parser.getEventType();
+				return parser.getValueBoolean();
+			case VALUE_STRING:
+				parser.getEventType();
+				return parser.getValueString();
+			case VALUE_DOUBLE:
+				parser.getEventType();
+				return parser.getValueDouble();
+			case VALUE_LONG:
+				parser.getEventType();
+				return parser.getValueLong();
+			case VALUE_NULL:
+				parser.getEventType();
+				return null;
+			case START_ARRAY:
+				return JsonArray.fromParser(parser);
+			case START_HASH:
+				return fromParser(parser);
+			default:
+				throw new JsonFormatException("unexpected token. token=" + state);
 		}
 	}
 

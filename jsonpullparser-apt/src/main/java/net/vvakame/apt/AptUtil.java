@@ -127,15 +127,13 @@ public class AptUtil {
 		return checkModifier(element, Modifier.STATIC);
 	}
 
-	public static boolean isMethodExists(Element element, String methodName,
-			Modifier... modifiers) {
+	public static boolean isMethodExists(Element element, String methodName, Modifier... modifiers) {
 		if (element.getKind() != ElementKind.CLASS) {
 			throw new IllegalStateException();
 		}
 		List<Modifier> modifiersList = Arrays.asList(modifiers);
 
-		List<ExecutableElement> methods = ElementFilter.methodsIn(element
-				.getEnclosedElements());
+		List<ExecutableElement> methods = ElementFilter.methodsIn(element.getEnclosedElements());
 		for (ExecutableElement method : methods) {
 			if (method.getSimpleName().toString().equals(methodName)
 					&& method.getModifiers().containsAll(modifiersList)) {
@@ -162,20 +160,18 @@ public class AptUtil {
 		String setterName;
 		if (element.getSimpleName().toString().startsWith("is")) {
 			// boolean isHoge; に対して setIsHoge ではなく setHoge が生成される
-			setterName = "set"
-					+ element.getSimpleName().toString().substring(2);
+			setterName = "set" + element.getSimpleName().toString().substring(2);
 		} else {
 			setterName = "set" + element.getSimpleName().toString();
 		}
 
 		Element setter = null;
-		for (Element method : ElementFilter.methodsIn(element
-				.getEnclosingElement().getEnclosedElements())) {
+		for (Element method : ElementFilter.methodsIn(element.getEnclosingElement()
+			.getEnclosedElements())) {
 			String methodName = method.getSimpleName().toString();
 
 			if (setterName.equalsIgnoreCase(methodName)) {
-				if (isStatic(method) == false && isPublic(method)
-						|| isPackagePrivate(method)) {
+				if (isStatic(method) == false && isPublic(method) || isPackagePrivate(method)) {
 					setter = method;
 					break;
 				}
@@ -195,25 +191,22 @@ public class AptUtil {
 		String getterName3 = element.getSimpleName().toString();
 
 		Element getter = null;
-		for (Element method : ElementFilter.methodsIn(element
-				.getEnclosingElement().getEnclosedElements())) {
+		for (Element method : ElementFilter.methodsIn(element.getEnclosingElement()
+			.getEnclosedElements())) {
 			String methodName = method.getSimpleName().toString();
 
 			if (getterName1.equalsIgnoreCase(methodName)) {
-				if (isStatic(method) == false && isPublic(method)
-						|| isPackagePrivate(method)) {
+				if (isStatic(method) == false && isPublic(method) || isPackagePrivate(method)) {
 					getter = method;
 					break;
 				}
 			} else if (getterName2.equalsIgnoreCase(methodName)) {
-				if (isStatic(method) == false && isPublic(method)
-						|| isPackagePrivate(method)) {
+				if (isStatic(method) == false && isPublic(method) || isPackagePrivate(method)) {
 					getter = method;
 					break;
 				}
 			} else if (getterName3.equalsIgnoreCase(methodName)) {
-				if (isStatic(method) == false && isPublic(method)
-						|| isPackagePrivate(method)) {
+				if (isStatic(method) == false && isPublic(method) || isPackagePrivate(method)) {
 					getter = method;
 					break;
 				}

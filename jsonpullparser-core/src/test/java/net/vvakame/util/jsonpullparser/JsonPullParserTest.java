@@ -16,9 +16,6 @@
 
 package net.vvakame.util.jsonpullparser;
 
-import static org.hamcrest.CoreMatchers.*;
-import static org.junit.Assert.*;
-
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -27,8 +24,22 @@ import net.vvakame.util.jsonpullparser.JsonPullParser.State;
 
 import org.junit.Test;
 
+import static org.hamcrest.CoreMatchers.*;
+
+import static org.junit.Assert.*;
+
+/**
+ * {@link JsonPullParser} のテスト.
+ * @author vvakame
+ */
 public class JsonPullParserTest {
 
+	/**
+	 * {@code \"{}\"}
+	 * @throws IOException
+	 * @throws JsonFormatException
+	 * @author vvakame
+	 */
 	@Test
 	public void parseEmptyHash() throws IOException, JsonFormatException {
 		State type;
@@ -91,8 +102,8 @@ public class JsonPullParserTest {
 		State type;
 		String str;
 
-		JsonPullParser parser = JsonPullParser
-				.newParser("{\"key\":\" \\\" \\t \\r \\n \\b \\f \\ \"}");
+		JsonPullParser parser =
+				JsonPullParser.newParser("{\"key\":\" \\\" \\t \\r \\n \\b \\f \\ \"}");
 		type = parser.getEventType();
 		assertThat(type, is(State.START_HASH));
 		type = parser.getEventType();
@@ -112,8 +123,9 @@ public class JsonPullParserTest {
 		State type;
 		String str;
 
-		JsonPullParser parser = JsonPullParser
-				.newParser("[\"json \\u30e1\\u30e2\", \"\\u123x\", \"\\u30E1\\u30E2\"]");
+		JsonPullParser parser =
+				JsonPullParser
+					.newParser("[\"json \\u30e1\\u30e2\", \"\\u123x\", \"\\u30E1\\u30E2\"]");
 		type = parser.getEventType();
 		assertThat(type, is(State.START_ARRAY));
 		type = parser.getEventType();
@@ -133,8 +145,7 @@ public class JsonPullParserTest {
 	}
 
 	@Test
-	public void parseSimpleBooleanTrue() throws IOException,
-			JsonFormatException {
+	public void parseSimpleBooleanTrue() throws IOException, JsonFormatException {
 		State type;
 		String str;
 		Boolean bool;
@@ -155,8 +166,7 @@ public class JsonPullParserTest {
 	}
 
 	@Test
-	public void parseSimpleBooleanFalse() throws IOException,
-			JsonFormatException {
+	public void parseSimpleBooleanFalse() throws IOException, JsonFormatException {
 		State type;
 		String str;
 		Boolean bool;
@@ -244,8 +254,9 @@ public class JsonPullParserTest {
 		double d;
 		boolean b;
 
-		JsonPullParser parser = JsonPullParser
-				.newParser("{\"key1\":\"value1\", \"key2\":2, \"key3\":0.1 ,\"key4\":true ,\"key5\":false ,\"key6\":null}");
+		JsonPullParser parser =
+				JsonPullParser
+					.newParser("{\"key1\":\"value1\", \"key2\":2, \"key3\":0.1 ,\"key4\":true ,\"key5\":false ,\"key6\":null}");
 		type = parser.getEventType();
 		assertThat(type, is(State.START_HASH));
 
@@ -319,8 +330,7 @@ public class JsonPullParserTest {
 		double d;
 		boolean b;
 
-		JsonPullParser parser = JsonPullParser
-				.newParser("[\"value1\", 2, 0.1 ,true ,false ,null]");
+		JsonPullParser parser = JsonPullParser.newParser("[\"value1\", 2, 0.1 ,true ,false ,null]");
 		type = parser.getEventType();
 		assertThat(type, is(State.START_ARRAY));
 		type = parser.getEventType();
@@ -353,8 +363,9 @@ public class JsonPullParserTest {
 	public void parseComplex1() throws IOException, JsonFormatException {
 		State type;
 
-		JsonPullParser parser = JsonPullParser
-				.newParser("[\"value1\", 2, 0.1 ,true ,{\"test1\":1, \"test2\":null   \n  } ,null]");
+		JsonPullParser parser =
+				JsonPullParser
+					.newParser("[\"value1\", 2, 0.1 ,true ,{\"test1\":1, \"test2\":null   \n  } ,null]");
 
 		type = parser.getEventType();
 		assertThat(type, is(State.START_ARRAY));
@@ -400,8 +411,7 @@ public class JsonPullParserTest {
 	public void parseComplex2() throws IOException, JsonFormatException {
 		State type;
 
-		JsonPullParser parser = JsonPullParser
-				.newParser("{\"key\":\"value\", \"list\":[]}");
+		JsonPullParser parser = JsonPullParser.newParser("{\"key\":\"value\", \"list\":[]}");
 
 		type = parser.getEventType();
 		assertThat(type, is(State.START_HASH));
@@ -429,8 +439,9 @@ public class JsonPullParserTest {
 	public void lookAhead() throws IOException, JsonFormatException {
 		State type;
 
-		JsonPullParser parser = JsonPullParser
-				.newParser("[\"value1\", 2, 0.1 ,true ,{\"test1\":1, \"test2\":null   \n  } ,null]");
+		JsonPullParser parser =
+				JsonPullParser
+					.newParser("[\"value1\", 2, 0.1 ,true ,{\"test1\":1, \"test2\":null   \n  } ,null]");
 
 		type = parser.lookAhead();
 		assertThat(type, is(State.START_ARRAY));
@@ -455,8 +466,9 @@ public class JsonPullParserTest {
 	public void discardToken() throws IOException, JsonFormatException {
 		State type;
 
-		JsonPullParser parser = JsonPullParser
-				.newParser("[null,\"str\",true,1,1.1,{},[],{\"key1\":true,\"key2\":false}]");
+		JsonPullParser parser =
+				JsonPullParser
+					.newParser("[null,\"str\",true,1,1.1,{},[],{\"key1\":true,\"key2\":false}]");
 
 		type = parser.getEventType();
 		assertThat(type, is(State.START_ARRAY));
@@ -512,8 +524,9 @@ public class JsonPullParserTest {
 	public void discardHashToken() throws IOException, JsonFormatException {
 		State type;
 
-		JsonPullParser parser = JsonPullParser
-				.newParser("[null,{\"key1\":true,{\"key2\":false,\"key3\":{\"key4\":{}}}}]");
+		JsonPullParser parser =
+				JsonPullParser
+					.newParser("[null,{\"key1\":true,{\"key2\":false,\"key3\":{\"key4\":{}}}}]");
 
 		type = parser.getEventType();
 		assertThat(type, is(State.START_ARRAY));

@@ -25,6 +25,7 @@ import net.vvakame.util.jsonpullparser.annotation.JsonModel;
 
 @JsonModel
 public class ConverterData {
+
 	@JsonKey(converter = StringDiscardConverter.class)
 	String str1;
 
@@ -33,6 +34,7 @@ public class ConverterData {
 
 	@JsonKey(converter = IntFlattenConverter.class)
 	List<Integer> flatten;
+
 
 	/**
 	 * @return the str1

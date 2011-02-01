@@ -41,9 +41,9 @@ public class TokenConverterTest {
 	}
 
 	@Test
-	public void integerFlattenConverter() throws IOException,
-			JsonFormatException {
-		String json = "{\"str1\":\"value1\", \"str2\":\"value2\", \"flatten\":[1,[2,3],[[4,[5,6],7]],[],8]}";
+	public void integerFlattenConverter() throws IOException, JsonFormatException {
+		String json =
+				"{\"str1\":\"value1\", \"str2\":\"value2\", \"flatten\":[1,[2,3],[[4,[5,6],7]],[],8]}";
 
 		ConverterData converterData = ConverterDataGenerated.get(json);
 

@@ -46,7 +46,8 @@ public class JsonAnnotationProcessorTest {
 
 	@Test
 	public void jsonHash() throws IOException, JsonFormatException {
-		String json = "{\"name\":\"vvakame\",\"package_name\":\"net.vvakame\",\"version_code\":7,\"weight\":66.66,\"has_data\":true}";
+		String json =
+				"{\"name\":\"vvakame\",\"package_name\":\"net.vvakame\",\"version_code\":7,\"weight\":66.66,\"has_data\":true}";
 
 		JsonPullParser parser = JsonPullParser.newParser(json);
 
@@ -61,7 +62,8 @@ public class JsonAnnotationProcessorTest {
 
 	@Test
 	public void jsonHashPrimitive() throws IOException, JsonFormatException {
-		String json = "{\"bool\":true,\"c\":\"char\",\"b\":127,\"s\":32767,\"i\":2147483647,\"l\":9223372036854775807,\"f\":3.4028235E38,\"d\":1.7976931348623157E308}";
+		String json =
+				"{\"bool\":true,\"c\":\"char\",\"b\":127,\"s\":32767,\"i\":2147483647,\"l\":9223372036854775807,\"f\":3.4028235E38,\"d\":1.7976931348623157E308}";
 
 		JsonPullParser parser = JsonPullParser.newParser(json);
 
@@ -79,39 +81,33 @@ public class JsonAnnotationProcessorTest {
 
 	@Test
 	public void jsonArray() throws IOException, JsonFormatException {
-		String json = "[{\"bool\":false,\"c\":\"CHAR\",\"b\":-128,\"s\":1,\"i\":1,\"l\":1,\"f\":1,\"d\":1}, {\"bool\":true,\"c\":\"char\",\"b\":127,\"s\":32767,\"i\":2147483647,\"l\":2147483647,\"f\":3.4028235E38,\"d\":1.7976931348623157E308}]";
+		String json =
+				"[{\"bool\":false,\"c\":\"CHAR\",\"b\":-128,\"s\":1,\"i\":1,\"l\":1,\"f\":1,\"d\":1}, {\"bool\":true,\"c\":\"char\",\"b\":127,\"s\":32767,\"i\":2147483647,\"l\":2147483647,\"f\":3.4028235E38,\"d\":1.7976931348623157E308}]";
 
 		JsonPullParser parser = JsonPullParser.newParser(json);
 
-		List<PrimitiveTypeData> list = PrimitiveTypeDataGenerated
-				.getList(parser);
+		List<PrimitiveTypeData> list = PrimitiveTypeDataGenerated.getList(parser);
 
 		assertThat(list.size(), is(2));
 	}
 
 	@Test
 	public void jsonHashComplex() throws IOException, JsonFormatException {
-		String tmpl = "{\"name\":\"%s\",\"package_name\":\"%s\",\"version_code\":%d,\"weight\":%f,\"has_data\":%b}";
+		String tmpl =
+				"{\"name\":\"%s\",\"package_name\":\"%s\",\"version_code\":%d,\"weight\":%f,\"has_data\":%b}";
 		StringBuilder jsonBuilder = new StringBuilder();
 		jsonBuilder.append("{\"name\":\"hoge\",");
 		jsonBuilder.append("\"list1\":[");
-		jsonBuilder.append(String.format(tmpl, "a1", "ho.ge", 1, 2.2, true))
-				.append(",");
-		jsonBuilder.append(String.format(tmpl, "a2", "fu.ga", 2, 3.2, false))
-				.append(",");
-		jsonBuilder.append(String.format(tmpl, "a3", "ho.ge", 1, 2.2, true))
-				.append("],");
+		jsonBuilder.append(String.format(tmpl, "a1", "ho.ge", 1, 2.2, true)).append(",");
+		jsonBuilder.append(String.format(tmpl, "a2", "fu.ga", 2, 3.2, false)).append(",");
+		jsonBuilder.append(String.format(tmpl, "a3", "ho.ge", 1, 2.2, true)).append("],");
 		jsonBuilder.append("\"list2\":[");
-		jsonBuilder.append(String.format(tmpl, "b1", "th.is", 10, 11.11, true))
-				.append("],");
+		jsonBuilder.append(String.format(tmpl, "b1", "th.is", 10, 11.11, true)).append("],");
 		jsonBuilder.append("\"list3\":[],");
 		jsonBuilder.append("\"data\":");
-		jsonBuilder
-				.append(String.format(tmpl, "c1", "fi.zz", 111, 0.01, false))
-				.append("}");
+		jsonBuilder.append(String.format(tmpl, "c1", "fi.zz", 111, 0.01, false)).append("}");
 
-		JsonPullParser parser = JsonPullParser
-				.newParser(jsonBuilder.toString());
+		JsonPullParser parser = JsonPullParser.newParser(jsonBuilder.toString());
 
 		ComplexData data = ComplexDataGenerated.get(parser);
 
@@ -123,20 +119,18 @@ public class JsonAnnotationProcessorTest {
 	}
 
 	@Test
-	public void jsonHashComplexWithNull() throws IOException,
-			JsonFormatException {
-		String tmpl = "{\"name\":\"%s\",\"package_name\":\"%s\",\"version_code\":%d,\"weight\":%f,\"has_data\":%b}";
+	public void jsonHashComplexWithNull() throws IOException, JsonFormatException {
+		String tmpl =
+				"{\"name\":\"%s\",\"package_name\":\"%s\",\"version_code\":%d,\"weight\":%f,\"has_data\":%b}";
 		StringBuilder jsonBuilder = new StringBuilder();
 		jsonBuilder.append("{\"name\":\"hoge\",");
 		jsonBuilder.append("\"list1\":null,");
 		jsonBuilder.append("\"list2\":[");
-		jsonBuilder.append(String.format(tmpl, "b1", "th.is", 10, 11.11, true))
-				.append("],");
+		jsonBuilder.append(String.format(tmpl, "b1", "th.is", 10, 11.11, true)).append("],");
 		jsonBuilder.append("\"list3\":[],");
 		jsonBuilder.append("\"data\":null}");
 
-		JsonPullParser parser = JsonPullParser
-				.newParser(jsonBuilder.toString());
+		JsonPullParser parser = JsonPullParser.newParser(jsonBuilder.toString());
 
 		ComplexData data = ComplexDataGenerated.get(parser);
 
@@ -148,19 +142,17 @@ public class JsonAnnotationProcessorTest {
 	}
 
 	@Test
-	public void twitterPublicTimelinePOJO() throws IOException,
-			JsonFormatException {
+	public void twitterPublicTimelinePOJO() throws IOException, JsonFormatException {
 		final String PUBLIC_TIMELINE_URL = "http://api.twitter.com/1/statuses/public_timeline.json";
 
 		URL url = new URL(PUBLIC_TIMELINE_URL);
-		HttpURLConnection urlConnection = (HttpURLConnection) url
-				.openConnection();
+		HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
 		try {
 			String json;
 			{
 				StringBuilder builder = new StringBuilder();
-				BufferedReader br = new BufferedReader(new InputStreamReader(
-						urlConnection.getInputStream()));
+				BufferedReader br =
+						new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
 				String line;
 				while ((line = br.readLine()) != null) {
 					builder.append(line).append("\n");
@@ -179,19 +171,17 @@ public class JsonAnnotationProcessorTest {
 	}
 
 	@Test
-	public void twitterPublicTimelineJson() throws IOException,
-			JsonFormatException {
+	public void twitterPublicTimelineJson() throws IOException, JsonFormatException {
 		final String PUBLIC_TIMELINE_URL = "http://api.twitter.com/1/statuses/public_timeline.json";
 
 		URL url = new URL(PUBLIC_TIMELINE_URL);
-		HttpURLConnection urlConnection = (HttpURLConnection) url
-				.openConnection();
+		HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
 		try {
 			String json;
 			{
 				StringBuilder builder = new StringBuilder();
-				BufferedReader br = new BufferedReader(new InputStreamReader(
-						urlConnection.getInputStream()));
+				BufferedReader br =
+						new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
 				String line;
 				while ((line = br.readLine()) != null) {
 					builder.append(line).append("\n");

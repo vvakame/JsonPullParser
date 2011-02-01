@@ -29,7 +29,9 @@ import java.util.NoSuchElementException;
  * 
  */
 final public class Stack<T> {
+
 	final List<T> stack = new ArrayList<T>();
+
 
 	public void push(T arg) {
 		stack.add(arg);

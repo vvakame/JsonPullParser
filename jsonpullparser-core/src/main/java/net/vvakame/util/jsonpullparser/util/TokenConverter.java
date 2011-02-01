@@ -33,14 +33,12 @@ import net.vvakame.util.jsonpullparser.annotation.JsonKey;
  */
 public class TokenConverter<T> {
 
-	public T parse(JsonPullParser parser, OnJsonObjectAddListener listener)
-			throws IOException, JsonFormatException {
-		throw new UnsupportedOperationException(
-				"if you use this method. override it.");
+	public T parse(JsonPullParser parser, OnJsonObjectAddListener listener) throws IOException,
+			JsonFormatException {
+		throw new UnsupportedOperationException("if you use this method. override it.");
 	}
 
 	public void encodeNullToNull(Writer writer, T obj) throws IOException {
-		throw new UnsupportedOperationException(
-				"if you use this method. override it.");
+		throw new UnsupportedOperationException("if you use this method. override it.");
 	}
 }

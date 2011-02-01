@@ -22,24 +22,34 @@ import net.vvakame.util.jsonpullparser.util.JsonHash;
 
 @JsonModel
 public class Place {
+
 	@JsonKey
 	String id;
+
 	@JsonKey
 	String url;
+
 	@JsonKey("bounding_box")
 	JsonHash boundingBox;
+
 	@JsonKey
 	JsonHash attributes;
+
 	@JsonKey("full_name")
 	String fullName;
+
 	@JsonKey
 	String name;
+
 	@JsonKey("country_code")
 	String countryCode;
+
 	@JsonKey("place_type")
 	String placeType;
+
 	@JsonKey
 	String country;
+
 
 	/**
 	 * @return the id

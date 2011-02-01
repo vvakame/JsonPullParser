@@ -36,17 +36,16 @@ import net.vvakame.util.jsonpullparser.factory.Log;
 import org.mvel2.templates.TemplateRuntime;
 
 public class MvelTemplate {
+
 	private MvelTemplate() {
 	}
 
-	public static void write(JavaFileObject fileObject, GeneratingModel model)
-			throws IOException {
+	public static void write(JavaFileObject fileObject, GeneratingModel model) throws IOException {
 		Map<String, Object> map = convModelToMap(model);
 
 		Writer writer = fileObject.openWriter();
 		PrintWriter printWriter = new PrintWriter(writer);
-		String generated = (String) TemplateRuntime.eval(getTemplateString(),
-				map);
+		String generated = (String) TemplateRuntime.eval(getTemplateString(), map);
 		printWriter.write(generated);
 		printWriter.flush();
 		printWriter.close();
@@ -113,8 +112,8 @@ public class MvelTemplate {
 	}
 
 	static String getTemplateString() {
-		InputStream stream = MvelTemplate.class.getClassLoader()
-				.getResourceAsStream("JsonModelGen.java.mvel");
+		InputStream stream =
+				MvelTemplate.class.getClassLoader().getResourceAsStream("JsonModelGen.java.mvel");
 		try {
 			String template = streamToString(stream);
 			// Log.d(template);
@@ -130,8 +129,7 @@ public class MvelTemplate {
 			Log.e("not expected null value.");
 			throw new IllegalStateException("not expected null value.");
 		}
-		BufferedReader br = new BufferedReader(new InputStreamReader(is,
-				"utf-8"));
+		BufferedReader br = new BufferedReader(new InputStreamReader(is, "utf-8"));
 		StringBuilder builder = new StringBuilder();
 		String line;
 		while ((line = br.readLine()) != null) {

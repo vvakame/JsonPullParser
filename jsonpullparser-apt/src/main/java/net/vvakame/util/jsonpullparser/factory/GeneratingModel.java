@@ -22,11 +22,15 @@ import java.util.List;
 public class GeneratingModel {
 
 	String packageName = "invalid";
+
 	String postfix = "Invalid";
+
 	String target = "Invalid";
 
 	List<JsonElement> elements = new ArrayList<JsonElement>();
+
 	boolean treatUnknownKeyAsError;
+
 
 	public void addJsonElement(JsonElement jsonElement) {
 		if (jsonElement == null) {

@@ -36,6 +36,7 @@ public class IntFlattenConverter extends TokenConverter<List<Integer>> {
 
 	static IntFlattenConverter conv = null;
 
+
 	public static IntFlattenConverter getInstance() {
 		if (conv == null) {
 			conv = new IntFlattenConverter();
@@ -44,9 +45,8 @@ public class IntFlattenConverter extends TokenConverter<List<Integer>> {
 	}
 
 	@Override
-	public List<Integer> parse(JsonPullParser parser,
-			OnJsonObjectAddListener listener) throws IOException,
-			JsonFormatException {
+	public List<Integer> parse(JsonPullParser parser, OnJsonObjectAddListener listener)
+			throws IOException, JsonFormatException {
 		if (parser == null) {
 			throw new IllegalArgumentException();
 		}
@@ -54,35 +54,35 @@ public class IntFlattenConverter extends TokenConverter<List<Integer>> {
 		State state = parser.getEventType();
 
 		switch (state) {
-		case VALUE_NULL:
-			return null;
-		case START_ARRAY:
-			List<Integer> list = parse(parser, new ArrayList<Integer>());
-			if (listener != null) {
-				listener.onAdd(list);
-			}
-			return list;
-		default:
-			throw new IllegalStateException();
+			case VALUE_NULL:
+				return null;
+			case START_ARRAY:
+				List<Integer> list = parse(parser, new ArrayList<Integer>());
+				if (listener != null) {
+					listener.onAdd(list);
+				}
+				return list;
+			default:
+				throw new IllegalStateException();
 		}
 	}
 
-	List<Integer> parse(JsonPullParser parser, List<Integer> list)
-			throws IOException, JsonFormatException {
+	List<Integer> parse(JsonPullParser parser, List<Integer> list) throws IOException,
+			JsonFormatException {
 
 		State state;
 		while ((state = parser.lookAhead()) != State.END_ARRAY) {
 			switch (state) {
-			case VALUE_LONG:
-				parser.getEventType();
-				list.add((int) parser.getValueLong());
-				break;
-			case START_ARRAY:
-				parser.getEventType();
-				parse(parser, list);
-				break;
-			default:
-				throw new IllegalStateException();
+				case VALUE_LONG:
+					parser.getEventType();
+					list.add((int) parser.getValueLong());
+					break;
+				case START_ARRAY:
+					parser.getEventType();
+					parse(parser, list);
+					break;
+				default:
+					throw new IllegalStateException();
 			}
 		}
 		parser.getEventType();
@@ -91,8 +91,7 @@ public class IntFlattenConverter extends TokenConverter<List<Integer>> {
 	}
 
 	@Override
-	public void encodeNullToNull(Writer writer, List<Integer> obj)
-			throws IOException {
+	public void encodeNullToNull(Writer writer, List<Integer> obj) throws IOException {
 		if (obj == null) {
 			writer.write("null");
 		}

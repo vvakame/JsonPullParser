@@ -29,15 +29,18 @@ import net.vvakame.util.jsonpullparser.util.TokenConverter;
  * @author vvakame
  */
 @Retention(RetentionPolicy.SOURCE)
-@Target({ ElementType.FIELD })
+@Target({
+	ElementType.FIELD
+})
 public @interface JsonKey {
 
 	static class MockConverter extends TokenConverter<Void> {
+
 		public static MockConverter getInstance() {
-			throw new UnsupportedOperationException(
-					"if you use this method. override it.");
+			throw new UnsupportedOperationException("if you use this method. override it.");
 		}
 	}
+
 
 	public String value() default "";
 

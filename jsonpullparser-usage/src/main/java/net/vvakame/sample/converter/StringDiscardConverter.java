@@ -42,12 +42,12 @@ public class StringDiscardConverter extends TokenConverter<String> {
 		State state = parser.getEventType();
 
 		switch (state) {
-		case VALUE_NULL:
-			return null;
-		case VALUE_STRING:
-			return parser.getValueString();
-		default:
-			throw new IllegalStateException();
+			case VALUE_NULL:
+				return null;
+			case VALUE_STRING:
+				return parser.getValueString();
+			default:
+				throw new IllegalStateException();
 		}
 	}
 

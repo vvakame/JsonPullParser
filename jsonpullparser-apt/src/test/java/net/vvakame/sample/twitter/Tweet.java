@@ -22,6 +22,7 @@ import net.vvakame.util.jsonpullparser.util.JsonHash;
 
 @JsonModel
 public class Tweet {
+
 	@JsonKey
 	JsonHash geo;
 
@@ -78,6 +79,7 @@ public class Tweet {
 
 	@JsonKey
 	User user;
+
 
 	/**
 	 * @return the geo

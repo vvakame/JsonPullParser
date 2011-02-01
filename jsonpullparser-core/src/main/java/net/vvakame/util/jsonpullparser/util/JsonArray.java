@@ -33,14 +33,14 @@ public class JsonArray extends ArrayList<Object> {
 
 	ArrayList<State> stateList = new ArrayList<State>();
 
-	public static JsonArray fromString(String json) throws IOException,
-			JsonFormatException {
+
+	public static JsonArray fromString(String json) throws IOException, JsonFormatException {
 		JsonPullParser parser = JsonPullParser.newParser(json);
 		return fromParser(parser);
 	}
 
-	public static JsonArray fromParser(JsonPullParser parser)
-			throws IOException, JsonFormatException {
+	public static JsonArray fromParser(JsonPullParser parser) throws IOException,
+			JsonFormatException {
 		State state = parser.getEventType();
 
 		if (state == State.VALUE_NULL) {
@@ -75,72 +75,72 @@ public class JsonArray extends ArrayList<Object> {
 	public Boolean getBooleanOrNull(int index) throws JsonFormatException {
 		State state = stateList.get(index);
 		switch (state) {
-		case VALUE_NULL:
-			return null;
-		case VALUE_BOOLEAN:
-			return (Boolean) get(index);
-		default:
-			throw new JsonFormatException("unexpected token. token=" + state);
+			case VALUE_NULL:
+				return null;
+			case VALUE_BOOLEAN:
+				return (Boolean) get(index);
+			default:
+				throw new JsonFormatException("unexpected token. token=" + state);
 		}
 	}
 
 	public String getStringOrNull(int index) throws JsonFormatException {
 		State state = stateList.get(index);
 		switch (state) {
-		case VALUE_NULL:
-			return null;
-		case VALUE_STRING:
-			return (String) get(index);
-		default:
-			throw new JsonFormatException("unexpected token. token=" + state);
+			case VALUE_NULL:
+				return null;
+			case VALUE_STRING:
+				return (String) get(index);
+			default:
+				throw new JsonFormatException("unexpected token. token=" + state);
 		}
 	}
 
 	public Long getLongOrNull(int index) throws JsonFormatException {
 		State state = stateList.get(index);
 		switch (state) {
-		case VALUE_NULL:
-			return null;
-		case VALUE_LONG:
-			return (Long) get(index);
-		default:
-			throw new JsonFormatException("unexpected token. token=" + state);
+			case VALUE_NULL:
+				return null;
+			case VALUE_LONG:
+				return (Long) get(index);
+			default:
+				throw new JsonFormatException("unexpected token. token=" + state);
 		}
 	}
 
 	public Double getDoubleOrNull(int index) throws JsonFormatException {
 		State state = stateList.get(index);
 		switch (state) {
-		case VALUE_NULL:
-			return null;
-		case VALUE_DOUBLE:
-			return (Double) get(index);
-		default:
-			throw new JsonFormatException("unexpected token. token=" + state);
+			case VALUE_NULL:
+				return null;
+			case VALUE_DOUBLE:
+				return (Double) get(index);
+			default:
+				throw new JsonFormatException("unexpected token. token=" + state);
 		}
 	}
 
 	public JsonArray getJsonArrayOrNull(int index) throws JsonFormatException {
 		State state = stateList.get(index);
 		switch (state) {
-		case VALUE_NULL:
-			return null;
-		case START_ARRAY:
-			return (JsonArray) get(index);
-		default:
-			throw new JsonFormatException("unexpected token. token=" + state);
+			case VALUE_NULL:
+				return null;
+			case START_ARRAY:
+				return (JsonArray) get(index);
+			default:
+				throw new JsonFormatException("unexpected token. token=" + state);
 		}
 	}
 
 	public JsonHash getJsonHashOrNull(int index) throws JsonFormatException {
 		State state = stateList.get(index);
 		switch (state) {
-		case VALUE_NULL:
-			return null;
-		case START_HASH:
-			return (JsonHash) get(index);
-		default:
-			throw new JsonFormatException("unexpected token. token=" + state);
+			case VALUE_NULL:
+				return null;
+			case START_HASH:
+				return (JsonHash) get(index);
+			default:
+				throw new JsonFormatException("unexpected token. token=" + state);
 		}
 	}
 
@@ -148,31 +148,30 @@ public class JsonArray extends ArrayList<Object> {
 		return stateList.get(index);
 	}
 
-	static Object getValue(JsonPullParser parser) throws IOException,
-			JsonFormatException {
+	static Object getValue(JsonPullParser parser) throws IOException, JsonFormatException {
 		State state = parser.lookAhead();
 		switch (state) {
-		case VALUE_BOOLEAN:
-			parser.getEventType();
-			return parser.getValueBoolean();
-		case VALUE_STRING:
-			parser.getEventType();
-			return parser.getValueString();
-		case VALUE_DOUBLE:
-			parser.getEventType();
-			return parser.getValueDouble();
-		case VALUE_LONG:
-			parser.getEventType();
-			return parser.getValueLong();
-		case VALUE_NULL:
-			parser.getEventType();
-			return null;
-		case START_ARRAY:
-			return fromParser(parser);
-		case START_HASH:
-			return JsonHash.fromParser(parser);
-		default:
-			throw new JsonFormatException("unexpected token. token=" + state);
+			case VALUE_BOOLEAN:
+				parser.getEventType();
+				return parser.getValueBoolean();
+			case VALUE_STRING:
+				parser.getEventType();
+				return parser.getValueString();
+			case VALUE_DOUBLE:
+				parser.getEventType();
+				return parser.getValueDouble();
+			case VALUE_LONG:
+				parser.getEventType();
+				return parser.getValueLong();
+			case VALUE_NULL:
+				parser.getEventType();
+				return null;
+			case START_ARRAY:
+				return fromParser(parser);
+			case START_HASH:
+				return JsonHash.fromParser(parser);
+			default:
+				throw new JsonFormatException("unexpected token. token=" + state);
 		}
 	}
 
@@ -193,16 +192,16 @@ public class JsonArray extends ArrayList<Object> {
 			state = State.VALUE_BOOLEAN;
 		} else if (obj instanceof Double || obj instanceof Float) {
 			state = State.VALUE_DOUBLE;
-		} else if (obj instanceof Byte || obj instanceof Short
-				|| obj instanceof Integer || obj instanceof Long) {
+		} else if (obj instanceof Byte || obj instanceof Short || obj instanceof Integer
+				|| obj instanceof Long) {
 			state = State.VALUE_LONG;
 		} else if (obj instanceof JsonArray) {
 			state = State.START_ARRAY;
 		} else if (obj instanceof JsonHash) {
 			state = State.START_HASH;
 		} else {
-			throw new IllegalArgumentException(obj.getClass()
-					.getCanonicalName() + " is not supported");
+			throw new IllegalArgumentException(obj.getClass().getCanonicalName()
+					+ " is not supported");
 		}
 		return state;
 	}
@@ -374,7 +373,7 @@ public class JsonArray extends ArrayList<Object> {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public <T> T[] toArray(T[] arg0) {
+	public <T>T[] toArray(T[] arg0) {
 		return super.toArray(arg0);
 	}
 

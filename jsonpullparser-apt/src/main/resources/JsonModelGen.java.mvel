@@ -364,11 +364,11 @@ public class @{target}@{postfix} {
 	 * out は {@link JsonPullParser#DEFAULT_CHARSET} で処理されます.<br>
 	 * このメソッドは{@link #encodeNullToBlank(Writer, @{target})} へのaliasです.
 	 * 
-	 * @param writer JSONを追記する {@link Writer}
-	 * @param list JSON変換したい {@link @{target}} の {@link List}
+	 * @param out JSONを追記する {@link OutputStream}
+	 * @param obj JSON変換したい {@link @{target}}
 	 * @throws IOException 
 	 */
-	public static void encodeList(OutputStream out, @{target} obj) throws IOException {
+	public static void encode(OutputStream out, @{target} obj) throws IOException {
 		OutputStreamWriter writer = new OutputStreamWriter(out, JsonPullParser.DEFAULT_CHARSET);
 		encodeNullToBlank(writer, obj);
 	}
@@ -377,8 +377,8 @@ public class @{target}@{postfix} {
 	 * {@link @{target}} のJSON表現を生成します.<br>
 	 * このメソッドは{@link #encodeNullToBlank(Writer, @{target})} へのaliasです.
 	 * 
-	 * @param out JSONを追記する {@link OutputStream}
-	 * @param list JSON変換したい {@link @{target}} の {@link List}
+	 * @param writer JSONを追記する {@link Writer}
+	 * @param obj JSON変換したい {@link @{target}}
 	 * @throws IOException 
 	 */
 	public static void encode(Writer writer, @{target} obj) throws IOException {
@@ -387,7 +387,7 @@ public class @{target}@{postfix} {
 
 	/**
 	 * {@link @{target}} のJSON表現を生成します.<br>
-	 * もし、受け取った obj が null だった場合、{@code "{}"} を出力します.
+	 * もし、受け取った obj が null だった場合、{} を出力します.
 	 * 
 	 * @param writer JSONを追記する {@link Writer}
 	 * @param obj JSON変換したい {@link @{target}}

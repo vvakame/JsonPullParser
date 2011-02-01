@@ -20,6 +20,10 @@ import net.vvakame.util.jsonpullparser.annotation.JsonKey;
 import net.vvakame.util.jsonpullparser.annotation.JsonModel;
 import net.vvakame.util.jsonpullparser.util.JsonHash;
 
+/**
+ * ついったのツイートの表現
+ * @author vvakame
+ */
 @JsonModel
 public class Tweet {
 

@@ -19,6 +19,10 @@ package net.vvakame.sample.twitter;
 import net.vvakame.util.jsonpullparser.annotation.JsonKey;
 import net.vvakame.util.jsonpullparser.annotation.JsonModel;
 
+/**
+ * ついったの人の表現
+ * @author vvakame
+ */
 @JsonModel
 public class User {
 

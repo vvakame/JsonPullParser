@@ -19,6 +19,13 @@ package net.vvakame.util.jsonpullparser.factory;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.vvakame.util.jsonpullparser.annotation.JsonKey;
+import net.vvakame.util.jsonpullparser.annotation.JsonModel;
+
+/**
+ * 1 {@link JsonModel} に対応する生成ソースの表現.
+ * @author vvakame
+ */
 public class GeneratingModel {
 
 	String packageName = "invalid";
@@ -32,6 +39,11 @@ public class GeneratingModel {
 	boolean treatUnknownKeyAsError;
 
 
+	/**
+	 * {@link JsonKey} が付加されたフィールドの追加.
+	 * @param jsonElement
+	 * @author vvakame
+	 */
 	public void addJsonElement(JsonElement jsonElement) {
 		if (jsonElement == null) {
 			return;

@@ -24,24 +24,60 @@ import javax.lang.model.util.TypeKindVisitor6;
 import net.vvakame.util.jsonpullparser.util.JsonArray;
 import net.vvakame.util.jsonpullparser.util.JsonHash;
 
+/**
+ * {@link String} や {@link List} {@link JsonHash} {@link JsonArray} を判定できるようにした {@link TypeKindVisitor6}
+ * @author vvakame
+ * @param <R>
+ * @param <P>
+ */
 public class StandardTypeKindVisitor<R, P> extends TypeKindVisitor6<R, P> {
 
+	/**
+	 * @param t
+	 * @param p
+	 * @return R
+	 * @author vvakame
+	 */
 	public R visitString(DeclaredType t, P p) {
 		return defaultAction(t, p);
 	}
 
+	/**
+	 * @param t
+	 * @param p
+	 * @return R
+	 * @author vvakame
+	 */
 	public R visitList(DeclaredType t, P p) {
 		return defaultAction(t, p);
 	}
 
+	/**
+	 * @param t
+	 * @param p
+	 * @return R
+	 * @author vvakame
+	 */
 	public R visitJsonHash(DeclaredType t, P p) {
 		return defaultAction(t, p);
 	}
 
+	/**
+	 * @param t
+	 * @param p
+	 * @return R
+	 * @author vvakame
+	 */
 	public R visitJsonArray(DeclaredType t, P p) {
 		return defaultAction(t, p);
 	}
 
+	/**
+	 * @param t
+	 * @param p
+	 * @return R
+	 * @author vvakame
+	 */
 	public R visitUndefinedClass(DeclaredType t, P p) {
 		return defaultAction(t, p);
 	}

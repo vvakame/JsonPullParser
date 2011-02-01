@@ -16,8 +16,6 @@
 
 package net.vvakame.util.jsonpullparser.factory;
 
-import static net.vvakame.apt.AptUtil.*;
-
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
@@ -42,7 +40,13 @@ import net.vvakame.util.jsonpullparser.annotation.JsonModel;
 import net.vvakame.util.jsonpullparser.factory.JsonElement.Kind;
 import net.vvakame.util.jsonpullparser.factory.template.Template;
 import net.vvakame.util.jsonpullparser.util.TokenConverter;
+import static net.vvakame.apt.AptUtil.*;
 
+/**
+ * アノテーション処理の本体.<br>
+ * 1インスタンス = 1 {@link JsonModel} の処理.
+ * @author vvakame
+ */
 public class ClassGenerateHelper {
 
 	static ProcessingEnvironment processingEnv = null;
@@ -56,14 +60,30 @@ public class ClassGenerateHelper {
 	boolean encountError = false;
 
 
+	/**
+	 * 初期化処理
+	 * @param env
+	 * @author vvakame
+	 */
 	public static void init(ProcessingEnvironment env) {
 		processingEnv = env;
 	}
 
+	/**
+	 * インスタンス生成
+	 * @param element
+	 * @return {@link ClassGenerateHelper}
+	 * @author vvakame
+	 */
 	public static ClassGenerateHelper newInstance(Element element) {
 		return new ClassGenerateHelper(element);
 	}
 
+	/**
+	 * the constructor.
+	 * @param element
+	 * @category constructor
+	 */
 	public ClassGenerateHelper(Element element) {
 		classElement = element;
 
@@ -73,11 +93,21 @@ public class ClassGenerateHelper {
 		g.setTreatUnknownKeyAsError(getTreatUnknownKeyAsError(element));
 	}
 
+	/**
+	 * {@link JsonKey} が付加されているフィールドの解釈.
+	 * @param element
+	 * @author vvakame
+	 */
 	public void addElement(Element element) {
 		JsonElement jsonElement = element.asType().accept(new ValueExtractVisitor(), element);
 		g.addJsonElement(jsonElement);
 	}
 
+	/**
+	 * ソース生成.
+	 * @throws IOException
+	 * @author vvakame
+	 */
 	public void write() throws IOException {
 
 		Filer filer = processingEnv.getFiler();
@@ -86,6 +116,10 @@ public class ClassGenerateHelper {
 		Template.write(fileObject, g);
 	}
 
+	/**
+	 * アノテーション読み取り処理
+	 * @author vvakame
+	 */
 	public void process() {
 		// JsonKeyの収集
 		List<Element> elements =
@@ -174,7 +208,7 @@ public class ClassGenerateHelper {
 			if (converterClassName != null) {
 				TypeElement element =
 						processingEnv.getElementUtils().getTypeElement(converterClassName);
-				Log.d(element.asType().toString());
+				Log.d(element != null ? element.asType().toString() : null);
 				if (element == null
 						|| !isMethodExists(element, "getInstance", Modifier.PUBLIC, Modifier.STATIC)) {
 					Log.e("converter needs [public static getInstance()].", element);

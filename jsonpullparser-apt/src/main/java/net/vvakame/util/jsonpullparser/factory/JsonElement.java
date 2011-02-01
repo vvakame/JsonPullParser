@@ -16,6 +16,18 @@
 
 package net.vvakame.util.jsonpullparser.factory;
 
+import java.util.List;
+
+import net.vvakame.util.jsonpullparser.annotation.JsonKey;
+import net.vvakame.util.jsonpullparser.annotation.JsonModel;
+import net.vvakame.util.jsonpullparser.util.JsonArray;
+import net.vvakame.util.jsonpullparser.util.JsonHash;
+import net.vvakame.util.jsonpullparser.util.TokenConverter;
+
+/**
+ * 1 {@link JsonKey} に対応する生成ソースの表現.
+ * @author vvakame
+ */
 public class JsonElement {
 
 	String key;
@@ -35,9 +47,39 @@ public class JsonElement {
 	String converter;
 
 
+	/**
+	 * {@link JsonModel} が表す型
+	 * @author vvakame
+	 */
 	public static enum Kind {
-		STRING, BOOLEAN, DOUBLE, LONG, MODEL, BYTE, CHAR, FLOAT, INT, SHORT, LIST, JSON_HASH,
-		JSON_ARRAY, CONVERTER
+		/** {@link String} */
+		STRING,
+		/** {@code boolean} */
+		BOOLEAN,
+		/** {@code double} */
+		DOUBLE,
+		/** {@code long} */
+		LONG,
+		/** {@code byte} */
+		BYTE,
+		/** {@code char} */
+		CHAR,
+		/** {@code float} */
+		FLOAT,
+		/** {@code int} */
+		INT,
+		/** {@code short} */
+		SHORT,
+		/** {@link List} */
+		LIST,
+		/** {@link JsonHash} */
+		JSON_HASH,
+		/** {@link JsonArray} */
+		JSON_ARRAY,
+		/** {@link JsonModel} 付加クラス */
+		MODEL,
+		/** {@link TokenConverter} 利用 */
+		CONVERTER,
 	}
 
 

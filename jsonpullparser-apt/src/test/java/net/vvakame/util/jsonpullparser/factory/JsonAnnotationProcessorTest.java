@@ -25,8 +25,17 @@ import net.vvakame.sample.twitter.User;
 
 import org.seasar.aptina.unit.AptinaTestCase;
 
+/**
+ * {@link JsonAnnotationProcessor} のテスト.
+ * @author vvakame
+ */
 public class JsonAnnotationProcessorTest extends AptinaTestCase {
 
+	/**
+	 * {@link SampleData} の処理.
+	 * @throws Exception
+	 * @author vvakame
+	 */
 	public void testForSampleData() throws Exception {
 		JsonAnnotationProcessor processor = new JsonAnnotationProcessor();
 		addProcessor(processor);
@@ -36,6 +45,11 @@ public class JsonAnnotationProcessorTest extends AptinaTestCase {
 		compile();
 	}
 
+	/**
+	 * {@link SampleData} と {@link ComplexData} の処理.
+	 * @throws Exception
+	 * @author vvakame
+	 */
 	public void testForComplexData() throws Exception {
 		JsonAnnotationProcessor processor = new JsonAnnotationProcessor();
 		addProcessor(processor);
@@ -46,6 +60,11 @@ public class JsonAnnotationProcessorTest extends AptinaTestCase {
 		compile();
 	}
 
+	/**
+	 * {@link ConverterData} の処理.
+	 * @throws Exception
+	 * @author vvakame
+	 */
 	public void testForConverterData() throws Exception {
 		JsonAnnotationProcessor processor = new JsonAnnotationProcessor();
 		addProcessor(processor);
@@ -55,6 +74,11 @@ public class JsonAnnotationProcessorTest extends AptinaTestCase {
 		compile();
 	}
 
+	/**
+	 * {@link Tweet} とそれにぶら下がるクラスの処理.
+	 * @throws Exception
+	 * @author vvakame
+	 */
 	public void testForTwitter() throws Exception {
 		JsonAnnotationProcessor processor = new JsonAnnotationProcessor();
 		addProcessor(processor);

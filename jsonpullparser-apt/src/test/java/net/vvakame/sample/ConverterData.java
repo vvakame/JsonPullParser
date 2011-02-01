@@ -22,7 +22,12 @@ import net.vvakame.sample.converter.IntFlattenConverter;
 import net.vvakame.sample.converter.StringDiscardConverter;
 import net.vvakame.util.jsonpullparser.annotation.JsonKey;
 import net.vvakame.util.jsonpullparser.annotation.JsonModel;
+import net.vvakame.util.jsonpullparser.util.TokenConverter;
 
+/**
+ * {@link TokenConverter} での変換を行うフィールドを持つクラス.
+ * @author vvakame
+ */
 @JsonModel
 public class ConverterData {
 

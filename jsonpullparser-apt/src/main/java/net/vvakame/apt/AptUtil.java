@@ -38,6 +38,15 @@ public class AptUtil {
 	private AptUtil() {
 	}
 
+	/**
+	 * parentが含む {@link Element} の中で、 annotationで修飾され、kindに一致する種類の {@link Element} を集めて返す.<br>
+	 * kind が渡されなかった場合は種類での絞り込みを行わない.
+	 * @param parent この要素に含まれる {@link Element} を集める
+	 * @param annotation このアノテーションがついている {@link Element} を集める
+	 * @param kind 指定したい {@link ElementKind} があったら指定 
+	 * @return 集められた {@link Element}
+	 * @author vvakame
+	 */
 	public static List<Element> getEnclosedElementsByAnnotation(Element parent,
 			Class<? extends Annotation> annotation, ElementKind kind) {
 		List<? extends Element> elements = parent.getEnclosedElements();
@@ -57,6 +66,13 @@ public class AptUtil {
 		return results;
 	}
 
+	/**
+	 * elementのpackage名を返す.<br>
+	 * elementの {@link ElementKind} は {@link ElementKind#CLASS} である必要がある.
+	 * @param element
+	 * @return package名
+	 * @author vvakame
+	 */
 	public static String getPackageName(Element element) {
 		if (element.getKind() != ElementKind.CLASS) {
 			throw new IllegalStateException();
@@ -66,6 +82,13 @@ public class AptUtil {
 		return str.substring(0, i);
 	}
 
+	/**
+	 * SimpleNameを取得する java.lang.String だったら String ←この部分.<br>
+	 * elementの {@link ElementKind} は {@link ElementKind#CLASS} である必要がある.
+	 * @param element
+	 * @return SimpleName
+	 * @author vvakame
+	 */
 	public static String getSimpleName(Element element) {
 		if (element.getKind() != ElementKind.CLASS) {
 			throw new IllegalStateException();
@@ -75,12 +98,24 @@ public class AptUtil {
 		return str.substring(i + 1);
 	}
 
+	/**
+	 * SimpleNameを取得する java.lang.String だったら String ←この部分.
+	 * @param tm
+	 * @return SimpleName
+	 * @author vvakame
+	 */
 	public static String getSimpleName(TypeMirror tm) {
 		String str = tm.toString();
 		int i = str.lastIndexOf(".");
 		return str.substring(i + 1);
 	}
 
+	/**
+	 * FQNを取得する.
+	 * @param tm
+	 * @return FQN
+	 * @author vvakame
+	 */
 	public static String getFullQualifiedName(TypeMirror tm) {
 		String str = tm.toString();
 		int i = str.lastIndexOf("<");
@@ -100,18 +135,42 @@ public class AptUtil {
 		return false;
 	}
 
+	/**
+	 * elementの可視性が public かを判定する
+	 * @param element
+	 * @return publicかどうか
+	 * @author vvakame
+	 */
 	public static boolean isPublic(Element element) {
 		return checkModifier(element, Modifier.PUBLIC);
 	}
 
+	/**
+	 * elementの可視性が protected かを判定する
+	 * @param element
+	 * @return protectedかどうか
+	 * @author vvakame
+	 */
 	public static boolean isProtected(Element element) {
 		return checkModifier(element, Modifier.PROTECTED);
 	}
 
+	/**
+	 * elementの可視性が private かを判定する
+	 * @param element
+	 * @return privateかどうか
+	 * @author vvakame
+	 */
 	public static boolean isPrivate(Element element) {
 		return checkModifier(element, Modifier.PRIVATE);
 	}
 
+	/**
+	 * elementの可視性が package private かを判定する
+	 * @param element
+	 * @return package privateかどうか
+	 * @author vvakame
+	 */
 	public static boolean isPackagePrivate(Element element) {
 		if (isPublic(element)) {
 			return false;
@@ -123,10 +182,26 @@ public class AptUtil {
 		return true;
 	}
 
+	/**
+	 * elementが static かを判定する
+	 * @param element
+	 * @return staticかどうか
+	 * @author vvakame
+	 */
 	public static boolean isStatic(Element element) {
 		return checkModifier(element, Modifier.STATIC);
 	}
 
+	/**
+	 * element に methodName という名前のメソッドが存在するか調べる.<br>
+	 * elementの {@link ElementKind} は {@link ElementKind#CLASS} である必要がある.<br>
+	 * {@link Modifier} を渡した場合、そのメソッドが modifiersの特徴を全て備えているかをチェック
+	 * @param element
+	 * @param methodName
+	 * @param modifiers
+	 * @return メソッドが存在するか
+	 * @author vvakame
+	 */
 	public static boolean isMethodExists(Element element, String methodName, Modifier... modifiers) {
 		if (element.getKind() != ElementKind.CLASS) {
 			throw new IllegalStateException();
@@ -155,6 +230,12 @@ public class AptUtil {
 		}
 	}
 
+	/**
+	 * elementに対応するsetterの名前を探し返す.
+	 * @param element フィールド
+	 * @return setter名
+	 * @author vvakame
+	 */
 	public static String getElementSetter(Element element) {
 		// 後続処理注意 hogeに対して sethoge が取得される. setHoge ではない.
 		String setterName;
@@ -184,6 +265,12 @@ public class AptUtil {
 		}
 	}
 
+	/**
+	 * elementに対応するgetterの名前を探し返す.
+	 * @param element フィールド
+	 * @return getter名
+	 * @author vvakame
+	 */
 	public static String getElementGetter(Element element) {
 		// TODO 型(boolean)による絞り込みをするべき
 		String getterName1 = "get" + element.getSimpleName().toString();

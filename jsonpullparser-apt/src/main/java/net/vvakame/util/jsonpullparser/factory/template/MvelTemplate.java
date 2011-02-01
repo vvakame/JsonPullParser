@@ -35,11 +35,22 @@ import net.vvakame.util.jsonpullparser.factory.Log;
 
 import org.mvel2.templates.TemplateRuntime;
 
+/**
+ * MVELを抽象化したテンプレートエンジンの表現.
+ * @author vvakame
+ */
 public class MvelTemplate {
 
 	private MvelTemplate() {
 	}
 
+	/**
+	 * テンプレートエンジンを利用し fileObject に model の情報を流しこみソースを生成する.
+	 * @param fileObject 生成ソース
+	 * @param model ソース生成用の情報
+	 * @throws IOException
+	 * @author vvakame
+	 */
 	public static void write(JavaFileObject fileObject, GeneratingModel model) throws IOException {
 		Map<String, Object> map = convModelToMap(model);
 

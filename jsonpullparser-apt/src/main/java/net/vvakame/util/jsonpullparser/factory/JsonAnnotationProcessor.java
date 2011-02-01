@@ -16,8 +16,6 @@
 
 package net.vvakame.util.jsonpullparser.factory;
 
-import static javax.lang.model.util.ElementFilter.*;
-
 import java.io.IOException;
 import java.util.Map;
 import java.util.Set;
@@ -32,7 +30,13 @@ import javax.lang.model.element.Element;
 import javax.lang.model.element.TypeElement;
 
 import net.vvakame.util.jsonpullparser.annotation.JsonModel;
+import static javax.lang.model.util.ElementFilter.*;
 
+/**
+ * アノテーションプロセッサ本体.
+ * @see ClassGenerateHelper
+ * @author vvakame
+ */
 @SupportedSourceVersion(SourceVersion.RELEASE_6)
 @SupportedAnnotationTypes("net.vvakame.util.jsonpullparser.annotation.*")
 public class JsonAnnotationProcessor extends AbstractProcessor {

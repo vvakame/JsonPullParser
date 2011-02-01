@@ -16,7 +16,6 @@
 
 package net.vvakame.util.jsonpullparser.util;
 
-import static net.vvakame.util.jsonpullparser.util.JsonUtil.*;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.io.Writer;
@@ -26,7 +25,12 @@ import java.util.Collection;
 import net.vvakame.util.jsonpullparser.JsonFormatException;
 import net.vvakame.util.jsonpullparser.JsonPullParser;
 import net.vvakame.util.jsonpullparser.JsonPullParser.State;
+import static net.vvakame.util.jsonpullparser.util.JsonUtil.*;
 
+/**
+ * JSONの配列 [] に対応するJavaクラス.
+ * @author vvakame
+ */
 public class JsonArray extends ArrayList<Object> {
 
 	private static final long serialVersionUID = -3685725206266732067L;
@@ -34,11 +38,27 @@ public class JsonArray extends ArrayList<Object> {
 	ArrayList<State> stateList = new ArrayList<State>();
 
 
+	/**
+	 * JSONの文字列表現をパースし {@link JsonArray} に変換します.
+	 * @param json パース対象のJSON
+	 * @return パース結果の {@link JsonArray}
+	 * @throws IOException
+	 * @throws JsonFormatException
+	 * @author vvakame
+	 */
 	public static JsonArray fromString(String json) throws IOException, JsonFormatException {
 		JsonPullParser parser = JsonPullParser.newParser(json);
 		return fromParser(parser);
 	}
 
+	/**
+	 * JSONの文字列表現をパースし {@link JsonArray} に変換します.
+	 * @param parser パースに利用する {@link JsonPullParser}
+	 * @return パース結果の {@link JsonArray}
+	 * @throws IOException
+	 * @throws JsonFormatException
+	 * @author vvakame
+	 */
 	public static JsonArray fromParser(JsonPullParser parser) throws IOException,
 			JsonFormatException {
 		State state = parser.getEventType();
@@ -58,6 +78,12 @@ public class JsonArray extends ArrayList<Object> {
 		return jsonArray;
 	}
 
+	/**
+	 * インスタンスが保持する内容をJSONにシリアライズしwriterに書きこむ.
+	 * @param writer 書込み先
+	 * @throws IOException
+	 * @author vvakame
+	 */
 	public void toJson(Writer writer) throws IOException {
 		startArray(writer);
 
@@ -72,7 +98,15 @@ public class JsonArray extends ArrayList<Object> {
 		endArray(writer);
 	}
 
-	public Boolean getBooleanOrNull(int index) throws JsonFormatException {
+	/**
+	 * インスタンスの index 番目の要素を {@link Boolean} として取得します.<br>
+	 * {@code null} または {@link Boolean} が保持されていない場合、 {@link IllegalStateException} が発生します.
+	 * @param index
+	 * @return index番目の値
+	 * @throws IllegalStateException indexに {@code null} または {@link Boolean} が保持されていない場合
+	 * @author vvakame
+	 */
+	public Boolean getBooleanOrNull(int index) throws IllegalStateException {
 		State state = stateList.get(index);
 		switch (state) {
 			case VALUE_NULL:
@@ -80,11 +114,19 @@ public class JsonArray extends ArrayList<Object> {
 			case VALUE_BOOLEAN:
 				return (Boolean) get(index);
 			default:
-				throw new JsonFormatException("unexpected token. token=" + state);
+				throw new IllegalStateException("unexpected token. token=" + state);
 		}
 	}
 
-	public String getStringOrNull(int index) throws JsonFormatException {
+	/**
+	 * インスタンスの index 番目の要素を {@link String} として取得します.<br>
+	 * {@code null} または {@link String} が保持されていない場合、 {@link IllegalStateException} が発生します.
+	 * @param index
+	 * @return index番目の値
+	 * @throws IllegalStateException indexに {@code null} または {@link String} が保持されていない場合
+	 * @author vvakame
+	 */
+	public String getStringOrNull(int index) throws IllegalStateException {
 		State state = stateList.get(index);
 		switch (state) {
 			case VALUE_NULL:
@@ -92,11 +134,19 @@ public class JsonArray extends ArrayList<Object> {
 			case VALUE_STRING:
 				return (String) get(index);
 			default:
-				throw new JsonFormatException("unexpected token. token=" + state);
+				throw new IllegalStateException("unexpected token. token=" + state);
 		}
 	}
 
-	public Long getLongOrNull(int index) throws JsonFormatException {
+	/**
+	 * インスタンスの index 番目の要素を {@link Long} として取得します.<br>
+	 * {@code null} または {@link Long} が保持されていない場合、 {@link IllegalStateException} が発生します.
+	 * @param index
+	 * @return index番目の値
+	 * @throws IllegalStateException indexに {@code null} または {@link Long} が保持されていない場合
+	 * @author vvakame
+	 */
+	public Long getLongOrNull(int index) throws IllegalStateException {
 		State state = stateList.get(index);
 		switch (state) {
 			case VALUE_NULL:
@@ -104,11 +154,19 @@ public class JsonArray extends ArrayList<Object> {
 			case VALUE_LONG:
 				return (Long) get(index);
 			default:
-				throw new JsonFormatException("unexpected token. token=" + state);
+				throw new IllegalStateException("unexpected token. token=" + state);
 		}
 	}
 
-	public Double getDoubleOrNull(int index) throws JsonFormatException {
+	/**
+	 * インスタンスの index 番目の要素を {@link Double} として取得します.<br>
+	 * {@code null} または {@link Double} が保持されていない場合、 {@link IllegalStateException} が発生します.
+	 * @param index
+	 * @return index番目の値
+	 * @throws IllegalStateException indexに {@code null} または {@link Double} が保持されていない場合
+	 * @author vvakame
+	 */
+	public Double getDoubleOrNull(int index) throws IllegalStateException {
 		State state = stateList.get(index);
 		switch (state) {
 			case VALUE_NULL:
@@ -116,11 +174,19 @@ public class JsonArray extends ArrayList<Object> {
 			case VALUE_DOUBLE:
 				return (Double) get(index);
 			default:
-				throw new JsonFormatException("unexpected token. token=" + state);
+				throw new IllegalStateException("unexpected token. token=" + state);
 		}
 	}
 
-	public JsonArray getJsonArrayOrNull(int index) throws JsonFormatException {
+	/**
+	 * インスタンスの index 番目の要素を {@link JsonArray} として取得します.<br>
+	 * {@code null} または {@link JsonArray} が保持されていない場合、 {@link IllegalStateException} が発生します.
+	 * @param index
+	 * @return index番目の値
+	 * @throws IllegalStateException indexに {@code null} または {@link JsonArray} が保持されていない場合
+	 * @author vvakame
+	 */
+	public JsonArray getJsonArrayOrNull(int index) throws IllegalStateException {
 		State state = stateList.get(index);
 		switch (state) {
 			case VALUE_NULL:
@@ -128,11 +194,19 @@ public class JsonArray extends ArrayList<Object> {
 			case START_ARRAY:
 				return (JsonArray) get(index);
 			default:
-				throw new JsonFormatException("unexpected token. token=" + state);
+				throw new IllegalStateException("unexpected token. token=" + state);
 		}
 	}
 
-	public JsonHash getJsonHashOrNull(int index) throws JsonFormatException {
+	/**
+	 * インスタンスの index 番目の要素を {@link JsonHash} として取得します.<br>
+	 * {@code null} または {@link JsonHash} が保持されていない場合、 {@link IllegalStateException} が発生します.
+	 * @param index
+	 * @return index番目の値
+	 * @throws IllegalStateException indexに {@code null} または {@link JsonHash} が保持されていない場合
+	 * @author vvakame
+	 */
+	public JsonHash getJsonHashOrNull(int index) throws IllegalStateException {
 		State state = stateList.get(index);
 		switch (state) {
 			case VALUE_NULL:
@@ -140,10 +214,18 @@ public class JsonArray extends ArrayList<Object> {
 			case START_HASH:
 				return (JsonHash) get(index);
 			default:
-				throw new JsonFormatException("unexpected token. token=" + state);
+				throw new IllegalStateException("unexpected token. token=" + state);
 		}
 	}
 
+	/**
+	 * インスタンスの index 番目の要素が何かを {@link State} として取得します.<br>
+	 * ただし、 {@link JsonHash} を保持している場合は {@link State#START_HASH} が返ります.<br>
+	 * {@link JsonArray} を保持している場合は {@link State#START_ARRAY} が返ります.<br>
+	 * @param index
+	 * @return index番目の要素の種類
+	 * @author vvakame
+	 */
 	public State getState(int index) {
 		return stateList.get(index);
 	}
@@ -244,6 +326,7 @@ public class JsonArray extends ArrayList<Object> {
 	 *            保持するオブジェクト
 	 * @param state
 	 *            保持するオブジェクトの {@link State} 表現
+	 * @return {@link Collection#add(Object)} 参照
 	 */
 	public boolean add(Object obj, State state) {
 		stateList.add(state);
@@ -345,7 +428,11 @@ public class JsonArray extends ArrayList<Object> {
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * unknown
+	 * @param index 
+	 * @param obj 
+	 * @param state 
+	 * @return 指定位置に元々入っていたインスタンス
 	 */
 	public Object set(int index, Object obj, State state) {
 		stateList.set(index, state);

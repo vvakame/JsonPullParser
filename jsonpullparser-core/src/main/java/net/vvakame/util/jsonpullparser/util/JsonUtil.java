@@ -19,34 +19,86 @@ package net.vvakame.util.jsonpullparser.util;
 import java.io.IOException;
 import java.io.Writer;
 
+/**
+ * {@link TokenConverter} 記述支援用ユーティリティ.<br>
+ * 本ライブラリ生成ソースからも利用されます.
+ * @author vvakame
+ */
 public class JsonUtil {
 
+	/**
+	 * { を書き込みます
+	 * @param writer 出力先
+	 * @throws IOException
+	 * @author vvakame
+	 */
 	public static void startHash(Writer writer) throws IOException {
 		writer.write("{");
 	}
 
+	/**
+	 * } を書き込みます
+	 * @param writer 出力先
+	 * @throws IOException
+	 * @author vvakame
+	 */
 	public static void endHash(Writer writer) throws IOException {
 		writer.write("}");
 	}
 
+	/**
+	 * [ を書き込みます
+	 * @param writer 出力先
+	 * @throws IOException
+	 * @author vvakame
+	 */
 	public static void startArray(Writer writer) throws IOException {
 		writer.write("[");
 	}
 
+	/**
+	 * ] を書き込みます
+	 * @param writer 出力先
+	 * @throws IOException
+	 * @author vvakame
+	 */
 	public static void endArray(Writer writer) throws IOException {
 		writer.write("]");
 	}
 
+	/**
+	 * , を書き込みます
+	 * @param writer 出力先
+	 * @throws IOException
+	 * @author vvakame
+	 */
 	public static void addSeparator(Writer writer) throws IOException {
 		writer.write(",");
 	}
 
+	/**
+	 * JSONの連想配列の Key を書き込みます.<br>
+	 * 出力する際、 {@link #sanitize(String)} を利用してJSONとしてvalidな文字列に変換されます.
+	 * @param writer 出力先
+	 * @param key Keyの文字列表現
+	 * @throws IOException
+	 * @author vvakame
+	 */
 	public static void putKey(Writer writer, String key) throws IOException {
 		writer.write("\"");
 		writer.write(sanitize(key));
 		writer.write("\":");
 	}
 
+	/**
+	 * obj を writer に出力します.<br>
+	 * {@link String} {@link Boolean} {@link Long} {@link Double} {@link JsonHash} {@link JsonArray} を書きこむことが可能です.<br>
+	 * 未知のインスタンスだった場合、 {@link IllegalStateException} が投げられます.
+	 * @param writer
+	 * @param value
+	 * @throws IOException
+	 * @author vvakame
+	 */
 	public static void put(Writer writer, Object value) throws IOException {
 		if (value == null) {
 			writer.write("null");
@@ -70,6 +122,14 @@ public class JsonUtil {
 		}
 	}
 
+	/**
+	 * writer に value を書き込みます.<br>
+	 * 書き込む際、 {@link #sanitize(String)} で処理されます.
+	 * @param writer
+	 * @param value
+	 * @throws IOException
+	 * @author vvakame
+	 */
 	public static void put(Writer writer, String value) throws IOException {
 		if (value == null) {
 			writer.write("null");
@@ -80,36 +140,93 @@ public class JsonUtil {
 		}
 	}
 
+	/**
+	 * writer に value を書き込みます.<br>
+	 * 書き込む際、 {@link #sanitize(String)} で処理されます.
+	 * @param writer
+	 * @param value
+	 * @throws IOException
+	 * @author vvakame
+	 */
 	public static void put(Writer writer, char value) throws IOException {
 		writer.write("\"");
 		writer.write(sanitize(value));
 		writer.write("\"");
 	}
 
+	/**
+	 * writer に value を書き込みます.
+	 * @param writer
+	 * @param value
+	 * @throws IOException
+	 * @author vvakame
+	 */
 	public static void put(Writer writer, byte value) throws IOException {
 		writer.write(String.valueOf(value));
 	}
 
+	/**
+	 * writer に value を書き込みます.
+	 * @param writer
+	 * @param value
+	 * @throws IOException
+	 * @author vvakame
+	 */
 	public static void put(Writer writer, short value) throws IOException {
 		writer.write(String.valueOf(value));
 	}
 
+	/**
+	 * writer に value を書き込みます.
+	 * @param writer
+	 * @param value
+	 * @throws IOException
+	 * @author vvakame
+	 */
 	public static void put(Writer writer, int value) throws IOException {
 		writer.write(String.valueOf(value));
 	}
 
+	/**
+	 * writer に value を書き込みます.
+	 * @param writer
+	 * @param value
+	 * @throws IOException
+	 * @author vvakame
+	 */
 	public static void put(Writer writer, long value) throws IOException {
 		writer.write(String.valueOf(value));
 	}
 
+	/**
+	 * writer に value を書き込みます.
+	 * @param writer
+	 * @param value
+	 * @throws IOException
+	 * @author vvakame
+	 */
 	public static void put(Writer writer, float value) throws IOException {
 		writer.write(String.valueOf(value));
 	}
 
+	/**
+	 * writer に value を書き込みます.
+	 * @param writer
+	 * @param value
+	 * @throws IOException
+	 * @author vvakame
+	 */
 	public static void put(Writer writer, double value) throws IOException {
 		writer.write(String.valueOf(value));
 	}
 
+	/**
+	 * writer に value を書き込みます.
+	 * @param writer
+	 * @param value
+	 * @throws IOException
+	 * @author vvakame
+	 */
 	public static void put(Writer writer, boolean value) throws IOException {
 		writer.write(String.valueOf(value));
 	}

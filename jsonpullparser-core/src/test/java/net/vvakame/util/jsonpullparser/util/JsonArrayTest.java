@@ -16,9 +16,6 @@
 
 package net.vvakame.util.jsonpullparser.util;
 
-import static org.hamcrest.CoreMatchers.*;
-import static org.junit.Assert.*;
-
 import java.io.IOException;
 import java.io.StringWriter;
 
@@ -28,8 +25,22 @@ import net.vvakame.util.jsonpullparser.JsonPullParser.State;
 
 import org.junit.Test;
 
+import static org.hamcrest.CoreMatchers.*;
+
+import static org.junit.Assert.*;
+
+/**
+ * {@link JsonArray} のテスト.
+ * @author vvakame
+ */
 public class JsonArrayTest {
 
+	/**
+	 * 要素0の配列の解釈.
+	 * @throws IOException
+	 * @throws JsonFormatException
+	 * @author vvakame
+	 */
 	@Test
 	public void parseEmpty() throws IOException, JsonFormatException {
 		String json = "[]";
@@ -39,6 +50,12 @@ public class JsonArrayTest {
 		assertThat(jsonArray.size(), is(0));
 	}
 
+	/**
+	 * 簡単な配列の解釈.
+	 * @throws IOException
+	 * @throws JsonFormatException
+	 * @author vvakame
+	 */
 	@Test
 	public void parseSimple1() throws IOException, JsonFormatException {
 		String json = "[1]";
@@ -50,6 +67,12 @@ public class JsonArrayTest {
 		assertThat(jsonArray.getState(0), is(State.VALUE_LONG));
 	}
 
+	/**
+	 * 簡単な配列の解釈. 値がnullの場合.
+	 * @throws IOException
+	 * @throws JsonFormatException
+	 * @author vvakame
+	 */
 	@Test
 	public void parseSimpleNull() throws IOException, JsonFormatException {
 		String json = "[null]";
@@ -61,6 +84,12 @@ public class JsonArrayTest {
 		assertThat(jsonArray.getState(0), is(State.VALUE_NULL));
 	}
 
+	/**
+	 * 配列の中に配列がネストしている場合の解釈.
+	 * @throws IOException
+	 * @throws JsonFormatException
+	 * @author vvakame
+	 */
 	@Test
 	public void parseNested() throws IOException, JsonFormatException {
 		String json = "[[1,2],[3,4],5,[6,7,8]]";
@@ -73,6 +102,12 @@ public class JsonArrayTest {
 		assertThat(jsonArray.getLongOrNull(1), is(Long.valueOf(4)));
 	}
 
+	/**
+	 * {@link JsonPullParser}を途中まで手で操作したのちに {@link JsonArray#fromParser(JsonPullParser)} を利用したときのテスト.
+	 * @throws IOException
+	 * @throws JsonFormatException
+	 * @author vvakame
+	 */
 	@Test
 	public void parseAppendable() throws IOException, JsonFormatException {
 		String json = "[[1,2],[3,4]]";
@@ -87,6 +122,12 @@ public class JsonArrayTest {
 		assertThat(jsonArray.getLongOrNull(1), is(2L));
 	}
 
+	/**
+	 * {@link State} で定義されているトークンを全部使ってテスト.
+	 * @throws IOException
+	 * @throws JsonFormatException
+	 * @author vvakame
+	 */
 	@Test
 	public void parseAllTypes() throws IOException, JsonFormatException {
 		String json = "[null, true, \"fuga\", 2.3, 1, [], {}]";
@@ -124,6 +165,12 @@ public class JsonArrayTest {
 		assertThat(jsonArray.getState(i), is(State.START_HASH));
 	}
 
+	/**
+	 * {@link JsonArray#toJson(java.io.Writer)} のテスト.
+	 * @throws IOException
+	 * @throws JsonFormatException
+	 * @author vvakame
+	 */
 	@Test
 	public void toJson() throws IOException, JsonFormatException {
 		String json = "[null, true, \"fuga\", 2.3, 1, [], {}]";

@@ -25,6 +25,7 @@ import java.util.NoSuchElementException;
  * を使わないのは、同期をとる必要がないからです.<br> {@link java.util.Deque}
  * を使わないのは、AndroidではLevel9以上でないと使えないからです.
  * 
+ * @param <T>
  * @author vvakame
  * 
  */
@@ -33,10 +34,20 @@ final public class Stack<T> {
 	final List<T> stack = new ArrayList<T>();
 
 
+	/**
+	 * 値を積みます.
+	 * @param arg 積む値
+	 * @author vvakame
+	 */
 	public void push(T arg) {
 		stack.add(arg);
 	}
 
+	/**
+	 * スタックの先頭にある要素を取り除き、返す.
+	 * @return スタックの先頭の要素.
+	 * @author vvakame
+	 */
 	public T pop() {
 		final int max = stack.size() - 1;
 		if (max < 0) {
@@ -45,6 +56,11 @@ final public class Stack<T> {
 		return stack.remove(max);
 	}
 
+	/**
+	 * スタックの先頭にある要素返す.取り除かない.
+	 * @return スタックの先頭の要素.
+	 * @author vvakame
+	 */
 	public T peek() {
 		final int top = stack.size() - 1;
 		if (top < 0) {

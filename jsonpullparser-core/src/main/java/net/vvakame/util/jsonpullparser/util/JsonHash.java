@@ -16,8 +16,6 @@
 
 package net.vvakame.util.jsonpullparser.util;
 
-import static net.vvakame.util.jsonpullparser.util.JsonUtil.*;
-
 import java.io.IOException;
 import java.io.StringWriter;
 import java.io.Writer;
@@ -28,7 +26,12 @@ import java.util.Set;
 import net.vvakame.util.jsonpullparser.JsonFormatException;
 import net.vvakame.util.jsonpullparser.JsonPullParser;
 import net.vvakame.util.jsonpullparser.JsonPullParser.State;
+import static net.vvakame.util.jsonpullparser.util.JsonUtil.*;
 
+/**
+ * JSONの連想配列 {} に対応するJavaクラス.
+ * @author vvakame
+ */
 public class JsonHash extends LinkedHashMap<String, Object> {
 
 	private static final long serialVersionUID = -3685725206266732067L;
@@ -36,11 +39,27 @@ public class JsonHash extends LinkedHashMap<String, Object> {
 	LinkedHashMap<String, State> stateMap = new LinkedHashMap<String, State>();
 
 
+	/**
+	 * JSONの文字列表現をパースし {@link JsonHash} に変換します.
+	 * @param json パース対象のJSON
+	 * @return パース結果の {@link JsonHash}
+	 * @throws IOException
+	 * @throws JsonFormatException
+	 * @author vvakame
+	 */
 	public static JsonHash fromString(String json) throws IOException, JsonFormatException {
 		JsonPullParser parser = JsonPullParser.newParser(json);
 		return fromParser(parser);
 	}
 
+	/**
+	 * JSONの文字列表現をパースし {@link JsonHash} に変換します.
+	 * @param parser パースに利用する {@link JsonPullParser}
+	 * @return パース結果の {@link JsonHash}
+	 * @throws IOException
+	 * @throws JsonFormatException
+	 * @author vvakame
+	 */
 	public static JsonHash fromParser(JsonPullParser parser) throws IOException,
 			JsonFormatException {
 		State state = parser.getEventType();
@@ -66,6 +85,12 @@ public class JsonHash extends LinkedHashMap<String, Object> {
 		return jsonHash;
 	}
 
+	/**
+	 * インスタンスが保持する内容をJSONにシリアライズしwriterに書きこむ.
+	 * @param writer 書込み先
+	 * @throws IOException
+	 * @author vvakame
+	 */
 	public void toJson(Writer writer) throws IOException {
 		startHash(writer);
 
@@ -128,7 +153,15 @@ public class JsonHash extends LinkedHashMap<String, Object> {
 		return state;
 	}
 
-	public Boolean getBooleanOrNull(String key) throws JsonFormatException {
+	/**
+	 * インスタンスの key に対応する要素を {@link Boolean} として取得します.<br>
+	 * {@code null} または {@link Boolean} が保持されていない場合、 {@link IllegalStateException} が発生します.
+	 * @param key
+	 * @return key に対応する値
+	 * @throws IllegalStateException indexに {@code null} または {@link Boolean} が保持されていない場合
+	 * @author vvakame
+	 */
+	public Boolean getBooleanOrNull(String key) throws IllegalStateException {
 		State state = stateMap.get(key);
 		switch (state) {
 			case VALUE_NULL:
@@ -136,11 +169,19 @@ public class JsonHash extends LinkedHashMap<String, Object> {
 			case VALUE_BOOLEAN:
 				return (Boolean) get(key);
 			default:
-				throw new JsonFormatException("unexpected token. token=" + state);
+				throw new IllegalStateException("unexpected token. token=" + state);
 		}
 	}
 
-	public String getStringOrNull(String key) throws JsonFormatException {
+	/**
+	 * インスタンスの key に対応する要素を {@link String} として取得します.<br>
+	 * {@code null} または {@link String} が保持されていない場合、 {@link IllegalStateException} が発生します.
+	 * @param key
+	 * @return key に対応する値
+	 * @throws IllegalStateException indexに {@code null} または {@link String} が保持されていない場合
+	 * @author vvakame
+	 */
+	public String getStringOrNull(String key) throws IllegalStateException {
 		State state = stateMap.get(key);
 		switch (state) {
 			case VALUE_NULL:
@@ -148,11 +189,19 @@ public class JsonHash extends LinkedHashMap<String, Object> {
 			case VALUE_STRING:
 				return (String) get(key);
 			default:
-				throw new JsonFormatException("unexpected token. token=" + state);
+				throw new IllegalStateException("unexpected token. token=" + state);
 		}
 	}
 
-	public Long getLongOrNull(String key) throws JsonFormatException {
+	/**
+	 * インスタンスの key に対応する要素を {@link Long} として取得します.<br>
+	 * {@code null} または {@link Long} が保持されていない場合、 {@link IllegalStateException} が発生します.
+	 * @param key
+	 * @return key に対応する値
+	 * @throws IllegalStateException indexに {@code null} または {@link Long} が保持されていない場合
+	 * @author vvakame
+	 */
+	public Long getLongOrNull(String key) throws IllegalStateException {
 		State state = stateMap.get(key);
 		switch (state) {
 			case VALUE_NULL:
@@ -160,11 +209,19 @@ public class JsonHash extends LinkedHashMap<String, Object> {
 			case VALUE_LONG:
 				return (Long) get(key);
 			default:
-				throw new JsonFormatException("unexpected token. token=" + state);
+				throw new IllegalStateException("unexpected token. token=" + state);
 		}
 	}
 
-	public Double getDoubleOrNull(String key) throws JsonFormatException {
+	/**
+	 * インスタンスの key に対応する要素を {@link Double} として取得します.<br>
+	 * {@code null} または {@link Double} が保持されていない場合、 {@link IllegalStateException} が発生します.
+	 * @param key
+	 * @return key に対応する値
+	 * @throws IllegalStateException indexに {@code null} または {@link Double} が保持されていない場合
+	 * @author vvakame
+	 */
+	public Double getDoubleOrNull(String key) throws IllegalStateException {
 		State state = stateMap.get(key);
 		switch (state) {
 			case VALUE_NULL:
@@ -172,11 +229,19 @@ public class JsonHash extends LinkedHashMap<String, Object> {
 			case VALUE_DOUBLE:
 				return (Double) get(key);
 			default:
-				throw new JsonFormatException("unexpected token. token=" + state);
+				throw new IllegalStateException("unexpected token. token=" + state);
 		}
 	}
 
-	public JsonHash getJsonHashOrNull(String key) throws JsonFormatException {
+	/**
+	 * インスタンスの key に対応する要素を {@link JsonHash} として取得します.<br>
+	 * {@code null} または {@link JsonHash} が保持されていない場合、 {@link IllegalStateException} が発生します.
+	 * @param key
+	 * @return key に対応する値
+	 * @throws IllegalStateException indexに {@code null} または {@link JsonHash} が保持されていない場合
+	 * @author vvakame
+	 */
+	public JsonHash getJsonHashOrNull(String key) throws IllegalStateException {
 		State state = stateMap.get(key);
 		switch (state) {
 			case VALUE_NULL:
@@ -184,11 +249,19 @@ public class JsonHash extends LinkedHashMap<String, Object> {
 			case START_HASH:
 				return (JsonHash) get(key);
 			default:
-				throw new JsonFormatException("unexpected token. token=" + state);
+				throw new IllegalStateException("unexpected token. token=" + state);
 		}
 	}
 
-	public JsonArray getJsonArrayOrNull(String key) throws JsonFormatException {
+	/**
+	 * インスタンスの key に対応する要素を {@link JsonArray} として取得します.<br>
+	 * {@code null} または {@link JsonArray} が保持されていない場合、 {@link IllegalStateException} が発生します.
+	 * @param key
+	 * @return key に対応する値
+	 * @throws IllegalStateException indexに {@code null} または {@link JsonArray} が保持されていない場合
+	 * @author vvakame
+	 */
+	public JsonArray getJsonArrayOrNull(String key) throws IllegalStateException {
 		State state = stateMap.get(key);
 		switch (state) {
 			case VALUE_NULL:
@@ -196,10 +269,18 @@ public class JsonHash extends LinkedHashMap<String, Object> {
 			case START_ARRAY:
 				return (JsonArray) get(key);
 			default:
-				throw new JsonFormatException("unexpected token. token=" + state);
+				throw new IllegalStateException("unexpected token. token=" + state);
 		}
 	}
 
+	/**
+	 * インスタンスの key に対応する要素が何かを {@link State} として取得します.<br>
+	 * ただし、 {@link JsonHash} を保持している場合は {@link State#START_HASH} が返ります.<br>
+	 * {@link JsonArray} を保持している場合は {@link State#START_ARRAY} が返ります.<br>
+	 * @param key
+	 * @return key に対応する要素の種類
+	 * @author vvakame
+	 */
 	public State getState(String key) {
 		return stateMap.get(key);
 	}
@@ -231,6 +312,13 @@ public class JsonHash extends LinkedHashMap<String, Object> {
 		}
 	}
 
+	/**
+	 * unknown
+	 * @param key 
+	 * @param value 
+	 * @param state 
+	 * @return 指定位置に元々入っていたインスタンス
+	 */
 	public Object put(String key, Object value, State state) {
 		stateMap.put(key, state);
 		return super.put(key, value);

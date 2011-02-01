@@ -24,8 +24,9 @@ import java.lang.annotation.Target;
 import net.vvakame.util.jsonpullparser.util.TokenConverter;
 
 /**
- * Jsonとしてマッピングしたいクラスのフィールドを装飾するアノテーション.<br> {@link JsonModel}
+ * Jsonとしてマッピングしたいクラスのフィールドを装飾するアノテーション.
  * 
+ * @see JsonModel
  * @author vvakame
  */
 @Retention(RetentionPolicy.SOURCE)
@@ -34,6 +35,10 @@ import net.vvakame.util.jsonpullparser.util.TokenConverter;
 })
 public @interface JsonKey {
 
+	/**
+	 * もっくこんばーた！(ΦωΦ)ｶｯ
+	 * @author vvakame
+	 */
 	static class MockConverter extends TokenConverter<Void> {
 
 		public static MockConverter getInstance() {
@@ -42,11 +47,35 @@ public @interface JsonKey {
 	}
 
 
+	/**
+	 * JSONのKeyに当たる部分の名前.<br>
+	 * 省略時はフィールド名と同じものとして処理される.
+	 * @return JSONのKey部分のマッチングに利用する値
+	 * @author vvakame
+	 */
 	public String value() default "";
 
+	/**
+	 * fieldの型を本ライブラリでサポートしておらず、さらに {@link JsonModel} でも修飾されていない場合に {@link TokenConverter} の拡張クラスを渡すことにより型変換を行うことが可能です.<br>
+	 * 例えば、 {@link java.util.Date} と {@code long} の変換を定義することができます.
+	 * @return 型変換に利用する {@link TokenConverter} のクラス
+	 * @author vvakame
+	 */
 	public Class<? extends TokenConverter<?>> converter() default MockConverter.class;
 
+	/**
+	 * JSONからPOJOへのマッピング処理を行うかの制御.<br>
+	 * {@code true} なら行う. {@code false} なら行わない.
+	 * @return JSONデシリアライズ対象
+	 * @author vvakame
+	 */
 	public boolean in() default true;
 
+	/**
+	 * POJOからJSONへの変換処理を行うかの制御.<br>
+	 * {@code true} なら行う. {@code false} なら行わない.
+	 * @return JSONシリアライズ対象
+	 * @author vvakame
+	 */
 	public boolean out() default true;
 }

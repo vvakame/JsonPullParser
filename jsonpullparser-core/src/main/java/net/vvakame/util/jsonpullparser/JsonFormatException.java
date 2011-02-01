@@ -27,21 +27,26 @@ public class JsonFormatException extends Exception {
 
 
 	/**
-	 * {@inheritDoc}
+	 * the constructor.
+	 * @category constructor
 	 */
 	public JsonFormatException() {
 		super();
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * the constructor.
+	 * @param msg
+	 * @category constructor
 	 */
 	public JsonFormatException(String msg) {
 		super(msg);
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * the constructor.
+	 * @param e
+	 * @category constructor
 	 */
 	public JsonFormatException(Throwable e) {
 		super(e);

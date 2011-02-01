@@ -16,10 +16,6 @@
 
 package net.vvakame.util.jsonpullparser.util;
 
-import static net.vvakame.util.jsonpullparser.util.JsonUtil.*;
-import static org.hamcrest.CoreMatchers.*;
-import static org.junit.Assert.*;
-
 import java.io.IOException;
 import java.io.StringWriter;
 
@@ -28,6 +24,11 @@ import net.sf.json.JSONObject;
 
 import org.junit.Test;
 
+import static net.vvakame.util.jsonpullparser.util.JsonUtil.*;
+import static org.hamcrest.CoreMatchers.*;
+
+import static org.junit.Assert.*;
+
 /**
  * {@link JsonUtil}のテスト.
  * 
@@ -35,6 +36,11 @@ import org.junit.Test;
  */
 public class JsonUtilTest {
 
+	/**
+	 * JSON配列を出力するテスト.
+	 * @throws IOException
+	 * @author vvakame
+	 */
 	@Test
 	public void toJsonArray() throws IOException {
 		StringWriter writer = new StringWriter();
@@ -75,6 +81,11 @@ public class JsonUtilTest {
 		assertThat(jsonArray.getDouble(5), is(6.2));
 	}
 
+	/**
+	 * JSON連想配列を出力するテスト.
+	 * @throws IOException
+	 * @author vvakame
+	 */
 	@Test
 	public void toJsonHash() throws IOException {
 		StringWriter writer = new StringWriter();
@@ -110,7 +121,7 @@ public class JsonUtilTest {
 	}
 
 	/**
-	 * {@link JsonUtil#sanitizeJson(String)}のテスト
+	 * {@link JsonUtil#sanitize(String)}のテスト
 	 */
 	@Test
 	public void sanitize() {

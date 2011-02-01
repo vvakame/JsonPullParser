@@ -102,12 +102,12 @@ public class JsonPullParser {
 
 
 	/**
-	 * バイトストリームに対してエンコーディング指定がされてなかった場合の デフォルトエンコーディング名です。
+	 * バイトストリームに対してエンコーディング指定がされてなかった場合の デフォルトエンコーディング名です.
 	 */
 	public static final String DEFAULT_CHARSET_NAME = "UTF-8";
 
 	/**
-	 * バイトストリームに対してエンコーディング指定がされてなかった場合の デフォルトエンコーディングです。
+	 * バイトストリームに対してエンコーディング指定がされてなかった場合の デフォルトエンコーディングです.
 	 */
 	public static final Charset DEFAULT_CHARSET = Charset.forName(DEFAULT_CHARSET_NAME);
 
@@ -130,38 +130,40 @@ public class JsonPullParser {
 
 
 	/**
-	 * パース対象の {@code JSON} データを返す入力ストリームを設定します。
+	 * パース対象の {@code JSON} データを返す入力ストリームを設定します.
 	 * 
 	 * <p>
-	 * ストリームから読み込むバイト列は {@link #DEFAULT_CHARSET_NAME} として扱います。
+	 * ストリームから読み込むバイト列は {@link #DEFAULT_CHARSET_NAME} として扱います.
 	 * </p>
 	 * 
 	 * @param is
-	 *            パース対象の {@code JSON} 文字列に対するバイトストリーム。読み込まれるバイト列は、
-	 *            {@link #DEFAULT_CHARSET_NAME} として処理します。{@code null} 禁止。
+	 *            パース対象の {@code JSON} 文字列に対するバイトストリーム.読み込まれるバイト列は、
+	 *            {@link #DEFAULT_CHARSET_NAME} として処理します.{@code null} 禁止.
+	 * @return isがセットされた {@link JsonPullParser}
 	 * @throws IllegalArgumentException
-	 *             {@code null} 禁止の引き数に {@code null} が渡された場合。
+	 *             {@code null} 禁止の引き数に {@code null} が渡された場合.
 	 */
 	public static JsonPullParser newParser(InputStream is) {
 		return newParser(is, DEFAULT_CHARSET);
 	}
 
 	/**
-	 * パース対象の {@code JSON} データを返す入力ストリームを設定します。
+	 * パース対象の {@code JSON} データを返す入力ストリームを設定します.
 	 * 
 	 * <p>
-	 * インスタンス生成後、他のメソッドを呼ぶ前に一度だけ {@code setSource(...)} のうちの いずれかを一度だけ呼び出してください。
+	 * インスタンス生成後、他のメソッドを呼ぶ前に一度だけ {@code setSource(...)} のうちの いずれかを一度だけ呼び出してください.
 	 * </p>
 	 * 
 	 * @param is
-	 *            パース対象の {@code JSON} 文字列に対するバイトストリーム。{@code null} 禁止。
+	 *            パース対象の {@code JSON} 文字列に対するバイトストリーム.{@code null} 禁止.
 	 * @param charsetName
-	 *            {@code is} が返すバイト列のエンコーディング名を指定します。{@code null} が渡された 場合は
-	 *            {@link #DEFAULT_CHARSET_NAME} として処理します。
+	 *            {@code is} が返すバイト列のエンコーディング名を指定します.{@code null} が渡された 場合は
+	 *            {@link #DEFAULT_CHARSET_NAME} として処理します.
+	 * @return isがセットされた {@link JsonPullParser}
 	 * @throws UnsupportedEncodingException
-	 *             {@code charsetName} で指定されたエンコーディングがサポートされていない場合。
+	 *             {@code charsetName} で指定されたエンコーディングがサポートされていない場合.
 	 * @throws IllegalArgumentException
-	 *             {@code null} 禁止の引き数に {@code null} が渡された場合。
+	 *             {@code null} 禁止の引き数に {@code null} が渡された場合.
 	 */
 	public static JsonPullParser newParser(InputStream is, String charsetName)
 			throws UnsupportedEncodingException {
@@ -178,19 +180,20 @@ public class JsonPullParser {
 	}
 
 	/**
-	 * パース対象の {@code JSON} データを返す入力ストリームを設定します。
+	 * パース対象の {@code JSON} データを返す入力ストリームを設定します.
 	 * 
 	 * <p>
-	 * インスタンス生成後、他のメソッドを呼ぶ前に一度だけ {@code setSource(...)} のうちの いずれかを一度だけ呼び出してください。
+	 * インスタンス生成後、他のメソッドを呼ぶ前に一度だけ {@code setSource(...)} のうちの いずれかを一度だけ呼び出してください.
 	 * </p>
 	 * 
 	 * @param is
-	 *            入力ストリーム。{@code null} 禁止。
+	 *            入力ストリーム.{@code null} 禁止.
 	 * @param charset
-	 *            {@code is} が返すバイト列のエンコーディングを指定します。{@code null} が渡された 場合は
-	 *            {@link #DEFAULT_CHARSET_NAME} として処理します。
+	 *            {@code is} が返すバイト列のエンコーディングを指定します.{@code null} が渡された 場合は
+	 *            {@link #DEFAULT_CHARSET_NAME} として処理します.
+	 * @return isがセットされた {@link JsonPullParser}
 	 * @throws IllegalArgumentException
-	 *             {@code null} 禁止の引き数に {@code null} が渡された場合。
+	 *             {@code null} 禁止の引き数に {@code null} が渡された場合.
 	 */
 	public static JsonPullParser newParser(InputStream is, Charset charset) {
 		if (is == null) {
@@ -203,16 +206,17 @@ public class JsonPullParser {
 	}
 
 	/**
-	 * パース対象の {@code JSON} 文字列を設定します。
+	 * パース対象の {@code JSON} 文字列を設定します.
 	 * 
 	 * <p>
-	 * インスタンス生成後、他のメソッドを呼ぶ前に一度だけ {@code setSource(...)} のうちの いずれかを一度だけ呼び出してください。
+	 * インスタンス生成後、他のメソッドを呼ぶ前に一度だけ {@code setSource(...)} のうちの いずれかを一度だけ呼び出してください.
 	 * </p>
 	 * 
 	 * @param json
-	 *            パース対象の {@code JSON} 文字列。{@code null} 禁止。
+	 *            パース対象の {@code JSON} 文字列.{@code null} 禁止.
+	 * @return isがセットされた {@link JsonPullParser}
 	 * @throws IllegalArgumentException
-	 *             {@code null} 禁止の引き数に {@code null} が渡された場合。
+	 *             {@code null} 禁止の引き数に {@code null} が渡された場合.
 	 */
 	public static JsonPullParser newParser(String json) {
 		if (json == null) {
@@ -222,6 +226,19 @@ public class JsonPullParser {
 		return newParser(new StringReader(json));
 	}
 
+	/**
+	 * パース対象の {@code JSON} データを返す入力ストリームを設定します.
+	 * 
+	 * <p>
+	 * インスタンス生成後、他のメソッドを呼ぶ前に一度だけ {@code setSource(...)} のうちの いずれかを一度だけ呼び出してください.
+	 * </p>
+	 * 
+	 * @param reader
+	 *            入力ストリーム.{@code null} 禁止.
+	 * @return readerがセットされた {@link JsonPullParser}
+	 * @throws IllegalArgumentException
+	 *             {@code null} 禁止の引き数に {@code null} が渡された場合.
+	 */
 	public static JsonPullParser newParser(Reader reader) {
 		if (reader == null) {
 			throw new IllegalArgumentException("'reader' must not be null.");
@@ -240,7 +257,9 @@ public class JsonPullParser {
 	}
 
 	/**
-	 * パース対象の {@code JSON} データを返すリーダーを設定します。
+	 * パース対象の {@code JSON} データを返すリーダーを設定します.
+	 * @param reader
+	 *            入力ストリーム.{@code null} 禁止.
 	 */
 	void setSource(Reader reader) {
 		if (reader == null) {
@@ -253,21 +272,21 @@ public class JsonPullParser {
 	}
 
 	/**
-	 * 一つ先の要素を先読みます。
+	 * 一つ先の要素を先読みます.
 	 * 
 	 * <p>
 	 * このメソッドは真のlookAheadではありません.呼び出した途端、getValueXxx()の返り値は
-	 * 壊れてしまいます。なるべく、このメソッドは使わないほうがよいでしょう。
+	 * 壊れてしまいます.なるべく、このメソッドは使わないほうがよいでしょう.
 	 * </p>
 	 * <p>
-	 * lookAheadは何回呼び出しても、 {@link #getEventType()} を呼び出すまで、同じ値を 返します。
+	 * lookAheadは何回呼び出しても、 {@link #getEventType()} を呼び出すまで、同じ値を 返します.
 	 * </p>
 	 * 
-	 * @return 一つ先の要素のトークンの種別。
+	 * @return 一つ先の要素のトークンの種別.
 	 * @throws IOException
-	 *             {@code JSON} データの読み込みが正常に行えなかった場合。
+	 *             {@code JSON} データの読み込みが正常に行えなかった場合.
 	 * @throws JsonFormatException
-	 *             入力データが {@code JSON} として正しくない場合。
+	 *             入力データが {@code JSON} として正しくない場合.
 	 */
 	public State lookAhead() throws IOException, JsonFormatException {
 		if (lookAhead == null) {
@@ -277,13 +296,13 @@ public class JsonPullParser {
 	}
 
 	/**
-	 * 現在の状態を取得します。
+	 * 現在の状態を取得します.
 	 * 
-	 * @return 現在のトークンの種別。
+	 * @return 現在のトークンの種別.
 	 * @throws IOException
-	 *             {@code JSON} データの読み込みが正常に行えなかった場合。
+	 *             {@code JSON} データの読み込みが正常に行えなかった場合.
 	 * @throws JsonFormatException
-	 *             入力データが {@code JSON} として正しくない場合。
+	 *             入力データが {@code JSON} として正しくない場合.
 	 */
 	public State getEventType() throws IOException, JsonFormatException {
 		if (lookAhead != null) {
@@ -491,7 +510,19 @@ public class JsonPullParser {
 		return current;
 	}
 
-	public void discardValue() throws IOException, JsonFormatException {
+	/**
+	 * 次の値を1つ読み捨てます.<br>
+	 * {@link State#START_ARRAY} か {@link State#START_HASH} の場合は配列または連想配列全体を読み捨て.<br>
+	 * {@link State#KEY} の場合は {@link State#KEY} とそれに対応する値を読み捨て.<br>
+	 * それ以外のVALUEの場合は値を読み捨て.
+	 * それ以外の場合は想定していないため、 {@link IllegalStateException} を投げる.
+	 * @throws IOException
+	 *             {@code JSON} データの読み込みが正常に行えなかった場合.
+	 * @throws JsonFormatException
+	 *             入力データが {@code JSON} として正しくない場合.
+	 * @throws IllegalStateException 想定していない {@link State} が読み込まれた場合.
+	 */
+	public void discardValue() throws IOException, JsonFormatException, IllegalStateException {
 		State state = lookAhead();
 		switch (state) {
 			case START_ARRAY:
@@ -516,7 +547,17 @@ public class JsonPullParser {
 		}
 	}
 
-	public void discardArrayToken() throws IOException, JsonFormatException {
+	/**
+	 * 次の値が {@link State#START_ARRAY} の場合、配列全体を読み捨て.<br>
+	 * {@link State#VALUE_NULL} の場合、nullを読み捨て.<br>
+	 * それ以外の場合は想定していないため、 {@link IllegalStateException} を投げる.
+	 * @throws IOException
+	 *             {@code JSON} データの読み込みが正常に行えなかった場合.
+	 * @throws JsonFormatException
+	 *             入力データが {@code JSON} として正しくない場合.
+	 * @throws IllegalStateException 想定していない {@link State} が読み込まれた場合.
+	 */
+	public void discardArrayToken() throws IOException, JsonFormatException, IllegalStateException {
 		State state = lookAhead();
 		switch (state) {
 			case START_ARRAY:
@@ -551,7 +592,17 @@ public class JsonPullParser {
 		}
 	}
 
-	public void discardHashToken() throws IOException, JsonFormatException {
+	/**
+	 * 次の値が {@link State#START_HASH} の場合、配列全体を読み捨て.<br>
+	 * {@link State#VALUE_NULL} の場合、nullを読み捨て.<br>
+	 * それ以外の場合は想定していないため、 {@link IllegalStateException} を投げる.
+	 * @throws IOException
+	 *             {@code JSON} データの読み込みが正常に行えなかった場合.
+	 * @throws JsonFormatException
+	 *             入力データが {@code JSON} として正しくない場合.
+	 * @throws IllegalStateException 想定していない {@link State} が読み込まれた場合.
+	 */
+	public void discardHashToken() throws IOException, JsonFormatException, IllegalStateException {
 		State state = lookAhead();
 		switch (state) {
 			case START_HASH:
@@ -588,11 +639,11 @@ public class JsonPullParser {
 	}
 
 	/**
-	 * 値を文字列として取得します。
+	 * 値を文字列として取得します.
 	 * 
 	 * <p>
 	 * {@link JsonPullParser#getEventType()} を読んだ時に {@link State#KEY} もしくは
-	 * {@link State#VALUE_STRING} が返ってきたときに呼び出してください。
+	 * {@link State#VALUE_STRING} が返ってきたときに呼び出してください.
 	 * </p>
 	 * 
 	 * @return 読み込んだ文字列
@@ -610,11 +661,11 @@ public class JsonPullParser {
 	}
 
 	/**
-	 * 値を整数値として取得します。
+	 * 値を整数値として取得します.
 	 * 
 	 * <p>
 	 * {@link JsonPullParser#getEventType()}を呼んだ時に {@link State#VALUE_LONG}
-	 * が返ってきたときに呼び出してください。
+	 * が返ってきたときに呼び出してください.
 	 * </p>
 	 * 
 	 * @return 読み込んだ整数値
@@ -630,11 +681,11 @@ public class JsonPullParser {
 	}
 
 	/**
-	 * 値を整数値として取得します。
+	 * 値を整数値として取得します.
 	 * 
 	 * <p>
 	 * {@link JsonPullParser#getEventType()} を呼んだ時に {@link State#VALUE_DOUBLE}
-	 * が返ってきたときに呼び出してください。
+	 * が返ってきたときに呼び出してください.
 	 * </p>
 	 * 
 	 * @return 読み込んだ浮動小数点の値
@@ -652,11 +703,11 @@ public class JsonPullParser {
 	}
 
 	/**
-	 * 値を整数値として取得します。
+	 * 値を整数値として取得します.
 	 * 
 	 * <p>
 	 * {@link JsonPullParser#getEventType()} を呼んだ時に {@link State#VALUE_BOOLEAN}
-	 * が返ってきたときに呼び出してください。
+	 * が返ってきたときに呼び出してください.
 	 * </p>
 	 * 
 	 * @return 読み込んだ真偽値の値

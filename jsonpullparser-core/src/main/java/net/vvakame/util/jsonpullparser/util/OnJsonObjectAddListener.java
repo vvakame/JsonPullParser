@@ -16,7 +16,16 @@
 
 package net.vvakame.util.jsonpullparser.util;
 
+/**
+ * 本ライブラリ生成クラスの引数として、 {@link OnJsonObjectAddListener} の実装クラスを渡すことにより、逐次処理されてくるインスタンスを受け取ることができる.
+ * @author vvakame
+ */
 public interface OnJsonObjectAddListener {
 
+	/**
+	 * 新しく読み取ったインスタンスが逐次渡される.
+	 * @param obj 新しく読み取ったインスタンス
+	 * @author vvakame
+	 */
 	public void onAdd(Object obj);
 }

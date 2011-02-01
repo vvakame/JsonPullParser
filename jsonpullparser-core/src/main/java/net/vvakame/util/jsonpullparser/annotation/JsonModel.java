@@ -21,6 +21,14 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+import net.vvakame.util.jsonpullparser.JsonPullParser;
+
+/**
+ * Jsonとしてマッピングしたいクラスを装飾するアノテーション.
+ * 
+ * @see JsonKey
+ * @author vvakame
+ */
 @Retention(RetentionPolicy.CLASS)
 @Target({
 	ElementType.TYPE,
@@ -28,5 +36,12 @@ import java.lang.annotation.Target;
 })
 public @interface JsonModel {
 
+	/**
+	 * 未知のKeyがJSONに含まれている場合の挙動.<br>
+	 * 値が {@code true} なら {@link IllegalStateException}.<br>
+	 * 値が {@code false} なら {@link JsonPullParser#discardValue()} で値を読み捨てます.
+	 * @return 未知のKeyをエラーにするか
+	 * @author vvakame
+	 */
 	public boolean treatUnknownKeyAsError() default false;
 }

@@ -35,7 +35,7 @@ import static org.junit.Assert.*;
 public class JsonPullParserTest {
 
 	/**
-	 * {@code \"{}\"}
+	 * {@link JsonPullParser} に <code>{}</code>を喰わせた時のテスト.
 	 * @throws IOException
 	 * @throws JsonFormatException
 	 * @author vvakame
@@ -51,6 +51,12 @@ public class JsonPullParserTest {
 		assertThat(type, is(State.END_HASH));
 	}
 
+	/**
+	 * {@link JsonPullParser} に <code>[]</code>を喰わせた時のテスト.
+	 * @throws IOException
+	 * @throws JsonFormatException
+	 * @author vvakame
+	 */
 	@Test
 	public void parseEmptyArray() throws IOException, JsonFormatException {
 		State type;
@@ -62,6 +68,12 @@ public class JsonPullParserTest {
 		assertThat(type, is(State.END_ARRAY));
 	}
 
+	/**
+	 * {@link JsonPullParser} に適当な空要素({}, [])を喰わせた時のテスト.
+	 * @throws IOException
+	 * @throws JsonFormatException
+	 * @author vvakame
+	 */
 	@Test
 	public void parseEmptyJSON() throws IOException, JsonFormatException {
 		State type;
@@ -77,6 +89,12 @@ public class JsonPullParserTest {
 		assertThat(type, is(State.END_ARRAY));
 	}
 
+	/**
+	 * {@link State#VALUE_STRING} に解釈されるデータを与えた時のテスト.
+	 * @throws IOException
+	 * @throws JsonFormatException
+	 * @author vvakame
+	 */
 	@Test
 	public void parseSimpleString() throws IOException, JsonFormatException {
 		State type;
@@ -97,6 +115,12 @@ public class JsonPullParserTest {
 		assertThat(type, is(State.END_HASH));
 	}
 
+	/**
+	 * JSONの定義上特殊な文字であると定義されている文字を含む文字列の解釈.
+	 * @throws IOException
+	 * @throws JsonFormatException
+	 * @author vvakame
+	 */
 	@Test
 	public void parseSpecialChar() throws IOException, JsonFormatException {
 		State type;
@@ -118,6 +142,12 @@ public class JsonPullParserTest {
 		assertThat(type, is(State.END_HASH));
 	}
 
+	/**
+	 * \\uxxxx 形式の文字の解釈
+	 * @throws IOException
+	 * @throws JsonFormatException
+	 * @author vvakame
+	 */
 	@Test
 	public void parseCharByHex() throws IOException, JsonFormatException {
 		State type;
@@ -144,6 +174,12 @@ public class JsonPullParserTest {
 		assertThat(type, is(State.END_ARRAY));
 	}
 
+	/**
+	 * {@link State#VALUE_BOOLEAN} の {@code true} の解釈
+	 * @throws IOException
+	 * @throws JsonFormatException
+	 * @author vvakame
+	 */
 	@Test
 	public void parseSimpleBooleanTrue() throws IOException, JsonFormatException {
 		State type;
@@ -165,6 +201,12 @@ public class JsonPullParserTest {
 		assertThat(type, is(State.END_HASH));
 	}
 
+	/**
+	 * {@link State#VALUE_BOOLEAN} の {@code false} の解釈
+	 * @throws IOException
+	 * @throws JsonFormatException
+	 * @author vvakame
+	 */
 	@Test
 	public void parseSimpleBooleanFalse() throws IOException, JsonFormatException {
 		State type;
@@ -186,6 +228,12 @@ public class JsonPullParserTest {
 		assertThat(type, is(State.END_HASH));
 	}
 
+	/**
+	 * {@link State#VALUE_NULL} のの解釈
+	 * @throws IOException
+	 * @throws JsonFormatException
+	 * @author vvakame
+	 */
 	@Test
 	public void parseSimpleNull() throws IOException, JsonFormatException {
 		State type;
@@ -204,6 +252,12 @@ public class JsonPullParserTest {
 		assertThat(type, is(State.END_HASH));
 	}
 
+	/**
+	 * {@link State#VALUE_LONG} の解釈
+	 * @throws IOException
+	 * @throws JsonFormatException
+	 * @author vvakame
+	 */
 	@Test
 	public void parseSimpleLong() throws IOException, JsonFormatException {
 		State type;
@@ -225,6 +279,12 @@ public class JsonPullParserTest {
 		assertThat(type, is(State.END_HASH));
 	}
 
+	/**
+	 * {@link State#VALUE_DOUBLE} の解釈
+	 * @throws IOException
+	 * @throws JsonFormatException
+	 * @author vvakame
+	 */
 	@Test
 	public void parseSimpleDouble() throws IOException, JsonFormatException {
 		State type;
@@ -246,6 +306,12 @@ public class JsonPullParserTest {
 		assertThat(type, is(State.END_HASH));
 	}
 
+	/**
+	 * {@link State#START_HASH} と {@link State#END_HASH} の解釈
+	 * @throws IOException
+	 * @throws JsonFormatException
+	 * @author vvakame
+	 */
 	@Test
 	public void parseHash() throws IOException, JsonFormatException {
 		State type;
@@ -322,6 +388,12 @@ public class JsonPullParserTest {
 		assertThat(type, is(State.END_HASH));
 	}
 
+	/**
+	 * {@link State#START_ARRAY} と {@link State#END_ARRAY} の解釈
+	 * @throws IOException
+	 * @throws JsonFormatException
+	 * @author vvakame
+	 */
 	@Test
 	public void parseArray() throws IOException, JsonFormatException {
 		State type;
@@ -359,6 +431,12 @@ public class JsonPullParserTest {
 		assertThat(type, is(State.END_ARRAY));
 	}
 
+	/**
+	 * こみいっててめんどいJSONの解釈
+	 * @throws IOException
+	 * @throws JsonFormatException
+	 * @author vvakame
+	 */
 	@Test
 	public void parseComplex1() throws IOException, JsonFormatException {
 		State type;
@@ -407,6 +485,12 @@ public class JsonPullParserTest {
 		assertThat(type, is(State.END_ARRAY));
 	}
 
+	/**
+	 * こみいっててめんどいJSONの解釈
+	 * @throws IOException
+	 * @throws JsonFormatException
+	 * @author vvakame
+	 */
 	@Test
 	public void parseComplex2() throws IOException, JsonFormatException {
 		State type;
@@ -435,6 +519,12 @@ public class JsonPullParserTest {
 		assertThat(type, is(State.END_HASH));
 	}
 
+	/**
+	 * {@link JsonPullParser#lookAhead()} のテスト.
+	 * @throws IOException
+	 * @throws JsonFormatException
+	 * @author vvakame
+	 */
 	@Test
 	public void lookAhead() throws IOException, JsonFormatException {
 		State type;
@@ -462,6 +552,12 @@ public class JsonPullParserTest {
 		assertThat(type, is(State.VALUE_LONG));
 	}
 
+	/**
+	 * {@link JsonPullParser#discardValue()} のテスト.
+	 * @throws IOException
+	 * @throws JsonFormatException
+	 * @author vvakame
+	 */
 	@Test
 	public void discardToken() throws IOException, JsonFormatException {
 		State type;
@@ -499,6 +595,12 @@ public class JsonPullParserTest {
 		assertThat(type, is(State.END_ARRAY));
 	}
 
+	/**
+	 * {@link JsonPullParser#discardArrayToken()} のテスト.
+	 * @throws IOException
+	 * @throws JsonFormatException
+	 * @author vvakame
+	 */
 	@Test
 	public void discardArrayToken() throws IOException, JsonFormatException {
 		State type;
@@ -520,6 +622,12 @@ public class JsonPullParserTest {
 		assertThat(type, is(State.END_ARRAY));
 	}
 
+	/**
+	 * {@link JsonPullParser#discardHashToken()} のテスト.
+	 * @throws IOException
+	 * @throws JsonFormatException
+	 * @author vvakame
+	 */
 	@Test
 	public void discardHashToken() throws IOException, JsonFormatException {
 		State type;
@@ -558,6 +666,12 @@ public class JsonPullParserTest {
 		assertThat(type, is(State.END_ARRAY));
 	}
 
+	/**
+	 * 解釈に失敗するパターンのテスト.
+	 * @throws IOException
+	 * @throws JsonFormatException
+	 * @author vvakame
+	 */
 	@Test(expected = JsonFormatException.class)
 	public void parseFailure1() throws IOException, JsonFormatException {
 		JsonPullParser parser = JsonPullParser.newParser("[}");
@@ -566,6 +680,12 @@ public class JsonPullParserTest {
 		parser.getEventType();
 	}
 
+	/**
+	 * 解釈に失敗するパターンのテスト.
+	 * @throws IOException
+	 * @throws JsonFormatException
+	 * @author vvakame
+	 */
 	@Test(expected = JsonFormatException.class)
 	public void parseFailure2() throws IOException, JsonFormatException {
 		JsonPullParser parser = JsonPullParser.newParser("[+0]");
@@ -574,6 +694,12 @@ public class JsonPullParserTest {
 		parser.getEventType();
 	}
 
+	/**
+	 * 解釈に失敗するパターンのテスト.
+	 * @throws IOException
+	 * @throws JsonFormatException
+	 * @author vvakame
+	 */
 	@Test(expected = JsonFormatException.class)
 	public void parseFailure3() throws IOException, JsonFormatException {
 		JsonPullParser parser = JsonPullParser.newParser("[0-0]");
@@ -582,6 +708,12 @@ public class JsonPullParserTest {
 		parser.getEventType();
 	}
 
+	/**
+	 * 解釈に失敗するパターンのテスト.
+	 * @throws IOException
+	 * @throws JsonFormatException
+	 * @author vvakame
+	 */
 	@Test(expected = JsonFormatException.class)
 	public void parseFailure4() throws IOException, JsonFormatException {
 		JsonPullParser parser = JsonPullParser.newParser("[0,,0]");
@@ -591,7 +723,7 @@ public class JsonPullParserTest {
 		parser.getEventType();
 	}
 
-	public InputStream getStream(String str) {
+	InputStream getStream(String str) {
 		return new ByteArrayInputStream(str.getBytes());
 	}
 }

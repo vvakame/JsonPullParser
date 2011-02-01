@@ -16,9 +16,6 @@
 
 package net.vvakame.util.jsonpullparser.util;
 
-import static org.hamcrest.CoreMatchers.*;
-import static org.junit.Assert.*;
-
 import java.io.IOException;
 import java.io.StringWriter;
 
@@ -28,8 +25,22 @@ import net.vvakame.util.jsonpullparser.JsonPullParser.State;
 
 import org.junit.Test;
 
+import static org.hamcrest.CoreMatchers.*;
+
+import static org.junit.Assert.*;
+
+/**
+ * {@link JsonHash} のテスト.
+ * @author vvakame
+ */
 public class JsonHashTest {
 
+	/**
+	 * 要素0の連想配列のテスト.
+	 * @throws IOException
+	 * @throws JsonFormatException
+	 * @author vvakame
+	 */
 	@Test
 	public void parseEmpty() throws IOException, JsonFormatException {
 		String json = "{}";
@@ -39,6 +50,12 @@ public class JsonHashTest {
 		assertThat(jsonHash.size(), is(0));
 	}
 
+	/**
+	 * 簡単な連想配列のテスト.
+	 * @throws IOException
+	 * @throws JsonFormatException
+	 * @author vvakame
+	 */
 	@Test
 	public void parseSimple1() throws IOException, JsonFormatException {
 		String json = "{\"key\":1}";
@@ -50,6 +67,12 @@ public class JsonHashTest {
 		assertThat(jsonHash.getState("key"), is(State.VALUE_LONG));
 	}
 
+	/**
+	 * 簡単な連想配列の解釈. 値がnullの場合.
+	 * @throws IOException
+	 * @throws JsonFormatException
+	 * @author vvakame
+	 */
 	@Test
 	public void parseSimpleNull() throws IOException, JsonFormatException {
 		String json = "{\"key\":null}";
@@ -61,6 +84,12 @@ public class JsonHashTest {
 		assertThat(jsonArray.getState("key"), is(State.VALUE_NULL));
 	}
 
+	/**
+	 * 連想配列の中に連想配列がネストしている場合の解釈.
+	 * @throws IOException
+	 * @throws JsonFormatException
+	 * @author vvakame
+	 */
 	@Test
 	public void parseNested() throws IOException, JsonFormatException {
 		String json = "{\"key1\":{}, \"key2\":{\"key\":true}}";
@@ -75,6 +104,12 @@ public class JsonHashTest {
 		assertThat(jsonHash2.size(), is(1));
 	}
 
+	/**
+	 * {@link JsonPullParser}を途中まで手で操作したのちに {@link JsonHash#fromParser(JsonPullParser)} を利用したときのテスト.
+	 * @throws IOException
+	 * @throws JsonFormatException
+	 * @author vvakame
+	 */
 	@Test
 	public void parseAppendable() throws IOException, JsonFormatException {
 		String json = "{{\"key\":2},{\"key\":4}}";
@@ -88,6 +123,12 @@ public class JsonHashTest {
 		assertThat(jsonHash.getLongOrNull("key"), is(2L));
 	}
 
+	/**
+	 * {@link State} で定義されているトークンを全部使ってテスト.
+	 * @throws IOException
+	 * @throws JsonFormatException
+	 * @author vvakame
+	 */
 	@Test
 	public void parseAllTypes() throws IOException, JsonFormatException {
 		String json =
@@ -127,6 +168,12 @@ public class JsonHashTest {
 		assertThat(jsonHash2.getState("key"), is(State.START_HASH));
 	}
 
+	/**
+	 * {@link JsonHash#toJson(java.io.Writer)} のテスト.
+	 * @throws IOException
+	 * @throws JsonFormatException
+	 * @author vvakame
+	 */
 	@Test
 	public void toJson() throws IOException, JsonFormatException {
 		String json =

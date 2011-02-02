@@ -24,8 +24,19 @@ import net.vvakame.util.jsonpullparser.JsonFormatException;
 
 import org.junit.Test;
 
+/**
+ * {@link JsonModel} のテスト.
+ * @author vvakame
+ */
 public class JsonModelTest {
 
+	/**
+	 * {@link JsonModel#treatUnknownKeyAsError()} が {@code true} だと未知のKeyがエラーになることをテスト.
+	 * @throws IllegalStateException
+	 * @throws IOException
+	 * @throws JsonFormatException
+	 * @author vvakame
+	 */
 	@Test(expected = IllegalStateException.class)
 	public void treatUnknownKeyAsError() throws IllegalStateException, IOException,
 			JsonFormatException {
@@ -34,6 +45,13 @@ public class JsonModelTest {
 		ConverterDataGenerated.get(json);
 	}
 
+	/**
+	 * {@link JsonModel#treatUnknownKeyAsError()} が {@code false} だと未知のKeyが単に読み捨てられることをテスト.
+	 * @throws IllegalStateException
+	 * @throws IOException
+	 * @throws JsonFormatException
+	 * @author vvakame
+	 */
 	@Test
 	public void ignoreUnknownKey() throws IllegalStateException, IOException, JsonFormatException {
 		String json = "{\"name\":\"hoge\", \"unknown\":{\"test\":[]}, \"str2\":\"fuga\"}";

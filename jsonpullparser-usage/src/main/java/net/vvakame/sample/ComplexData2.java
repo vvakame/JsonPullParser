@@ -21,6 +21,11 @@ import java.util.List;
 import net.vvakame.util.jsonpullparser.annotation.JsonKey;
 import net.vvakame.util.jsonpullparser.annotation.JsonModel;
 
+/**
+ * {@link JsonModel} がついたクラスをフィールドに持つクラス.
+ * {@link JsonKey#in()} や {@link JsonKey#out()} の指定あり
+ * @author vvakame
+ */
 @JsonModel
 public class ComplexData2 {
 

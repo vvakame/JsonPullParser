@@ -16,10 +16,6 @@
 
 package net.vvakame.sample.converter;
 
-import static net.vvakame.util.jsonpullparser.util.JsonUtil.addSeparator;
-import static net.vvakame.util.jsonpullparser.util.JsonUtil.endArray;
-import static net.vvakame.util.jsonpullparser.util.JsonUtil.startArray;
-
 import java.io.IOException;
 import java.io.Writer;
 import java.util.ArrayList;
@@ -31,12 +27,23 @@ import net.vvakame.util.jsonpullparser.JsonPullParser.State;
 import net.vvakame.util.jsonpullparser.util.JsonUtil;
 import net.vvakame.util.jsonpullparser.util.OnJsonObjectAddListener;
 import net.vvakame.util.jsonpullparser.util.TokenConverter;
+import static net.vvakame.util.jsonpullparser.util.JsonUtil.*;
 
+/**
+ * 入れ子構造になっている 整数値の配列のJSON と {@link Integer} の {@link List} をマッピングします. 
+ * @author vvakame
+ */
 public class IntFlattenConverter extends TokenConverter<List<Integer>> {
 
 	static IntFlattenConverter conv = null;
 
 
+	/**
+	 * {@link IntFlattenConverter} を取得する.<br>
+	 * 内部で状態を持たないクラスであるため、実装はシングルトン
+	 * @return {@link IntFlattenConverter}
+	 * @author vvakame
+	 */
 	public static IntFlattenConverter getInstance() {
 		if (conv == null) {
 			conv = new IntFlattenConverter();
@@ -44,6 +51,9 @@ public class IntFlattenConverter extends TokenConverter<List<Integer>> {
 		return conv;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public List<Integer> parse(JsonPullParser parser, OnJsonObjectAddListener listener)
 			throws IOException, JsonFormatException {
@@ -90,6 +100,9 @@ public class IntFlattenConverter extends TokenConverter<List<Integer>> {
 		return list;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void encodeNullToNull(Writer writer, List<Integer> obj) throws IOException {
 		if (obj == null) {

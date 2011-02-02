@@ -16,10 +16,6 @@
 
 package net.vvakame.util.jsonpullparser.util;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.not;
-import static org.junit.Assert.assertThat;
-
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -34,6 +30,14 @@ import net.vvakame.util.jsonpullparser.JsonPullParser;
 import org.junit.Before;
 import org.junit.Test;
 
+import static org.hamcrest.CoreMatchers.*;
+
+import static org.junit.Assert.*;
+
+/**
+ * {@link OnJsonObjectAddListener} のテスト.
+ * @author vvakame
+ */
 public class OnJsonObjectAddListenerTest {
 
 	String s = "";
@@ -53,6 +57,12 @@ public class OnJsonObjectAddListenerTest {
 	};
 
 
+	/**
+	 * インスタンスが逐次渡されるかのテスト.
+	 * @throws IOException
+	 * @throws JsonFormatException
+	 * @author vvakame
+	 */
 	@Test
 	public void addListener() throws IOException, JsonFormatException {
 		String twitterData =
@@ -69,10 +79,14 @@ public class OnJsonObjectAddListenerTest {
 		assertThat(s, is(expected));
 	}
 
-	public InputStream getStream(String str) {
+	InputStream getStream(String str) {
 		return new ByteArrayInputStream(str.getBytes());
 	}
 
+	/**
+	 * テストの初期設定.
+	 * @author vvakame
+	 */
 	@Before
 	public void setup() {
 		s = "";

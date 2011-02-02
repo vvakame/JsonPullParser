@@ -19,6 +19,10 @@ package net.vvakame.sample;
 import net.vvakame.util.jsonpullparser.annotation.JsonKey;
 import net.vvakame.util.jsonpullparser.annotation.JsonModel;
 
+/**
+ * 値をほとんど持たないクラス.
+ * @author vvakame
+ */
 @JsonModel
 public class MiniData {
 

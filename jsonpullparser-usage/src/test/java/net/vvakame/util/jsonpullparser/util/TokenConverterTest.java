@@ -16,9 +16,6 @@
 
 package net.vvakame.util.jsonpullparser.util;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
-
 import java.io.IOException;
 import java.io.StringWriter;
 
@@ -28,8 +25,22 @@ import net.vvakame.util.jsonpullparser.JsonFormatException;
 
 import org.junit.Test;
 
+import static org.hamcrest.CoreMatchers.*;
+
+import static org.junit.Assert.*;
+
+/**
+ * {@link TokenConverter} のテスト.
+ * @author vvakame
+ */
 public class TokenConverterTest {
 
+	/**
+	 * {@link TokenConverter} を利用したクラスのデシリアライズをテスト.
+	 * @throws IOException
+	 * @throws JsonFormatException
+	 * @author vvakame
+	 */
 	@Test
 	public void stringConverter() throws IOException, JsonFormatException {
 		String json = "{\"str1\":\"value1\", \"str2\":\"value2\"}";
@@ -40,6 +51,12 @@ public class TokenConverterTest {
 		assertThat(converterData.getStr2(), is("value2"));
 	}
 
+	/**
+	 * {@link TokenConverter} を利用したクラスのデシリアライズとシリアライズをテスト.
+	 * @throws IOException
+	 * @throws JsonFormatException
+	 * @author vvakame
+	 */
 	@Test
 	public void integerFlattenConverter() throws IOException, JsonFormatException {
 		String json =

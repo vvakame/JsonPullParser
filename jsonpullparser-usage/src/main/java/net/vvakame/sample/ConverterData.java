@@ -23,6 +23,10 @@ import net.vvakame.sample.converter.StringDiscardConverter;
 import net.vvakame.util.jsonpullparser.annotation.JsonKey;
 import net.vvakame.util.jsonpullparser.annotation.JsonModel;
 
+/**
+ * {@link JsonKey#converter()} を利用するクラス.
+ * @author vvakame
+ */
 @JsonModel(treatUnknownKeyAsError = true)
 public class ConverterData {
 

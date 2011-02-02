@@ -16,11 +16,6 @@
 
 package net.vvakame.util.jsonpullparser.annotation;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.notNullValue;
-import static org.hamcrest.CoreMatchers.nullValue;
-import static org.junit.Assert.assertThat;
-
 import java.io.IOException;
 import java.io.StringWriter;
 import java.util.ArrayList;
@@ -37,8 +32,24 @@ import net.vvakame.util.jsonpullparser.util.JsonHash;
 
 import org.junit.Test;
 
+import static org.hamcrest.CoreMatchers.*;
+
+import static org.junit.Assert.*;
+
+/**
+ * {@link JsonKey} にパラメータを与えた場合のテスト.
+ * @author vvakame
+ */
 public class JsonKeyTest {
 
+	/**
+	 * {@link JsonKey#in()} {@link JsonKey#out()} の指定なし.<br>
+	 * デシリアライズとシリアライズ.
+	 * @throws IllegalStateException
+	 * @throws IOException
+	 * @throws JsonFormatException
+	 * @author vvakame
+	 */
 	@Test
 	public void inAndOut1() throws IllegalStateException, IOException, JsonFormatException {
 		String json =
@@ -62,6 +73,14 @@ public class JsonKeyTest {
 		assertThat(jsonHash.getDoubleOrNull("d"), is(2.2));
 	}
 
+	/**
+	 * {@link JsonKey#in()} {@link JsonKey#out()} の指定あり.<br>
+	 * デシリアライズとシリアライズ.
+	 * @throws IllegalStateException
+	 * @throws IOException
+	 * @throws JsonFormatException
+	 * @author vvakame
+	 */
 	@Test
 	public void inAndOut2() throws IllegalStateException, IOException, JsonFormatException {
 		String json =
@@ -87,16 +106,30 @@ public class JsonKeyTest {
 		assertThat(jsonHash.getJsonHashOrNull("data").getLongOrNull("id"), is(4L));
 	}
 
+	/**
+	 * nullを渡した時のシリアライズ.
+	 * @throws IllegalStateException
+	 * @throws IOException
+	 * @throws JsonFormatException
+	 * @author vvakame
+	 */
 	@Test
 	public void Out1() throws IllegalStateException, IOException, JsonFormatException {
 
 		StringWriter writer = new StringWriter();
-		ComplexData2Generated.encode(writer, (ComplexData2) null);
+		ComplexData2Generated.encode(writer, null);
 
 		String toJson = writer.toString();
 		assertThat(toJson, is("{}"));
 	}
 
+	/**
+	 * フィールドがnullばかりのインスタンスを渡した時のシリアライズ.
+	 * @throws IllegalStateException
+	 * @throws IOException
+	 * @throws JsonFormatException
+	 * @author vvakame
+	 */
 	@Test
 	public void Out2() throws IllegalStateException, IOException, JsonFormatException {
 
@@ -111,16 +144,30 @@ public class JsonKeyTest {
 		assertThat(jsonHash.get("data"), nullValue());
 	}
 
+	/**
+	 * nullを渡した時のシリアライズ.
+	 * @throws IllegalStateException
+	 * @throws IOException
+	 * @throws JsonFormatException
+	 * @author vvakame
+	 */
 	@Test
 	public void Out3() throws IllegalStateException, IOException, JsonFormatException {
 
 		StringWriter writer = new StringWriter();
-		ComplexData2Generated.encodeList(writer, (List<ComplexData2>) null);
+		ComplexData2Generated.encodeList(writer, null);
 
 		String toJson = writer.toString();
 		assertThat(toJson, is("[]"));
 	}
 
+	/**
+	 * フィールドがnullばかりのインスタンスを渡した時のシリアライズ.
+	 * @throws IllegalStateException
+	 * @throws IOException
+	 * @throws JsonFormatException
+	 * @author vvakame
+	 */
 	@Test
 	public void Out4() throws IllegalStateException, IOException, JsonFormatException {
 

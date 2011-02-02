@@ -16,9 +16,6 @@
 
 package net.vvakame.util.jsonpullparser.factory;
 
-import static org.hamcrest.CoreMatchers.*;
-import static org.junit.Assert.*;
-
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -42,8 +39,22 @@ import net.vvakame.util.jsonpullparser.util.JsonArray;
 
 import org.junit.Test;
 
+import static org.hamcrest.CoreMatchers.*;
+
+import static org.junit.Assert.*;
+
+/**
+ * JsonAnnotationProcessor 生成物のテスト
+ * @author vvakame
+ */
 public class JsonAnnotationProcessorTest {
 
+	/**
+	 * JSON連想配列の解釈.
+	 * @throws IOException
+	 * @throws JsonFormatException
+	 * @author vvakame
+	 */
 	@Test
 	public void jsonHash() throws IOException, JsonFormatException {
 		String json =
@@ -60,6 +71,12 @@ public class JsonAnnotationProcessorTest {
 		assertThat(data.isHasData(), is(true));
 	}
 
+	/**
+	 * JavaプリミティブからなるJSONの解釈.
+	 * @throws IOException
+	 * @throws JsonFormatException
+	 * @author vvakame
+	 */
 	@Test
 	public void jsonHashPrimitive() throws IOException, JsonFormatException {
 		String json =
@@ -79,6 +96,12 @@ public class JsonAnnotationProcessorTest {
 		assertThat(data.getD(), is(Double.MAX_VALUE));
 	}
 
+	/**
+	 * JSON配列の解釈.
+	 * @throws IOException
+	 * @throws JsonFormatException
+	 * @author vvakame
+	 */
 	@Test
 	public void jsonArray() throws IOException, JsonFormatException {
 		String json =
@@ -91,6 +114,12 @@ public class JsonAnnotationProcessorTest {
 		assertThat(list.size(), is(2));
 	}
 
+	/**
+	 * 入り組んだJSONの連想配列の解釈.
+	 * @throws IOException
+	 * @throws JsonFormatException
+	 * @author vvakame
+	 */
 	@Test
 	public void jsonHashComplex() throws IOException, JsonFormatException {
 		String tmpl =
@@ -118,6 +147,12 @@ public class JsonAnnotationProcessorTest {
 		assertThat(data.getData().getPackageName(), is("fi.zz"));
 	}
 
+	/**
+	 * 入り組んだJSONの連想配列の解釈.
+	 * @throws IOException
+	 * @throws JsonFormatException
+	 * @author vvakame
+	 */
 	@Test
 	public void jsonHashComplexWithNull() throws IOException, JsonFormatException {
 		String tmpl =
@@ -141,6 +176,12 @@ public class JsonAnnotationProcessorTest {
 		assertThat(data.getData(), is(nullValue()));
 	}
 
+	/**
+	 * Twitterだって読めちゃうよ！ to POJO
+	 * @throws IOException
+	 * @throws JsonFormatException
+	 * @author vvakame
+	 */
 	@Test
 	public void twitterPublicTimelinePOJO() throws IOException, JsonFormatException {
 		final String PUBLIC_TIMELINE_URL = "http://api.twitter.com/1/statuses/public_timeline.json";
@@ -170,6 +211,12 @@ public class JsonAnnotationProcessorTest {
 
 	}
 
+	/**
+	 * Twitterだって読めちゃうよ！ to JsonArray
+	 * @throws IOException
+	 * @throws JsonFormatException
+	 * @author vvakame
+	 */
 	@Test
 	public void twitterPublicTimelineJson() throws IOException, JsonFormatException {
 		final String PUBLIC_TIMELINE_URL = "http://api.twitter.com/1/statuses/public_timeline.json";
@@ -199,7 +246,7 @@ public class JsonAnnotationProcessorTest {
 
 	}
 
-	public InputStream getStream(String str) {
+	InputStream getStream(String str) {
 		return new ByteArrayInputStream(str.getBytes());
 	}
 }

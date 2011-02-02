@@ -26,12 +26,24 @@ import net.vvakame.util.jsonpullparser.util.JsonUtil;
 import net.vvakame.util.jsonpullparser.util.OnJsonObjectAddListener;
 import net.vvakame.util.jsonpullparser.util.TokenConverter;
 
+/**
+ * 文字列を　JSONに したりもどしたり.
+ * @author vvakame
+ */
 public class StringDiscardConverter extends TokenConverter<String> {
 
+	/**
+	 * {@link StringDiscardConverter} を取得する.
+	 * @return {@link StringDiscardConverter}
+	 * @author vvakame
+	 */
 	public static StringDiscardConverter getInstance() {
 		return new StringDiscardConverter();
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public String parse(JsonPullParser parser, OnJsonObjectAddListener listener)
 			throws IOException, JsonFormatException {
@@ -51,6 +63,9 @@ public class StringDiscardConverter extends TokenConverter<String> {
 		}
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void encodeNullToNull(Writer writer, String obj) throws IOException {
 		JsonUtil.put(writer, obj);

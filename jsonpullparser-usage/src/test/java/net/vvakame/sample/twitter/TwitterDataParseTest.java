@@ -16,9 +16,6 @@
 
 package net.vvakame.sample.twitter;
 
-import static org.hamcrest.CoreMatchers.*;
-import static org.junit.Assert.*;
-
 import java.io.IOException;
 import java.util.List;
 
@@ -27,8 +24,22 @@ import net.vvakame.util.jsonpullparser.JsonPullParser;
 
 import org.junit.Test;
 
+import static org.hamcrest.CoreMatchers.*;
+
+import static org.junit.Assert.*;
+
+/**
+ * Twitterのツイートを解釈するテスト.
+ * @author vvakame
+ */
 public class TwitterDataParseTest {
 
+	/**
+	 * {@link Tweet} の {@link List} として解釈されるJSONを喰わせる.
+	 * @throws IOException
+	 * @throws JsonFormatException
+	 * @author vvakame
+	 */
 	@Test
 	public void parse() throws IOException, JsonFormatException {
 		String twitterData =
@@ -39,6 +50,12 @@ public class TwitterDataParseTest {
 		assertThat(list.size(), is(not(0)));
 	}
 
+	/**
+	 * {@link Place} の {@link List} として解釈されるJSONを喰わせる.
+	 * @throws IOException
+	 * @throws JsonFormatException
+	 * @author vvakame
+	 */
 	@Test
 	public void parseRareCase() throws IOException, JsonFormatException {
 		String twitterPlace =

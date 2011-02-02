@@ -18,15 +18,20 @@ package net.vvakame.util.jsonpullparser.factory;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.StringWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 
 import net.vvakame.sample.ComplexData;
 import net.vvakame.sample.ComplexDataGenerated;
+import net.vvakame.sample.MiniData;
+import net.vvakame.sample.MiniDataGenerated;
 import net.vvakame.sample.PrimitiveTypeData;
 import net.vvakame.sample.PrimitiveTypeDataGenerated;
 import net.vvakame.sample.TestData;
@@ -174,6 +179,91 @@ public class JsonAnnotationProcessorTest {
 		assertThat(data.getList2().size(), is(1));
 		assertThat(data.getList3().size(), is(0));
 		assertThat(data.getData(), is(nullValue()));
+	}
+
+	/**
+	 * 各種encode系メソッドのテスト.
+	 * @throws IOException 
+	 */
+	@Test
+	public void encode() throws IOException {
+		{
+			ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+			MiniData data = new MiniData();
+			data.setId(7);
+			MiniDataGenerated.encode(outputStream, data);
+			String json = new String(outputStream.toByteArray());
+			assertThat(json, is("{\"id\":7}"));
+		}
+
+		{
+			StringWriter writer = new StringWriter();
+			MiniData data = new MiniData();
+			data.setId(7);
+			MiniDataGenerated.encode(writer, data);
+			String json = writer.toString();
+			assertThat(json, is("{\"id\":7}"));
+		}
+
+		{
+			StringWriter writer = new StringWriter();
+			MiniDataGenerated.encodeNullToBlank(writer, null);
+			String json = writer.toString();
+			assertThat(json, is("{}"));
+		}
+
+		{
+			StringWriter writer = new StringWriter();
+			MiniDataGenerated.encodeNullToNull(writer, null);
+			String json = writer.toString();
+			assertThat(json, is("null"));
+		}
+
+		{
+			ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+			List<MiniData> list = new ArrayList<MiniData>();
+			MiniData data;
+			data = new MiniData();
+			data.setId(7);
+			list.add(data);
+			data = new MiniData();
+			data.setId(8);
+			list.add(data);
+
+			MiniDataGenerated.encodeList(outputStream, list);
+			String json = new String(outputStream.toByteArray());
+			assertThat(json, is("[{\"id\":7},{\"id\":8}]"));
+		}
+
+		{
+			StringWriter writer = new StringWriter();
+			List<MiniData> list = new ArrayList<MiniData>();
+			MiniData data;
+			data = new MiniData();
+			data.setId(7);
+			list.add(data);
+			data = new MiniData();
+			data.setId(8);
+			list.add(data);
+
+			MiniDataGenerated.encodeList(writer, list);
+			String json = writer.toString();
+			assertThat(json, is("[{\"id\":7},{\"id\":8}]"));
+		}
+
+		{
+			StringWriter writer = new StringWriter();
+			MiniDataGenerated.encodeListNullToBlank(writer, null);
+			String json = writer.toString();
+			assertThat(json, is("[]"));
+		}
+
+		{
+			StringWriter writer = new StringWriter();
+			MiniDataGenerated.encodeListNullToNull(writer, null);
+			String json = writer.toString();
+			assertThat(json, is("null"));
+		}
 	}
 
 	/**

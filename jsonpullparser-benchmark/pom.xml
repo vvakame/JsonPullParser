@@ -20,6 +20,14 @@
 			<name>The Seasar Foundation Maven2 Repository</name>
 			<url>http://maven.seasar.org/maven2</url>
 		</repository>
+		<repository>
+			<id>vvakame-jsonpullparser-release</id>
+			<url>http://vvakame.github.com/JsonPullParser/release</url>
+		</repository>
+		<repository>
+			<id>vvakame-jsonpullparser-snapshot</id>
+			<url>http://vvakame.github.com/JsonPullParser/snapshots</url>
+		</repository>
 	</repositories>
 
 	<dependencies>
@@ -75,6 +83,7 @@
 			<plugins>
 				<plugin>
 					<artifactId>maven-compiler-plugin</artifactId>
+					<version>2.3.2</version>
 					<configuration>
 						<source>1.6</source>
 						<target>1.6</target>
@@ -82,21 +91,9 @@
 					</configuration>
 				</plugin>
 				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-eclipse-plugin</artifactId>
-				</plugin>
-				<plugin>
 					<groupId>org.codehaus.mojo</groupId>
 					<artifactId>build-helper-maven-plugin</artifactId>
 					<version>1.4</version>
-				</plugin>
-				<plugin>
-					<groupId>org.codehaus.mojo</groupId>
-					<artifactId>apt-maven-plugin</artifactId>
-					<version>1.0-alpha-4</version>
-					<configuration>
-						<factory>net.vvakame.jsonpullparser.factiory.JsonAnnotationProcessor</factory>
-					</configuration>
 				</plugin>
 			</plugins>
 		</pluginManagement>
@@ -119,13 +116,42 @@
 				</executions>
 			</plugin>
 			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>apt-maven-plugin</artifactId>
+				<artifactId>maven-compiler-plugin</artifactId>
 				<configuration>
-					<encoding>utf-8</encoding>
-					<outputDirectory>${generated.src}</outputDirectory>
-					<factory>net.vvakame.jsonpullparser.factiory.JsonAnnotationProcessor</factory>
+					<includes>
+						<include>all-your-source-are-belong-to-us</include>
+					</includes>
 				</configuration>
+				<executions>
+					<execution>
+						<id>with-apt</id>
+						<phase>compile</phase>
+						<goals>
+							<goal>compile</goal>
+						</goals>
+						<configuration>
+							<generatedSourcesDirectory>${generated.src}</generatedSourcesDirectory>
+							<proc>only</proc>
+							<compilerArgument>-AJsonPullParserClassPostfix=${genclass.postfix}</compilerArgument>
+							<includes>
+								<include>**</include>
+							</includes>
+						</configuration>
+					</execution>
+					<execution>
+						<id>no-apt</id>
+						<phase>compile</phase>
+						<goals>
+							<goal>compile</goal>
+						</goals>
+						<configuration>
+							<proc>none</proc>
+							<includes>
+								<include>**</include>
+							</includes>
+						</configuration>
+					</execution>
+				</executions>
 			</plugin>
 			<plugin>
 				<artifactId>maven-dependency-plugin</artifactId>

@@ -57,37 +57,17 @@
 			<plugins>
 				<plugin>
 					<artifactId>maven-compiler-plugin</artifactId>
+					<version>2.3.2</version>
 					<configuration>
+						<encoding>utf-8</encoding>
 						<source>1.6</source>
 						<target>1.6</target>
-						<encoding>UTF-8</encoding>
 					</configuration>
-				</plugin>
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-eclipse-plugin</artifactId>
 				</plugin>
 				<plugin>
 					<groupId>org.codehaus.mojo</groupId>
 					<artifactId>build-helper-maven-plugin</artifactId>
 					<version>1.4</version>
-				</plugin>
-				<plugin>
-					<groupId>org.codehaus.mojo</groupId>
-					<artifactId>apt-maven-plugin</artifactId>
-					<version>1.0-alpha-4</version>
-					<configuration>
-						<encoding>utf-8</encoding>
-						<outputDirectory>${generated.src}</outputDirectory>
-						<factory>net.vvakame.jsonpullparser.factiory.JsonAnnotationProcessor</factory>
-					</configuration>
-					<dependencies>
-						<dependency>
-							<groupId>net.vvakame</groupId>
-							<artifactId>jsonpullparser-apt</artifactId>
-							<version>${jsonpullparser.version}</version>
-						</dependency>
-					</dependencies>
 				</plugin>
 			</plugins>
 		</pluginManagement>
@@ -110,14 +90,40 @@
 				</executions>
 			</plugin>
 			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>apt-maven-plugin</artifactId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<includes>
+						<include>all-your-source-are-belong-to-us</include>
+					</includes>
+				</configuration>
 				<executions>
 					<execution>
-						<phase>process-sources</phase>
+						<id>with-apt</id>
+						<phase>compile</phase>
 						<goals>
-							<goal>process</goal>
+							<goal>compile</goal>
 						</goals>
+						<configuration>
+							<generatedSourcesDirectory>${generated.src}</generatedSourcesDirectory>
+							<proc>only</proc>
+							<compilerArgument>-AJsonPullParserClassPostfix=${genclass.postfix}</compilerArgument>
+							<includes>
+								<include>**</include>
+							</includes>
+						</configuration>
+					</execution>
+					<execution>
+						<id>no-apt</id>
+						<phase>compile</phase>
+						<goals>
+							<goal>compile</goal>
+						</goals>
+						<configuration>
+							<proc>none</proc>
+							<includes>
+								<include>**</include>
+							</includes>
+						</configuration>
 					</execution>
 				</executions>
 			</plugin>

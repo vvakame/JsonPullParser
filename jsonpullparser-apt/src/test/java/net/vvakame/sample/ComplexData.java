@@ -38,7 +38,7 @@ public class ComplexData {
 	List<? extends SampleData> list2;
 
 	@JsonKey
-	List<? super SampleData> list3;
+	List<? extends SampleData> list3;
 
 	@JsonKey
 	SampleData data;
@@ -46,14 +46,15 @@ public class ComplexData {
 
 	/**
 	 * @return the name
+	 * @category accessor
 	 */
 	public String getName() {
 		return name;
 	}
 
 	/**
-	 * @param name
-	 *            the name to set
+	 * @param name the name to set
+	 * @category accessor
 	 */
 	public void setName(String name) {
 		this.name = name;
@@ -61,14 +62,15 @@ public class ComplexData {
 
 	/**
 	 * @return the list1
+	 * @category accessor
 	 */
 	public List<SampleData> getList1() {
 		return list1;
 	}
 
 	/**
-	 * @param list1
-	 *            the list1 to set
+	 * @param list1 the list1 to set
+	 * @category accessor
 	 */
 	public void setList1(List<SampleData> list1) {
 		this.list1 = list1;
@@ -76,14 +78,15 @@ public class ComplexData {
 
 	/**
 	 * @return the list2
+	 * @category accessor
 	 */
 	public List<? extends SampleData> getList2() {
 		return list2;
 	}
 
 	/**
-	 * @param list2
-	 *            the list2 to set
+	 * @param list2 the list2 to set
+	 * @category accessor
 	 */
 	public void setList2(List<? extends SampleData> list2) {
 		this.list2 = list2;
@@ -91,29 +94,31 @@ public class ComplexData {
 
 	/**
 	 * @return the list3
+	 * @category accessor
 	 */
-	public List<? super SampleData> getList3() {
+	public List<? extends SampleData> getList3() {
 		return list3;
 	}
 
 	/**
-	 * @param list3
-	 *            the list3 to set
+	 * @param list3 the list3 to set
+	 * @category accessor
 	 */
-	public void setList3(List<? super SampleData> list3) {
+	public void setList3(List<? extends SampleData> list3) {
 		this.list3 = list3;
 	}
 
 	/**
 	 * @return the data
+	 * @category accessor
 	 */
 	public SampleData getData() {
 		return data;
 	}
 
 	/**
-	 * @param data
-	 *            the data to set
+	 * @param data the data to set
+	 * @category accessor
 	 */
 	public void setData(SampleData data) {
 		this.data = data;

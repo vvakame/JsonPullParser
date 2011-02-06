@@ -24,7 +24,7 @@ import net.vvakame.util.jsonpullparser.util.JsonHash;
  * ついったのツイートの表現
  * @author vvakame
  */
-@JsonModel
+@JsonModel(treatUnknownKeyAsError = true)
 public class Tweet {
 
 	@JsonKey
@@ -42,25 +42,25 @@ public class Tweet {
 	@JsonKey
 	String source;
 
-	@JsonKey("id_str")
+	@JsonKey
 	String idStr;
 
-	@JsonKey("in_reply_to_screen_name")
+	@JsonKey
 	String inReplyToScreenName;
 
-	@JsonKey("in_reply_to_status_id_str")
+	@JsonKey
 	String inReplyToStatusIdStr;
 
 	@JsonKey
 	JsonHash contributors;
 
-	@JsonKey("retweet_count")
+	@JsonKey
 	long retweetCount;
 
-	@JsonKey("in_reply_to_user_id_str")
+	@JsonKey
 	String inReplyToUserIdStr;
 
-	@JsonKey("created_at")
+	@JsonKey
 	String createdAt;
 
 	@JsonKey
@@ -69,13 +69,13 @@ public class Tweet {
 	@JsonKey
 	boolean retweeted;
 
-	@JsonKey("in_reply_to_status_id")
+	@JsonKey
 	long inReplyToStatusId;
 
 	@JsonKey
 	long id;
 
-	@JsonKey("in_reply_to_user_id")
+	@JsonKey
 	long inReplyToUserId;
 
 	@JsonKey

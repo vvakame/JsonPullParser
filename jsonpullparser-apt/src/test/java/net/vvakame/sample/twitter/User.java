@@ -26,13 +26,13 @@ import net.vvakame.util.jsonpullparser.annotation.JsonModel;
 @JsonModel
 public class User {
 
-	@JsonKey(decamelize = true)
+	@JsonKey
 	boolean followRequestSent;
 
-	@JsonKey(decamelize = true)
+	@JsonKey
 	boolean contributorsEnabled;
 
-	@JsonKey(decamelize = true)
+	@JsonKey
 	String profileSidebarFillColor;
 
 	@JsonKey
@@ -41,49 +41,49 @@ public class User {
 	@JsonKey
 	boolean notifications;
 
-	@JsonKey(decamelize = true)
+	@JsonKey
 	boolean profileBackgroundTile;
 
-	@JsonKey(decamelize = true)
+	@JsonKey
 	String timeZone;
 
-	@JsonKey(decamelize = true)
+	@JsonKey
 	String profileImageUrl;
 
 	@JsonKey
 	String location;
 
-	@JsonKey(decamelize = true)
+	@JsonKey
 	long statusesCount;
 
-	@JsonKey(decamelize = true)
+	@JsonKey
 	String profileLinkColor;
 
-	@JsonKey(decamelize = true)
+	@JsonKey
 	long listedCount;
 
 	@JsonKey
 	String lang;
 
-	@JsonKey(decamelize = true)
+	@JsonKey
 	long favouritesCount;
 
-	@JsonKey(decamelize = true)
+	@JsonKey
 	String profileSidebarBorderColor;
 
 	@JsonKey
 	String url;
 
-	@JsonKey(decamelize = true)
+	@JsonKey
 	String screenName;
 
-	@JsonKey(decamelize = true)
+	@JsonKey
 	String idStr;
 
-	@JsonKey(decamelize = true)
+	@JsonKey
 	boolean profileUseBackgroundImage;
 
-	@JsonKey(decamelize = true)
+	@JsonKey
 	long followersCount;
 
 	@JsonKey
@@ -92,53 +92,54 @@ public class User {
 	@JsonKey
 	boolean verified;
 
-	@JsonKey(decamelize = true)
+	@JsonKey
 	long friendsCount;
 
-	@JsonKey(decamelize = true)
+	@JsonKey
 	String profileBackgroundColor;
 
 	@JsonKey("protected")
-	boolean protecte;
+	boolean protect;
 
-	@JsonKey(decamelize = true)
+	@JsonKey
 	boolean isTranslator;
 
-	@JsonKey(decamelize = true)
+	@JsonKey
 	String profileBackgroundImageUrl;
 
-	@JsonKey(decamelize = true)
+	@JsonKey
 	String createdAt;
 
 	@JsonKey
 	String name;
 
-	@JsonKey(decamelize = true)
+	@JsonKey
 	boolean showAllInlineMedia;
 
-	@JsonKey(decamelize = true)
+	@JsonKey
 	boolean geoEnabled;
 
 	@JsonKey
 	long id;
 
-	@JsonKey(decamelize = true)
+	@JsonKey
 	long utcOffset;
 
-	@JsonKey(decamelize = true)
+	@JsonKey
 	String profileTextColor;
 
 
 	/**
 	 * @return the followRequestSent
+	 * @category accessor
 	 */
 	public boolean isFollowRequestSent() {
 		return followRequestSent;
 	}
 
 	/**
-	 * @param followRequestSent
-	 *            the followRequestSent to set
+	 * @param followRequestSent the followRequestSent to set
+	 * @category accessor
 	 */
 	public void setFollowRequestSent(boolean followRequestSent) {
 		this.followRequestSent = followRequestSent;
@@ -146,14 +147,15 @@ public class User {
 
 	/**
 	 * @return the contributorsEnabled
+	 * @category accessor
 	 */
 	public boolean isContributorsEnabled() {
 		return contributorsEnabled;
 	}
 
 	/**
-	 * @param contributorsEnabled
-	 *            the contributorsEnabled to set
+	 * @param contributorsEnabled the contributorsEnabled to set
+	 * @category accessor
 	 */
 	public void setContributorsEnabled(boolean contributorsEnabled) {
 		this.contributorsEnabled = contributorsEnabled;
@@ -161,14 +163,15 @@ public class User {
 
 	/**
 	 * @return the profileSidebarFillColor
+	 * @category accessor
 	 */
 	public String getProfileSidebarFillColor() {
 		return profileSidebarFillColor;
 	}
 
 	/**
-	 * @param profileSidebarFillColor
-	 *            the profileSidebarFillColor to set
+	 * @param profileSidebarFillColor the profileSidebarFillColor to set
+	 * @category accessor
 	 */
 	public void setProfileSidebarFillColor(String profileSidebarFillColor) {
 		this.profileSidebarFillColor = profileSidebarFillColor;
@@ -176,14 +179,15 @@ public class User {
 
 	/**
 	 * @return the description
+	 * @category accessor
 	 */
 	public String getDescription() {
 		return description;
 	}
 
 	/**
-	 * @param description
-	 *            the description to set
+	 * @param description the description to set
+	 * @category accessor
 	 */
 	public void setDescription(String description) {
 		this.description = description;
@@ -191,14 +195,15 @@ public class User {
 
 	/**
 	 * @return the notifications
+	 * @category accessor
 	 */
 	public boolean isNotifications() {
 		return notifications;
 	}
 
 	/**
-	 * @param notifications
-	 *            the notifications to set
+	 * @param notifications the notifications to set
+	 * @category accessor
 	 */
 	public void setNotifications(boolean notifications) {
 		this.notifications = notifications;
@@ -206,14 +211,15 @@ public class User {
 
 	/**
 	 * @return the profileBackgroundTile
+	 * @category accessor
 	 */
 	public boolean isProfileBackgroundTile() {
 		return profileBackgroundTile;
 	}
 
 	/**
-	 * @param profileBackgroundTile
-	 *            the profileBackgroundTile to set
+	 * @param profileBackgroundTile the profileBackgroundTile to set
+	 * @category accessor
 	 */
 	public void setProfileBackgroundTile(boolean profileBackgroundTile) {
 		this.profileBackgroundTile = profileBackgroundTile;
@@ -221,14 +227,15 @@ public class User {
 
 	/**
 	 * @return the timeZone
+	 * @category accessor
 	 */
 	public String getTimeZone() {
 		return timeZone;
 	}
 
 	/**
-	 * @param timeZone
-	 *            the timeZone to set
+	 * @param timeZone the timeZone to set
+	 * @category accessor
 	 */
 	public void setTimeZone(String timeZone) {
 		this.timeZone = timeZone;
@@ -236,14 +243,15 @@ public class User {
 
 	/**
 	 * @return the profileImageUrl
+	 * @category accessor
 	 */
 	public String getProfileImageUrl() {
 		return profileImageUrl;
 	}
 
 	/**
-	 * @param profileImageUrl
-	 *            the profileImageUrl to set
+	 * @param profileImageUrl the profileImageUrl to set
+	 * @category accessor
 	 */
 	public void setProfileImageUrl(String profileImageUrl) {
 		this.profileImageUrl = profileImageUrl;
@@ -251,14 +259,15 @@ public class User {
 
 	/**
 	 * @return the location
+	 * @category accessor
 	 */
 	public String getLocation() {
 		return location;
 	}
 
 	/**
-	 * @param location
-	 *            the location to set
+	 * @param location the location to set
+	 * @category accessor
 	 */
 	public void setLocation(String location) {
 		this.location = location;
@@ -266,14 +275,15 @@ public class User {
 
 	/**
 	 * @return the statusesCount
+	 * @category accessor
 	 */
 	public long getStatusesCount() {
 		return statusesCount;
 	}
 
 	/**
-	 * @param statusesCount
-	 *            the statusesCount to set
+	 * @param statusesCount the statusesCount to set
+	 * @category accessor
 	 */
 	public void setStatusesCount(long statusesCount) {
 		this.statusesCount = statusesCount;
@@ -281,14 +291,15 @@ public class User {
 
 	/**
 	 * @return the profileLinkColor
+	 * @category accessor
 	 */
 	public String getProfileLinkColor() {
 		return profileLinkColor;
 	}
 
 	/**
-	 * @param profileLinkColor
-	 *            the profileLinkColor to set
+	 * @param profileLinkColor the profileLinkColor to set
+	 * @category accessor
 	 */
 	public void setProfileLinkColor(String profileLinkColor) {
 		this.profileLinkColor = profileLinkColor;
@@ -296,14 +307,15 @@ public class User {
 
 	/**
 	 * @return the listedCount
+	 * @category accessor
 	 */
 	public long getListedCount() {
 		return listedCount;
 	}
 
 	/**
-	 * @param listedCount
-	 *            the listedCount to set
+	 * @param listedCount the listedCount to set
+	 * @category accessor
 	 */
 	public void setListedCount(long listedCount) {
 		this.listedCount = listedCount;
@@ -311,14 +323,15 @@ public class User {
 
 	/**
 	 * @return the lang
+	 * @category accessor
 	 */
 	public String getLang() {
 		return lang;
 	}
 
 	/**
-	 * @param lang
-	 *            the lang to set
+	 * @param lang the lang to set
+	 * @category accessor
 	 */
 	public void setLang(String lang) {
 		this.lang = lang;
@@ -326,14 +339,15 @@ public class User {
 
 	/**
 	 * @return the favouritesCount
+	 * @category accessor
 	 */
 	public long getFavouritesCount() {
 		return favouritesCount;
 	}
 
 	/**
-	 * @param favouritesCount
-	 *            the favouritesCount to set
+	 * @param favouritesCount the favouritesCount to set
+	 * @category accessor
 	 */
 	public void setFavouritesCount(long favouritesCount) {
 		this.favouritesCount = favouritesCount;
@@ -341,14 +355,15 @@ public class User {
 
 	/**
 	 * @return the profileSidebarBorderColor
+	 * @category accessor
 	 */
 	public String getProfileSidebarBorderColor() {
 		return profileSidebarBorderColor;
 	}
 
 	/**
-	 * @param profileSidebarBorderColor
-	 *            the profileSidebarBorderColor to set
+	 * @param profileSidebarBorderColor the profileSidebarBorderColor to set
+	 * @category accessor
 	 */
 	public void setProfileSidebarBorderColor(String profileSidebarBorderColor) {
 		this.profileSidebarBorderColor = profileSidebarBorderColor;
@@ -356,14 +371,15 @@ public class User {
 
 	/**
 	 * @return the url
+	 * @category accessor
 	 */
 	public String getUrl() {
 		return url;
 	}
 
 	/**
-	 * @param url
-	 *            the url to set
+	 * @param url the url to set
+	 * @category accessor
 	 */
 	public void setUrl(String url) {
 		this.url = url;
@@ -371,14 +387,15 @@ public class User {
 
 	/**
 	 * @return the screenName
+	 * @category accessor
 	 */
 	public String getScreenName() {
 		return screenName;
 	}
 
 	/**
-	 * @param screenName
-	 *            the screenName to set
+	 * @param screenName the screenName to set
+	 * @category accessor
 	 */
 	public void setScreenName(String screenName) {
 		this.screenName = screenName;
@@ -386,14 +403,15 @@ public class User {
 
 	/**
 	 * @return the idStr
+	 * @category accessor
 	 */
 	public String getIdStr() {
 		return idStr;
 	}
 
 	/**
-	 * @param idStr
-	 *            the idStr to set
+	 * @param idStr the idStr to set
+	 * @category accessor
 	 */
 	public void setIdStr(String idStr) {
 		this.idStr = idStr;
@@ -401,14 +419,15 @@ public class User {
 
 	/**
 	 * @return the profileUseBackgroundImage
+	 * @category accessor
 	 */
 	public boolean isProfileUseBackgroundImage() {
 		return profileUseBackgroundImage;
 	}
 
 	/**
-	 * @param profileUseBackgroundImage
-	 *            the profileUseBackgroundImage to set
+	 * @param profileUseBackgroundImage the profileUseBackgroundImage to set
+	 * @category accessor
 	 */
 	public void setProfileUseBackgroundImage(boolean profileUseBackgroundImage) {
 		this.profileUseBackgroundImage = profileUseBackgroundImage;
@@ -416,14 +435,15 @@ public class User {
 
 	/**
 	 * @return the followersCount
+	 * @category accessor
 	 */
 	public long getFollowersCount() {
 		return followersCount;
 	}
 
 	/**
-	 * @param followersCount
-	 *            the followersCount to set
+	 * @param followersCount the followersCount to set
+	 * @category accessor
 	 */
 	public void setFollowersCount(long followersCount) {
 		this.followersCount = followersCount;
@@ -431,14 +451,15 @@ public class User {
 
 	/**
 	 * @return the following
+	 * @category accessor
 	 */
 	public boolean isFollowing() {
 		return following;
 	}
 
 	/**
-	 * @param following
-	 *            the following to set
+	 * @param following the following to set
+	 * @category accessor
 	 */
 	public void setFollowing(boolean following) {
 		this.following = following;
@@ -446,14 +467,15 @@ public class User {
 
 	/**
 	 * @return the verified
+	 * @category accessor
 	 */
 	public boolean isVerified() {
 		return verified;
 	}
 
 	/**
-	 * @param verified
-	 *            the verified to set
+	 * @param verified the verified to set
+	 * @category accessor
 	 */
 	public void setVerified(boolean verified) {
 		this.verified = verified;
@@ -461,14 +483,15 @@ public class User {
 
 	/**
 	 * @return the friendsCount
+	 * @category accessor
 	 */
 	public long getFriendsCount() {
 		return friendsCount;
 	}
 
 	/**
-	 * @param friendsCount
-	 *            the friendsCount to set
+	 * @param friendsCount the friendsCount to set
+	 * @category accessor
 	 */
 	public void setFriendsCount(long friendsCount) {
 		this.friendsCount = friendsCount;
@@ -476,44 +499,47 @@ public class User {
 
 	/**
 	 * @return the profileBackgroundColor
+	 * @category accessor
 	 */
 	public String getProfileBackgroundColor() {
 		return profileBackgroundColor;
 	}
 
 	/**
-	 * @param profileBackgroundColor
-	 *            the profileBackgroundColor to set
+	 * @param profileBackgroundColor the profileBackgroundColor to set
+	 * @category accessor
 	 */
 	public void setProfileBackgroundColor(String profileBackgroundColor) {
 		this.profileBackgroundColor = profileBackgroundColor;
 	}
 
 	/**
-	 * @return the protecte
+	 * @return the protect
+	 * @category accessor
 	 */
-	public boolean isProtecte() {
-		return protecte;
+	public boolean isProtect() {
+		return protect;
 	}
 
 	/**
-	 * @param protecte
-	 *            the protecte to set
+	 * @param protect the protect to set
+	 * @category accessor
 	 */
-	public void setProtecte(boolean protecte) {
-		this.protecte = protecte;
+	public void setProtect(boolean protect) {
+		this.protect = protect;
 	}
 
 	/**
 	 * @return the isTranslator
+	 * @category accessor
 	 */
 	public boolean isTranslator() {
 		return isTranslator;
 	}
 
 	/**
-	 * @param isTranslator
-	 *            the isTranslator to set
+	 * @param isTranslator the isTranslator to set
+	 * @category accessor
 	 */
 	public void setTranslator(boolean isTranslator) {
 		this.isTranslator = isTranslator;
@@ -521,14 +547,15 @@ public class User {
 
 	/**
 	 * @return the profileBackgroundImageUrl
+	 * @category accessor
 	 */
 	public String getProfileBackgroundImageUrl() {
 		return profileBackgroundImageUrl;
 	}
 
 	/**
-	 * @param profileBackgroundImageUrl
-	 *            the profileBackgroundImageUrl to set
+	 * @param profileBackgroundImageUrl the profileBackgroundImageUrl to set
+	 * @category accessor
 	 */
 	public void setProfileBackgroundImageUrl(String profileBackgroundImageUrl) {
 		this.profileBackgroundImageUrl = profileBackgroundImageUrl;
@@ -536,14 +563,15 @@ public class User {
 
 	/**
 	 * @return the createdAt
+	 * @category accessor
 	 */
 	public String getCreatedAt() {
 		return createdAt;
 	}
 
 	/**
-	 * @param createdAt
-	 *            the createdAt to set
+	 * @param createdAt the createdAt to set
+	 * @category accessor
 	 */
 	public void setCreatedAt(String createdAt) {
 		this.createdAt = createdAt;
@@ -551,14 +579,15 @@ public class User {
 
 	/**
 	 * @return the name
+	 * @category accessor
 	 */
 	public String getName() {
 		return name;
 	}
 
 	/**
-	 * @param name
-	 *            the name to set
+	 * @param name the name to set
+	 * @category accessor
 	 */
 	public void setName(String name) {
 		this.name = name;
@@ -566,14 +595,15 @@ public class User {
 
 	/**
 	 * @return the showAllInlineMedia
+	 * @category accessor
 	 */
 	public boolean isShowAllInlineMedia() {
 		return showAllInlineMedia;
 	}
 
 	/**
-	 * @param showAllInlineMedia
-	 *            the showAllInlineMedia to set
+	 * @param showAllInlineMedia the showAllInlineMedia to set
+	 * @category accessor
 	 */
 	public void setShowAllInlineMedia(boolean showAllInlineMedia) {
 		this.showAllInlineMedia = showAllInlineMedia;
@@ -581,14 +611,15 @@ public class User {
 
 	/**
 	 * @return the geoEnabled
+	 * @category accessor
 	 */
 	public boolean isGeoEnabled() {
 		return geoEnabled;
 	}
 
 	/**
-	 * @param geoEnabled
-	 *            the geoEnabled to set
+	 * @param geoEnabled the geoEnabled to set
+	 * @category accessor
 	 */
 	public void setGeoEnabled(boolean geoEnabled) {
 		this.geoEnabled = geoEnabled;
@@ -596,14 +627,15 @@ public class User {
 
 	/**
 	 * @return the id
+	 * @category accessor
 	 */
 	public long getId() {
 		return id;
 	}
 
 	/**
-	 * @param id
-	 *            the id to set
+	 * @param id the id to set
+	 * @category accessor
 	 */
 	public void setId(long id) {
 		this.id = id;
@@ -611,14 +643,15 @@ public class User {
 
 	/**
 	 * @return the utcOffset
+	 * @category accessor
 	 */
 	public long getUtcOffset() {
 		return utcOffset;
 	}
 
 	/**
-	 * @param utcOffset
-	 *            the utcOffset to set
+	 * @param utcOffset the utcOffset to set
+	 * @category accessor
 	 */
 	public void setUtcOffset(long utcOffset) {
 		this.utcOffset = utcOffset;
@@ -626,14 +659,15 @@ public class User {
 
 	/**
 	 * @return the profileTextColor
+	 * @category accessor
 	 */
 	public String getProfileTextColor() {
 		return profileTextColor;
 	}
 
 	/**
-	 * @param profileTextColor
-	 *            the profileTextColor to set
+	 * @param profileTextColor the profileTextColor to set
+	 * @category accessor
 	 */
 	public void setProfileTextColor(String profileTextColor) {
 		this.profileTextColor = profileTextColor;

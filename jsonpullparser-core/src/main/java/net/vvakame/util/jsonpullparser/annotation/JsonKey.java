@@ -86,5 +86,5 @@ public @interface JsonKey {
 	 * @return _記法→キャメル記法変換
 	 * @author vvakame
 	 */
-	public boolean decamelize() default false;
+	public boolean decamelize() default true;
 }

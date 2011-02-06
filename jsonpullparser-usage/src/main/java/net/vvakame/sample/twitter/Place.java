@@ -24,7 +24,7 @@ import net.vvakame.util.jsonpullparser.util.JsonHash;
  * ついったの場所の表現
  * @author vvakame
  */
-@JsonModel
+@JsonModel(treatUnknownKeyAsError = true)
 public class Place {
 
 	@JsonKey
@@ -33,22 +33,22 @@ public class Place {
 	@JsonKey
 	String url;
 
-	@JsonKey("bounding_box")
+	@JsonKey
 	JsonHash boundingBox;
 
 	@JsonKey
 	JsonHash attributes;
 
-	@JsonKey("full_name")
+	@JsonKey
 	String fullName;
 
 	@JsonKey
 	String name;
 
-	@JsonKey("country_code")
+	@JsonKey
 	String countryCode;
 
-	@JsonKey("place_type")
+	@JsonKey
 	String placeType;
 
 	@JsonKey

@@ -42,25 +42,25 @@ public class Tweet {
 	@JsonKey
 	String source;
 
-	@JsonKey("id_str")
+	@JsonKey(decamelize = true)
 	String idStr;
 
-	@JsonKey("in_reply_to_screen_name")
+	@JsonKey(decamelize = true)
 	String inReplyToScreenName;
 
-	@JsonKey("in_reply_to_status_id_str")
+	@JsonKey(decamelize = true)
 	String inReplyToStatusIdStr;
 
 	@JsonKey
 	JsonHash contributors;
 
-	@JsonKey("retweet_count")
+	@JsonKey(decamelize = true)
 	long retweetCount;
 
-	@JsonKey("in_reply_to_user_id_str")
+	@JsonKey(decamelize = true)
 	String inReplyToUserIdStr;
 
-	@JsonKey("created_at")
+	@JsonKey(decamelize = true)
 	String createdAt;
 
 	@JsonKey
@@ -69,13 +69,13 @@ public class Tweet {
 	@JsonKey
 	boolean retweeted;
 
-	@JsonKey("in_reply_to_status_id")
+	@JsonKey(decamelize = true)
 	long inReplyToStatusId;
 
 	@JsonKey
 	long id;
 
-	@JsonKey("in_reply_to_user_id")
+	@JsonKey(decamelize = true)
 	long inReplyToUserId;
 
 	@JsonKey

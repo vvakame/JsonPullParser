@@ -18,6 +18,7 @@ package net.vvakame.util.jsonpullparser.factory;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import javax.annotation.processing.Filer;
@@ -136,7 +137,29 @@ public class ClassGenerateHelper {
 
 	String getElementKeyString(Element element) {
 		JsonKey key = element.getAnnotation(JsonKey.class);
-		return "".equals(key.value()) ? element.toString() : key.value();
+		String keyStr;
+		if ("".equals(key.value()) && key.decamelize()) {
+			keyStr = decamelize(element.toString());
+		} else if ("".equals(key.value())) {
+			keyStr = element.toString();
+		} else {
+			keyStr = key.value();
+		}
+		return keyStr;
+	}
+
+	String decamelize(String str) {
+		StringBuilder builder = new StringBuilder();
+		int len = str.length();
+		for (int i = 0; i < len; i++) {
+			char c = str.charAt(i);
+			if ('A' <= c && c <= 'Z') {
+				builder.append('_').append(c);
+			} else {
+				builder.append(c);
+			}
+		}
+		return builder.toString().toLowerCase(Locale.ENGLISH);
 	}
 
 	String getConverterClassName(Element el) {

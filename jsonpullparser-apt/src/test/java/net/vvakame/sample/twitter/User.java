@@ -26,13 +26,13 @@ import net.vvakame.util.jsonpullparser.annotation.JsonModel;
 @JsonModel
 public class User {
 
-	@JsonKey("follow_request_sent")
+	@JsonKey(decamelize = true)
 	boolean followRequestSent;
 
-	@JsonKey("contributors_enabled")
+	@JsonKey(decamelize = true)
 	boolean contributorsEnabled;
 
-	@JsonKey("profile_sidebar_fill_color")
+	@JsonKey(decamelize = true)
 	String profileSidebarFillColor;
 
 	@JsonKey
@@ -41,49 +41,49 @@ public class User {
 	@JsonKey
 	boolean notifications;
 
-	@JsonKey("profile_background_tile")
+	@JsonKey(decamelize = true)
 	boolean profileBackgroundTile;
 
-	@JsonKey("time_zone")
+	@JsonKey(decamelize = true)
 	String timeZone;
 
-	@JsonKey("profile_image_url")
+	@JsonKey(decamelize = true)
 	String profileImageUrl;
 
 	@JsonKey
 	String location;
 
-	@JsonKey("statuses_count")
+	@JsonKey(decamelize = true)
 	long statusesCount;
 
-	@JsonKey("profile_link_color")
+	@JsonKey(decamelize = true)
 	String profileLinkColor;
 
-	@JsonKey("listed_count")
+	@JsonKey(decamelize = true)
 	long listedCount;
 
 	@JsonKey
 	String lang;
 
-	@JsonKey("favourites_count")
+	@JsonKey(decamelize = true)
 	long favouritesCount;
 
-	@JsonKey("profile_sidebar_border_color")
+	@JsonKey(decamelize = true)
 	String profileSidebarBorderColor;
 
 	@JsonKey
 	String url;
 
-	@JsonKey("screen_name")
+	@JsonKey(decamelize = true)
 	String screenName;
 
-	@JsonKey("id_str")
+	@JsonKey(decamelize = true)
 	String idStr;
 
-	@JsonKey("profile_use_background_image")
+	@JsonKey(decamelize = true)
 	boolean profileUseBackgroundImage;
 
-	@JsonKey("followers_count")
+	@JsonKey(decamelize = true)
 	long followersCount;
 
 	@JsonKey
@@ -92,40 +92,40 @@ public class User {
 	@JsonKey
 	boolean verified;
 
-	@JsonKey("friends_count")
+	@JsonKey(decamelize = true)
 	long friendsCount;
 
-	@JsonKey("profile_background_color")
+	@JsonKey(decamelize = true)
 	String profileBackgroundColor;
 
 	@JsonKey("protected")
 	boolean protecte;
 
-	@JsonKey("is_translator")
+	@JsonKey(decamelize = true)
 	boolean isTranslator;
 
-	@JsonKey("profile_background_image_url")
+	@JsonKey(decamelize = true)
 	String profileBackgroundImageUrl;
 
-	@JsonKey("created_at")
+	@JsonKey(decamelize = true)
 	String createdAt;
 
 	@JsonKey
 	String name;
 
-	@JsonKey("show_all_inline_media")
+	@JsonKey(decamelize = true)
 	boolean showAllInlineMedia;
 
-	@JsonKey("geo_enabled")
+	@JsonKey(decamelize = true)
 	boolean geoEnabled;
 
 	@JsonKey
 	long id;
 
-	@JsonKey("utc_offset")
+	@JsonKey(decamelize = true)
 	long utcOffset;
 
-	@JsonKey("profile_text_color")
+	@JsonKey(decamelize = true)
 	String profileTextColor;
 
 

@@ -78,4 +78,13 @@ public @interface JsonKey {
 	 * @author vvakame
 	 */
 	public boolean out() default true;
+
+	/**
+	 * _記法をキャメル記法に変換した上でマッピングを行うかの制御.<br>
+	 * {@code true} なら行う. {@code false} なら行わない.<br>
+	 * JSONで"source_id"というKeyにsourceIDというフィールドをマッピングさせます.
+	 * @return _記法→キャメル記法変換
+	 * @author vvakame
+	 */
+	public boolean decamelize() default false;
 }

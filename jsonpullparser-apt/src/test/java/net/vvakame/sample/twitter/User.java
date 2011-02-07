@@ -23,16 +23,16 @@ import net.vvakame.util.jsonpullparser.annotation.JsonModel;
  * ついったの人の表現
  * @author vvakame
  */
-@JsonModel
+@JsonModel(treatUnknownKeyAsError = true)
 public class User {
 
-	@JsonKey
+	@JsonKey(decamelize = true)
 	boolean followRequestSent;
 
-	@JsonKey
+	@JsonKey(decamelize = true)
 	boolean contributorsEnabled;
 
-	@JsonKey
+	@JsonKey(decamelize = true)
 	String profileSidebarFillColor;
 
 	@JsonKey
@@ -41,49 +41,49 @@ public class User {
 	@JsonKey
 	boolean notifications;
 
-	@JsonKey
+	@JsonKey(decamelize = true)
 	boolean profileBackgroundTile;
 
-	@JsonKey
+	@JsonKey(decamelize = true)
 	String timeZone;
 
-	@JsonKey
+	@JsonKey(decamelize = true)
 	String profileImageUrl;
 
 	@JsonKey
 	String location;
 
-	@JsonKey
+	@JsonKey(decamelize = true)
 	long statusesCount;
 
-	@JsonKey
+	@JsonKey(decamelize = true)
 	String profileLinkColor;
 
-	@JsonKey
+	@JsonKey(decamelize = true)
 	long listedCount;
 
 	@JsonKey
 	String lang;
 
-	@JsonKey
+	@JsonKey(decamelize = true)
 	long favouritesCount;
 
-	@JsonKey
+	@JsonKey(decamelize = true)
 	String profileSidebarBorderColor;
 
 	@JsonKey
 	String url;
 
-	@JsonKey
+	@JsonKey(decamelize = true)
 	String screenName;
 
-	@JsonKey
+	@JsonKey(decamelize = true)
 	String idStr;
 
-	@JsonKey
+	@JsonKey(decamelize = true)
 	boolean profileUseBackgroundImage;
 
-	@JsonKey
+	@JsonKey(decamelize = true)
 	long followersCount;
 
 	@JsonKey
@@ -92,40 +92,40 @@ public class User {
 	@JsonKey
 	boolean verified;
 
-	@JsonKey
+	@JsonKey(decamelize = true)
 	long friendsCount;
 
-	@JsonKey
+	@JsonKey(decamelize = true)
 	String profileBackgroundColor;
 
 	@JsonKey("protected")
 	boolean protect;
 
-	@JsonKey
+	@JsonKey(decamelize = true)
 	boolean isTranslator;
 
-	@JsonKey
+	@JsonKey(decamelize = true)
 	String profileBackgroundImageUrl;
 
-	@JsonKey
+	@JsonKey(decamelize = true)
 	String createdAt;
 
 	@JsonKey
 	String name;
 
-	@JsonKey
+	@JsonKey(decamelize = true)
 	boolean showAllInlineMedia;
 
-	@JsonKey
+	@JsonKey(decamelize = true)
 	boolean geoEnabled;
 
 	@JsonKey
 	long id;
 
-	@JsonKey
+	@JsonKey(decamelize = true)
 	long utcOffset;
 
-	@JsonKey
+	@JsonKey(decamelize = true)
 	String profileTextColor;
 
 

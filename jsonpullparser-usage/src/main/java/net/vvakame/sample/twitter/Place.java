@@ -33,22 +33,22 @@ public class Place {
 	@JsonKey
 	String url;
 
-	@JsonKey
+	@JsonKey(decamelize = true)
 	JsonHash boundingBox;
 
 	@JsonKey
 	JsonHash attributes;
 
-	@JsonKey
+	@JsonKey(decamelize = true)
 	String fullName;
 
 	@JsonKey
 	String name;
 
-	@JsonKey
+	@JsonKey(decamelize = true)
 	String countryCode;
 
-	@JsonKey
+	@JsonKey(decamelize = true)
 	String placeType;
 
 	@JsonKey

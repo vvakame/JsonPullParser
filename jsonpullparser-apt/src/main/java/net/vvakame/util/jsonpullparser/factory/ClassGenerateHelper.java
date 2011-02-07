@@ -137,13 +137,16 @@ public class ClassGenerateHelper {
 
 	String getElementKeyString(Element element) {
 		JsonKey key = element.getAnnotation(JsonKey.class);
+		JsonModel model = element.getEnclosingElement().getAnnotation(JsonModel.class);
 		String keyStr;
-		if ("".equals(key.value()) && key.decamelize()) {
-			keyStr = decamelize(element.toString());
-		} else if ("".equals(key.value())) {
-			keyStr = element.toString();
-		} else {
+		if (!"".equals(key.value())) {
 			keyStr = key.value();
+		} else if ("".equals(key.value()) && key.decamelize()) {
+			keyStr = decamelize(element.toString());
+		} else if ("".equals(key.value()) && model.decamelize()) {
+			keyStr = decamelize(element.toString());
+		} else {
+			keyStr = element.toString();
 		}
 		return keyStr;
 	}

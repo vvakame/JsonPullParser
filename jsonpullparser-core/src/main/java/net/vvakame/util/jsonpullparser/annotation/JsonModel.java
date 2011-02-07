@@ -31,8 +31,7 @@ import net.vvakame.util.jsonpullparser.JsonPullParser;
  */
 @Retention(RetentionPolicy.CLASS)
 @Target({
-	ElementType.TYPE,
-	ElementType.FIELD
+	ElementType.TYPE
 })
 public @interface JsonModel {
 
@@ -44,4 +43,14 @@ public @interface JsonModel {
 	 * @author vvakame
 	 */
 	public boolean treatUnknownKeyAsError() default false;
+
+	/**
+	 * 配下の要素の_記法をキャメル記法に変換した上でマッピングを行うかの制御.<br>
+	 * {@code true} なら行う. {@code false} なら行わない.<br>
+	 * JSONで"source_id"というKeyにsourceIDというフィールドをマッピングさせます.
+	 * @return _記法→キャメル記法変換
+	 * @see JsonKey#decamelize()
+	 * @author vvakame
+	 */
+	public boolean decamelize() default false;
 }

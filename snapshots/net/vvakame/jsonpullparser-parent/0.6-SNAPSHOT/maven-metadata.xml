@@ -2,13 +2,11 @@
 <metadata>
   <groupId>net.vvakame</groupId>
   <artifactId>jsonpullparser-parent</artifactId>
-  <version>0.3-SNAPSHOT</version>
+  <version>0.6-SNAPSHOT</version>
   <versioning>
-    <versions>
-      <version>0.3-SNAPSHOT</version>
-      <version>0.4-SNAPSHOT</version>
-      <version>0.6-SNAPSHOT</version>
-    </versions>
+    <snapshot>
+      <buildNumber>1</buildNumber>
+    </snapshot>
     <lastUpdated>20110208184159</lastUpdated>
   </versioning>
 </metadata>

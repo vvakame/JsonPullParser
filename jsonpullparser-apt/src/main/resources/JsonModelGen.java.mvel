@@ -219,63 +219,21 @@ public class @{target}@{postfix} {
 				throw new IllegalStateException("expect KEY. we got unexpected value. " + eventType);
 			}
 			String key = parser.getValueString();
-@foreach{obj : inElements}
-			if ("@{obj.key}".equals(key)) {
-	@if{obj.kind == "BOOLEAN"}
-				parser.getEventType();
-				obj.@{obj.setter}(parser.getValueBoolean());
-	@else{obj.kind == "CHAR"}
-				parser.getEventType();
-				obj.@{obj.setter}(parser.getValueString().charAt(0));
-	@else{obj.kind == "BYTE"}
-				parser.getEventType();
-				obj.@{obj.setter}((byte)parser.getValueLong());
-	@else{obj.kind == "SHORT"}
-				parser.getEventType();
-				obj.@{obj.setter}((short)parser.getValueLong());
-	@else{obj.kind == "INT"}
-				parser.getEventType();
-				obj.@{obj.setter}((int)parser.getValueLong());
-	@else{obj.kind == "LONG"}
-				parser.getEventType();
-				obj.@{obj.setter}(parser.getValueLong());
-	@else{obj.kind == "FLOAT"}
-				parser.getEventType();
-				obj.@{obj.setter}((float)parser.getValueDouble());
-	@else{obj.kind == "DOUBLE"}
-				parser.getEventType();
-				obj.@{obj.setter}(parser.getValueDouble());
-	@else{obj.kind == "STRING"}
-				parser.getEventType();
-				obj.@{obj.setter}(parser.getValueString());
-	@else{obj.kind == "LIST"}
-				obj.@{obj.setter}(@{obj.modelName}@{postfix}.getList(parser, listener));
-	@else{obj.kind == "JSON_ARRAY"}
-				obj.@{obj.setter}(net.vvakame.util.jsonpullparser.util.JsonArray.fromParser(parser));
-	@else{obj.kind == "JSON_HASH"}
-				obj.@{obj.setter}(net.vvakame.util.jsonpullparser.util.JsonHash.fromParser(parser));
-	@else{obj.kind == "MODEL"}
-				@{obj.modelName} tmp = @{obj.modelName}@{postfix}.get(parser);
-				obj.@{obj.setter}(tmp);
-				if (listener != null) {
-					listener.onAdd(tmp);
-				}
-	@else{obj.kind == "CONVERTER"}
-				@{obj.converter} converter = @{obj.converter}.getInstance();
-				@{obj.modelName} tmp = converter.parse(parser, listener);
-				obj.@{obj.setter}(tmp);
-	@end{}
-@end{'			} else '}
-@if{inElements.size() != 0}
-	@if{treatUnknownKeyAsError == true}
+			
+			if(parseValue(parser, listener, key, obj)){
+				continue;
+@if{existsBase == true}
+			} else if(@{targetBase}@{postfix}.parseValue(parser, listener, key, obj)) {
+				continue;
+@end{}
+@if{treatUnknownKeyAsError == true}
 			} else {
 				throw new IllegalStateException("unsupported key. key=" + key);
 			}
-	@else{}
+@else{}
 			} else {
 				parser.discardValue();
 			}
-	@end{}
 @end{}
 		}
 
@@ -284,6 +242,73 @@ public class @{target}@{postfix} {
 		}
 
 		return obj;
+	}
+
+	/**
+	 * ※ このメソッドを呼び出さないでください ※.<br>
+	 * 本生成クラスの内部から呼び出すためのメソッドです.他パッケージの
+	 * @param parser 利用途中の {@link JsonPullParser}
+	 * @param listener インスタンスが生成した場合に通知する {@link OnJsonObjectAddListener}
+	 * @param key 処理途中のJSONのkey
+	 * @param obj 組み立て途中の {@link @{target}} もしくはそのサブクラスのインスタンス
+	 * @return keyの処理に成功したかどうか
+	 * @throws JsonFormatException JSONとして正しくない形式だった場合に投げられます
+	 * @throws IOException 
+	 * @throws IllegalStateException JSONとしては正しくても {@link @{target}} に合致しない場合に投げられます
+	 * @author vvakame
+	 */
+	public static boolean parseValue(JsonPullParser parser, OnJsonObjectAddListener listener, String key, @{target} obj) throws IllegalStateException, IOException, JsonFormatException {
+@foreach{obj : inElements}
+		if ("@{obj.key}".equals(key)) {
+	@if{obj.kind == "BOOLEAN"}
+			parser.getEventType();
+			obj.@{obj.setter}(parser.getValueBoolean());
+	@else{obj.kind == "CHAR"}
+			parser.getEventType();
+			obj.@{obj.setter}(parser.getValueString().charAt(0));
+	@else{obj.kind == "BYTE"}
+			parser.getEventType();
+			obj.@{obj.setter}((byte)parser.getValueLong());
+	@else{obj.kind == "SHORT"}
+			parser.getEventType();
+			obj.@{obj.setter}((short)parser.getValueLong());
+	@else{obj.kind == "INT"}
+			parser.getEventType();
+			obj.@{obj.setter}((int)parser.getValueLong());
+	@else{obj.kind == "LONG"}
+			parser.getEventType();
+			obj.@{obj.setter}(parser.getValueLong());
+	@else{obj.kind == "FLOAT"}
+			parser.getEventType();
+			obj.@{obj.setter}((float)parser.getValueDouble());
+	@else{obj.kind == "DOUBLE"}
+			parser.getEventType();
+			obj.@{obj.setter}(parser.getValueDouble());
+	@else{obj.kind == "STRING"}
+			parser.getEventType();
+			obj.@{obj.setter}(parser.getValueString());
+	@else{obj.kind == "LIST"}
+			obj.@{obj.setter}(@{obj.modelName}@{postfix}.getList(parser, listener));
+	@else{obj.kind == "JSON_ARRAY"}
+			obj.@{obj.setter}(net.vvakame.util.jsonpullparser.util.JsonArray.fromParser(parser));
+	@else{obj.kind == "JSON_HASH"}
+			obj.@{obj.setter}(net.vvakame.util.jsonpullparser.util.JsonHash.fromParser(parser));
+	@else{obj.kind == "MODEL"}
+			@{obj.modelName} tmp = @{obj.modelName}@{postfix}.get(parser);
+			obj.@{obj.setter}(tmp);
+			if (listener != null) {
+				listener.onAdd(tmp);
+			}
+	@else{obj.kind == "CONVERTER"}
+			@{obj.converter} converter = @{obj.converter}.getInstance();
+			@{obj.modelName} tmp = converter.parse(parser, listener);
+			obj.@{obj.setter}(tmp);
+	@end{}
+@end{'		} else '}
+		} else {
+			return false;
+		}
+		return true;
 	}
 
 	/**

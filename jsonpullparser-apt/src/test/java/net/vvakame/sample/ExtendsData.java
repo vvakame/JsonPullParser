@@ -1,0 +1,51 @@
+package net.vvakame.sample;
+
+import net.vvakame.util.jsonpullparser.annotation.JsonKey;
+import net.vvakame.util.jsonpullparser.annotation.JsonModel;
+
+/**
+ * 継承関係チェック用クラス 継承用.
+ * @author vvakame
+ */
+@JsonModel
+public class ExtendsData extends BaseData {
+
+	@JsonKey
+	long three;
+
+	@JsonKey
+	long four;
+
+
+	/**
+	 * @return the three
+	 * @category accessor
+	 */
+	public long getThree() {
+		return three;
+	}
+
+	/**
+	 * @param three the three to set
+	 * @category accessor
+	 */
+	public void setThree(long three) {
+		this.three = three;
+	}
+
+	/**
+	 * @return the four
+	 * @category accessor
+	 */
+	public long getFour() {
+		return four;
+	}
+
+	/**
+	 * @param four the four to set
+	 * @category accessor
+	 */
+	public void setFour(long four) {
+		this.four = four;
+	}
+}

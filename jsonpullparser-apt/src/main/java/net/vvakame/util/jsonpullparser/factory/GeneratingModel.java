@@ -23,7 +23,7 @@ import net.vvakame.util.jsonpullparser.annotation.JsonKey;
 import net.vvakame.util.jsonpullparser.annotation.JsonModel;
 
 /**
- * 1 {@link JsonModel} に対応する生成ソースの表現.
+ * {@link JsonModel} に対応する生成ソースの表現.
  * @author vvakame
  */
 public class GeneratingModel {
@@ -31,6 +31,10 @@ public class GeneratingModel {
 	String packageName = "invalid";
 
 	String postfix = "Invalid";
+
+	boolean existsBase = false;
+
+	String targetBase = "Invalid";
 
 	String target = "Invalid";
 
@@ -53,14 +57,15 @@ public class GeneratingModel {
 
 	/**
 	 * @return the packageName
+	 * @category accessor
 	 */
 	public String getPackageName() {
 		return packageName;
 	}
 
 	/**
-	 * @param packageName
-	 *            the packageName to set
+	 * @param packageName the packageName to set
+	 * @category accessor
 	 */
 	public void setPackageName(String packageName) {
 		this.packageName = packageName;
@@ -68,29 +73,63 @@ public class GeneratingModel {
 
 	/**
 	 * @return the postfix
+	 * @category accessor
 	 */
 	public String getPostfix() {
 		return postfix;
 	}
 
 	/**
-	 * @param postfix
-	 *            the postfix to set
+	 * @param postfix the postfix to set
+	 * @category accessor
 	 */
 	public void setPostfix(String postfix) {
 		this.postfix = postfix;
 	}
 
 	/**
+	 * @return the existsBase
+	 * @category accessor
+	 */
+	public boolean isExistsBase() {
+		return existsBase;
+	}
+
+	/**
+	 * @param existsBase the existsBase to set
+	 * @category accessor
+	 */
+	public void setExistsBase(boolean existsBase) {
+		this.existsBase = existsBase;
+	}
+
+	/**
+	 * @return the targetBase
+	 * @category accessor
+	 */
+	public String getTargetBase() {
+		return targetBase;
+	}
+
+	/**
+	 * @param targetBase the targetBase to set
+	 * @category accessor
+	 */
+	public void setTargetBase(String targetBase) {
+		this.targetBase = targetBase;
+	}
+
+	/**
 	 * @return the target
+	 * @category accessor
 	 */
 	public String getTarget() {
 		return target;
 	}
 
 	/**
-	 * @param target
-	 *            the target to set
+	 * @param target the target to set
+	 * @category accessor
 	 */
 	public void setTarget(String target) {
 		this.target = target;
@@ -98,14 +137,15 @@ public class GeneratingModel {
 
 	/**
 	 * @return the elements
+	 * @category accessor
 	 */
 	public List<JsonElement> getElements() {
 		return elements;
 	}
 
 	/**
-	 * @param elements
-	 *            the elements to set
+	 * @param elements the elements to set
+	 * @category accessor
 	 */
 	public void setElements(List<JsonElement> elements) {
 		this.elements = elements;
@@ -113,14 +153,15 @@ public class GeneratingModel {
 
 	/**
 	 * @return the treatUnknownKeyAsError
+	 * @category accessor
 	 */
 	public boolean isTreatUnknownKeyAsError() {
 		return treatUnknownKeyAsError;
 	}
 
 	/**
-	 * @param treatUnknownKeyAsError
-	 *            the treatUnknownKeyAsError to set
+	 * @param treatUnknownKeyAsError the treatUnknownKeyAsError to set
+	 * @category accessor
 	 */
 	public void setTreatUnknownKeyAsError(boolean treatUnknownKeyAsError) {
 		this.treatUnknownKeyAsError = treatUnknownKeyAsError;

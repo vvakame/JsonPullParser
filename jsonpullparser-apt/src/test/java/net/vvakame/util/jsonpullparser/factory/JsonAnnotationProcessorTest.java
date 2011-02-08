@@ -16,8 +16,10 @@
 
 package net.vvakame.util.jsonpullparser.factory;
 
+import net.vvakame.sample.BaseData;
 import net.vvakame.sample.ComplexData;
 import net.vvakame.sample.ConverterData;
+import net.vvakame.sample.ExtendsData;
 import net.vvakame.sample.SampleData;
 import net.vvakame.sample.twitter.Place;
 import net.vvakame.sample.twitter.Tweet;
@@ -70,6 +72,21 @@ public class JsonAnnotationProcessorTest extends AptinaTestCase {
 		addProcessor(processor);
 
 		addCompilationUnit(ConverterData.class);
+
+		compile();
+	}
+
+	/**
+	 * 継承関係の処理.
+	 * @throws Exception
+	 * @author vvakame
+	 */
+	public void testForExntedsData() throws Exception {
+		JsonAnnotationProcessor processor = new JsonAnnotationProcessor();
+		addProcessor(processor);
+
+		addCompilationUnit(BaseData.class);
+		addCompilationUnit(ExtendsData.class);
 
 		compile();
 	}

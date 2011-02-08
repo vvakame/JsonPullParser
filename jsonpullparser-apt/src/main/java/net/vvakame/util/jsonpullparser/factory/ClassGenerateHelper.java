@@ -36,6 +36,7 @@ import javax.lang.model.type.TypeMirror;
 import javax.lang.model.type.WildcardType;
 import javax.tools.JavaFileObject;
 
+import net.vvakame.apt.AptUtil;
 import net.vvakame.util.jsonpullparser.annotation.JsonKey;
 import net.vvakame.util.jsonpullparser.annotation.JsonModel;
 import net.vvakame.util.jsonpullparser.factory.JsonElement.Kind;
@@ -90,6 +91,13 @@ public class ClassGenerateHelper {
 
 		g.setPackageName(getPackageName(element));
 		g.setTarget(getSimpleName(element));
+
+		TypeElement superclass = AptUtil.getSuperClassElement(element);
+		if (superclass.getAnnotation(JsonModel.class) != null) {
+			g.setTargetBase(AptUtil.getFullQualifiedName(superclass));
+			g.setExistsBase(true);
+		}
+
 		g.setPostfix(postfix);
 		g.setTreatUnknownKeyAsError(getTreatUnknownKeyAsError(element));
 	}

@@ -25,6 +25,9 @@ import javax.lang.model.element.Element;
 import javax.lang.model.element.ElementKind;
 import javax.lang.model.element.ExecutableElement;
 import javax.lang.model.element.Modifier;
+import javax.lang.model.element.TypeElement;
+import javax.lang.model.type.DeclaredType;
+import javax.lang.model.type.TypeKind;
 import javax.lang.model.type.TypeMirror;
 import javax.lang.model.util.ElementFilter;
 
@@ -36,6 +39,25 @@ import javax.lang.model.util.ElementFilter;
 public class AptUtil {
 
 	private AptUtil() {
+	}
+
+	/**
+	 * elementがClassを表す {@link Element} である場合、super classの {@link Element} を返します.<br>
+	 * {@link Object} の {@link Element} が渡されたか、 {@link ElementKind#CLASS} 以外の {@link Element} が渡された場合 {@code null} を返します.
+	 * @param element super classを取得したい {@link Element}
+	 * @return elementの super classの {@link Element}
+	 * @author vvakame
+	 */
+	public static TypeElement getSuperClassElement(Element element) {
+		if (element.getKind() != ElementKind.CLASS) {
+			return null;
+		}
+		TypeMirror superclass = ((TypeElement) element).getSuperclass();
+		if (superclass.getKind() == TypeKind.NONE) {
+			return null;
+		}
+		DeclaredType kind = (DeclaredType) superclass;
+		return (TypeElement) kind.asElement();
 	}
 
 	/**
@@ -124,6 +146,16 @@ public class AptUtil {
 		} else {
 			return str;
 		}
+	}
+
+	/**
+	 * FQNを取得する.
+	 * @param element
+	 * @return FQN
+	 * @author vvakame
+	 */
+	public static String getFullQualifiedName(Element element) {
+		return element.toString();
 	}
 
 	static boolean checkModifier(Element element, Modifier modifier) {

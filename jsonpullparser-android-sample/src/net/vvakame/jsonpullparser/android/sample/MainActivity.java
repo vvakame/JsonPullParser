@@ -16,16 +16,13 @@
 
 package net.vvakame.jsonpullparser.android.sample;
 
-import java.io.BufferedInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
 import net.vvakame.twitter.Tweet;
 import net.vvakame.twitter.TweetGen;
 import net.vvakame.util.jsonpullparser.JsonFormatException;
-import net.vvakame.util.jsonpullparser.JsonPullParser;
 import net.vvakame.util.jsonpullparser.util.OnJsonObjectAddListener;
 import android.app.ListActivity;
 import android.os.AsyncTask;
@@ -80,10 +77,7 @@ public class MainActivity extends ListActivity {
 				HttpURLConnection urlConnection = (HttpURLConnection) url
 						.openConnection();
 				try {
-					InputStream in = new BufferedInputStream(
-							urlConnection.getInputStream());
-					JsonPullParser parser = JsonPullParser.newParser(in);
-					TweetGen.getList(parser, listener);
+					TweetGen.getList(urlConnection.getInputStream(), listener);
 				} finally {
 					urlConnection.disconnect();
 				}

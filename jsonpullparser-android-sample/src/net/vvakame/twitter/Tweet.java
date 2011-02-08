@@ -20,7 +20,7 @@ import net.vvakame.util.jsonpullparser.annotation.JsonKey;
 import net.vvakame.util.jsonpullparser.annotation.JsonModel;
 import net.vvakame.util.jsonpullparser.util.JsonHash;
 
-@JsonModel
+@JsonModel(decamelize = true)
 public class Tweet {
 	@JsonKey
 	JsonHash geo;
@@ -37,25 +37,25 @@ public class Tweet {
 	@JsonKey
 	String source;
 
-	@JsonKey("id_str")
+	@JsonKey
 	String idStr;
 
-	@JsonKey("in_reply_to_screen_name")
+	@JsonKey
 	String inReplyToScreenName;
 
-	@JsonKey("in_reply_to_status_id_str")
+	@JsonKey
 	String inReplyToStatusIdStr;
 
 	@JsonKey
 	JsonHash contributors;
 
-	@JsonKey("retweet_count")
+	@JsonKey
 	long retweetCount;
 
-	@JsonKey("in_reply_to_user_id_str")
+	@JsonKey
 	String inReplyToUserIdStr;
 
-	@JsonKey("created_at")
+	@JsonKey
 	String createdAt;
 
 	@JsonKey
@@ -64,13 +64,13 @@ public class Tweet {
 	@JsonKey
 	boolean retweeted;
 
-	@JsonKey("in_reply_to_status_id")
+	@JsonKey
 	long inReplyToStatusId;
 
 	@JsonKey
 	long id;
 
-	@JsonKey("in_reply_to_user_id")
+	@JsonKey
 	long inReplyToUserId;
 
 	@JsonKey

@@ -19,15 +19,15 @@ package net.vvakame.twitter;
 import net.vvakame.util.jsonpullparser.annotation.JsonKey;
 import net.vvakame.util.jsonpullparser.annotation.JsonModel;
 
-@JsonModel
+@JsonModel(decamelize = true)
 public class User {
-	@JsonKey("follow_request_sent")
+	@JsonKey
 	boolean followRequestSent;
 
-	@JsonKey("contributors_enabled")
+	@JsonKey
 	boolean contributorsEnabled;
 
-	@JsonKey("profile_sidebar_fill_color")
+	@JsonKey
 	String profileSidebarFillColor;
 
 	@JsonKey
@@ -36,49 +36,49 @@ public class User {
 	@JsonKey
 	boolean notifications;
 
-	@JsonKey("profile_background_tile")
+	@JsonKey
 	boolean profileBackgroundTile;
 
-	@JsonKey("time_zone")
+	@JsonKey
 	String timeZone;
 
-	@JsonKey("profile_image_url")
+	@JsonKey
 	String profileImageUrl;
 
 	@JsonKey
 	String location;
 
-	@JsonKey("statuses_count")
+	@JsonKey
 	long statusesCount;
 
-	@JsonKey("profile_link_color")
+	@JsonKey
 	String profileLinkColor;
 
-	@JsonKey("listed_count")
+	@JsonKey
 	long listedCount;
 
 	@JsonKey
 	String lang;
 
-	@JsonKey("favourites_count")
+	@JsonKey
 	long favouritesCount;
 
-	@JsonKey("profile_sidebar_border_color")
+	@JsonKey
 	String profileSidebarBorderColor;
 
 	@JsonKey
 	String url;
 
-	@JsonKey("screen_name")
+	@JsonKey
 	String screenName;
 
-	@JsonKey("id_str")
+	@JsonKey
 	String idStr;
 
-	@JsonKey("profile_use_background_image")
+	@JsonKey
 	boolean profileUseBackgroundImage;
 
-	@JsonKey("followers_count")
+	@JsonKey
 	long followersCount;
 
 	@JsonKey
@@ -87,40 +87,40 @@ public class User {
 	@JsonKey
 	boolean verified;
 
-	@JsonKey("friends_count")
+	@JsonKey
 	long friendsCount;
 
-	@JsonKey("profile_background_color")
+	@JsonKey
 	String profileBackgroundColor;
 
 	@JsonKey("protected")
 	boolean protecte;
 
-	@JsonKey("is_translator")
+	@JsonKey
 	boolean isTranslator;
 
-	@JsonKey("profile_background_image_url")
+	@JsonKey
 	String profileBackgroundImageUrl;
 
-	@JsonKey("created_at")
+	@JsonKey
 	String createdAt;
 
 	@JsonKey
 	String name;
 
-	@JsonKey("show_all_inline_media")
+	@JsonKey
 	boolean showAllInlineMedia;
 
-	@JsonKey("geo_enabled")
+	@JsonKey
 	boolean geoEnabled;
 
 	@JsonKey
 	long id;
 
-	@JsonKey("utc_offset")
+	@JsonKey
 	long utcOffset;
 
-	@JsonKey("profile_text_color")
+	@JsonKey
 	String profileTextColor;
 
 	/**

@@ -20,24 +20,32 @@ import net.vvakame.util.jsonpullparser.annotation.JsonKey;
 import net.vvakame.util.jsonpullparser.annotation.JsonModel;
 import net.vvakame.util.jsonpullparser.util.JsonHash;
 
-@JsonModel
+@JsonModel(decamelize = true)
 public class Place {
 	@JsonKey
 	String id;
+
 	@JsonKey
 	String url;
-	@JsonKey("bounding_box")
+
+	@JsonKey
 	JsonHash boundingBox;
+
 	@JsonKey
 	JsonHash attributes;
-	@JsonKey("full_name")
+
+	@JsonKey
 	String fullName;
+
 	@JsonKey
 	String name;
-	@JsonKey("country_code")
+
+	@JsonKey
 	String countryCode;
-	@JsonKey("place_type")
+
+	@JsonKey
 	String placeType;
+
 	@JsonKey
 	String country;
 

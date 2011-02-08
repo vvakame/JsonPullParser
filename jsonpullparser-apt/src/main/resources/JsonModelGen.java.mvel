@@ -222,10 +222,6 @@ public class @{target}@{postfix} {
 			
 			if(parseValue(parser, listener, key, obj)){
 				continue;
-@if{existsBase == true}
-			} else if(@{targetBase}@{postfix}.parseValue(parser, listener, key, obj)) {
-				continue;
-@end{}
 @if{treatUnknownKeyAsError == true}
 			} else {
 				throw new IllegalStateException("unsupported key. key=" + key);
@@ -305,6 +301,10 @@ public class @{target}@{postfix} {
 			obj.@{obj.setter}(tmp);
 	@end{}
 @end{'		} else '}
+@if{existsBase == true}
+		} else if(@{targetBase}@{postfix}.parseValue(parser, listener, key, obj)) {
+			return true;
+@end{}
 		} else {
 			return false;
 		}

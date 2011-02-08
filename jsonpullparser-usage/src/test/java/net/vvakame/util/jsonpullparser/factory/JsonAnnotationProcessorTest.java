@@ -30,6 +30,8 @@ import java.util.List;
 
 import net.vvakame.sample.ComplexData;
 import net.vvakame.sample.ComplexDataGenerated;
+import net.vvakame.sample.ExtendsData2;
+import net.vvakame.sample.ExtendsData2Generated;
 import net.vvakame.sample.MiniData;
 import net.vvakame.sample.MiniDataGenerated;
 import net.vvakame.sample.PrimitiveTypeData;
@@ -179,6 +181,25 @@ public class JsonAnnotationProcessorTest {
 		assertThat(data.getList2().size(), is(1));
 		assertThat(data.getList3().size(), is(0));
 		assertThat(data.getData(), is(nullValue()));
+	}
+
+	/**
+	 * 継承が絡んだモデルのテスト.
+	 * @author vvakame
+	 * @throws JsonFormatException 
+	 * @throws IOException 
+	 * @throws IllegalStateException 
+	 */
+	@Test
+	public void inheritModel() throws IllegalStateException, IOException, JsonFormatException {
+		String json = "{\"one\":1,\"two\":2,\"three\":3,\"four\":4,\"five\":5}";
+		ExtendsData2 data = ExtendsData2Generated.get(json);
+
+		assertThat(data.getOne(), is(1L));
+		assertThat(data.getTwo(), is(2L));
+		assertThat(data.getThree(), is(3L));
+		assertThat(data.getFour(), is(4L));
+		assertThat(data.getFive(), is(5L));
 	}
 
 	/**

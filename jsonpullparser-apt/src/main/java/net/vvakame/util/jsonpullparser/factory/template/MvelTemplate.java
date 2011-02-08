@@ -66,6 +66,8 @@ public class MvelTemplate {
 		Map<String, Object> map = new LinkedHashMap<String, Object>();
 		map.put("packageName", model.getPackageName());
 		map.put("postfix", model.getPostfix());
+		map.put("existsBase", model.isExistsBase());
+		map.put("targetBase", model.getTargetBase());
 		map.put("target", model.getTarget());
 		{
 			List<Map<String, String>> jsonElements = new ArrayList<Map<String, String>>();

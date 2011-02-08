@@ -28,8 +28,12 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.vvakame.sample.BaseData;
+import net.vvakame.sample.BaseDataGenerated;
 import net.vvakame.sample.ComplexData;
 import net.vvakame.sample.ComplexDataGenerated;
+import net.vvakame.sample.ExtendsData1;
+import net.vvakame.sample.ExtendsData1Generated;
 import net.vvakame.sample.ExtendsData2;
 import net.vvakame.sample.ExtendsData2Generated;
 import net.vvakame.sample.MiniData;
@@ -192,14 +196,34 @@ public class JsonAnnotationProcessorTest {
 	 */
 	@Test
 	public void inheritModel() throws IllegalStateException, IOException, JsonFormatException {
-		String json = "{\"one\":1,\"two\":2,\"three\":3,\"four\":4,\"five\":5}";
-		ExtendsData2 data = ExtendsData2Generated.get(json);
+		{
+			String json = "{\"one\":1,\"two\":2}";
+			BaseData data = BaseDataGenerated.get(json);
 
-		assertThat(data.getOne(), is(1L));
-		assertThat(data.getTwo(), is(2L));
-		assertThat(data.getThree(), is(3L));
-		assertThat(data.getFour(), is(4L));
-		assertThat(data.getFive(), is(5L));
+			assertThat(data.getOne(), is(1L));
+			assertThat(data.getTwo(), is(2L));
+		}
+
+		{
+			String json = "{\"one\":1,\"two\":2,\"three\":3,\"four\":4}";
+			ExtendsData1 data = ExtendsData1Generated.get(json);
+
+			assertThat(data.getOne(), is(1L));
+			assertThat(data.getTwo(), is(2L));
+			assertThat(data.getThree(), is(3L));
+			assertThat(data.getFour(), is(4L));
+		}
+
+		{
+			String json = "{\"one\":1,\"two\":2,\"three\":3,\"four\":4,\"five\":5}";
+			ExtendsData2 data = ExtendsData2Generated.get(json);
+
+			assertThat(data.getOne(), is(1L));
+			assertThat(data.getTwo(), is(2L));
+			assertThat(data.getThree(), is(3L));
+			assertThat(data.getFour(), is(4L));
+			assertThat(data.getFive(), is(5L));
+		}
 	}
 
 	/**

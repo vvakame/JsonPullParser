@@ -223,6 +223,17 @@ public class JsonAnnotationProcessorTest {
 			assertThat(data.getThree(), is(3L));
 			assertThat(data.getFour(), is(4L));
 			assertThat(data.getFive(), is(5L));
+
+			StringWriter writer = new StringWriter();
+			ExtendsData2Generated.encode(writer, data);
+
+			data = ExtendsData2Generated.get(writer.toString());
+
+			assertThat(data.getOne(), is(1L));
+			assertThat(data.getTwo(), is(2L));
+			assertThat(data.getThree(), is(3L));
+			assertThat(data.getFour(), is(4L));
+			assertThat(data.getFive(), is(5L));
 		}
 	}
 

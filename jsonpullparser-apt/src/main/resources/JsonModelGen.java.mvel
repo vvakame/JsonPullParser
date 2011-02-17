@@ -242,7 +242,7 @@ public class @{target}@{postfix} {
 
 	/**
 	 * ※ このメソッドを呼び出さないでください ※.<br>
-	 * 本生成クラスの内部から呼び出すためのメソッドです.他パッケージの
+	 * 生成クラスの内部から呼び出すためのメソッドです.他パッケージにある生成クラスからアクセス出来るようにするため、publicになっています.
 	 * @param parser 利用途中の {@link JsonPullParser}
 	 * @param listener インスタンスが生成した場合に通知する {@link OnJsonObjectAddListener}
 	 * @param key 処理途中のJSONのkey
@@ -444,6 +444,26 @@ public class @{target}@{postfix} {
 
 		JsonUtil.startHash(writer);
 
+		encodeValue(writer, obj);
+
+		JsonUtil.endHash(writer);
+		
+		writer.flush();
+	}
+
+	/**
+	 * ※ このメソッドを呼び出さないでください ※.<br>
+	 * 生成クラスの内部から呼び出すためのメソッドです.他パッケージにある生成クラスからアクセス出来るようにするため、publicになっています.
+	 * @param writer 出力先
+	 * @param obj データ元
+	 * @throws IOException 
+	 * @author vvakame
+	 */
+	public static void encodeValue(Writer writer, @{target} obj) throws IOException {
+@if{existsBase == true}
+		@{targetBase}@{postfix}.encodeValue(writer, obj);
+		JsonUtil.addSeparator(writer);
+@end{}
 @foreach{obj : outElements}
 		JsonUtil.putKey(writer, "@{obj.key}");
 	@if{obj.kind == "LIST"}
@@ -460,9 +480,5 @@ public class @{target}@{postfix} {
 		JsonUtil.put(writer, obj.@{obj.getter}());
 	@end{}
 @end{'		JsonUtil.addSeparator(writer);'}
-
-		JsonUtil.endHash(writer);
-		
-		writer.flush();
 	}
 }

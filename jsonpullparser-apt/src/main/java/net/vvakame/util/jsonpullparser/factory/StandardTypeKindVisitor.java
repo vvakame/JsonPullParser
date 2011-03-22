@@ -16,6 +16,7 @@
 
 package net.vvakame.util.jsonpullparser.factory;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.lang.model.type.DeclaredType;
@@ -58,6 +59,16 @@ public class StandardTypeKindVisitor<R, P> extends TypeKindVisitor6<R, P> {
 	 * @return R
 	 * @author vvakame
 	 */
+	public R visitDate(DeclaredType t, P p) {
+		return defaultAction(t, p);
+	}
+
+	/**
+	 * @param t
+	 * @param p
+	 * @return R
+	 * @author vvakame
+	 */
 	public R visitJsonHash(DeclaredType t, P p) {
 		return defaultAction(t, p);
 	}
@@ -89,6 +100,8 @@ public class StandardTypeKindVisitor<R, P> extends TypeKindVisitor6<R, P> {
 	public R visitDeclared(DeclaredType t, P p) {
 		if (String.class.getCanonicalName().equals(t.asElement().toString())) {
 			return visitString(t, p);
+		} else if (Date.class.getCanonicalName().equals(t.asElement().toString())) {
+			return visitDate(t, p);
 		} else if (List.class.getCanonicalName().equals(t.asElement().toString())) {
 			return visitList(t, p);
 		} else if (JsonHash.class.getCanonicalName().equals(t.asElement().toString())) {

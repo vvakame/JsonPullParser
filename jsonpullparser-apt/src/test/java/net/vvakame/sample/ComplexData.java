@@ -16,6 +16,7 @@
 
 package net.vvakame.sample;
 
+import java.util.Date;
 import java.util.List;
 
 import net.vvakame.util.jsonpullparser.annotation.JsonKey;
@@ -30,6 +31,9 @@ public class ComplexData {
 
 	@JsonKey
 	String name;
+
+	@JsonKey
+	Date date;
 
 	@JsonKey
 	List<SampleData> list1;
@@ -58,6 +62,22 @@ public class ComplexData {
 	 */
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	/**
+	 * @return the date
+	 * @category accessor
+	 */
+	public Date getDate() {
+		return date;
+	}
+
+	/**
+	 * @param date the date to set
+	 * @category accessor
+	 */
+	public void setDate(Date date) {
+		this.date = date;
 	}
 
 	/**

@@ -16,6 +16,7 @@
 
 package net.vvakame.util.jsonpullparser.factory;
 
+import java.util.Date;
 import java.util.List;
 
 import net.vvakame.util.jsonpullparser.annotation.JsonKey;
@@ -72,6 +73,8 @@ public class JsonElement {
 		SHORT,
 		/** {@link List} */
 		LIST,
+		/** {@link Date} */
+		DATE,
 		/** {@link JsonHash} */
 		JSON_HASH,
 		/** {@link JsonArray} */

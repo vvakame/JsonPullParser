@@ -93,7 +93,7 @@ public class JsonUtilTest {
 		startHash(writer);
 
 		putKey(writer, "hoge");
-		put(writer, null);
+		put(writer, (Object) null);
 
 		addSeparator(writer);
 

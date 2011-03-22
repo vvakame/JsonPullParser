@@ -26,6 +26,7 @@ import java.io.StringWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import net.vvakame.sample.BaseData;
@@ -47,6 +48,7 @@ import net.vvakame.sample.twitter.TweetGenerated;
 import net.vvakame.util.jsonpullparser.JsonFormatException;
 import net.vvakame.util.jsonpullparser.JsonPullParser;
 import net.vvakame.util.jsonpullparser.util.JsonArray;
+import net.vvakame.util.jsonpullparser.util.JsonHash;
 
 import org.junit.Test;
 
@@ -137,6 +139,7 @@ public class JsonAnnotationProcessorTest {
 				"{\"name\":\"%s\",\"package_name\":\"%s\",\"version_code\":%d,\"weight\":%f,\"has_data\":%b}";
 		StringBuilder jsonBuilder = new StringBuilder();
 		jsonBuilder.append("{\"name\":\"hoge\",");
+		jsonBuilder.append("\"date\":12345678,");
 		jsonBuilder.append("\"list1\":[");
 		jsonBuilder.append(String.format(tmpl, "a1", "ho.ge", 1, 2.2, true)).append(",");
 		jsonBuilder.append(String.format(tmpl, "a2", "fu.ga", 2, 3.2, false)).append(",");
@@ -152,6 +155,7 @@ public class JsonAnnotationProcessorTest {
 		ComplexData data = ComplexDataGenerated.get(parser);
 
 		assertThat(data.getName(), is("hoge"));
+		assertThat(data.getDate(), is(new Date(12345678)));
 		assertThat(data.getList1().size(), is(3));
 		assertThat(data.getList2().size(), is(1));
 		assertThat(data.getList3().size(), is(0));
@@ -320,6 +324,24 @@ public class JsonAnnotationProcessorTest {
 			String json = writer.toString();
 			assertThat(json, is("null"));
 		}
+	}
+
+	/**
+	 * 各種encode系メソッドのテスト.
+	 * @throws IOException
+	 * @author vvakame
+	 * @throws JsonFormatException 
+	 */
+	@Test
+	public void encodeAnyTypes() throws IOException, JsonFormatException {
+		ComplexData data = new ComplexData();
+		data.setDate(new Date(1234567));
+
+		StringWriter writer = new StringWriter();
+		ComplexDataGenerated.encode(writer, data);
+		String json = writer.toString();
+		JsonHash hash = JsonHash.fromString(json);
+		assertThat(hash.getLongOrNull("date"), is(1234567L));
 	}
 
 	/**

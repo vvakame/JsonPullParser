@@ -377,6 +377,11 @@ public class ClassGenerateHelper {
 		}
 
 		@Override
+		public JsonElement visitDate(DeclaredType t, Element el) {
+			return genJsonElement(t, el, Kind.DATE);
+		}
+
+		@Override
 		public JsonElement visitJsonHash(DeclaredType t, Element el) {
 			return genJsonElement(t, el, Kind.JSON_HASH);
 		}

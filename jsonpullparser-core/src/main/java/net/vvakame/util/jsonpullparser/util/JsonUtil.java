@@ -18,6 +18,7 @@ package net.vvakame.util.jsonpullparser.util;
 
 import java.io.IOException;
 import java.io.Writer;
+import java.util.Date;
 
 /**
  * {@link TokenConverter} 記述支援用ユーティリティ.<br>
@@ -110,6 +111,8 @@ public class JsonUtil {
 			put(writer, (long) (Long) value);
 		} else if (value instanceof Double) {
 			put(writer, (double) (Double) value);
+		} else if (value instanceof Date) {
+			put(writer, (Date) value);
 		} else if (value instanceof JsonHash) {
 			JsonHash jsonHash = (JsonHash) value;
 			jsonHash.toJson(writer);
@@ -229,6 +232,21 @@ public class JsonUtil {
 	 */
 	public static void put(Writer writer, boolean value) throws IOException {
 		writer.write(String.valueOf(value));
+	}
+
+	/**
+	 * writer に value を書き込みます.
+	 * @param writer
+	 * @param value
+	 * @throws IOException
+	 * @author vvakame
+	 */
+	public static void put(Writer writer, Date value) throws IOException {
+		if (value == null) {
+			writer.write("null");
+		} else {
+			writer.write(String.valueOf(value.getTime()));
+		}
 	}
 
 	static String sanitize(char orig) {

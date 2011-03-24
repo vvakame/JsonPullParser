@@ -21,6 +21,7 @@ import net.vvakame.sample.ComplexData;
 import net.vvakame.sample.ConverterData;
 import net.vvakame.sample.ExtendsData;
 import net.vvakame.sample.SampleData;
+import net.vvakame.sample.SampleEnum;
 import net.vvakame.sample.twitter.Place;
 import net.vvakame.sample.twitter.Tweet;
 import net.vvakame.sample.twitter.User;
@@ -57,9 +58,12 @@ public class JsonAnnotationProcessorTest extends AptinaTestCase {
 		addProcessor(processor);
 
 		addCompilationUnit(SampleData.class);
+		addCompilationUnit(SampleEnum.class);
 		addCompilationUnit(ComplexData.class);
 
 		compile();
+		@SuppressWarnings("unused")
+		String source = getGeneratedSource(ComplexData.class.getName() + "Gen");
 	}
 
 	/**

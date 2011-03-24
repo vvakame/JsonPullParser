@@ -79,6 +79,8 @@ public class JsonElement {
 		JSON_HASH,
 		/** {@link JsonArray} */
 		JSON_ARRAY,
+		/** {@link Enum} */
+		ENUM,
 		/** {@link JsonModel} 付加クラス */
 		MODEL,
 		/** {@link TokenConverter} 利用 */

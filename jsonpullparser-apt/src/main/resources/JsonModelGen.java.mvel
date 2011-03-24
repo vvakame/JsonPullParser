@@ -285,11 +285,23 @@ public class @{target}@{postfix} {
 			obj.@{obj.setter}(parser.getValueString());
 	@else{obj.kind == "LIST"}
 			obj.@{obj.setter}(@{obj.modelName}@{postfix}.getList(parser, listener));
+	@else{obj.kind == "ENUM"}
+			if(State.VALUE_NULL.equals(parser.getEventType())){
+				obj.@{obj.setter}(null);
+			} else {
+				obj.@{obj.setter}(Enum.valueOf(@{obj.modelName}.class, parser.getValueString()));
+			}
 	@else{obj.kind == "DATE"}
 			if(State.VALUE_NULL.equals(parser.getEventType())){
 				obj.@{obj.setter}(null);
 			} else {
 				obj.@{obj.setter}(new java.util.Date(parser.getValueLong()));
+			}
+	@else{obj.kind == "ENUM"}
+			if(State.VALUE_NULL.equals(parser.getEventType())){
+				obj.@{obj.setter}(null);
+			} else {
+				obj.@{obj.setter}(Enum.valueOf(@{obj.modelName}.class, parser.getValueString()));
 			}
 	@else{obj.kind == "JSON_ARRAY"}
 			obj.@{obj.setter}(net.vvakame.util.jsonpullparser.util.JsonArray.fromParser(parser));
@@ -474,6 +486,8 @@ public class @{target}@{postfix} {
 		JsonUtil.putKey(writer, "@{obj.key}");
 	@if{obj.kind == "LIST"}
 		@{obj.modelName}@{postfix}.encodeListNullToNull(writer, obj.@{obj.getter}());
+	@else{obj.kind == "ENUM"}
+		JsonUtil.put(writer, obj.@{obj.getter}().name());
 	@else{obj.kind == "JSON_ARRAY"}
 		obj.@{obj.getter}().toJson(writer);
 	@else{obj.kind == "JSON_HASH"}

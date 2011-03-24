@@ -47,6 +47,21 @@ public class ComplexData {
 	@JsonKey
 	TestData data;
 
+	@JsonKey
+	SampleEnum outerEnum;
+
+	@JsonKey
+	InternalEnum innerEnum;
+
+
+	/** クラス内に static で定義された {@link Enum} */
+	public static enum InternalEnum {
+		/** テスト1 */
+		TEST1,
+		/** テスト2 */
+		TEST2
+	}
+
 
 	/**
 	 * @return the name
@@ -142,5 +157,37 @@ public class ComplexData {
 	 */
 	public void setData(TestData data) {
 		this.data = data;
+	}
+
+	/**
+	 * @return the outerEnum
+	 * @category accessor
+	 */
+	public SampleEnum getOuterEnum() {
+		return outerEnum;
+	}
+
+	/**
+	 * @param outerEnum the outerEnum to set
+	 * @category accessor
+	 */
+	public void setOuterEnum(SampleEnum outerEnum) {
+		this.outerEnum = outerEnum;
+	}
+
+	/**
+	 * @return the innerEnum
+	 * @category accessor
+	 */
+	public InternalEnum getInnerEnum() {
+		return innerEnum;
+	}
+
+	/**
+	 * @param innerEnum the innerEnum to set
+	 * @category accessor
+	 */
+	public void setInnerEnum(InternalEnum innerEnum) {
+		this.innerEnum = innerEnum;
 	}
 }

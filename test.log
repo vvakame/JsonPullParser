@@ -1,0 +1,117 @@
+[INFO] Scanning for projects...
+[INFO] Reactor build order: 
+[INFO]   Unnamed - net.vvakame:jsonpullparser-parent:pom:0.7-SNAPSHOT
+[INFO]   Unnamed - net.vvakame:jsonpullparser-core:jar:0.7-SNAPSHOT
+[INFO]   Unnamed - net.vvakame:jsonpullparser-apt:jar:0.7-SNAPSHOT
+[INFO]   Unnamed - net.vvakame:jsonpullparser:pom:0.7-SNAPSHOT
+[INFO] ------------------------------------------------------------------------
+[INFO] Building Unnamed - net.vvakame:jsonpullparser-parent:pom:0.7-SNAPSHOT
+[INFO]    task-segment: [clean, install]
+[INFO] ------------------------------------------------------------------------
+[INFO] [clean:clean {execution: default-clean}]
+[INFO] [site:attach-descriptor {execution: default-attach-descriptor}]
+[INFO] Preparing source:jar
+[WARNING] Removing: jar from forked lifecycle, to prevent recursive invocation.
+[INFO] No goals needed for project - skipping
+[INFO] [source:jar {execution: source-jar}]
+[INFO] [install:install {execution: default-install}]
+[INFO] Installing /Users/vvakame/Dropbox/work/JsonPullParser/jsonpullparser-parent/pom.xml to /Users/vvakame/.m2/repository/net/vvakame/jsonpullparser-parent/0.7-SNAPSHOT/jsonpullparser-parent-0.7-SNAPSHOT.pom
+[INFO] ------------------------------------------------------------------------
+[INFO] Building Unnamed - net.vvakame:jsonpullparser-core:jar:0.7-SNAPSHOT
+[INFO]    task-segment: [clean, install]
+[INFO] ------------------------------------------------------------------------
+[INFO] [clean:clean {execution: default-clean}]
+[INFO] Deleting directory /Users/vvakame/Dropbox/work/JsonPullParser/jsonpullparser-core/target
+[INFO] [resources:resources {execution: default-resources}]
+[WARNING] Using platform encoding (SJIS actually) to copy filtered resources, i.e. build is platform dependent!
+[INFO] skip non existing resourceDirectory /Users/vvakame/Dropbox/work/JsonPullParser/jsonpullparser-core/src/main/resources
+[INFO] [compiler:compile {execution: default-compile}]
+[INFO] Compiling 10 source files to /Users/vvakame/Dropbox/work/JsonPullParser/jsonpullparser-core/target/classes
+[INFO] [resources:testResources {execution: default-testResources}]
+[WARNING] Using platform encoding (SJIS actually) to copy filtered resources, i.e. build is platform dependent!
+[INFO] skip non existing resourceDirectory /Users/vvakame/Dropbox/work/JsonPullParser/jsonpullparser-core/src/test/resources
+[INFO] [compiler:testCompile {execution: default-testCompile}]
+[INFO] Compiling 4 source files to /Users/vvakame/Dropbox/work/JsonPullParser/jsonpullparser-core/target/test-classes
+[INFO] [surefire:test {execution: default-test}]
+[INFO] Surefire report directory: /Users/vvakame/Dropbox/work/JsonPullParser/jsonpullparser-core/target/surefire-reports
+
+-------------------------------------------------------
+ T E S T S
+-------------------------------------------------------
+Running net.vvakame.util.jsonpullparser.util.JsonArrayTest
+Tests run: 7, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.064 sec
+Running net.vvakame.util.jsonpullparser.util.JsonUtilTest
+Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.142 sec
+Running net.vvakame.util.jsonpullparser.JsonPullParserTest
+Tests run: 23, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.05 sec
+Running net.vvakame.util.jsonpullparser.util.JsonHashTest
+Tests run: 7, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.021 sec
+
+Results :
+
+Tests run: 40, Failures: 0, Errors: 0, Skipped: 0
+
+[INFO] [jar:jar {execution: default-jar}]
+[INFO] Building jar: /Users/vvakame/Dropbox/work/JsonPullParser/jsonpullparser-core/target/jsonpullparser-core-0.7-SNAPSHOT.jar
+[INFO] Preparing source:jar
+[WARNING] Removing: jar from forked lifecycle, to prevent recursive invocation.
+[INFO] No goals needed for project - skipping
+[INFO] [source:jar {execution: source-jar}]
+[INFO] Building jar: /Users/vvakame/Dropbox/work/JsonPullParser/jsonpullparser-core/target/jsonpullparser-core-0.7-SNAPSHOT-sources.jar
+[INFO] [install:install {execution: default-install}]
+[INFO] Installing /Users/vvakame/Dropbox/work/JsonPullParser/jsonpullparser-core/target/jsonpullparser-core-0.7-SNAPSHOT.jar to /Users/vvakame/.m2/repository/net/vvakame/jsonpullparser-core/0.7-SNAPSHOT/jsonpullparser-core-0.7-SNAPSHOT.jar
+[INFO] Installing /Users/vvakame/Dropbox/work/JsonPullParser/jsonpullparser-core/target/jsonpullparser-core-0.7-SNAPSHOT-sources.jar to /Users/vvakame/.m2/repository/net/vvakame/jsonpullparser-core/0.7-SNAPSHOT/jsonpullparser-core-0.7-SNAPSHOT-sources.jar
+[INFO] ------------------------------------------------------------------------
+[INFO] Building Unnamed - net.vvakame:jsonpullparser-apt:jar:0.7-SNAPSHOT
+[INFO]    task-segment: [clean, install]
+[INFO] ------------------------------------------------------------------------
+[INFO] [clean:clean {execution: default-clean}]
+[INFO] Deleting directory /Users/vvakame/Dropbox/work/JsonPullParser/jsonpullparser-apt/target
+[INFO] [resources:resources {execution: default-resources}]
+[WARNING] Using platform encoding (SJIS actually) to copy filtered resources, i.e. build is platform dependent!
+[INFO] Copying 2 resources
+[INFO] [compiler:compile {execution: default-compile}]
+[INFO] Compiling 9 source files to /Users/vvakame/Dropbox/work/JsonPullParser/jsonpullparser-apt/target/classes
+[INFO] [resources:testResources {execution: default-testResources}]
+[WARNING] Using platform encoding (SJIS actually) to copy filtered resources, i.e. build is platform dependent!
+[INFO] Copying 0 resource
+[INFO] [compiler:testCompile {execution: default-testCompile}]
+[INFO] Compiling 13 source files to /Users/vvakame/Dropbox/work/JsonPullParser/jsonpullparser-apt/target/test-classes
+[INFO] [surefire:test {execution: default-test}]
+[INFO] Surefire report directory: /Users/vvakame/Dropbox/work/JsonPullParser/jsonpullparser-apt/target/surefire-reports
+
+-------------------------------------------------------
+ T E S T S
+-------------------------------------------------------
+Running net.vvakame.sample.TestEnum
+Tests run: 2, Failures: 0, Errors: 2, Skipped: 0, Time elapsed: 0.045 sec <<< FAILURE!
+Running net.vvakame.util.jsonpullparser.factory.JsonAnnotationProcessorTest
+net/vvakame/sample/ComplexDataGen.java:274: シンボルを見つけられません。
+シンボル: クラス sample
+場所    : net.vvakame の パッケージ
+net/vvakame/sample/ComplexDataGen.java:283: シンボルを見つけられません。
+シンボル: 変数 InternalEnum
+場所    : net.vvakame.sample.ComplexData の クラス
+Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 4.202 sec
+
+Results :
+
+Tests in error: 
+  initializationError(net.vvakame.sample.TestEnum)
+  initializationError(net.vvakame.sample.TestEnum)
+
+Tests run: 7, Failures: 0, Errors: 2, Skipped: 0
+
+[INFO] ------------------------------------------------------------------------
+[ERROR] BUILD FAILURE
+[INFO] ------------------------------------------------------------------------
+[INFO] There are test failures.
+
+Please refer to /Users/vvakame/Dropbox/work/JsonPullParser/jsonpullparser-apt/target/surefire-reports for the individual test results.
+[INFO] ------------------------------------------------------------------------
+[INFO] For more information, run Maven with the -e switch
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time: 15 seconds
+[INFO] Finished at: Fri Mar 25 00:59:53 JST 2011
+[INFO] Final Memory: 41M/86M
+[INFO] ------------------------------------------------------------------------

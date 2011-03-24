@@ -30,6 +30,7 @@ import javax.lang.model.type.DeclaredType;
 import javax.lang.model.type.TypeKind;
 import javax.lang.model.type.TypeMirror;
 import javax.lang.model.util.ElementFilter;
+import javax.lang.model.util.Types;
 
 /**
  * APT周りであったら便利なユーティリティを定義.
@@ -58,6 +59,46 @@ public class AptUtil {
 		}
 		DeclaredType kind = (DeclaredType) superclass;
 		return (TypeElement) kind.asElement();
+	}
+
+	/**
+	 * elementが {@link Enum} の型であるかを調べます.
+	 * @param element
+	 * @return {@link Enum} の子クラスか否か
+	 * @author vvakame
+	 */
+	public static boolean isEnum(Element element) {
+		if (element == null) {
+			return false;
+		} else if (element.getKind() == ElementKind.ENUM) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	/**
+	 * 指定された type が Internalな要素かどうかをチェック.
+	 * @param typeUtils
+	 * @param type
+	 * @return Internalな要素か否か
+	 * @author vvakame
+	 */
+	public static boolean isInternalType(Types typeUtils, TypeMirror type) {
+		Element element = ((TypeElement) typeUtils.asElement(type)).getEnclosingElement();
+		return element.getKind() != ElementKind.PACKAGE;
+	}
+
+	/**
+	 * 指定された element の {@link TypeElement} を取得する.
+	 * @param typeUtils
+	 * @param element
+	 * @return element の {@link TypeElement}
+	 * @author vvakame
+	 */
+	public static TypeElement getTypeElement(Types typeUtils, Element element) {
+		TypeMirror type = element.asType();
+		return (TypeElement) typeUtils.asElement(type);
 	}
 
 	/**

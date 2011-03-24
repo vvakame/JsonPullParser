@@ -22,6 +22,7 @@ import java.util.List;
 import javax.lang.model.type.DeclaredType;
 import javax.lang.model.util.TypeKindVisitor6;
 
+import net.vvakame.apt.AptUtil;
 import net.vvakame.util.jsonpullparser.util.JsonArray;
 import net.vvakame.util.jsonpullparser.util.JsonHash;
 
@@ -60,6 +61,16 @@ public class StandardTypeKindVisitor<R, P> extends TypeKindVisitor6<R, P> {
 	 * @author vvakame
 	 */
 	public R visitDate(DeclaredType t, P p) {
+		return defaultAction(t, p);
+	}
+
+	/**
+	 * @param t
+	 * @param p
+	 * @return R
+	 * @author vvakame
+	 */
+	public R visitEnum(DeclaredType t, P p) {
 		return defaultAction(t, p);
 	}
 
@@ -108,6 +119,8 @@ public class StandardTypeKindVisitor<R, P> extends TypeKindVisitor6<R, P> {
 			return visitJsonHash(t, p);
 		} else if (JsonArray.class.getCanonicalName().equals(t.asElement().toString())) {
 			return visitJsonArray(t, p);
+		} else if (AptUtil.isEnum(t.asElement())) {
+			return visitEnum(t, p);
 		} else {
 			return visitUndefinedClass(t, p);
 		}

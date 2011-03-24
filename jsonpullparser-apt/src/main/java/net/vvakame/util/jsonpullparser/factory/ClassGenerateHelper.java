@@ -34,6 +34,7 @@ import javax.lang.model.type.DeclaredType;
 import javax.lang.model.type.PrimitiveType;
 import javax.lang.model.type.TypeMirror;
 import javax.lang.model.type.WildcardType;
+import javax.lang.model.util.Types;
 import javax.tools.JavaFileObject;
 
 import net.vvakame.apt.AptUtil;
@@ -379,6 +380,25 @@ public class ClassGenerateHelper {
 		@Override
 		public JsonElement visitDate(DeclaredType t, Element el) {
 			return genJsonElement(t, el, Kind.DATE);
+		}
+
+		@Override
+		public JsonElement visitEnum(DeclaredType t, Element el) {
+			Types typeUtils = processingEnv.getTypeUtils();
+			if (AptUtil.isInternalType(typeUtils, el.asType())) {
+				// InternalなEnum
+				TypeElement typeElement = AptUtil.getTypeElement(typeUtils, el);
+				if (AptUtil.isPublic(typeElement)) {
+					return genJsonElement(t, el, Kind.ENUM);
+				} else {
+					Log.e("Internal EnumType must use public & static.", el);
+					encountError = true;
+					return defaultAction(t, el);
+				}
+			} else {
+				// InternalじゃないEnum
+				return genJsonElement(t, el, Kind.ENUM);
+			}
 		}
 
 		@Override

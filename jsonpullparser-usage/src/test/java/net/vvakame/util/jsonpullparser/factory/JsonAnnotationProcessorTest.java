@@ -32,6 +32,7 @@ import java.util.List;
 import net.vvakame.sample.BaseData;
 import net.vvakame.sample.BaseDataGenerated;
 import net.vvakame.sample.ComplexData;
+import net.vvakame.sample.ComplexData.InternalEnum;
 import net.vvakame.sample.ComplexDataGenerated;
 import net.vvakame.sample.ExtendsData1;
 import net.vvakame.sample.ExtendsData1Generated;
@@ -41,6 +42,7 @@ import net.vvakame.sample.MiniData;
 import net.vvakame.sample.MiniDataGenerated;
 import net.vvakame.sample.PrimitiveTypeData;
 import net.vvakame.sample.PrimitiveTypeDataGenerated;
+import net.vvakame.sample.SampleEnum;
 import net.vvakame.sample.TestData;
 import net.vvakame.sample.TestDataGenerated;
 import net.vvakame.sample.twitter.Tweet;
@@ -148,7 +150,9 @@ public class JsonAnnotationProcessorTest {
 		jsonBuilder.append(String.format(tmpl, "b1", "th.is", 10, 11.11, true)).append("],");
 		jsonBuilder.append("\"list3\":[],");
 		jsonBuilder.append("\"data\":");
-		jsonBuilder.append(String.format(tmpl, "c1", "fi.zz", 111, 0.01, false)).append("}");
+		jsonBuilder.append(String.format(tmpl, "c1", "fi.zz", 111, 0.01, false)).append(",");
+		jsonBuilder.append("\"innerEnum\":\"TEST2\",");
+		jsonBuilder.append("\"outerEnum\":\"PRODUCT\"}");
 
 		JsonPullParser parser = JsonPullParser.newParser(jsonBuilder.toString());
 
@@ -160,6 +164,8 @@ public class JsonAnnotationProcessorTest {
 		assertThat(data.getList2().size(), is(1));
 		assertThat(data.getList3().size(), is(0));
 		assertThat(data.getData().getPackageName(), is("fi.zz"));
+		assertThat(data.getInnerEnum(), is(InternalEnum.TEST2));
+		assertThat(data.getOuterEnum(), is(SampleEnum.PRODUCT));
 	}
 
 	/**
@@ -336,12 +342,16 @@ public class JsonAnnotationProcessorTest {
 	public void encodeAnyTypes() throws IOException, JsonFormatException {
 		ComplexData data = new ComplexData();
 		data.setDate(new Date(1234567));
+		data.setInnerEnum(InternalEnum.TEST1);
+		data.setOuterEnum(SampleEnum.PRODUCT);
 
 		StringWriter writer = new StringWriter();
 		ComplexDataGenerated.encode(writer, data);
 		String json = writer.toString();
 		JsonHash hash = JsonHash.fromString(json);
 		assertThat(hash.getLongOrNull("date"), is(1234567L));
+		assertThat(hash.getStringOrNull("innerEnum"), is("TEST1"));
+		assertThat(hash.getStringOrNull("outerEnum"), is("PRODUCT"));
 	}
 
 	/**

@@ -128,6 +128,12 @@ public class User {
 	@JsonKey(decamelize = true)
 	String profileTextColor;
 
+	@JsonKey(decamelize = true)
+	boolean defaultProfileImage;
+
+	@JsonKey(decamelize = true)
+	boolean defaultProfile;
+
 
 	/**
 	 * @return the followRequestSent
@@ -671,5 +677,37 @@ public class User {
 	 */
 	public void setProfileTextColor(String profileTextColor) {
 		this.profileTextColor = profileTextColor;
+	}
+
+	/**
+	 * @return the defaultProfileImage
+	 * @category accessor
+	 */
+	public boolean isDefaultProfileImage() {
+		return defaultProfileImage;
+	}
+
+	/**
+	 * @param defaultProfileImage the defaultProfileImage to set
+	 * @category accessor
+	 */
+	public void setDefaultProfileImage(boolean defaultProfileImage) {
+		this.defaultProfileImage = defaultProfileImage;
+	}
+
+	/**
+	 * @return the defaultProfile
+	 * @category accessor
+	 */
+	public boolean isDefaultProfile() {
+		return defaultProfile;
+	}
+
+	/**
+	 * @param defaultProfile the defaultProfile to set
+	 * @category accessor
+	 */
+	public void setDefaultProfile(boolean defaultProfile) {
+		this.defaultProfile = defaultProfile;
 	}
 }

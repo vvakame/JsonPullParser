@@ -20,6 +20,8 @@ import net.vvakame.sample.BaseData;
 import net.vvakame.sample.ComplexData;
 import net.vvakame.sample.ConverterData;
 import net.vvakame.sample.ExtendsData;
+import net.vvakame.sample.PrimitiveTypeData;
+import net.vvakame.sample.PrimitiveWrapperData;
 import net.vvakame.sample.SampleData;
 import net.vvakame.sample.SampleEnum;
 import net.vvakame.sample.twitter.Place;
@@ -33,6 +35,21 @@ import org.seasar.aptina.unit.AptinaTestCase;
  * @author vvakame
  */
 public class JsonAnnotationProcessorTest extends AptinaTestCase {
+
+	/**
+	 * {@link PrimitiveTypeData} と {@link PrimitiveWrapperData} の処理.
+	 * @throws Exception
+	 * @author vvakame
+	 */
+	public void testForPrimitive() throws Exception {
+		JsonAnnotationProcessor processor = new JsonAnnotationProcessor();
+		addProcessor(processor);
+
+		addCompilationUnit(PrimitiveTypeData.class);
+		addCompilationUnit(PrimitiveWrapperData.class);
+
+		compile();
+	}
 
 	/**
 	 * {@link SampleData} の処理.

@@ -17,6 +17,7 @@
 package net.vvakame.util.jsonpullparser.factory;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -339,15 +340,28 @@ public class ClassGenerateHelper {
 					}
 				}
 
+				jsonElement = new JsonElement();
+
 				Element type = processingEnv.getTypeUtils().asElement(tm);
 				JsonModel hash = type.getAnnotation(JsonModel.class);
-				if (hash == null) {
+				if (hash != null) {
+					// OK
+					jsonElement.setSubKind(Kind.MODEL); // FQNではModelとEnumの区別がつかない
+				} else if (AptUtil.isPrimitiveWrapper(type)) {
+					// OK
+				} else if (type.toString().equals(Date.class.getCanonicalName())) {
+					// OK
+				} else if (type.toString().equals(String.class.getCanonicalName())) {
+					// OK
+				} else if (AptUtil.isEnum(type)) {
+					// OK
+					jsonElement.setSubKind(Kind.ENUM);
+				} else {
 					Log.e("expect for use decorated class by JsonModel annotation.", el);
 					encountError = true;
 					return defaultAction(t, el);
 				}
 
-				jsonElement = new JsonElement();
 				jsonElement.setKey(getElementKeyString(el));
 
 				JsonKey key = el.getAnnotation(JsonKey.class);

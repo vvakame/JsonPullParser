@@ -47,6 +47,8 @@ public class JsonElement {
 
 	String converter;
 
+	Kind subKind;
+
 
 	/**
 	 * {@link JsonModel} が表す型
@@ -71,10 +73,10 @@ public class JsonElement {
 		INT,
 		/** {@code short} */
 		SHORT,
-		/** {@link List} */
-		LIST,
 		/** {@link Date} */
 		DATE,
+		/** {@link List} */
+		LIST,
 		/** {@link JsonHash} */
 		JSON_HASH,
 		/** {@link JsonArray} */
@@ -85,6 +87,22 @@ public class JsonElement {
 		MODEL,
 		/** {@link TokenConverter} 利用 */
 		CONVERTER,
+		/** {@link Boolean} */
+		BOOLEAN_WRAPPER,
+		/** {@link Double} */
+		DOUBLE_WRAPPER,
+		/** {@link Long} */
+		LONG_WRAPPER,
+		/** {@link Byte} */
+		BYTE_WRAPPER,
+		/** {@link Character} */
+		CHAR_WRAPPER,
+		/** {@link Float} */
+		FLOAT_WRAPPER,
+		/** {@link Integer} */
+		INT_WRAPPER,
+		/** {@link Short} */
+		SHORT_WRAPPER,
 	}
 
 
@@ -206,5 +224,21 @@ public class JsonElement {
 	 */
 	public void setConverter(String converter) {
 		this.converter = converter;
+	}
+
+	/**
+	 * @return the subKind
+	 * @category accessor
+	 */
+	public Kind getSubKind() {
+		return subKind;
+	}
+
+	/**
+	 * @param subKind the subKind to set
+	 * @category accessor
+	 */
+	public void setSubKind(Kind subKind) {
+		this.subKind = subKind;
 	}
 }

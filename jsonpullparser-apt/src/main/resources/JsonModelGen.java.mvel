@@ -284,7 +284,31 @@ public class @{target}@{postfix} {
 			parser.getEventType();
 			obj.@{obj.setter}(parser.getValueString());
 	@else{obj.kind == "LIST"}
+		@if{obj.modelName == "java.lang.Boolean"}
+			obj.@{obj.setter}(net.vvakame.util.jsonpullparser.util.JsonParseUtil.parserBooleanList(parser));
+		@else{obj.modelName == "java.lang.Integer"}
+			obj.@{obj.setter}(net.vvakame.util.jsonpullparser.util.JsonParseUtil.parserIntegerList(parser));
+		@else{obj.modelName == "java.lang.Long"}
+			obj.@{obj.setter}(net.vvakame.util.jsonpullparser.util.JsonParseUtil.parserLongList(parser));
+		@else{obj.modelName == "java.lang.Byte"}
+			obj.@{obj.setter}(net.vvakame.util.jsonpullparser.util.JsonParseUtil.parserByteList(parser));
+		@else{obj.modelName == "java.lang.Short"}
+			obj.@{obj.setter}(net.vvakame.util.jsonpullparser.util.JsonParseUtil.parserShortList(parser));
+		@else{obj.modelName == "java.lang.Character"}
+			obj.@{obj.setter}(net.vvakame.util.jsonpullparser.util.JsonParseUtil.parserCharacterList(parser));
+		@else{obj.modelName == "java.lang.Double"}
+			obj.@{obj.setter}(net.vvakame.util.jsonpullparser.util.JsonParseUtil.parserDoubleList(parser));
+		@else{obj.modelName == "java.lang.Float"}
+			obj.@{obj.setter}(net.vvakame.util.jsonpullparser.util.JsonParseUtil.parserFloatList(parser));
+		@else{obj.modelName == "java.lang.String"}
+			obj.@{obj.setter}(net.vvakame.util.jsonpullparser.util.JsonParseUtil.parserStringList(parser));
+		@else{obj.modelName == "java.util.Date"}
+			obj.@{obj.setter}(net.vvakame.util.jsonpullparser.util.JsonParseUtil.parserDateList(parser));
+		@else{obj.subKind == "ENUM"}
+			obj.@{obj.setter}(net.vvakame.util.jsonpullparser.util.JsonParseUtil.parserEnumList(parser, @{obj.modelName}.class));
+		@else{}
 			obj.@{obj.setter}(@{obj.modelName}@{postfix}.getList(parser, listener));
+		@end{}
 	@else{obj.kind == "ENUM"}
 			if(State.VALUE_NULL.equals(parser.getEventType())){
 				obj.@{obj.setter}(null);

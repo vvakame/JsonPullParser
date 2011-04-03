@@ -22,6 +22,7 @@ import net.vvakame.sample.ConverterData;
 import net.vvakame.sample.ExtendsData;
 import net.vvakame.sample.PrimitiveTypeData;
 import net.vvakame.sample.PrimitiveWrapperData;
+import net.vvakame.sample.PrimitiveWrapperListData;
 import net.vvakame.sample.SampleData;
 import net.vvakame.sample.SampleEnum;
 import net.vvakame.sample.twitter.Place;
@@ -47,6 +48,7 @@ public class JsonAnnotationProcessorTest extends AptinaTestCase {
 
 		addCompilationUnit(PrimitiveTypeData.class);
 		addCompilationUnit(PrimitiveWrapperData.class);
+		addCompilationUnit(PrimitiveWrapperListData.class);
 
 		compile();
 	}

@@ -78,6 +78,36 @@ public class AptUtil {
 	}
 
 	/**
+	 * elementが プリミティブ型のラッパクラスであるかを調べます.
+	 * @param element
+	 * @return プリミティブ型のラッパクラスか否か
+	 * @author vvakame
+	 */
+	public static boolean isPrimitiveWrapper(Element element) {
+		if (element == null) {
+			return false;
+		} else if (element.toString().equals(Boolean.class.getCanonicalName())) {
+			return true;
+		} else if (element.toString().equals(Integer.class.getCanonicalName())) {
+			return true;
+		} else if (element.toString().equals(Long.class.getCanonicalName())) {
+			return true;
+		} else if (element.toString().equals(Byte.class.getCanonicalName())) {
+			return true;
+		} else if (element.toString().equals(Short.class.getCanonicalName())) {
+			return true;
+		} else if (element.toString().equals(Character.class.getCanonicalName())) {
+			return true;
+		} else if (element.toString().equals(Double.class.getCanonicalName())) {
+			return true;
+		} else if (element.toString().equals(Float.class.getCanonicalName())) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	/**
 	 * 指定された type が Internalな要素かどうかをチェック.
 	 * @param typeUtils
 	 * @param type

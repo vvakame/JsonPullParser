@@ -669,12 +669,13 @@ public class JsonPullParser {
 	 * </p>
 	 * 
 	 * @return 読み込んだ整数値
+	 * @throws NullPointerException 現在の {@link #getEventType()} の結果が {@link State#VALUE_NULL} の場合
 	 */
-	public long getValueLong() {
+	public long getValueLong() throws NullPointerException {
 		if (current == State.VALUE_LONG) {
 			return valueLong;
 		} else if (current == State.VALUE_NULL) {
-			return -1;
+			throw new NullPointerException("current state is null!");
 		} else {
 			throw new IllegalStateException("unexpected state. state=" + current);
 		}
@@ -689,12 +690,13 @@ public class JsonPullParser {
 	 * </p>
 	 * 
 	 * @return 読み込んだ浮動小数点の値
+	 * @throws NullPointerException 現在の {@link #getEventType()} の結果が {@link State#VALUE_NULL} の場合
 	 */
-	public double getValueDouble() {
+	public double getValueDouble() throws NullPointerException {
 		if (current == State.VALUE_DOUBLE) {
 			return valueDouble;
 		} else if (current == State.VALUE_NULL) {
-			return -1;
+			throw new NullPointerException("current state is null!");
 		} else if (current == State.VALUE_LONG) {
 			return valueLong;
 		} else {
@@ -711,12 +713,13 @@ public class JsonPullParser {
 	 * </p>
 	 * 
 	 * @return 読み込んだ真偽値の値
+	 * @throws NullPointerException 現在の {@link #getEventType()} の結果が {@link State#VALUE_NULL} の場合
 	 */
-	public boolean getValueBoolean() {
+	public boolean getValueBoolean() throws NullPointerException {
 		if (current == State.VALUE_BOOLEAN) {
 			return valueBoolean;
 		} else if (current == State.VALUE_NULL) {
-			return false;
+			throw new NullPointerException("current state is null!");
 		} else {
 			throw new IllegalStateException("unexpected state. state=" + current);
 		}

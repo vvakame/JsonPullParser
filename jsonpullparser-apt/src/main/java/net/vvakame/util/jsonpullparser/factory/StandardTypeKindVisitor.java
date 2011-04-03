@@ -80,6 +80,86 @@ public class StandardTypeKindVisitor<R, P> extends TypeKindVisitor6<R, P> {
 	 * @return R
 	 * @author vvakame
 	 */
+	public R visitBooleanWrapper(DeclaredType t, P p) {
+		return defaultAction(t, p);
+	}
+
+	/**
+	 * @param t
+	 * @param p
+	 * @return R
+	 * @author vvakame
+	 */
+	public R visitDoubleWrapper(DeclaredType t, P p) {
+		return defaultAction(t, p);
+	}
+
+	/**
+	 * @param t
+	 * @param p
+	 * @return R
+	 * @author vvakame
+	 */
+	public R visitLongWrapper(DeclaredType t, P p) {
+		return defaultAction(t, p);
+	}
+
+	/**
+	 * @param t
+	 * @param p
+	 * @return R
+	 * @author vvakame
+	 */
+	public R visitByteWrapper(DeclaredType t, P p) {
+		return defaultAction(t, p);
+	}
+
+	/**
+	 * @param t
+	 * @param p
+	 * @return R
+	 * @author vvakame
+	 */
+	public R visitCharacterWrapper(DeclaredType t, P p) {
+		return defaultAction(t, p);
+	}
+
+	/**
+	 * @param t
+	 * @param p
+	 * @return R
+	 * @author vvakame
+	 */
+	public R visitFloatWrapper(DeclaredType t, P p) {
+		return defaultAction(t, p);
+	}
+
+	/**
+	 * @param t
+	 * @param p
+	 * @return R
+	 * @author vvakame
+	 */
+	public R visitIntegerWrapper(DeclaredType t, P p) {
+		return defaultAction(t, p);
+	}
+
+	/**
+	 * @param t
+	 * @param p
+	 * @return R
+	 * @author vvakame
+	 */
+	public R visitShortWrapper(DeclaredType t, P p) {
+		return defaultAction(t, p);
+	}
+
+	/**
+	 * @param t
+	 * @param p
+	 * @return R
+	 * @author vvakame
+	 */
 	public R visitJsonHash(DeclaredType t, P p) {
 		return defaultAction(t, p);
 	}
@@ -109,15 +189,32 @@ public class StandardTypeKindVisitor<R, P> extends TypeKindVisitor6<R, P> {
 	 */
 	@Override
 	public R visitDeclared(DeclaredType t, P p) {
-		if (String.class.getCanonicalName().equals(t.asElement().toString())) {
+		final String fqn = t.asElement().toString();
+		if (String.class.getCanonicalName().equals(fqn)) {
 			return visitString(t, p);
-		} else if (Date.class.getCanonicalName().equals(t.asElement().toString())) {
+		} else if (Date.class.getCanonicalName().equals(fqn)) {
 			return visitDate(t, p);
-		} else if (List.class.getCanonicalName().equals(t.asElement().toString())) {
+		} else if (List.class.getCanonicalName().equals(fqn)) {
 			return visitList(t, p);
-		} else if (JsonHash.class.getCanonicalName().equals(t.asElement().toString())) {
+		} else if (Boolean.class.getCanonicalName().equals(fqn)) {
+			return visitBooleanWrapper(t, p);
+		} else if (Double.class.getCanonicalName().equals(fqn)) {
+			return visitDoubleWrapper(t, p);
+		} else if (Long.class.getCanonicalName().equals(fqn)) {
+			return visitLongWrapper(t, p);
+		} else if (Byte.class.getCanonicalName().equals(fqn)) {
+			return visitByteWrapper(t, p);
+		} else if (Character.class.getCanonicalName().equals(fqn)) {
+			return visitCharacterWrapper(t, p);
+		} else if (Float.class.getCanonicalName().equals(fqn)) {
+			return visitFloatWrapper(t, p);
+		} else if (Integer.class.getCanonicalName().equals(fqn)) {
+			return visitIntegerWrapper(t, p);
+		} else if (Short.class.getCanonicalName().equals(fqn)) {
+			return visitShortWrapper(t, p);
+		} else if (JsonHash.class.getCanonicalName().equals(fqn)) {
 			return visitJsonHash(t, p);
-		} else if (JsonArray.class.getCanonicalName().equals(t.asElement().toString())) {
+		} else if (JsonArray.class.getCanonicalName().equals(fqn)) {
 			return visitJsonArray(t, p);
 		} else if (AptUtil.isEnum(t.asElement())) {
 			return visitEnum(t, p);

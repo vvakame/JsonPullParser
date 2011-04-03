@@ -416,6 +416,46 @@ public class ClassGenerateHelper {
 		}
 
 		@Override
+		public JsonElement visitBooleanWrapper(DeclaredType t, Element el) {
+			return genJsonElement(t, el, Kind.BOOLEAN_WRAPPER);
+		}
+
+		@Override
+		public JsonElement visitDoubleWrapper(DeclaredType t, Element el) {
+			return genJsonElement(t, el, Kind.DOUBLE_WRAPPER);
+		}
+
+		@Override
+		public JsonElement visitLongWrapper(DeclaredType t, Element el) {
+			return genJsonElement(t, el, Kind.LONG_WRAPPER);
+		}
+
+		@Override
+		public JsonElement visitByteWrapper(DeclaredType t, Element el) {
+			return genJsonElement(t, el, Kind.BYTE_WRAPPER);
+		}
+
+		@Override
+		public JsonElement visitCharacterWrapper(DeclaredType t, Element el) {
+			return genJsonElement(t, el, Kind.CHAR_WRAPPER);
+		}
+
+		@Override
+		public JsonElement visitFloatWrapper(DeclaredType t, Element el) {
+			return genJsonElement(t, el, Kind.FLOAT_WRAPPER);
+		}
+
+		@Override
+		public JsonElement visitIntegerWrapper(DeclaredType t, Element el) {
+			return genJsonElement(t, el, Kind.INT_WRAPPER);
+		}
+
+		@Override
+		public JsonElement visitShortWrapper(DeclaredType t, Element el) {
+			return genJsonElement(t, el, Kind.SHORT_WRAPPER);
+		}
+
+		@Override
 		public JsonElement visitJsonHash(DeclaredType t, Element el) {
 			return genJsonElement(t, el, Kind.JSON_HASH);
 		}

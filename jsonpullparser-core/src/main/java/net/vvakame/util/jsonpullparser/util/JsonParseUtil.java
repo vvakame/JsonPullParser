@@ -33,6 +33,183 @@ import net.vvakame.util.jsonpullparser.JsonPullParser.State;
 public class JsonParseUtil {
 
 	/**
+	 * JSONを解釈し、Integerの返します.
+	 * @param parser
+	 * @return {@link Integer}
+	 * @throws IOException
+	 * @throws JsonFormatException
+	 * @author vvakame
+	 */
+	public static Integer parserInteger(JsonPullParser parser) throws IOException,
+			JsonFormatException {
+
+		State eventType = parser.getEventType();
+		if (eventType == State.VALUE_NULL) {
+			return null;
+		} else if (eventType == State.VALUE_LONG) {
+			return (int) parser.getValueLong();
+		} else {
+			throw new IllegalStateException("unexpected state. expected=VALUE_LONG, but get="
+					+ eventType.toString());
+		}
+	}
+
+	/**
+	 * JSONを解釈し、Longを返します.
+	 * @param parser
+	 * @return {@link Long}
+	 * @throws IOException
+	 * @throws JsonFormatException
+	 * @author vvakame
+	 */
+	public static Long parserLong(JsonPullParser parser) throws IOException, JsonFormatException {
+
+		State eventType = parser.getEventType();
+		if (eventType == State.VALUE_NULL) {
+			return null;
+		} else if (eventType == State.VALUE_LONG) {
+			return parser.getValueLong();
+		} else {
+			throw new IllegalStateException("unexpected state. expected=VALUE_LONG, but get="
+					+ eventType.toString());
+		}
+	}
+
+	/**
+	 * JSONを解釈し、Byteを返します.
+	 * @param parser
+	 * @return {@link Byte}
+	 * @throws IOException
+	 * @throws JsonFormatException
+	 * @author vvakame
+	 */
+	public static Byte parserByte(JsonPullParser parser) throws IOException, JsonFormatException {
+
+		State eventType = parser.getEventType();
+		if (eventType == State.VALUE_NULL) {
+			return null;
+		} else if (eventType == State.VALUE_LONG) {
+			return (byte) parser.getValueLong();
+		} else {
+			throw new IllegalStateException("unexpected state. expected=VALUE_LONG, but get="
+					+ eventType.toString());
+		}
+	}
+
+	/**
+	 * JSONを解釈し、Shortを返します.
+	 * @param parser
+	 * @return {@link Short}
+	 * @throws IOException
+	 * @throws JsonFormatException
+	 * @author vvakame
+	 */
+	public static Short parserShort(JsonPullParser parser) throws IOException, JsonFormatException {
+
+		State eventType = parser.getEventType();
+		if (eventType == State.VALUE_NULL) {
+			return null;
+		} else if (eventType == State.VALUE_LONG) {
+			return (short) parser.getValueLong();
+		} else {
+			throw new IllegalStateException("unexpected state. expected=VALUE_LONG, but get="
+					+ eventType.toString());
+		}
+	}
+
+	/**
+	 * JSONを解釈し、Booleanを返します.
+	 * @param parser
+	 * @return {@link Boolean}
+	 * @throws IOException
+	 * @throws JsonFormatException
+	 * @author vvakame
+	 */
+	public static Boolean parserBoolean(JsonPullParser parser) throws IOException,
+			JsonFormatException {
+
+		State eventType = parser.getEventType();
+		if (eventType == State.VALUE_NULL) {
+			return null;
+		} else if (eventType == State.VALUE_BOOLEAN) {
+			return parser.getValueBoolean();
+		} else {
+			throw new IllegalStateException("unexpected state. expected=VALUE_BOOLEAN, but get="
+					+ eventType.toString());
+		}
+	}
+
+	/**
+	 * JSONを解釈し、Characterを返します.
+	 * @param parser
+	 * @return {@link Character}
+	 * @throws IOException
+	 * @throws JsonFormatException
+	 * @author vvakame
+	 */
+	public static Character parserCharacter(JsonPullParser parser) throws IOException,
+			JsonFormatException {
+
+		State eventType = parser.getEventType();
+		if (eventType == State.VALUE_NULL) {
+			return null;
+		} else if (eventType == State.VALUE_STRING) {
+			String str = parser.getValueString();
+			if (str.length() != 1) {
+				throw new IllegalStateException(
+						"unexpected value. expecte string size is 1. but get=" + str);
+			}
+			return str.charAt(0);
+		} else {
+			throw new IllegalStateException("unexpected state. expected=VALUE_STRING, but get="
+					+ eventType.toString());
+		}
+	}
+
+	/**
+	 * JSONを解釈し、Doubleを返します.
+	 * @param parser
+	 * @return {@link Double}
+	 * @throws IOException
+	 * @throws JsonFormatException
+	 * @author vvakame
+	 */
+	public static Double parserDouble(JsonPullParser parser) throws IOException,
+			JsonFormatException {
+
+		State eventType = parser.getEventType();
+		if (eventType == State.VALUE_NULL) {
+			return null;
+		} else if (eventType == State.VALUE_DOUBLE) {
+			return parser.getValueDouble();
+		} else {
+			throw new IllegalStateException("unexpected state. expected=VALUE_DOUBLE, but get="
+					+ eventType.toString());
+		}
+	}
+
+	/**
+	 * JSONを解釈し、Floatを返します.
+	 * @param parser
+	 * @return {@link Float}
+	 * @throws IOException
+	 * @throws JsonFormatException
+	 * @author vvakame
+	 */
+	public static Float parserFloat(JsonPullParser parser) throws IOException, JsonFormatException {
+
+		State eventType = parser.getEventType();
+		if (eventType == State.VALUE_NULL) {
+			return null;
+		} else if (eventType == State.VALUE_DOUBLE) {
+			return (float) parser.getValueDouble();
+		} else {
+			throw new IllegalStateException("unexpected state. expected=VALUE_DOUBLE, but get="
+					+ eventType.toString());
+		}
+	}
+
+	/**
 	 * JSONを解釈し、Integerのリストを返します.
 	 * @param parser
 	 * @return {@link Integer} のリスト

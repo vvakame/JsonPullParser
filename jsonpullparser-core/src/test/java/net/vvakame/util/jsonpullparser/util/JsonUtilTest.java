@@ -18,9 +18,12 @@ package net.vvakame.util.jsonpullparser.util;
 
 import java.io.IOException;
 import java.io.StringWriter;
+import java.util.Arrays;
+import java.util.Date;
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
+import net.vvakame.util.jsonpullparser.JsonFormatException;
 
 import org.junit.Test;
 
@@ -129,5 +132,240 @@ public class JsonUtilTest {
 
 		assertThat(JsonUtil.sanitize("\\ \" / \b \f \n \r \t"),
 				is("\\\\ \\\" \\/ \\b \\f \\n \\r \\t"));
+	}
+
+	/**
+	 * primitive型をArrayで出力してみる.
+	 * @throws IOException
+	 * @author vvakame
+	 */
+	@Test
+	public void primitive() throws IOException {
+		StringWriter writer = new StringWriter();
+
+		startArray(writer);
+
+		put(writer, (byte) 1);
+
+		addSeparator(writer);
+
+		put(writer, (short) 2);
+
+		addSeparator(writer);
+
+		put(writer, 3);
+
+		addSeparator(writer);
+
+		put(writer, 4L);
+
+		addSeparator(writer);
+
+		put(writer, 5.1f);
+
+		addSeparator(writer);
+
+		put(writer, 6.2);
+
+		endArray(writer);
+
+		JSONArray jsonArray = JSONArray.fromObject(writer.toString());
+
+		assertThat(jsonArray.getLong(0), is(1L));
+		assertThat(jsonArray.getLong(1), is(2L));
+		assertThat(jsonArray.getLong(2), is(3L));
+		assertThat(jsonArray.getLong(3), is(4L));
+		assertThat(jsonArray.getDouble(4), is(5.1));
+		assertThat(jsonArray.getDouble(5), is(6.2));
+	}
+
+	/**
+	 * primitiveのラッパでArrayで出力してみる.
+	 * @throws IOException
+	 * @author vvakame
+	 */
+	@Test
+	public void primitiveWrapper() throws IOException {
+		StringWriter writer = new StringWriter();
+
+		startArray(writer);
+
+		put(writer, Byte.valueOf((byte) 1));
+
+		addSeparator(writer);
+
+		put(writer, Short.valueOf((short) 2));
+
+		addSeparator(writer);
+
+		put(writer, Integer.valueOf(3));
+
+		addSeparator(writer);
+
+		put(writer, Long.valueOf(4L));
+
+		addSeparator(writer);
+
+		put(writer, Float.valueOf(5.1f));
+
+		addSeparator(writer);
+
+		put(writer, Double.valueOf(6.2));
+
+		endArray(writer);
+
+		JSONArray jsonArray = JSONArray.fromObject(writer.toString());
+
+		assertThat(jsonArray.getLong(0), is(1L));
+		assertThat(jsonArray.getLong(1), is(2L));
+		assertThat(jsonArray.getLong(2), is(3L));
+		assertThat(jsonArray.getLong(3), is(4L));
+		assertThat(jsonArray.getDouble(4), is(5.1));
+		assertThat(jsonArray.getDouble(5), is(6.2));
+	}
+
+	/**
+	 * primitiveのラッパでArrayで出力してみる.
+	 * @throws IOException
+	 * @author vvakame
+	 * @throws JsonFormatException 
+	 */
+	@Test
+	public void primitiveWrapperNull() throws IOException, JsonFormatException {
+		StringWriter writer = new StringWriter();
+
+		startArray(writer);
+
+		put(writer, (Byte) null);
+
+		addSeparator(writer);
+
+		put(writer, (Short) null);
+
+		addSeparator(writer);
+
+		put(writer, (Integer) null);
+
+		addSeparator(writer);
+
+		put(writer, (Long) null);
+
+		addSeparator(writer);
+
+		put(writer, (Float) null);
+
+		addSeparator(writer);
+
+		put(writer, (Double) null);
+
+		endArray(writer);
+
+		JsonArray jsonArray = JsonArray.fromString(writer.toString());
+
+		assertThat(jsonArray.getLongOrNull(0), nullValue());
+		assertThat(jsonArray.getLongOrNull(1), nullValue());
+		assertThat(jsonArray.getLongOrNull(2), nullValue());
+		assertThat(jsonArray.getLongOrNull(3), nullValue());
+		assertThat(jsonArray.getDoubleOrNull(4), nullValue());
+		assertThat(jsonArray.getDoubleOrNull(5), nullValue());
+	}
+
+	/**
+	 * primitiveのラッパでArrayで出力してみる.
+	 * @throws IOException
+	 * @author vvakame
+	 * @throws JsonFormatException 
+	 */
+	@Test
+	public void putList() throws IOException, JsonFormatException {
+		StringWriter writer = new StringWriter();
+
+		startArray(writer);
+
+		putByteList(writer, Arrays.asList(new Byte[] {
+			1,
+			2,
+			3
+		}));
+
+		addSeparator(writer);
+
+		putShortList(writer, Arrays.asList(new Short[] {
+			1,
+			2,
+			3
+		}));
+
+		addSeparator(writer);
+
+		putIntegerList(writer, Arrays.asList(new Integer[] {
+			1,
+			2,
+			3
+		}));
+
+		addSeparator(writer);
+
+		putLongList(writer, Arrays.asList(new Long[] {
+			1L,
+			2L,
+			3L
+		}));
+
+		addSeparator(writer);
+
+		putFloatList(writer, Arrays.asList(new Float[] {
+			1.1f,
+			2.2f,
+			3.3f
+		}));
+
+		addSeparator(writer);
+
+		putDoubleList(writer, Arrays.asList(new Double[] {
+			1.1,
+			2.2,
+			3.3
+		}));
+
+		addSeparator(writer);
+
+		putDateList(writer, Arrays.asList(new Date[] {
+			new Date(111111),
+			new Date(222222),
+			new Date(333333)
+		}));
+
+		endArray(writer);
+
+		JsonArray jsonArray = JsonArray.fromString(writer.toString());
+
+		assertThat(jsonArray.getJsonArrayOrNull(0).getLongOrNull(0), is(1L));
+		assertThat(jsonArray.getJsonArrayOrNull(0).getLongOrNull(1), is(2L));
+		assertThat(jsonArray.getJsonArrayOrNull(0).getLongOrNull(2), is(3L));
+
+		assertThat(jsonArray.getJsonArrayOrNull(1).getLongOrNull(0), is(1L));
+		assertThat(jsonArray.getJsonArrayOrNull(1).getLongOrNull(1), is(2L));
+		assertThat(jsonArray.getJsonArrayOrNull(1).getLongOrNull(2), is(3L));
+
+		assertThat(jsonArray.getJsonArrayOrNull(2).getLongOrNull(0), is(1L));
+		assertThat(jsonArray.getJsonArrayOrNull(2).getLongOrNull(1), is(2L));
+		assertThat(jsonArray.getJsonArrayOrNull(2).getLongOrNull(2), is(3L));
+
+		assertThat(jsonArray.getJsonArrayOrNull(3).getLongOrNull(0), is(1L));
+		assertThat(jsonArray.getJsonArrayOrNull(3).getLongOrNull(1), is(2L));
+		assertThat(jsonArray.getJsonArrayOrNull(3).getLongOrNull(2), is(3L));
+
+		assertThat(jsonArray.getJsonArrayOrNull(4).getDoubleOrNull(0), is(1.1));
+		assertThat(jsonArray.getJsonArrayOrNull(4).getDoubleOrNull(1), is(2.2));
+		assertThat(jsonArray.getJsonArrayOrNull(4).getDoubleOrNull(2), is(3.3));
+
+		assertThat(jsonArray.getJsonArrayOrNull(5).getDoubleOrNull(0), is(1.1));
+		assertThat(jsonArray.getJsonArrayOrNull(5).getDoubleOrNull(1), is(2.2));
+		assertThat(jsonArray.getJsonArrayOrNull(5).getDoubleOrNull(2), is(3.3));
+
+		assertThat(jsonArray.getJsonArrayOrNull(6).getLongOrNull(0), is(111111L));
+		assertThat(jsonArray.getJsonArrayOrNull(6).getLongOrNull(1), is(222222L));
+		assertThat(jsonArray.getJsonArrayOrNull(6).getLongOrNull(2), is(333333L));
 	}
 }

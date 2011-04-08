@@ -675,7 +675,7 @@ public class JsonPullParser {
 		if (current == State.VALUE_LONG) {
 			return valueLong;
 		} else if (current == State.VALUE_NULL) {
-			throw new NullPointerException("current state is null!");
+			return -1;
 		} else {
 			throw new IllegalStateException("unexpected state. state=" + current);
 		}
@@ -696,7 +696,7 @@ public class JsonPullParser {
 		if (current == State.VALUE_DOUBLE) {
 			return valueDouble;
 		} else if (current == State.VALUE_NULL) {
-			throw new NullPointerException("current state is null!");
+			return -1;
 		} else if (current == State.VALUE_LONG) {
 			return valueLong;
 		} else {
@@ -719,7 +719,7 @@ public class JsonPullParser {
 		if (current == State.VALUE_BOOLEAN) {
 			return valueBoolean;
 		} else if (current == State.VALUE_NULL) {
-			throw new NullPointerException("current state is null!");
+			return false;
 		} else {
 			throw new IllegalStateException("unexpected state. state=" + current);
 		}

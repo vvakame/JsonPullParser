@@ -19,6 +19,7 @@ package net.vvakame.util.jsonpullparser.util;
 import java.io.IOException;
 import java.io.Writer;
 import java.util.Date;
+import java.util.List;
 
 /**
  * {@link TokenConverter} 記述支援用ユーティリティ.<br>
@@ -147,6 +148,29 @@ public class JsonUtil {
 	 * writer に value を書き込みます.<br>
 	 * 書き込む際、 {@link #sanitize(String)} で処理されます.
 	 * @param writer
+	 * @param values
+	 * @throws IOException
+	 * @author vvakame
+	 */
+	public static void putStringList(Writer writer, List<String> values) throws IOException {
+		if (values == null) {
+			writer.write("null");
+		} else {
+			startArray(writer);
+			for (int i = 0; i < values.size(); i++) {
+				put(writer, values.get(i));
+				if (i != values.size() - 1) {
+					addSeparator(writer);
+				}
+			}
+			endArray(writer);
+		}
+	}
+
+	/**
+	 * writer に value を書き込みます.<br>
+	 * 書き込む際、 {@link #sanitize(String)} で処理されます.
+	 * @param writer
 	 * @param value
 	 * @throws IOException
 	 * @author vvakame
@@ -155,6 +179,47 @@ public class JsonUtil {
 		writer.write("\"");
 		writer.write(sanitize(value));
 		writer.write("\"");
+	}
+
+	/**
+	 * writer に value を書き込みます.<br>
+	 * 書き込む際、 {@link #sanitize(String)} で処理されます.
+	 * @param writer
+	 * @param value
+	 * @throws IOException
+	 * @author vvakame
+	 */
+	public static void put(Writer writer, Character value) throws IOException {
+		if (value == null) {
+			writer.write("null");
+		} else {
+			writer.write("\"");
+			writer.write(sanitize(value));
+			writer.write("\"");
+		}
+	}
+
+	/**
+	 * writer に value を書き込みます.<br>
+	 * 書き込む際、 {@link #sanitize(String)} で処理されます.
+	 * @param writer
+	 * @param values
+	 * @throws IOException
+	 * @author vvakame
+	 */
+	public static void putCharacterList(Writer writer, List<Character> values) throws IOException {
+		if (values == null) {
+			writer.write("null");
+		} else {
+			startArray(writer);
+			for (int i = 0; i < values.size(); i++) {
+				put(writer, values.get(i));
+				if (i != values.size() - 1) {
+					addSeparator(writer);
+				}
+			}
+			endArray(writer);
+		}
 	}
 
 	/**
@@ -175,8 +240,82 @@ public class JsonUtil {
 	 * @throws IOException
 	 * @author vvakame
 	 */
+	public static void put(Writer writer, Byte value) throws IOException {
+		if (value == null) {
+			writer.write("null");
+		} else {
+			writer.write(value.toString());
+		}
+	}
+
+	/**
+	 * writer に value を書き込みます.
+	 * @param writer
+	 * @param values
+	 * @throws IOException
+	 * @author vvakame
+	 */
+	public static void putByteList(Writer writer, List<Byte> values) throws IOException {
+		if (values == null) {
+			writer.write("null");
+		} else {
+			startArray(writer);
+			for (int i = 0; i < values.size(); i++) {
+				put(writer, values.get(i));
+				if (i != values.size() - 1) {
+					addSeparator(writer);
+				}
+			}
+			endArray(writer);
+		}
+	}
+
+	/**
+	 * writer に value を書き込みます.
+	 * @param writer
+	 * @param value
+	 * @throws IOException
+	 * @author vvakame
+	 */
 	public static void put(Writer writer, short value) throws IOException {
 		writer.write(String.valueOf(value));
+	}
+
+	/**
+	 * writer に value を書き込みます.
+	 * @param writer
+	 * @param value
+	 * @throws IOException
+	 * @author vvakame
+	 */
+	public static void put(Writer writer, Short value) throws IOException {
+		if (value == null) {
+			writer.write("null");
+		} else {
+			writer.write(value.toString());
+		}
+	}
+
+	/**
+	 * writer に value を書き込みます.
+	 * @param writer
+	 * @param values
+	 * @throws IOException
+	 * @author vvakame
+	 */
+	public static void putShortList(Writer writer, List<Short> values) throws IOException {
+		if (values == null) {
+			writer.write("null");
+		} else {
+			startArray(writer);
+			for (int i = 0; i < values.size(); i++) {
+				put(writer, values.get(i));
+				if (i != values.size() - 1) {
+					addSeparator(writer);
+				}
+			}
+			endArray(writer);
+		}
 	}
 
 	/**
@@ -197,8 +336,82 @@ public class JsonUtil {
 	 * @throws IOException
 	 * @author vvakame
 	 */
+	public static void put(Writer writer, Integer value) throws IOException {
+		if (value == null) {
+			writer.write("null");
+		} else {
+			writer.write(value.toString());
+		}
+	}
+
+	/**
+	 * writer に value を書き込みます.
+	 * @param writer
+	 * @param values
+	 * @throws IOException
+	 * @author vvakame
+	 */
+	public static void putIntegerList(Writer writer, List<Integer> values) throws IOException {
+		if (values == null) {
+			writer.write("null");
+		} else {
+			startArray(writer);
+			for (int i = 0; i < values.size(); i++) {
+				put(writer, values.get(i));
+				if (i != values.size() - 1) {
+					addSeparator(writer);
+				}
+			}
+			endArray(writer);
+		}
+	}
+
+	/**
+	 * writer に value を書き込みます.
+	 * @param writer
+	 * @param value
+	 * @throws IOException
+	 * @author vvakame
+	 */
 	public static void put(Writer writer, long value) throws IOException {
 		writer.write(String.valueOf(value));
+	}
+
+	/**
+	 * writer に value を書き込みます.
+	 * @param writer
+	 * @param value
+	 * @throws IOException
+	 * @author vvakame
+	 */
+	public static void put(Writer writer, Long value) throws IOException {
+		if (value == null) {
+			writer.write("null");
+		} else {
+			writer.write(value.toString());
+		}
+	}
+
+	/**
+	 * writer に value を書き込みます.
+	 * @param writer
+	 * @param values
+	 * @throws IOException
+	 * @author vvakame
+	 */
+	public static void putLongList(Writer writer, List<Long> values) throws IOException {
+		if (values == null) {
+			writer.write("null");
+		} else {
+			startArray(writer);
+			for (int i = 0; i < values.size(); i++) {
+				put(writer, values.get(i));
+				if (i != values.size() - 1) {
+					addSeparator(writer);
+				}
+			}
+			endArray(writer);
+		}
 	}
 
 	/**
@@ -219,8 +432,82 @@ public class JsonUtil {
 	 * @throws IOException
 	 * @author vvakame
 	 */
+	public static void put(Writer writer, Float value) throws IOException {
+		if (value == null) {
+			writer.write("null");
+		} else {
+			writer.write(value.toString());
+		}
+	}
+
+	/**
+	 * writer に value を書き込みます.
+	 * @param writer
+	 * @param values
+	 * @throws IOException
+	 * @author vvakame
+	 */
+	public static void putFloatList(Writer writer, List<Float> values) throws IOException {
+		if (values == null) {
+			writer.write("null");
+		} else {
+			startArray(writer);
+			for (int i = 0; i < values.size(); i++) {
+				put(writer, values.get(i));
+				if (i != values.size() - 1) {
+					addSeparator(writer);
+				}
+			}
+			endArray(writer);
+		}
+	}
+
+	/**
+	 * writer に value を書き込みます.
+	 * @param writer
+	 * @param value
+	 * @throws IOException
+	 * @author vvakame
+	 */
 	public static void put(Writer writer, double value) throws IOException {
 		writer.write(String.valueOf(value));
+	}
+
+	/**
+	 * writer に value を書き込みます.
+	 * @param writer
+	 * @param value
+	 * @throws IOException
+	 * @author vvakame
+	 */
+	public static void put(Writer writer, Double value) throws IOException {
+		if (value == null) {
+			writer.write("null");
+		} else {
+			writer.write(value.toString());
+		}
+	}
+
+	/**
+	 * writer に value を書き込みます.
+	 * @param writer
+	 * @param values
+	 * @throws IOException
+	 * @author vvakame
+	 */
+	public static void putDoubleList(Writer writer, List<Double> values) throws IOException {
+		if (values == null) {
+			writer.write("null");
+		} else {
+			startArray(writer);
+			for (int i = 0; i < values.size(); i++) {
+				put(writer, values.get(i));
+				if (i != values.size() - 1) {
+					addSeparator(writer);
+				}
+			}
+			endArray(writer);
+		}
 	}
 
 	/**
@@ -241,11 +528,111 @@ public class JsonUtil {
 	 * @throws IOException
 	 * @author vvakame
 	 */
+	public static void put(Writer writer, Boolean value) throws IOException {
+		if (value == null) {
+			writer.write("null");
+		} else {
+			writer.write(value.toString());
+		}
+	}
+
+	/**
+	 * writer に value を書き込みます.
+	 * @param writer
+	 * @param values
+	 * @throws IOException
+	 * @author vvakame
+	 */
+	public static void putBooleanList(Writer writer, List<Boolean> values) throws IOException {
+		if (values == null) {
+			writer.write("null");
+		} else {
+			startArray(writer);
+			for (int i = 0; i < values.size(); i++) {
+				put(writer, values.get(i));
+				if (i != values.size() - 1) {
+					addSeparator(writer);
+				}
+			}
+			endArray(writer);
+		}
+	}
+
+	/**
+	 * writer に value を書き込みます.
+	 * @param writer
+	 * @param value
+	 * @throws IOException
+	 * @author vvakame
+	 */
 	public static void put(Writer writer, Date value) throws IOException {
 		if (value == null) {
 			writer.write("null");
 		} else {
 			writer.write(String.valueOf(value.getTime()));
+		}
+	}
+
+	/**
+	 * writer に value を書き込みます.
+	 * @param writer
+	 * @param value
+	 * @throws IOException
+	 * @author vvakame
+	 */
+	public static void put(Writer writer, Enum<?> value) throws IOException {
+		if (value == null) {
+			writer.write("null");
+		} else {
+			writer.write("\"");
+			writer.write(sanitize(value.name()));
+			writer.write("\"");
+		}
+	}
+
+	/**
+	 * writer に value を書き込みます.
+	 * @param writer
+	 * @param values
+	 * @throws IOException
+	 * @author vvakame
+	 */
+	public static void putEnumList(Writer writer, List<? extends Enum<?>> values)
+			throws IOException {
+
+		if (values == null) {
+			writer.write("null");
+		} else {
+			startArray(writer);
+			for (int i = 0; i < values.size(); i++) {
+				put(writer, values.get(i));
+				if (i != values.size() - 1) {
+					addSeparator(writer);
+				}
+			}
+			endArray(writer);
+		}
+	}
+
+	/**
+	 * writer に value を書き込みます.
+	 * @param writer
+	 * @param values
+	 * @throws IOException
+	 * @author vvakame
+	 */
+	public static void putDateList(Writer writer, List<Date> values) throws IOException {
+		if (values == null) {
+			writer.write("null");
+		} else {
+			startArray(writer);
+			for (int i = 0; i < values.size(); i++) {
+				put(writer, values.get(i));
+				if (i != values.size() - 1) {
+					addSeparator(writer);
+				}
+			}
+			endArray(writer);
 		}
 	}
 

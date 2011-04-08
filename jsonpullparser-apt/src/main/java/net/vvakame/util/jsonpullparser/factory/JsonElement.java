@@ -26,7 +26,7 @@ import net.vvakame.util.jsonpullparser.util.JsonHash;
 import net.vvakame.util.jsonpullparser.util.TokenConverter;
 
 /**
- * 1 {@link JsonKey} に対応する生成ソースの表現.
+ * {@link JsonKey} に対応する生成ソースの表現.
  * @author vvakame
  */
 public class JsonElement {
@@ -47,7 +47,7 @@ public class JsonElement {
 
 	String converter;
 
-	Kind subKind;
+	Kind subKind = Kind.UNKNOWN;
 
 
 	/**
@@ -55,6 +55,8 @@ public class JsonElement {
 	 * @author vvakame
 	 */
 	public static enum Kind {
+		/** 未指定 */
+		UNKNOWN,
 		/** {@link String} */
 		STRING,
 		/** {@code boolean} */

@@ -309,6 +309,22 @@ public class @{target}@{postfix} {
 		@else{}
 			obj.@{obj.setter}(@{obj.modelName}@{postfix}.getList(parser, listener));
 		@end{}
+	@else{obj.kind == "BOOLEAN_WRAPPER"}
+			obj.@{obj.setter}(net.vvakame.util.jsonpullparser.util.JsonParseUtil.parserBoolean(parser));
+	@else{obj.kind == "DOUBLE_WRAPPER"}
+			obj.@{obj.setter}(net.vvakame.util.jsonpullparser.util.JsonParseUtil.parserDouble(parser));
+	@else{obj.kind == "LONG_WRAPPER"}
+			obj.@{obj.setter}(net.vvakame.util.jsonpullparser.util.JsonParseUtil.parserLong(parser));
+	@else{obj.kind == "BYTE_WRAPPER"}
+			obj.@{obj.setter}(net.vvakame.util.jsonpullparser.util.JsonParseUtil.parserByte(parser));
+	@else{obj.kind == "CHAR_WRAPPER"}
+			obj.@{obj.setter}(net.vvakame.util.jsonpullparser.util.JsonParseUtil.parserCharacter(parser));
+	@else{obj.kind == "FLOAT_WRAPPER"}
+			obj.@{obj.setter}(net.vvakame.util.jsonpullparser.util.JsonParseUtil.parserFloat(parser));
+	@else{obj.kind == "INT_WRAPPER"}
+			obj.@{obj.setter}(net.vvakame.util.jsonpullparser.util.JsonParseUtil.parserInteger(parser));
+	@else{obj.kind == "SHORT_WRAPPER"}
+			obj.@{obj.setter}(net.vvakame.util.jsonpullparser.util.JsonParseUtil.parserShort(parser));
 	@else{obj.kind == "ENUM"}
 			if(State.VALUE_NULL.equals(parser.getEventType())){
 				obj.@{obj.setter}(null);
@@ -320,12 +336,6 @@ public class @{target}@{postfix} {
 				obj.@{obj.setter}(null);
 			} else {
 				obj.@{obj.setter}(new java.util.Date(parser.getValueLong()));
-			}
-	@else{obj.kind == "ENUM"}
-			if(State.VALUE_NULL.equals(parser.getEventType())){
-				obj.@{obj.setter}(null);
-			} else {
-				obj.@{obj.setter}(Enum.valueOf(@{obj.modelName}.class, parser.getValueString()));
 			}
 	@else{obj.kind == "JSON_ARRAY"}
 			obj.@{obj.setter}(net.vvakame.util.jsonpullparser.util.JsonArray.fromParser(parser));
@@ -509,9 +519,61 @@ public class @{target}@{postfix} {
 @foreach{obj : outElements}
 		JsonUtil.putKey(writer, "@{obj.key}");
 	@if{obj.kind == "LIST"}
+		@if{obj.modelName == "java.lang.Boolean"}
+		JsonUtil.putBooleanList(writer, obj.@{obj.getter}());
+		
+		@else{obj.modelName == "java.lang.Integer"}
+		JsonUtil.putIntegerList(writer, obj.@{obj.getter}());
+		
+		@else{obj.modelName == "java.lang.Long"}
+		JsonUtil.putLongList(writer, obj.@{obj.getter}());
+		
+		@else{obj.modelName == "java.lang.Byte"}
+		JsonUtil.putByteList(writer, obj.@{obj.getter}());
+		
+		@else{obj.modelName == "java.lang.Short"}
+		JsonUtil.putShortList(writer, obj.@{obj.getter}());
+		
+		@else{obj.modelName == "java.lang.Character"}
+		JsonUtil.putCharacterList(writer, obj.@{obj.getter}());
+		
+		@else{obj.modelName == "java.lang.Double"}
+		JsonUtil.putDoubleList(writer, obj.@{obj.getter}());
+		
+		@else{obj.modelName == "java.lang.Float"}
+		JsonUtil.putFloatList(writer, obj.@{obj.getter}());
+		
+		@else{obj.modelName == "java.lang.String"}
+		JsonUtil.putStringList(writer, obj.@{obj.getter}());
+		
+		@else{obj.modelName == "java.util.Date"}
+		JsonUtil.putDateList(writer, obj.@{obj.getter}());
+		
+		@else{obj.subKind == "ENUM"}
+		JsonUtil.putEnumList(writer, obj.@{obj.getter}());
+		
+		@else{}
 		@{obj.modelName}@{postfix}.encodeListNullToNull(writer, obj.@{obj.getter}());
+		
+		@end{}
+	@else{obj.kind == "BOOLEAN_WRAPPER"}
+		JsonUtil.put(writer, obj.@{obj.getter}());
+	@else{obj.kind == "DOUBLE_WRAPPER"}
+		JsonUtil.put(writer, obj.@{obj.getter}());
+	@else{obj.kind == "LONG_WRAPPER"}
+		JsonUtil.put(writer, obj.@{obj.getter}());
+	@else{obj.kind == "BYTE_WRAPPER"}
+		JsonUtil.put(writer, obj.@{obj.getter}());
+	@else{obj.kind == "CHAR_WRAPPER"}
+		JsonUtil.put(writer, obj.@{obj.getter}());
+	@else{obj.kind == "FLOAT_WRAPPER"}
+		JsonUtil.put(writer, obj.@{obj.getter}());
+	@else{obj.kind == "INT_WRAPPER"}
+		JsonUtil.put(writer, obj.@{obj.getter}());
+	@else{obj.kind == "SHORT_WRAPPER"}
+		JsonUtil.put(writer, obj.@{obj.getter}());
 	@else{obj.kind == "ENUM"}
-		JsonUtil.put(writer, obj.@{obj.getter}().name());
+		JsonUtil.put(writer, obj.@{obj.getter}());
 	@else{obj.kind == "JSON_ARRAY"}
 		obj.@{obj.getter}().toJson(writer);
 	@else{obj.kind == "JSON_HASH"}

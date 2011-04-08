@@ -26,6 +26,7 @@ import java.io.StringWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -42,6 +43,8 @@ import net.vvakame.sample.MiniData;
 import net.vvakame.sample.MiniDataGenerated;
 import net.vvakame.sample.PrimitiveTypeData;
 import net.vvakame.sample.PrimitiveTypeDataGenerated;
+import net.vvakame.sample.PrimitiveWrapperListData;
+import net.vvakame.sample.PrimitiveWrapperListDataGenerated;
 import net.vvakame.sample.SampleEnum;
 import net.vvakame.sample.TestData;
 import net.vvakame.sample.TestDataGenerated;
@@ -352,6 +355,91 @@ public class JsonAnnotationProcessorTest {
 		assertThat(hash.getLongOrNull("date"), is(1234567L));
 		assertThat(hash.getStringOrNull("innerEnum"), is("TEST1"));
 		assertThat(hash.getStringOrNull("outerEnum"), is("PRODUCT"));
+	}
+
+	/**
+	 * TODO テストを適当な所に移す.<br>
+	 * PrimitiveWrapperのListのテスト.
+	 * @author vvakame
+	 * @throws IOException 
+	 * @throws JsonFormatException 
+	 * @throws IllegalStateException 
+	 */
+	@Test
+	public void primitiveWrapperList() throws IOException, IllegalStateException,
+			JsonFormatException {
+		PrimitiveWrapperListData data1 = new PrimitiveWrapperListData();
+		data1.setB(Arrays.asList(new Byte[] {
+			1,
+			2,
+			3
+		}));
+		data1.setBool(Arrays.asList(new Boolean[] {
+			true,
+			false
+		}));
+		data1.setC(Arrays.asList(new Character[] {
+			'a',
+			'b',
+			'c'
+		}));
+		data1.setD(Arrays.asList(new Double[] {
+			1.1,
+			2.2,
+			3.3
+		}));
+		data1.setDate(Arrays.asList(new Date[] {
+			new Date(111111),
+			new Date(222222),
+			new Date(333333)
+		}));
+		data1.setEnums(Arrays.asList(new SampleEnum[] {
+			SampleEnum.PRODUCT,
+			SampleEnum.TEST
+		}));
+		data1.setF(Arrays.asList(new Float[] {
+			4.4F,
+			5.5F,
+			6.6F
+		}));
+		data1.setI(Arrays.asList(new Integer[] {
+			4,
+			5,
+			6
+		}));
+		data1.setL(Arrays.asList(new Long[] {
+			7L,
+			8L,
+			9L
+		}));
+		data1.setS(Arrays.asList(new Short[] {
+			10,
+			11,
+			12
+		}));
+		data1.setStr(Arrays.asList(new String[] {
+			"abc",
+			"def"
+		}));
+
+		StringWriter writer = new StringWriter();
+		PrimitiveWrapperListDataGenerated.encode(writer, data1);
+
+		String json = writer.toString();
+
+		PrimitiveWrapperListData data2 = PrimitiveWrapperListDataGenerated.get(json);
+
+		assertThat(data2.getB(), is(data1.getB()));
+		assertThat(data2.getBool(), is(data1.getBool()));
+		assertThat(data2.getC(), is(data1.getC()));
+		assertThat(data2.getD(), is(data1.getD()));
+		assertThat(data2.getDate(), is(data1.getDate()));
+		assertThat(data2.getEnums(), is(data1.getEnums()));
+		assertThat(data2.getF(), is(data1.getF()));
+		assertThat(data2.getI(), is(data1.getI()));
+		assertThat(data2.getL(), is(data1.getL()));
+		assertThat(data2.getS(), is(data1.getS()));
+		assertThat(data2.getStr(), is(data1.getStr()));
 	}
 
 	/**

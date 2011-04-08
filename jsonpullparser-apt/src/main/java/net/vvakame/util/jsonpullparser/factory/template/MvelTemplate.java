@@ -72,20 +72,22 @@ public class MvelTemplate {
 		{
 			List<Map<String, String>> jsonElements = new ArrayList<Map<String, String>>();
 			for (JsonElement jsonElement : model.getElements()) {
-				Map<String, String> toMap = convInJsonElementToMap(jsonElement);
-				if (toMap != null) {
-					jsonElements.add(toMap);
+				if (!jsonElement.isIn()) {
+					continue;
 				}
+				Map<String, String> toMap = convJsonElementToMap(jsonElement);
+				jsonElements.add(toMap);
 			}
 			map.put("inElements", jsonElements);
 		}
 		{
 			List<Map<String, String>> jsonElements = new ArrayList<Map<String, String>>();
 			for (JsonElement jsonElement : model.getElements()) {
-				Map<String, String> toMap = convOutJsonElementToMap(jsonElement);
-				if (toMap != null) {
-					jsonElements.add(toMap);
+				if (!jsonElement.isOut()) {
+					continue;
 				}
+				Map<String, String> toMap = convJsonElementToMap(jsonElement);
+				jsonElements.add(toMap);
 			}
 			map.put("outElements", jsonElements);
 		}
@@ -94,10 +96,7 @@ public class MvelTemplate {
 		return map;
 	}
 
-	static Map<String, String> convInJsonElementToMap(JsonElement el) {
-		if (!el.isIn()) {
-			return null;
-		}
+	static Map<String, String> convJsonElementToMap(JsonElement el) {
 		Map<String, String> map = new LinkedHashMap<String, String>();
 		map.put("key", el.getKey());
 		map.put("modelName", el.getModelName());
@@ -105,22 +104,7 @@ public class MvelTemplate {
 		map.put("getter", el.getGetter());
 		map.put("kind", el.getKind().name());
 		map.put("converter", el.getConverter());
-		map.put("subKind", el.getSubKind() != null ? el.getSubKind().name() : null);
-
-		return map;
-	}
-
-	static Map<String, String> convOutJsonElementToMap(JsonElement el) {
-		if (!el.isOut()) {
-			return null;
-		}
-		Map<String, String> map = new LinkedHashMap<String, String>();
-		map.put("key", el.getKey());
-		map.put("modelName", el.getModelName());
-		map.put("setter", el.getSetter());
-		map.put("getter", el.getGetter());
-		map.put("kind", el.getKind().toString());
-		map.put("converter", el.getConverter());
+		map.put("subKind", el.getSubKind().name());
 
 		return map;
 	}

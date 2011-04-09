@@ -725,7 +725,7 @@ public class JsonPullParser {
 	private char getNextChar() throws IOException {
 		br.mark(1);
 		char c = (char) br.read();
-		while (c == ' ' || c == '\r' || c == '\n') {
+		while (c == ' ' || c == '\r' || c == '\n' || c == '\t') {
 			br.mark(1);
 			c = (char) br.read();
 		}

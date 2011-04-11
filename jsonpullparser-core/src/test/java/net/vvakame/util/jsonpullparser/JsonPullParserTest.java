@@ -175,6 +175,32 @@ public class JsonPullParserTest {
 	}
 
 	/**
+	 * 空白扱いの文字の解釈
+	 * @throws IOException
+	 * @throws JsonFormatException
+	 * @author vvakame
+	 */
+	@Test
+	public void parseEmptyChar() throws IOException, JsonFormatException {
+		State type;
+		String str;
+
+		JsonPullParser parser = JsonPullParser.newParser("{ \t\"key\" \n \t \r : \"value\" }");
+		type = parser.getEventType();
+		assertThat(type, is(State.START_HASH));
+		type = parser.getEventType();
+		assertThat(type, is(State.KEY));
+		str = parser.getValueString();
+		assertThat(str, is("key"));
+		type = parser.getEventType();
+		assertThat(type, is(State.VALUE_STRING));
+		str = parser.getValueString();
+		assertThat(str, is("value"));
+		type = parser.getEventType();
+		assertThat(type, is(State.END_HASH));
+	}
+
+	/**
 	 * {@link State#VALUE_BOOLEAN} の {@code true} の解釈
 	 * @throws IOException
 	 * @throws JsonFormatException

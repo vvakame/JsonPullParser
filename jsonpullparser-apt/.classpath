@@ -18,7 +18,7 @@
   <classpathentry kind="var" path="M2_REPO/junit/junit/4.8.1/junit-4.8.1.jar" sourcepath="M2_REPO/junit/junit/4.8.1/junit-4.8.1-sources.jar"/>
   <classpathentry kind="var" path="M2_REPO/org/mvel/mvel2/2.0.19/mvel2-2.0.19.jar"/>
   <classpathentry kind="var" path="M2_REPO/org/sonatype/tycho/org.eclipse.jdt.core/3.5.2.v_981_R35x/org.eclipse.jdt.core-3.5.2.v_981_R35x.jar"/>
-  <classpathentry kind="var" path="M2_REPO/org/eclipse/osgi/3.5.2/osgi-3.5.2.jar"/>
+  <classpathentry kind="var" path="M2_REPO/org/eclipse/osgi/3.3.0-v20070530/osgi-3.3.0-v20070530.jar"/>
   <classpathentry kind="var" path="M2_REPO/org/eclipse/equinox/preferences/3.2.100-v20070522/preferences-3.2.100-v20070522.jar"/>
   <classpathentry kind="var" path="M2_REPO/org/eclipse/equinox/registry/3.3.0-v20070522/registry-3.3.0-v20070522.jar"/>
   <classpathentry kind="var" path="M2_REPO/org/eclipse/core/resources/3.3.0-v20070604/resources-3.3.0-v20070604.jar"/>

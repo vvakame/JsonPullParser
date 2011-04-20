@@ -29,7 +29,12 @@ import net.vvakame.sample.twitter.Place;
 import net.vvakame.sample.twitter.Tweet;
 import net.vvakame.sample.twitter.User;
 
+import org.junit.Test;
 import org.seasar.aptina.unit.AptinaTestCase;
+
+import static org.hamcrest.CoreMatchers.*;
+
+import static org.junit.Assert.*;
 
 /**
  * {@link JsonAnnotationProcessor} のテスト.
@@ -42,6 +47,7 @@ public class JsonAnnotationProcessorTest extends AptinaTestCase {
 	 * @throws Exception
 	 * @author vvakame
 	 */
+	@Test
 	public void testForPrimitive() throws Exception {
 		JsonAnnotationProcessor processor = new JsonAnnotationProcessor();
 		addProcessor(processor);
@@ -51,6 +57,7 @@ public class JsonAnnotationProcessorTest extends AptinaTestCase {
 		addCompilationUnit(PrimitiveWrapperListData.class);
 
 		compile();
+		assertThat(getCompiledResult(), is(true));
 	}
 
 	/**
@@ -58,6 +65,7 @@ public class JsonAnnotationProcessorTest extends AptinaTestCase {
 	 * @throws Exception
 	 * @author vvakame
 	 */
+	@Test
 	public void testForSampleData() throws Exception {
 		JsonAnnotationProcessor processor = new JsonAnnotationProcessor();
 		addProcessor(processor);
@@ -65,6 +73,7 @@ public class JsonAnnotationProcessorTest extends AptinaTestCase {
 		addCompilationUnit(SampleData.class);
 
 		compile();
+		assertThat(getCompiledResult(), is(true));
 	}
 
 	/**
@@ -72,6 +81,7 @@ public class JsonAnnotationProcessorTest extends AptinaTestCase {
 	 * @throws Exception
 	 * @author vvakame
 	 */
+	@Test
 	public void testForComplexData() throws Exception {
 		JsonAnnotationProcessor processor = new JsonAnnotationProcessor();
 		addProcessor(processor);
@@ -81,6 +91,8 @@ public class JsonAnnotationProcessorTest extends AptinaTestCase {
 		addCompilationUnit(ComplexData.class);
 
 		compile();
+		assertThat(getCompiledResult(), is(true));
+
 		@SuppressWarnings("unused")
 		String source = getGeneratedSource(ComplexData.class.getName() + "Gen");
 	}
@@ -90,6 +102,7 @@ public class JsonAnnotationProcessorTest extends AptinaTestCase {
 	 * @throws Exception
 	 * @author vvakame
 	 */
+	@Test
 	public void testForConverterData() throws Exception {
 		JsonAnnotationProcessor processor = new JsonAnnotationProcessor();
 		addProcessor(processor);
@@ -97,6 +110,7 @@ public class JsonAnnotationProcessorTest extends AptinaTestCase {
 		addCompilationUnit(ConverterData.class);
 
 		compile();
+		assertThat(getCompiledResult(), is(true));
 	}
 
 	/**
@@ -104,6 +118,7 @@ public class JsonAnnotationProcessorTest extends AptinaTestCase {
 	 * @throws Exception
 	 * @author vvakame
 	 */
+	@Test
 	public void testForExntedsData() throws Exception {
 		JsonAnnotationProcessor processor = new JsonAnnotationProcessor();
 		addProcessor(processor);
@@ -112,6 +127,7 @@ public class JsonAnnotationProcessorTest extends AptinaTestCase {
 		addCompilationUnit(ExtendsData.class);
 
 		compile();
+		assertThat(getCompiledResult(), is(true));
 	}
 
 	/**
@@ -119,6 +135,7 @@ public class JsonAnnotationProcessorTest extends AptinaTestCase {
 	 * @throws Exception
 	 * @author vvakame
 	 */
+	@Test
 	public void testForTwitter() throws Exception {
 		JsonAnnotationProcessor processor = new JsonAnnotationProcessor();
 		addProcessor(processor);
@@ -128,6 +145,7 @@ public class JsonAnnotationProcessorTest extends AptinaTestCase {
 		addCompilationUnit(Place.class);
 
 		compile();
+		assertThat(getCompiledResult(), is(true));
 	}
 
 	@Override

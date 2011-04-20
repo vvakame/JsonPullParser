@@ -36,6 +36,9 @@ public class ComplexData {
 	Date date;
 
 	@JsonKey
+	List<Date> dateList;
+
+	@JsonKey
 	List<TestData> list1;
 
 	@JsonKey
@@ -51,7 +54,13 @@ public class ComplexData {
 	SampleEnum outerEnum;
 
 	@JsonKey
+	List<SampleEnum> outerEnumList;
+
+	@JsonKey
 	InternalEnum innerEnum;
+
+	@JsonKey
+	List<InternalEnum> innerEnumList;
 
 
 	/** クラス内に static で定義された {@link Enum} */
@@ -93,6 +102,22 @@ public class ComplexData {
 	 */
 	public void setDate(Date date) {
 		this.date = date;
+	}
+
+	/**
+	 * @return the dateList
+	 * @category accessor
+	 */
+	public List<Date> getDateList() {
+		return dateList;
+	}
+
+	/**
+	 * @param dateList the dateList to set
+	 * @category accessor
+	 */
+	public void setDateList(List<Date> dateList) {
+		this.dateList = dateList;
 	}
 
 	/**
@@ -176,6 +201,22 @@ public class ComplexData {
 	}
 
 	/**
+	 * @return the outerEnumList
+	 * @category accessor
+	 */
+	public List<SampleEnum> getOuterEnumList() {
+		return outerEnumList;
+	}
+
+	/**
+	 * @param outerEnumList the outerEnumList to set
+	 * @category accessor
+	 */
+	public void setOuterEnumList(List<SampleEnum> outerEnumList) {
+		this.outerEnumList = outerEnumList;
+	}
+
+	/**
 	 * @return the innerEnum
 	 * @category accessor
 	 */
@@ -189,5 +230,21 @@ public class ComplexData {
 	 */
 	public void setInnerEnum(InternalEnum innerEnum) {
 		this.innerEnum = innerEnum;
+	}
+
+	/**
+	 * @return the innerEnumList
+	 * @category accessor
+	 */
+	public List<InternalEnum> getInnerEnumList() {
+		return innerEnumList;
+	}
+
+	/**
+	 * @param innerEnumList the innerEnumList to set
+	 * @category accessor
+	 */
+	public void setInnerEnumList(List<InternalEnum> innerEnumList) {
+		this.innerEnumList = innerEnumList;
 	}
 }

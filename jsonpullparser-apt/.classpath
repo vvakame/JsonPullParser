@@ -4,8 +4,8 @@
   <classpathentry kind="src" path="src/main/java" including="**/*.java"/>
   <classpathentry kind="src" path="src/main/resources" excluding="**/*.java"/>
   <classpathentry kind="output" path="target/classes"/>
-  <classpathentry kind="var" path="M2_REPO/org/seasar/aptina/aptina-commons/1.0.0/aptina-commons-1.0.0.jar"/>
-  <classpathentry kind="var" path="M2_REPO/org/seasar/aptina/aptina-unit/1.0.0/aptina-unit-1.0.0.jar"/>
+  <classpathentry kind="var" path="M2_REPO/org/seasar/aptina/aptina-commons/1.0.0/aptina-commons-1.0.0.jar" sourcepath="M2_REPO/org/seasar/aptina/aptina-commons/1.0.0/aptina-commons-1.0.0-sources.jar"/>
+  <classpathentry kind="var" path="M2_REPO/org/seasar/aptina/aptina-unit/1.0.0/aptina-unit-1.0.0.jar" sourcepath="M2_REPO/org/seasar/aptina/aptina-unit/1.0.0/aptina-unit-1.0.0-sources.jar"/>
   <classpathentry kind="var" path="M2_REPO/org/eclipse/core/commands/3.3.0-I20070605-0010/commands-3.3.0-I20070605-0010.jar"/>
   <classpathentry kind="var" path="M2_REPO/org/eclipse/equinox/common/3.3.0-v20070426/common-3.3.0-v20070426.jar"/>
   <classpathentry kind="var" path="M2_REPO/org/eclipse/core/contenttype/3.2.100-v20070319/contenttype-3.2.100-v20070319.jar"/>
@@ -14,9 +14,9 @@
   <classpathentry kind="var" path="M2_REPO/org/hamcrest/hamcrest-core/1.1/hamcrest-core-1.1.jar" sourcepath="M2_REPO/org/hamcrest/hamcrest-core/1.1/hamcrest-core-1.1-sources.jar"/>
   <classpathentry kind="var" path="M2_REPO/org/hamcrest/hamcrest-library/1.1/hamcrest-library-1.1.jar" sourcepath="M2_REPO/org/hamcrest/hamcrest-library/1.1/hamcrest-library-1.1-sources.jar"/>
   <classpathentry kind="var" path="M2_REPO/org/eclipse/core/jobs/3.3.0-v20070423/jobs-3.3.0-v20070423.jar"/>
-  <classpathentry kind="var" path="M2_REPO/net/vvakame/jsonpullparser-core/1.0-SNAPSHOT/jsonpullparser-core-1.0-SNAPSHOT.jar" sourcepath="M2_REPO/net/vvakame/jsonpullparser-core/1.0-SNAPSHOT/jsonpullparser-core-1.0-SNAPSHOT-sources.jar"/>
+  <classpathentry kind="src" path="/jsonpullparser-core"/>
   <classpathentry kind="var" path="M2_REPO/junit/junit/4.8.1/junit-4.8.1.jar" sourcepath="M2_REPO/junit/junit/4.8.1/junit-4.8.1-sources.jar"/>
-  <classpathentry kind="var" path="M2_REPO/org/mvel/mvel2/2.0.19/mvel2-2.0.19.jar"/>
+  <classpathentry kind="var" path="M2_REPO/org/mvel/mvel2/2.0.19/mvel2-2.0.19.jar" sourcepath="M2_REPO/org/mvel/mvel2/2.0.19/mvel2-2.0.19-sources.jar"/>
   <classpathentry kind="var" path="M2_REPO/org/sonatype/tycho/org.eclipse.jdt.core/3.5.2.v_981_R35x/org.eclipse.jdt.core-3.5.2.v_981_R35x.jar"/>
   <classpathentry kind="var" path="M2_REPO/org/eclipse/osgi/3.3.0-v20070530/osgi-3.3.0-v20070530.jar"/>
   <classpathentry kind="var" path="M2_REPO/org/eclipse/equinox/preferences/3.2.100-v20070522/preferences-3.2.100-v20070522.jar"/>

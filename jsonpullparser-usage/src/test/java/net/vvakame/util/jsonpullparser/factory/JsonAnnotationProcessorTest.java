@@ -347,6 +347,9 @@ public class JsonAnnotationProcessorTest {
 		data.setDate(new Date(1234567));
 		data.setInnerEnum(InternalEnum.TEST1);
 		data.setOuterEnum(SampleEnum.PRODUCT);
+		data.setDateList(Arrays.asList(new Date(1111), new Date(2222)));
+		data.setInnerEnumList(Arrays.asList(InternalEnum.TEST1, InternalEnum.TEST2));
+		data.setOuterEnumList(Arrays.asList(SampleEnum.PRODUCT, SampleEnum.TEST));
 
 		StringWriter writer = new StringWriter();
 		ComplexDataGenerated.encode(writer, data);
@@ -355,6 +358,18 @@ public class JsonAnnotationProcessorTest {
 		assertThat(hash.getLongOrNull("date"), is(1234567L));
 		assertThat(hash.getStringOrNull("innerEnum"), is("TEST1"));
 		assertThat(hash.getStringOrNull("outerEnum"), is("PRODUCT"));
+
+		assertThat(hash.getJsonArrayOrNull("dateList").size(), is(2));
+		assertThat(hash.getJsonArrayOrNull("dateList").getLongOrNull(0), is(1111L));
+		assertThat(hash.getJsonArrayOrNull("dateList").getLongOrNull(1), is(2222L));
+
+		assertThat(hash.getJsonArrayOrNull("innerEnumList").size(), is(2));
+		assertThat(hash.getJsonArrayOrNull("innerEnumList").getStringOrNull(0), is("TEST1"));
+		assertThat(hash.getJsonArrayOrNull("innerEnumList").getStringOrNull(1), is("TEST2"));
+
+		assertThat(hash.getJsonArrayOrNull("outerEnumList").size(), is(2));
+		assertThat(hash.getJsonArrayOrNull("outerEnumList").getStringOrNull(0), is("PRODUCT"));
+		assertThat(hash.getJsonArrayOrNull("outerEnumList").getStringOrNull(1), is("TEST"));
 	}
 
 	/**

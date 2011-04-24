@@ -32,14 +32,12 @@ public class JsonModelTest {
 
 	/**
 	 * {@link JsonModel#treatUnknownKeyAsError()} が {@code true} だと未知のKeyがエラーになることをテスト.
-	 * @throws IllegalStateException
 	 * @throws IOException
 	 * @throws JsonFormatException
 	 * @author vvakame
 	 */
-	@Test(expected = IllegalStateException.class)
-	public void treatUnknownKeyAsError() throws IllegalStateException, IOException,
-			JsonFormatException {
+	@Test(expected = JsonFormatException.class)
+	public void treatUnknownKeyAsError() throws IOException, JsonFormatException {
 		String json = "{\"str1\":\"hoge\", \"unknown\":{\"test\":[]}, \"str2\":\"fuga\"}";
 
 		ConverterDataGenerated.get(json);
@@ -47,13 +45,12 @@ public class JsonModelTest {
 
 	/**
 	 * {@link JsonModel#treatUnknownKeyAsError()} が {@code false} だと未知のKeyが単に読み捨てられることをテスト.
-	 * @throws IllegalStateException
 	 * @throws IOException
 	 * @throws JsonFormatException
 	 * @author vvakame
 	 */
 	@Test
-	public void ignoreUnknownKey() throws IllegalStateException, IOException, JsonFormatException {
+	public void ignoreUnknownKey() throws IOException, JsonFormatException {
 		String json = "{\"name\":\"hoge\", \"unknown\":{\"test\":[]}, \"str2\":\"fuga\"}";
 
 		TestDataGenerated.get(json);

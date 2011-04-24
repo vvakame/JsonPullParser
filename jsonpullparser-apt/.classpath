@@ -6,13 +6,10 @@
   <classpathentry kind="output" path="target/classes"/>
   <classpathentry kind="var" path="M2_REPO/org/seasar/aptina/aptina-commons/1.0.0/aptina-commons-1.0.0.jar" sourcepath="M2_REPO/org/seasar/aptina/aptina-commons/1.0.0/aptina-commons-1.0.0-sources.jar"/>
   <classpathentry kind="var" path="M2_REPO/org/seasar/aptina/aptina-unit/1.0.0/aptina-unit-1.0.0.jar" sourcepath="M2_REPO/org/seasar/aptina/aptina-unit/1.0.0/aptina-unit-1.0.0-sources.jar"/>
+  <classpathentry kind="var" path="M2_REPO/org/hamcrest/hamcrest-core/1.1/hamcrest-core-1.1.jar" sourcepath="M2_REPO/org/hamcrest/hamcrest-core/1.1/hamcrest-core-1.1-sources.jar"/>
   <classpathentry kind="var" path="M2_REPO/org/hamcrest/hamcrest-library/1.1/hamcrest-library-1.1.jar" sourcepath="M2_REPO/org/hamcrest/hamcrest-library/1.1/hamcrest-library-1.1-sources.jar"/>
   <classpathentry kind="src" path="/jsonpullparser-core"/>
   <classpathentry kind="var" path="M2_REPO/junit/junit/4.8.1/junit-4.8.1.jar" sourcepath="M2_REPO/junit/junit/4.8.1/junit-4.8.1-sources.jar"/>
   <classpathentry kind="var" path="M2_REPO/org/mvel/mvel2/2.0.19/mvel2-2.0.19.jar" sourcepath="M2_REPO/org/mvel/mvel2/2.0.19/mvel2-2.0.19-sources.jar"/>
-  <classpathentry kind="var" path="M2_REPO/org/sonatype/tycho/org.eclipse.jdt.core/3.5.2.v_981_R35x/org.eclipse.jdt.core-3.5.2.v_981_R35x.jar"/>
-  <classpathentry kind="var" path="M2_REPO/org/eclipse/osgi/3.3.0-v20070530/osgi-3.3.0-v20070530.jar"/>
-  <classpathentry kind="var" path="M2_REPO/org/eclipse/core/resources/3.3.0-v20070604/resources-3.3.0-v20070604.jar"/>
-  <classpathentry kind="var" path="M2_REPO/org/eclipse/text/3.3.0-v20070606-0010/text-3.3.0-v20070606-0010.jar"/>
   <classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 </classpath>

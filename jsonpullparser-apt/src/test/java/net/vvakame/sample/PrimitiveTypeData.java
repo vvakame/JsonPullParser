@@ -23,7 +23,7 @@ import net.vvakame.util.jsonpullparser.annotation.JsonModel;
  * 全てのプリミティブ型をフィールドに持つクラス.
  * @author vvakame
  */
-@JsonModel
+@JsonModel(builder = true)
 public class PrimitiveTypeData {
 
 	@JsonKey

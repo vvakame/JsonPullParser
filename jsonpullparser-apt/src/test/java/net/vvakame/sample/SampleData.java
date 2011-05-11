@@ -23,7 +23,7 @@ import net.vvakame.util.jsonpullparser.annotation.JsonModel;
  * "よくある"フィールドを持つクラス.
  * @author vvakame
  */
-@JsonModel
+@JsonModel(builder = true)
 public class SampleData {
 
 	@JsonKey(in = true, out = false)

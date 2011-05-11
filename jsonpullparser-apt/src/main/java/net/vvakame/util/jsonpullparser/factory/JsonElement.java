@@ -31,6 +31,8 @@ import net.vvakame.util.jsonpullparser.util.TokenConverter;
  */
 public class JsonElement {
 
+	String originalName;
+
 	String key;
 
 	boolean in;
@@ -109,15 +111,32 @@ public class JsonElement {
 
 
 	/**
+	 * @return the originalName
+	 * @category accessor
+	 */
+	public String getOriginalName() {
+		return originalName;
+	}
+
+	/**
+	 * @param originalName the originalName to set
+	 * @category accessor
+	 */
+	public void setOriginalName(String originalName) {
+		this.originalName = originalName;
+	}
+
+	/**
 	 * @return the key
+	 * @category accessor
 	 */
 	public String getKey() {
 		return key;
 	}
 
 	/**
-	 * @param key
-	 *            the key to set
+	 * @param key the key to set
+	 * @category accessor
 	 */
 	public void setKey(String key) {
 		this.key = key;
@@ -125,14 +144,15 @@ public class JsonElement {
 
 	/**
 	 * @return the in
+	 * @category accessor
 	 */
 	public boolean isIn() {
 		return in;
 	}
 
 	/**
-	 * @param in
-	 *            the in to set
+	 * @param in the in to set
+	 * @category accessor
 	 */
 	public void setIn(boolean in) {
 		this.in = in;
@@ -140,14 +160,15 @@ public class JsonElement {
 
 	/**
 	 * @return the setter
+	 * @category accessor
 	 */
 	public String getSetter() {
 		return setter;
 	}
 
 	/**
-	 * @param setter
-	 *            the setter to set
+	 * @param setter the setter to set
+	 * @category accessor
 	 */
 	public void setSetter(String setter) {
 		this.setter = setter;
@@ -155,14 +176,15 @@ public class JsonElement {
 
 	/**
 	 * @return the out
+	 * @category accessor
 	 */
 	public boolean isOut() {
 		return out;
 	}
 
 	/**
-	 * @param out
-	 *            the out to set
+	 * @param out the out to set
+	 * @category accessor
 	 */
 	public void setOut(boolean out) {
 		this.out = out;
@@ -170,14 +192,15 @@ public class JsonElement {
 
 	/**
 	 * @return the getter
+	 * @category accessor
 	 */
 	public String getGetter() {
 		return getter;
 	}
 
 	/**
-	 * @param getter
-	 *            the getter to set
+	 * @param getter the getter to set
+	 * @category accessor
 	 */
 	public void setGetter(String getter) {
 		this.getter = getter;
@@ -185,14 +208,15 @@ public class JsonElement {
 
 	/**
 	 * @return the kind
+	 * @category accessor
 	 */
 	public Kind getKind() {
 		return kind;
 	}
 
 	/**
-	 * @param kind
-	 *            the kind to set
+	 * @param kind the kind to set
+	 * @category accessor
 	 */
 	public void setKind(Kind kind) {
 		this.kind = kind;
@@ -200,14 +224,15 @@ public class JsonElement {
 
 	/**
 	 * @return the modelName
+	 * @category accessor
 	 */
 	public String getModelName() {
 		return modelName;
 	}
 
 	/**
-	 * @param modelName
-	 *            the modelName to set
+	 * @param modelName the modelName to set
+	 * @category accessor
 	 */
 	public void setModelName(String modelName) {
 		this.modelName = modelName;
@@ -215,14 +240,15 @@ public class JsonElement {
 
 	/**
 	 * @return the converter
+	 * @category accessor
 	 */
 	public String getConverter() {
 		return converter;
 	}
 
 	/**
-	 * @param converter
-	 *            the converter to set
+	 * @param converter the converter to set
+	 * @category accessor
 	 */
 	public void setConverter(String converter) {
 		this.converter = converter;

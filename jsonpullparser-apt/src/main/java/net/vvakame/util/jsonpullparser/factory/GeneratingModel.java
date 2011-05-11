@@ -42,6 +42,8 @@ public class GeneratingModel {
 
 	boolean treatUnknownKeyAsError;
 
+	boolean builder;
+
 
 	/**
 	 * {@link JsonKey} が付加されたフィールドの追加.
@@ -165,5 +167,21 @@ public class GeneratingModel {
 	 */
 	public void setTreatUnknownKeyAsError(boolean treatUnknownKeyAsError) {
 		this.treatUnknownKeyAsError = treatUnknownKeyAsError;
+	}
+
+	/**
+	 * @return the builder
+	 * @category accessor
+	 */
+	public boolean isBuilder() {
+		return builder;
+	}
+
+	/**
+	 * @param builder the builder to set
+	 * @category accessor
+	 */
+	public void setBuilder(boolean builder) {
+		this.builder = builder;
 	}
 }

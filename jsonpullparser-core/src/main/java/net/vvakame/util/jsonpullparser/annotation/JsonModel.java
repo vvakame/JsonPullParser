@@ -53,4 +53,12 @@ public @interface JsonModel {
 	 * @author vvakame
 	 */
 	public boolean decamelize() default false;
+
+	/**
+	 * 動的なJSON組み立てのためのコードを生成するかの制御.<br>
+	 * {@code true} なら生成する. {@code false} なら生成しない.
+	 * @return 動的JSON組み立ての有効化
+	 * @author vvakame
+	 */
+	public boolean builder() default false;
 }

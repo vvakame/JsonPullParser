@@ -91,7 +91,16 @@ public class MvelTemplate {
 			}
 			map.put("outElements", jsonElements);
 		}
+		{
+			List<Map<String, String>> jsonElements = new ArrayList<Map<String, String>>();
+			for (JsonElement jsonElement : model.getElements()) {
+				Map<String, String> toMap = convJsonElementToMap(jsonElement);
+				jsonElements.add(toMap);
+			}
+			map.put("allElements", jsonElements);
+		}
 		map.put("treatUnknownKeyAsError", model.isTreatUnknownKeyAsError());
+		map.put("builder", model.isBuilder());
 
 		return map;
 	}
@@ -99,6 +108,7 @@ public class MvelTemplate {
 	static Map<String, String> convJsonElementToMap(JsonElement el) {
 		Map<String, String> map = new LinkedHashMap<String, String>();
 		map.put("key", el.getKey());
+		map.put("originalName", el.getOriginalName());
 		map.put("modelName", el.getModelName());
 		map.put("setter", el.getSetter());
 		map.put("getter", el.getGetter());

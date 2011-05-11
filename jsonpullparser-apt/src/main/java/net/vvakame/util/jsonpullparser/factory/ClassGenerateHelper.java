@@ -102,6 +102,7 @@ public class ClassGenerateHelper {
 
 		g.setPostfix(postfix);
 		g.setTreatUnknownKeyAsError(getTreatUnknownKeyAsError(element));
+		g.setBuilder(getBuilder(element));
 	}
 
 	/**
@@ -211,6 +212,14 @@ public class ClassGenerateHelper {
 		return model.treatUnknownKeyAsError();
 	}
 
+	boolean getBuilder(Element element) {
+		JsonModel model = element.getAnnotation(JsonModel.class);
+		if (model == null) {
+			throw new IllegalArgumentException();
+		}
+		return model.builder();
+	}
+
 
 	class ValueExtractVisitor extends StandardTypeKindVisitor<JsonElement, Element> {
 
@@ -223,6 +232,7 @@ public class ClassGenerateHelper {
 
 			JsonElement jsonElement = new JsonElement();
 			jsonElement.setKey(getElementKeyString(el));
+			jsonElement.setOriginalName(el.toString());
 
 			JsonKey key = el.getAnnotation(JsonKey.class);
 
@@ -363,6 +373,7 @@ public class ClassGenerateHelper {
 				}
 
 				jsonElement.setKey(getElementKeyString(el));
+				jsonElement.setOriginalName(el.toString());
 
 				JsonKey key = el.getAnnotation(JsonKey.class);
 

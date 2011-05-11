@@ -6,6 +6,7 @@ import java.util.Date;
 
 import net.vvakame.sample.BuilderData;
 import net.vvakame.sample.BuilderDataGenerated;
+import net.vvakame.sample.SampleEnum;
 import net.vvakame.sample.TestData;
 import net.vvakame.util.jsonpullparser.JsonFormatException;
 import net.vvakame.util.jsonpullparser.JsonPullParser;
@@ -281,6 +282,35 @@ public class BuilderTest {
 					.newParser("{\"model\":{\"has_data\":false,\"name\":null,\"package_name\":null,\"version_code\":0,\"weight\":0.0}}");
 		BuilderData data = meta.newBuilder().add(meta.model).fix().decode(parser);
 		assertThat(data.getModel(), notNullValue());
+	}
+
+	/**
+	 * enumのencode確認
+	 * @throws IOException
+	 * @author vvakame
+	 */
+	@Test
+	public void enum_encode() throws IOException {
+		BuilderData data = new BuilderData();
+		data.setOuterEnum(SampleEnum.PRODUCT);
+		StringWriter writer = new StringWriter();
+		meta.newBuilder().add(meta.outerEnum).fix().encode(writer, data);
+		String json = writer.toString();
+		printJson(json);
+		assertThat(json, is("{\"outer_enum\":\"PRODUCT\"}"));
+	}
+
+	/**
+	 * enumのdecode確認
+	 * @throws IOException
+	 * @author vvakame
+	 * @throws JsonFormatException 
+	 */
+	@Test
+	public void enum_decode() throws IOException, JsonFormatException {
+		JsonPullParser parser = JsonPullParser.newParser("{\"outer_enum\":\"PRODUCT\"}");
+		BuilderData data = meta.newBuilder().add(meta.outerEnum).fix().decode(parser);
+		assertThat(data.getOuterEnum(), is(SampleEnum.PRODUCT));
 	}
 
 	void printJson(String json) {

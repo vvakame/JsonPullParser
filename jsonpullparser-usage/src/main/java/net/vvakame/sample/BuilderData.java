@@ -3,7 +3,6 @@ package net.vvakame.sample;
 import java.util.Date;
 import java.util.List;
 
-import net.vvakame.sample.ComplexData.InternalEnum;
 import net.vvakame.sample.converter.IntFlattenConverter;
 import net.vvakame.util.jsonpullparser.annotation.JsonKey;
 import net.vvakame.util.jsonpullparser.annotation.JsonModel;
@@ -78,6 +77,33 @@ public class BuilderData {
 	SampleEnum outerEnum;
 
 	@JsonKey
+	List<Boolean> boolList;
+
+	@JsonKey
+	List<Character> cList;
+
+	@JsonKey
+	List<Byte> bList;
+
+	@JsonKey
+	List<Short> sList;
+
+	@JsonKey
+	List<Integer> iList;
+
+	@JsonKey
+	List<Long> lList;
+
+	@JsonKey
+	List<Float> fList;
+
+	@JsonKey
+	List<Double> dList;
+
+	@JsonKey
+	List<String> strList;
+
+	@JsonKey
 	List<Date> dateList;
 
 	@JsonKey
@@ -87,13 +113,7 @@ public class BuilderData {
 	List<? extends TestData> list2;
 
 	@JsonKey
-	List<? extends TestData> list3;
-
-	@JsonKey
 	List<SampleEnum> outerEnumList;
-
-	@JsonKey
-	List<InternalEnum> innerEnumList;
 
 	@JsonKey(converter = IntFlattenConverter.class)
 	List<Integer> conv;
@@ -426,6 +446,150 @@ public class BuilderData {
 	}
 
 	/**
+	 * @return the boolList
+	 * @category accessor
+	 */
+	public List<Boolean> getBoolList() {
+		return boolList;
+	}
+
+	/**
+	 * @param boolList the boolList to set
+	 * @category accessor
+	 */
+	public void setBoolList(List<Boolean> boolList) {
+		this.boolList = boolList;
+	}
+
+	/**
+	 * @return the cList
+	 * @category accessor
+	 */
+	public List<Character> getcList() {
+		return cList;
+	}
+
+	/**
+	 * @param cList the cList to set
+	 * @category accessor
+	 */
+	public void setcList(List<Character> cList) {
+		this.cList = cList;
+	}
+
+	/**
+	 * @return the bList
+	 * @category accessor
+	 */
+	public List<Byte> getbList() {
+		return bList;
+	}
+
+	/**
+	 * @param bList the bList to set
+	 * @category accessor
+	 */
+	public void setbList(List<Byte> bList) {
+		this.bList = bList;
+	}
+
+	/**
+	 * @return the sList
+	 * @category accessor
+	 */
+	public List<Short> getsList() {
+		return sList;
+	}
+
+	/**
+	 * @param sList the sList to set
+	 * @category accessor
+	 */
+	public void setsList(List<Short> sList) {
+		this.sList = sList;
+	}
+
+	/**
+	 * @return the iList
+	 * @category accessor
+	 */
+	public List<Integer> getiList() {
+		return iList;
+	}
+
+	/**
+	 * @param iList the iList to set
+	 * @category accessor
+	 */
+	public void setiList(List<Integer> iList) {
+		this.iList = iList;
+	}
+
+	/**
+	 * @return the lList
+	 * @category accessor
+	 */
+	public List<Long> getlList() {
+		return lList;
+	}
+
+	/**
+	 * @param lList the lList to set
+	 * @category accessor
+	 */
+	public void setlList(List<Long> lList) {
+		this.lList = lList;
+	}
+
+	/**
+	 * @return the fList
+	 * @category accessor
+	 */
+	public List<Float> getfList() {
+		return fList;
+	}
+
+	/**
+	 * @param fList the fList to set
+	 * @category accessor
+	 */
+	public void setfList(List<Float> fList) {
+		this.fList = fList;
+	}
+
+	/**
+	 * @return the dList
+	 * @category accessor
+	 */
+	public List<Double> getdList() {
+		return dList;
+	}
+
+	/**
+	 * @param dList the dList to set
+	 * @category accessor
+	 */
+	public void setdList(List<Double> dList) {
+		this.dList = dList;
+	}
+
+	/**
+	 * @return the strList
+	 * @category accessor
+	 */
+	public List<String> getStrList() {
+		return strList;
+	}
+
+	/**
+	 * @param strList the strList to set
+	 * @category accessor
+	 */
+	public void setStrList(List<String> strList) {
+		this.strList = strList;
+	}
+
+	/**
 	 * @return the dateList
 	 * @category accessor
 	 */
@@ -474,22 +638,6 @@ public class BuilderData {
 	}
 
 	/**
-	 * @return the list3
-	 * @category accessor
-	 */
-	public List<? extends TestData> getList3() {
-		return list3;
-	}
-
-	/**
-	 * @param list3 the list3 to set
-	 * @category accessor
-	 */
-	public void setList3(List<? extends TestData> list3) {
-		this.list3 = list3;
-	}
-
-	/**
 	 * @return the outerEnumList
 	 * @category accessor
 	 */
@@ -503,22 +651,6 @@ public class BuilderData {
 	 */
 	public void setOuterEnumList(List<SampleEnum> outerEnumList) {
 		this.outerEnumList = outerEnumList;
-	}
-
-	/**
-	 * @return the innerEnumList
-	 * @category accessor
-	 */
-	public List<InternalEnum> getInnerEnumList() {
-		return innerEnumList;
-	}
-
-	/**
-	 * @param innerEnumList the innerEnumList to set
-	 * @category accessor
-	 */
-	public void setInnerEnumList(List<InternalEnum> innerEnumList) {
-		this.innerEnumList = innerEnumList;
 	}
 
 	/**

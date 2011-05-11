@@ -2,7 +2,9 @@ package net.vvakame.util.jsonpullparser.builder;
 
 import java.io.IOException;
 import java.io.StringWriter;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import net.vvakame.sample.BuilderData;
 import net.vvakame.sample.BuilderDataGenerated;
@@ -11,6 +13,8 @@ import net.vvakame.sample.TestData;
 import net.vvakame.util.jsonpullparser.JsonFormatException;
 import net.vvakame.util.jsonpullparser.JsonPullParser;
 import net.vvakame.util.jsonpullparser.annotation.JsonModel;
+import net.vvakame.util.jsonpullparser.util.JsonArray;
+import net.vvakame.util.jsonpullparser.util.JsonHash;
 
 import org.junit.Test;
 
@@ -296,7 +300,6 @@ public class BuilderTest {
 		StringWriter writer = new StringWriter();
 		meta.newBuilder().add(meta.outerEnum).fix().encode(writer, data);
 		String json = writer.toString();
-		printJson(json);
 		assertThat(json, is("{\"outer_enum\":\"PRODUCT\"}"));
 	}
 
@@ -311,6 +314,128 @@ public class BuilderTest {
 		JsonPullParser parser = JsonPullParser.newParser("{\"outer_enum\":\"PRODUCT\"}");
 		BuilderData data = meta.newBuilder().add(meta.outerEnum).fix().decode(parser);
 		assertThat(data.getOuterEnum(), is(SampleEnum.PRODUCT));
+	}
+
+	/**
+	 * listのencode確認
+	 * @throws IOException
+	 * @author vvakame
+	 */
+	@Test
+	public void list_encode() throws IOException {
+		BuilderData data = new BuilderData();
+		List<TestData> list = new ArrayList<TestData>();
+		list.add(new TestData());
+		data.setList1(list);
+		data.setList2(list);
+		StringWriter writer = new StringWriter();
+		meta.newBuilder().add(meta.list1).add(meta.list2).fix().encode(writer, data);
+		String json = writer.toString();
+		assertThat(
+				json,
+				is("{\"list1\":[{\"has_data\":false,\"name\":null,\"package_name\":null,\"version_code\":0,\"weight\":0.0}],\"list2\":[{\"has_data\":false,\"name\":null,\"package_name\":null,\"version_code\":0,\"weight\":0.0}]}"));
+	}
+
+	/**
+	 * listのdecode確認
+	 * @throws IOException
+	 * @author vvakame
+	 * @throws JsonFormatException 
+	 */
+	@Test
+	public void list_decode() throws IOException, JsonFormatException {
+		JsonPullParser parser =
+				JsonPullParser
+					.newParser("{\"list1\":[{\"has_data\":false,\"name\":null,\"package_name\":null,\"version_code\":0,\"weight\":0.0}],\"list2\":[{\"has_data\":false,\"name\":null,\"package_name\":null,\"version_code\":0,\"weight\":0.0}]}");
+		BuilderData data = meta.newBuilder().add(meta.list1, meta.list2).fix().decode(parser);
+		assertThat(data.getList1().size(), is(1));
+		assertThat(data.getList2().size(), is(1));
+	}
+
+	/**
+	 * converterのencode確認
+	 * @throws IOException
+	 * @author vvakame
+	 */
+	@Test
+	public void converter_encode() throws IOException {
+		BuilderData data = new BuilderData();
+		List<Integer> list = new ArrayList<Integer>();
+		list.add(1);
+		data.setConv(list);
+		StringWriter writer = new StringWriter();
+		meta.newBuilder().add(meta.conv).fix().encode(writer, data);
+		String json = writer.toString();
+		assertThat(json, is("{\"conv\":[1]}"));
+	}
+
+	/**
+	 * converterのdecode確認
+	 * @throws IOException
+	 * @author vvakame
+	 * @throws JsonFormatException 
+	 */
+	@Test
+	public void converter_decode() throws IOException, JsonFormatException {
+		JsonPullParser parser = JsonPullParser.newParser("{\"conv\":[1,2,[3,4,[5]]]}");
+		BuilderData data = meta.newBuilder().add(meta.conv).fix().decode(parser);
+		assertThat(data.getConv().size(), is(5));
+	}
+
+	/**
+	 * JsonHashのencode確認
+	 * @throws IOException
+	 * @author vvakame
+	 */
+	@Test
+	public void jsonHash_encode() throws IOException {
+		BuilderData data = new BuilderData();
+		data.setJsonHash(new JsonHash());
+		StringWriter writer = new StringWriter();
+		meta.newBuilder().add(meta.jsonHash).fix().encode(writer, data);
+		String json = writer.toString();
+		assertThat(json, is("{\"json_hash\":{}}"));
+	}
+
+	/**
+	 * JsonHashのdecode確認
+	 * @throws IOException
+	 * @author vvakame
+	 * @throws JsonFormatException 
+	 */
+	@Test
+	public void jsonHash_decode() throws IOException, JsonFormatException {
+		JsonPullParser parser = JsonPullParser.newParser("{\"json_hash\":{}}");
+		BuilderData data = meta.newBuilder().add(meta.jsonHash).fix().decode(parser);
+		assertThat(data.getJsonHash().size(), is(0));
+	}
+
+	/**
+	 * JsonArrayのencode確認
+	 * @throws IOException
+	 * @author vvakame
+	 */
+	@Test
+	public void jsonArray_encode() throws IOException {
+		BuilderData data = new BuilderData();
+		data.setJsonArray(new JsonArray());
+		StringWriter writer = new StringWriter();
+		meta.newBuilder().add(meta.jsonArray).fix().encode(writer, data);
+		String json = writer.toString();
+		assertThat(json, is("{\"json_array\":[]}"));
+	}
+
+	/**
+	 * JsonArrayのdecode確認
+	 * @throws IOException
+	 * @author vvakame
+	 * @throws JsonFormatException 
+	 */
+	@Test
+	public void jsonArray_decode() throws IOException, JsonFormatException {
+		JsonPullParser parser = JsonPullParser.newParser("{\"json_array\":[]}");
+		BuilderData data = meta.newBuilder().add(meta.jsonArray).fix().decode(parser);
+		assertThat(data.getJsonArray().size(), is(0));
 	}
 
 	void printJson(String json) {

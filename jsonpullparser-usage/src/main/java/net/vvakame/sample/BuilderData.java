@@ -66,10 +66,16 @@ public class BuilderData {
 	Double wd;
 
 	@JsonKey
-	String name;
+	String str;
 
 	@JsonKey
 	Date date;
+
+	@JsonKey
+	TestData model;
+
+	@JsonKey
+	SampleEnum outerEnum;
 
 	@JsonKey
 	List<Date> dateList;
@@ -84,22 +90,13 @@ public class BuilderData {
 	List<? extends TestData> list3;
 
 	@JsonKey
-	TestData data;
-
-	@JsonKey
-	SampleEnum outerEnum;
-
-	@JsonKey
 	List<SampleEnum> outerEnumList;
-
-	@JsonKey
-	InternalEnum innerEnum;
 
 	@JsonKey
 	List<InternalEnum> innerEnumList;
 
 	@JsonKey(converter = IntFlattenConverter.class)
-	List<Integer> flatten;
+	List<Integer> conv;
 
 	@JsonKey
 	JsonHash jsonHash;
@@ -365,19 +362,19 @@ public class BuilderData {
 	}
 
 	/**
-	 * @return the name
+	 * @return the str
 	 * @category accessor
 	 */
-	public String getName() {
-		return name;
+	public String getStr() {
+		return str;
 	}
 
 	/**
-	 * @param name the name to set
+	 * @param str the str to set
 	 * @category accessor
 	 */
-	public void setName(String name) {
-		this.name = name;
+	public void setStr(String str) {
+		this.str = str;
 	}
 
 	/**
@@ -394,6 +391,38 @@ public class BuilderData {
 	 */
 	public void setDate(Date date) {
 		this.date = date;
+	}
+
+	/**
+	 * @return the model
+	 * @category accessor
+	 */
+	public TestData getModel() {
+		return model;
+	}
+
+	/**
+	 * @param model the model to set
+	 * @category accessor
+	 */
+	public void setModel(TestData model) {
+		this.model = model;
+	}
+
+	/**
+	 * @return the outerEnum
+	 * @category accessor
+	 */
+	public SampleEnum getOuterEnum() {
+		return outerEnum;
+	}
+
+	/**
+	 * @param outerEnum the outerEnum to set
+	 * @category accessor
+	 */
+	public void setOuterEnum(SampleEnum outerEnum) {
+		this.outerEnum = outerEnum;
 	}
 
 	/**
@@ -461,38 +490,6 @@ public class BuilderData {
 	}
 
 	/**
-	 * @return the data
-	 * @category accessor
-	 */
-	public TestData getData() {
-		return data;
-	}
-
-	/**
-	 * @param data the data to set
-	 * @category accessor
-	 */
-	public void setData(TestData data) {
-		this.data = data;
-	}
-
-	/**
-	 * @return the outerEnum
-	 * @category accessor
-	 */
-	public SampleEnum getOuterEnum() {
-		return outerEnum;
-	}
-
-	/**
-	 * @param outerEnum the outerEnum to set
-	 * @category accessor
-	 */
-	public void setOuterEnum(SampleEnum outerEnum) {
-		this.outerEnum = outerEnum;
-	}
-
-	/**
 	 * @return the outerEnumList
 	 * @category accessor
 	 */
@@ -506,22 +503,6 @@ public class BuilderData {
 	 */
 	public void setOuterEnumList(List<SampleEnum> outerEnumList) {
 		this.outerEnumList = outerEnumList;
-	}
-
-	/**
-	 * @return the innerEnum
-	 * @category accessor
-	 */
-	public InternalEnum getInnerEnum() {
-		return innerEnum;
-	}
-
-	/**
-	 * @param innerEnum the innerEnum to set
-	 * @category accessor
-	 */
-	public void setInnerEnum(InternalEnum innerEnum) {
-		this.innerEnum = innerEnum;
 	}
 
 	/**
@@ -541,19 +522,19 @@ public class BuilderData {
 	}
 
 	/**
-	 * @return the flatten
+	 * @return the conv
 	 * @category accessor
 	 */
-	public List<Integer> getFlatten() {
-		return flatten;
+	public List<Integer> getConv() {
+		return conv;
 	}
 
 	/**
-	 * @param flatten the flatten to set
+	 * @param conv the conv to set
 	 * @category accessor
 	 */
-	public void setFlatten(List<Integer> flatten) {
-		this.flatten = flatten;
+	public void setConv(List<Integer> conv) {
+		this.conv = conv;
 	}
 
 	/**

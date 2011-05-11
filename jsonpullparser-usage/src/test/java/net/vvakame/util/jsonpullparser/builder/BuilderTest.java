@@ -2,9 +2,11 @@ package net.vvakame.util.jsonpullparser.builder;
 
 import java.io.IOException;
 import java.io.StringWriter;
+import java.util.Date;
 
 import net.vvakame.sample.BuilderData;
 import net.vvakame.sample.BuilderDataGenerated;
+import net.vvakame.sample.TestData;
 import net.vvakame.util.jsonpullparser.JsonFormatException;
 import net.vvakame.util.jsonpullparser.JsonPullParser;
 import net.vvakame.util.jsonpullparser.annotation.JsonModel;
@@ -23,6 +25,34 @@ public class BuilderTest {
 
 	BuilderDataGenerated meta = BuilderDataGenerated.get();
 
+
+	/**
+	 * StringとDateのencode確認
+	 * @throws IOException
+	 * @author vvakame
+	 */
+	@Test
+	public void nameChange_encode() throws IOException {
+		BuilderData data = new BuilderData();
+		data.setStr("hoge");
+		StringWriter writer = new StringWriter();
+		meta.newBuilder().add(meta.str.name("hage")).fix().encode(writer, data);
+		String json = writer.toString();
+		assertThat(json, is("{\"hage\":\"hoge\"}"));
+	}
+
+	/**
+	 * StringとDateのdecode確認
+	 * @throws IOException
+	 * @author vvakame
+	 * @throws JsonFormatException 
+	 */
+	@Test
+	public void nameChange_decode() throws IOException, JsonFormatException {
+		JsonPullParser parser = JsonPullParser.newParser("{\"hage\":\"hoge\"}");
+		BuilderData data = meta.newBuilder().add(meta.str.name("hage")).fix().decode(parser);
+		assertThat(data.getStr(), is("hoge"));
+	}
 
 	/**
 	 * primitiveのencode確認
@@ -108,7 +138,7 @@ public class BuilderTest {
 	}
 
 	/**
-	 * primitiveのencode確認
+	 * primitiveのwrapperのencode確認
 	 * @throws IOException
 	 * @author vvakame
 	 */
@@ -153,7 +183,7 @@ public class BuilderTest {
 	}
 
 	/**
-	 * primitiveのdecode確認
+	 * primitiveのwrapperのdecode確認
 	 * @throws IOException
 	 * @author vvakame
 	 * @throws JsonFormatException 
@@ -189,6 +219,68 @@ public class BuilderTest {
 			assertThat(data.getWf(), is(3.3f));
 			assertThat(data.getWd(), is(4.4));
 		}
+	}
+
+	/**
+	 * StringとDateのencode確認
+	 * @throws IOException
+	 * @author vvakame
+	 */
+	@Test
+	public void strDate_encode() throws IOException {
+		BuilderData data = new BuilderData();
+		data.setStr("hoge");
+		data.setDate(new Date(1000000));
+		StringWriter writer = new StringWriter();
+		meta.newBuilder().add(meta.str, meta.date).fix().encode(writer, data);
+		String json = writer.toString();
+		assertThat(json, is("{\"str\":\"hoge\",\"date\":1000000}"));
+	}
+
+	/**
+	 * StringとDateのdecode確認
+	 * @throws IOException
+	 * @author vvakame
+	 * @throws JsonFormatException 
+	 */
+	@Test
+	public void strDate_decode() throws IOException, JsonFormatException {
+		JsonPullParser parser = JsonPullParser.newParser("{\"str\":\"hoge\",\"date\":1000000}");
+		BuilderData data = meta.newBuilder().add(meta.str, meta.date).fix().decode(parser);
+		assertThat(data.getStr(), is("hoge"));
+		assertThat(data.getDate(), is(new Date(1000000)));
+	}
+
+	/**
+	 * modelのencode確認
+	 * @throws IOException
+	 * @author vvakame
+	 */
+	@Test
+	public void model_encode() throws IOException {
+		BuilderData data = new BuilderData();
+		data.setModel(new TestData());
+		StringWriter writer = new StringWriter();
+		meta.newBuilder().add(meta.model).fix().encode(writer, data);
+		String json = writer.toString();
+		assertThat(
+				json,
+				is("{\"model\":{\"has_data\":false,\"name\":null,\"package_name\":null,\"version_code\":0,\"weight\":0.0}}"));
+	}
+
+	/**
+	 * modelのdecode確認
+	 * @throws IOException
+	 * @author vvakame
+	 * @throws JsonFormatException 
+	 */
+	@Test
+	public void model_decode() throws IOException, JsonFormatException {
+		JsonPullParser parser =
+				JsonPullParser
+					.newParser("{\"model\":{\"has_data\":false,\"name\":null,\"package_name\":null,\"version_code\":0,\"weight\":0.0}}");
+		BuilderData data = meta.newBuilder().add(meta.model).fix().decode(parser);
+		assertThat(data.getModel(), notNullValue());
 	}
 
 	void printJson(String json) {

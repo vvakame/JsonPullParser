@@ -121,11 +121,18 @@ public class ClassGenerateHelper {
 	 * @author vvakame
 	 */
 	public void write() throws IOException {
-
-		Filer filer = processingEnv.getFiler();
-		String generateClassName = classElement.asType().toString() + postfix;
-		JavaFileObject fileObject = filer.createSourceFile(generateClassName, classElement);
-		Template.write(fileObject, g);
+		{
+			Filer filer = processingEnv.getFiler();
+			String generateClassName = classElement.asType().toString() + postfix;
+			JavaFileObject fileObject = filer.createSourceFile(generateClassName, classElement);
+			Template.writeGen(fileObject, g);
+		}
+		if (g.isBuilder()) {
+			Filer filer = processingEnv.getFiler();
+			String generateClassName = classElement.asType().toString() + "JsonMeta";
+			JavaFileObject fileObject = filer.createSourceFile(generateClassName, classElement);
+			Template.writeJsonMeta(fileObject, g);
+		}
 	}
 
 	/**

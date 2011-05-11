@@ -1,0 +1,248 @@
+package @{packageName};
+
+import java.io.IOException;
+import java.io.Writer;
+import java.util.LinkedHashMap;
+import java.util.Map;
+
+import net.vvakame.util.jsonpullparser.JsonFormatException;
+import net.vvakame.util.jsonpullparser.JsonPullParser;
+import net.vvakame.util.jsonpullparser.JsonPullParser.State;
+import net.vvakame.util.jsonpullparser.builder.JsonModelBuilder;
+import net.vvakame.util.jsonpullparser.builder.JsonModelFixed;
+import net.vvakame.util.jsonpullparser.builder.JsonPropertyBuilder;
+import net.vvakame.util.jsonpullparser.builder.JsonPropertyFixed;
+import net.vvakame.util.jsonpullparser.builder.JsonPropertyMeta;
+import net.vvakame.util.jsonpullparser.util.JsonUtil;
+
+/**
+ * JSONを {@link JsonPullParser} を用いて {@link @{target}} に変換するクラスです.<br>
+ * APTにより自動生成されています.
+ */
+public class @{target}JsonMeta {
+
+	/** @{target} の動的なJson構築用Metaクラス */
+	public static @{target}JsonMeta meta = new @{target}JsonMeta();
+@foreach{obj : allElements}
+	/** @{obj.originalName} 用Metaクラス */
+	public JsonPropertyMeta<@{target}> @{obj.originalName} = new JsonPropertyMeta<@{target}>(Property_@{obj.key}.class, "@{obj.key}");
+@end{}
+
+	/**
+	 * @{target}用Metaクラスを返す.<br>
+	 * 再利用可能.
+	 * @return Metaインスタンス
+	 * @author vvakame
+	 */
+	public static @{target}JsonMeta get() {
+		return meta;
+	}
+	
+	/**
+	 * 新しいビルダを生成する.
+	 * @return 新しいビルダ
+	 * @author vvakame
+	 */
+	public JsonModelBuilder<@{target}> newBuilder() {
+		return new @{target}Builder(@{target}.class, true);
+	}
+	
+	static class @{target}Builder extends JsonModelBuilder<@{target}> {
+
+		public @{target}Builder(Class<@{target}> baseClass, boolean treatUnknownKeyAsError) {
+			super(baseClass, treatUnknownKeyAsError);
+		}
+
+		@Override
+		public JsonModelFixed<@{target}> fix() {
+			Map<String, JsonPropertyFixed<@{target}>> properties = new LinkedHashMap<String, JsonPropertyFixed<@{target}>>();
+			for (String key : map.keySet()) {
+				JsonPropertyBuilder<@{target}> builder = map.get(key);
+				JsonPropertyFixed<@{target}> fixed = builder.fix();
+				properties.put(key, fixed);
+			}
+
+			JsonModelFixed<@{target}> fixed = new JsonModelFixed<@{target}>(baseClass, treatUnknownKeyAsError, properties);
+			return fixed;
+		}
+	}
+
+@foreach{obj : allElements}
+	/**
+	 * @{obj.key}用Json変換クラス.
+	 * @author vvakame
+	 */
+	public static class Property_@{obj.key} extends JsonPropertyFixed<@{target}> {
+
+		@Override
+		public void encode(Writer writer, @{target} obj) throws IOException {
+	@if{obj.kind == "LIST"}
+		@if{obj.modelName == "java.lang.Boolean"}
+			JsonUtil.putBooleanList(writer, obj.@{obj.getter}());
+		
+		@else{obj.modelName == "java.lang.Integer"}
+			JsonUtil.putIntegerList(writer, obj.@{obj.getter}());
+		
+		@else{obj.modelName == "java.lang.Long"}
+			JsonUtil.putLongList(writer, obj.@{obj.getter}());
+		
+		@else{obj.modelName == "java.lang.Byte"}
+			JsonUtil.putByteList(writer, obj.@{obj.getter}());
+		
+		@else{obj.modelName == "java.lang.Short"}
+			JsonUtil.putShortList(writer, obj.@{obj.getter}());
+		
+		@else{obj.modelName == "java.lang.Character"}
+			JsonUtil.putCharacterList(writer, obj.@{obj.getter}());
+		
+		@else{obj.modelName == "java.lang.Double"}
+			JsonUtil.putDoubleList(writer, obj.@{obj.getter}());
+		
+		@else{obj.modelName == "java.lang.Float"}
+			JsonUtil.putFloatList(writer, obj.@{obj.getter}());
+		
+		@else{obj.modelName == "java.lang.String"}
+			JsonUtil.putStringList(writer, obj.@{obj.getter}());
+		
+		@else{obj.modelName == "java.util.Date"}
+			JsonUtil.putDateList(writer, obj.@{obj.getter}());
+		
+		@else{obj.subKind == "ENUM"}
+			JsonUtil.putEnumList(writer, obj.@{obj.getter}());
+		
+		@else{}
+			@{obj.modelName}@{postfix}.encodeListNullToNull(writer, obj.@{obj.getter}());
+		
+		@end{}
+	@else{obj.kind == "BOOLEAN_WRAPPER"}
+			JsonUtil.put(writer, obj.@{obj.getter}());
+	@else{obj.kind == "DOUBLE_WRAPPER"}
+			JsonUtil.put(writer, obj.@{obj.getter}());
+	@else{obj.kind == "LONG_WRAPPER"}
+			JsonUtil.put(writer, obj.@{obj.getter}());
+	@else{obj.kind == "BYTE_WRAPPER"}
+			JsonUtil.put(writer, obj.@{obj.getter}());
+	@else{obj.kind == "CHAR_WRAPPER"}
+			JsonUtil.put(writer, obj.@{obj.getter}());
+	@else{obj.kind == "FLOAT_WRAPPER"}
+			JsonUtil.put(writer, obj.@{obj.getter}());
+	@else{obj.kind == "INT_WRAPPER"}
+			JsonUtil.put(writer, obj.@{obj.getter}());
+	@else{obj.kind == "SHORT_WRAPPER"}
+			JsonUtil.put(writer, obj.@{obj.getter}());
+	@else{obj.kind == "ENUM"}
+			JsonUtil.put(writer, obj.@{obj.getter}());
+	@else{obj.kind == "JSON_ARRAY"}
+			obj.@{obj.getter}().toJson(writer);
+	@else{obj.kind == "JSON_HASH"}
+			obj.@{obj.getter}().toJson(writer);
+	@else{obj.kind == "MODEL"}
+			@{obj.modelName}@{postfix}.encodeNullToNull(writer, obj.@{obj.getter}());
+	@else{obj.kind == "CONVERTER"}
+			@{obj.converter}.getInstance().encodeNullToNull(writer, obj.@{obj.getter}());
+	@else{}
+			JsonUtil.put(writer, obj.@{obj.getter}());
+	@end{}
+		}
+
+		@Override
+		public void decode(JsonPullParser parser, @{target} obj) throws IOException,
+				JsonFormatException {
+
+	@if{obj.kind == "BOOLEAN"}
+			parser.getEventType();
+			obj.@{obj.setter}(parser.getValueBoolean());
+	@else{obj.kind == "CHAR"}
+			parser.getEventType();
+			obj.@{obj.setter}(parser.getValueString().charAt(0));
+	@else{obj.kind == "BYTE"}
+			parser.getEventType();
+			obj.@{obj.setter}((byte)parser.getValueLong());
+	@else{obj.kind == "SHORT"}
+			parser.getEventType();
+			obj.@{obj.setter}((short)parser.getValueLong());
+	@else{obj.kind == "INT"}
+			parser.getEventType();
+			obj.@{obj.setter}((int)parser.getValueLong());
+	@else{obj.kind == "LONG"}
+			parser.getEventType();
+			obj.@{obj.setter}(parser.getValueLong());
+	@else{obj.kind == "FLOAT"}
+			parser.getEventType();
+			obj.@{obj.setter}((float)parser.getValueDouble());
+	@else{obj.kind == "DOUBLE"}
+			parser.getEventType();
+			obj.@{obj.setter}(parser.getValueDouble());
+	@else{obj.kind == "STRING"}
+			parser.getEventType();
+			obj.@{obj.setter}(parser.getValueString());
+	@else{obj.kind == "LIST"}
+		@if{obj.modelName == "java.lang.Boolean"}
+			obj.@{obj.setter}(net.vvakame.util.jsonpullparser.util.JsonParseUtil.parserBooleanList(parser));
+		@else{obj.modelName == "java.lang.Integer"}
+			obj.@{obj.setter}(net.vvakame.util.jsonpullparser.util.JsonParseUtil.parserIntegerList(parser));
+		@else{obj.modelName == "java.lang.Long"}
+			obj.@{obj.setter}(net.vvakame.util.jsonpullparser.util.JsonParseUtil.parserLongList(parser));
+		@else{obj.modelName == "java.lang.Byte"}
+			obj.@{obj.setter}(net.vvakame.util.jsonpullparser.util.JsonParseUtil.parserByteList(parser));
+		@else{obj.modelName == "java.lang.Short"}
+			obj.@{obj.setter}(net.vvakame.util.jsonpullparser.util.JsonParseUtil.parserShortList(parser));
+		@else{obj.modelName == "java.lang.Character"}
+			obj.@{obj.setter}(net.vvakame.util.jsonpullparser.util.JsonParseUtil.parserCharacterList(parser));
+		@else{obj.modelName == "java.lang.Double"}
+			obj.@{obj.setter}(net.vvakame.util.jsonpullparser.util.JsonParseUtil.parserDoubleList(parser));
+		@else{obj.modelName == "java.lang.Float"}
+			obj.@{obj.setter}(net.vvakame.util.jsonpullparser.util.JsonParseUtil.parserFloatList(parser));
+		@else{obj.modelName == "java.lang.String"}
+			obj.@{obj.setter}(net.vvakame.util.jsonpullparser.util.JsonParseUtil.parserStringList(parser));
+		@else{obj.modelName == "java.util.Date"}
+			obj.@{obj.setter}(net.vvakame.util.jsonpullparser.util.JsonParseUtil.parserDateList(parser));
+		@else{obj.subKind == "ENUM"}
+			obj.@{obj.setter}(net.vvakame.util.jsonpullparser.util.JsonParseUtil.parserEnumList(parser, @{obj.modelName}.class));
+		@else{}
+			obj.@{obj.setter}(@{obj.modelName}@{postfix}.getList(parser, null));
+		@end{}
+	@else{obj.kind == "BOOLEAN_WRAPPER"}
+			obj.@{obj.setter}(net.vvakame.util.jsonpullparser.util.JsonParseUtil.parserBoolean(parser));
+	@else{obj.kind == "DOUBLE_WRAPPER"}
+			obj.@{obj.setter}(net.vvakame.util.jsonpullparser.util.JsonParseUtil.parserDouble(parser));
+	@else{obj.kind == "LONG_WRAPPER"}
+			obj.@{obj.setter}(net.vvakame.util.jsonpullparser.util.JsonParseUtil.parserLong(parser));
+	@else{obj.kind == "BYTE_WRAPPER"}
+			obj.@{obj.setter}(net.vvakame.util.jsonpullparser.util.JsonParseUtil.parserByte(parser));
+	@else{obj.kind == "CHAR_WRAPPER"}
+			obj.@{obj.setter}(net.vvakame.util.jsonpullparser.util.JsonParseUtil.parserCharacter(parser));
+	@else{obj.kind == "FLOAT_WRAPPER"}
+			obj.@{obj.setter}(net.vvakame.util.jsonpullparser.util.JsonParseUtil.parserFloat(parser));
+	@else{obj.kind == "INT_WRAPPER"}
+			obj.@{obj.setter}(net.vvakame.util.jsonpullparser.util.JsonParseUtil.parserInteger(parser));
+	@else{obj.kind == "SHORT_WRAPPER"}
+			obj.@{obj.setter}(net.vvakame.util.jsonpullparser.util.JsonParseUtil.parserShort(parser));
+	@else{obj.kind == "ENUM"}
+			if(State.VALUE_NULL.equals(parser.getEventType())){
+				obj.@{obj.setter}(null);
+			} else {
+				obj.@{obj.setter}(Enum.valueOf(@{obj.modelName}.class, parser.getValueString()));
+			}
+	@else{obj.kind == "DATE"}
+			if(State.VALUE_NULL.equals(parser.getEventType())){
+				obj.@{obj.setter}(null);
+			} else {
+				obj.@{obj.setter}(new java.util.Date(parser.getValueLong()));
+			}
+	@else{obj.kind == "JSON_ARRAY"}
+			obj.@{obj.setter}(net.vvakame.util.jsonpullparser.util.JsonArray.fromParser(parser));
+	@else{obj.kind == "JSON_HASH"}
+			obj.@{obj.setter}(net.vvakame.util.jsonpullparser.util.JsonHash.fromParser(parser));
+	@else{obj.kind == "MODEL"}
+			@{obj.modelName} tmp = @{obj.modelName}@{postfix}.get(parser);
+			obj.@{obj.setter}(tmp);
+	@else{obj.kind == "CONVERTER"}
+			@{obj.converter} converter = @{obj.converter}.getInstance();
+			@{obj.modelName} tmp = converter.parse(parser, null);
+			obj.@{obj.setter}(tmp);
+	@end{}
+		}
+	}
+@end{}
+}

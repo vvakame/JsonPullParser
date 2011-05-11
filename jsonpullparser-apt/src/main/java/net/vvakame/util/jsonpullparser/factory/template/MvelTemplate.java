@@ -51,12 +51,32 @@ public class MvelTemplate {
 	 * @throws IOException
 	 * @author vvakame
 	 */
-	public static void write(JavaFileObject fileObject, GeneratingModel model) throws IOException {
+	public static void writeGen(JavaFileObject fileObject, GeneratingModel model)
+			throws IOException {
 		Map<String, Object> map = convModelToMap(model);
 
 		Writer writer = fileObject.openWriter();
 		PrintWriter printWriter = new PrintWriter(writer);
-		String generated = (String) TemplateRuntime.eval(getTemplateString(), map);
+		String generated = (String) TemplateRuntime.eval(getTemplateString("Gen"), map);
+		printWriter.write(generated);
+		printWriter.flush();
+		printWriter.close();
+	}
+
+	/**
+	 * テンプレートエンジンを利用し fileObject に model の情報を流しこみソースを生成する.
+	 * @param fileObject 生成ソース
+	 * @param model ソース生成用の情報
+	 * @throws IOException
+	 * @author vvakame
+	 */
+	public static void writeJsonMeta(JavaFileObject fileObject, GeneratingModel model)
+			throws IOException {
+		Map<String, Object> map = convModelToMap(model);
+
+		Writer writer = fileObject.openWriter();
+		PrintWriter printWriter = new PrintWriter(writer);
+		String generated = (String) TemplateRuntime.eval(getTemplateString("JsonMeta"), map);
 		printWriter.write(generated);
 		printWriter.flush();
 		printWriter.close();
@@ -100,7 +120,6 @@ public class MvelTemplate {
 			map.put("allElements", jsonElements);
 		}
 		map.put("treatUnknownKeyAsError", model.isTreatUnknownKeyAsError());
-		map.put("builder", model.isBuilder());
 
 		return map;
 	}
@@ -119,9 +138,17 @@ public class MvelTemplate {
 		return map;
 	}
 
-	static String getTemplateString() {
-		InputStream stream =
-				MvelTemplate.class.getClassLoader().getResourceAsStream("JsonModelGen.java.mvel");
+	static String getTemplateString(String src) {
+		InputStream stream;
+		if (src.endsWith("JsonMeta")) {
+			stream =
+					MvelTemplate.class.getClassLoader().getResourceAsStream(
+							"JsonModelMeta.java.mvel");
+		} else {
+			stream =
+					MvelTemplate.class.getClassLoader().getResourceAsStream(
+							"JsonModelGen.java.mvel");
+		}
 		try {
 			String template = streamToString(stream);
 			// Log.d(template);

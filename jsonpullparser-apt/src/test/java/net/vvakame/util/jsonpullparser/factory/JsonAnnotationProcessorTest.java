@@ -57,8 +57,8 @@ public class JsonAnnotationProcessorTest extends AptinaTestCase {
 		addCompilationUnit(PrimitiveWrapperListData.class);
 
 		compile();
+		@SuppressWarnings("unused")
 		String source = getGeneratedSource(PrimitiveTypeData.class.getName() + "Gen");
-		System.out.println(source);
 		assertThat(getCompiledResult(), is(true));
 	}
 

@@ -7,7 +7,7 @@ import java.util.Date;
 import java.util.List;
 
 import net.vvakame.sample.BuilderData;
-import net.vvakame.sample.BuilderDataGenerated;
+import net.vvakame.sample.BuilderDataJsonMeta;
 import net.vvakame.sample.SampleEnum;
 import net.vvakame.sample.TestData;
 import net.vvakame.util.jsonpullparser.JsonFormatException;
@@ -28,7 +28,7 @@ import static org.junit.Assert.*;
  */
 public class BuilderTest {
 
-	BuilderDataGenerated meta = BuilderDataGenerated.get();
+	BuilderDataJsonMeta meta = BuilderDataJsonMeta.get();
 
 
 	/**
@@ -57,6 +57,30 @@ public class BuilderTest {
 		JsonPullParser parser = JsonPullParser.newParser("{\"hage\":\"hoge\"}");
 		BuilderData data = meta.newBuilder().add(meta.str.name("hage")).fix().decode(parser);
 		assertThat(data.getStr(), is("hoge"));
+	}
+
+	/**
+	 * 未知のKeyでエラーが通知されるか
+	 * @throws IOException
+	 * @author vvakame
+	 * @throws JsonFormatException 
+	 */
+	@Test(expected = JsonFormatException.class)
+	public void treatUnknownKeyAsError_on() throws IOException, JsonFormatException {
+		JsonPullParser parser = JsonPullParser.newParser("{\"hage\":\"hoge\"}");
+		meta.newBuilder().treatUnknownKeyAsError(true).add(meta.str).fix().decode(parser);
+	}
+
+	/**
+	 * 未知のKeyでエラーが通知されないか
+	 * @throws IOException
+	 * @author vvakame
+	 * @throws JsonFormatException 
+	 */
+	@Test
+	public void treatUnknownKeyAsError_off() throws IOException, JsonFormatException {
+		JsonPullParser parser = JsonPullParser.newParser("{\"hage\":\"hoge\"}");
+		meta.newBuilder().treatUnknownKeyAsError(false).add(meta.str).fix().decode(parser);
 	}
 
 	/**

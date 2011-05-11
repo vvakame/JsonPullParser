@@ -38,7 +38,20 @@ public class Template {
 	 * @throws IOException
 	 * @author vvakame
 	 */
-	public static void write(JavaFileObject fileObject, GeneratingModel model) throws IOException {
-		MvelTemplate.write(fileObject, model);
+	public static void writeGen(JavaFileObject fileObject, GeneratingModel model)
+			throws IOException {
+		MvelTemplate.writeGen(fileObject, model);
+	}
+
+	/**
+	 * テンプレートエンジンを利用し fileObject に model の情報を流しこみソースを生成する.
+	 * @param fileObject 生成ソース
+	 * @param model ソース生成用の情報
+	 * @throws IOException
+	 * @author vvakame
+	 */
+	public static void writeJsonMeta(JavaFileObject fileObject, GeneratingModel model)
+			throws IOException {
+		MvelTemplate.writeJsonMeta(fileObject, model);
 	}
 }

@@ -15,6 +15,7 @@ import net.vvakame.util.jsonpullparser.JsonPullParser;
 import net.vvakame.util.jsonpullparser.annotation.JsonModel;
 import net.vvakame.util.jsonpullparser.util.JsonArray;
 import net.vvakame.util.jsonpullparser.util.JsonHash;
+import net.vvakame.util.jsonpullparser.util.OnJsonObjectAddListener;
 
 import org.junit.Test;
 
@@ -460,6 +461,48 @@ public class BuilderTest {
 		JsonPullParser parser = JsonPullParser.newParser("{\"json_array\":[]}");
 		BuilderData data = meta.newBuilder().add(meta.jsonArray).fix().get(parser);
 		assertThat(data.getJsonArray().size(), is(0));
+	}
+
+	/**
+	 * #encodeList の確認
+	 * @author vvakame
+	 * @throws IOException 
+	 */
+	@Test
+	public void encodeList() throws IOException {
+		BuilderData data;
+		List<BuilderData> list = new ArrayList<BuilderData>();
+		data = new BuilderData();
+		data.setI(1);
+		list.add(data);
+		data = new BuilderData();
+		data.setI(2);
+		list.add(data);
+
+		StringWriter writer = new StringWriter();
+		meta.newBuilder().add(meta.i).fix().encodeList(writer, list);
+
+		assertThat(writer.toString(), is("[{\"i\":1},{\"i\":2}]"));
+	}
+
+	/**
+	 * #getList の確認
+	 * @author vvakame
+	 * @throws IOException 
+	 * @throws JsonFormatException 
+	 */
+	@Test
+	public void getList() throws IOException, JsonFormatException {
+		JsonPullParser parser = JsonPullParser.newParser("[{\"i\":1},{\"i\":2}]");
+
+		List<BuilderData> list =
+				meta.newBuilder().add(meta.i).fix().getList(parser, new OnJsonObjectAddListener() {
+
+					@Override
+					public void onAdd(Object obj) {
+					}
+				});
+		assertThat(list.size(), is(2));
 	}
 
 	void printJson(String json) {

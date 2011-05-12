@@ -20,13 +20,13 @@ import net.vvakame.util.jsonpullparser.util.OnJsonObjectAddListener;
  * @author vvakame
  * @param <T>
  */
-public class JsonModelFixed<T> {
+public class JsonModelCoder<T> {
 
 	Class<T> baseClass;
 
 	boolean treatUnknownKeyAsError;
 
-	Map<String, JsonPropertyFixed<T>> map;
+	Map<String, JsonPropertyCoder<T>> map;
 
 
 	/**
@@ -36,8 +36,8 @@ public class JsonModelFixed<T> {
 	 * @param map
 	 * @category constructor
 	 */
-	public JsonModelFixed(Class<T> baseClass, boolean treatUnknownKeyAsError,
-			Map<String, JsonPropertyFixed<T>> map) {
+	public JsonModelCoder(Class<T> baseClass, boolean treatUnknownKeyAsError,
+			Map<String, JsonPropertyCoder<T>> map) {
 		this.baseClass = baseClass;
 		this.treatUnknownKeyAsError = treatUnknownKeyAsError;
 		this.map = map;
@@ -286,7 +286,7 @@ public class JsonModelFixed<T> {
 	public boolean parseValue(JsonPullParser parser, OnJsonObjectAddListener listener, String key,
 			T obj) throws IOException, JsonFormatException {
 
-		JsonPropertyFixed<T> dec = map.get(key);
+		JsonPropertyCoder<T> dec = map.get(key);
 		if (dec == null) {
 			return false;
 		} else {
@@ -448,7 +448,7 @@ public class JsonModelFixed<T> {
 		int count = 0;
 		for (String key : map.keySet()) {
 			JsonUtil.putKey(writer, key);
-			JsonPropertyFixed<T> enc = map.get(key);
+			JsonPropertyCoder<T> enc = map.get(key);
 			enc.encode(writer, obj);
 			count++;
 			if (count != map.size()) {

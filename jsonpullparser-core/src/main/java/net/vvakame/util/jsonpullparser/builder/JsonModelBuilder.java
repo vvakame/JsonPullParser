@@ -62,5 +62,5 @@ public abstract class JsonModelBuilder<T> {
 	 * @return 固定されたJson変換用インスタンス
 	 * @author vvakame
 	 */
-	public abstract JsonModelFixed<T> fix();
+	public abstract JsonModelCoder<T> fix();
 }

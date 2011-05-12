@@ -7,7 +7,7 @@ package net.vvakame.util.jsonpullparser.builder;
  */
 public class JsonPropertyMeta<T> implements JsonPropertyBuilderCreator {
 
-	private Class<? extends JsonPropertyFixed<T>> fixedClass;
+	private Class<? extends JsonPropertyCoder<T>> coderClass;
 
 	private String name;
 
@@ -20,17 +20,17 @@ public class JsonPropertyMeta<T> implements JsonPropertyBuilderCreator {
 
 	/**
 	 * the constructor.
-	 * @param fixedClass
+	 * @param coderClass
 	 * @param name
 	 * @category constructor
 	 */
-	public JsonPropertyMeta(Class<? extends JsonPropertyFixed<T>> fixedClass, String name) {
-		this.fixedClass = fixedClass;
+	public JsonPropertyMeta(Class<? extends JsonPropertyCoder<T>> coderClass, String name) {
+		this.coderClass = coderClass;
 		this.name = name;
 	}
 
 	JsonPropertyBuilder<T> getBuilder() {
-		return new JsonPropertyBuilder<T>(fixedClass, name);
+		return new JsonPropertyBuilder<T>(coderClass, name);
 	}
 
 	/**
@@ -40,6 +40,6 @@ public class JsonPropertyMeta<T> implements JsonPropertyBuilderCreator {
 	 * @author vvakame
 	 */
 	public JsonPropertyBuilder<T> name(String name) {
-		return new JsonPropertyBuilder<T>(fixedClass, name);
+		return new JsonPropertyBuilder<T>(coderClass, name);
 	}
 }

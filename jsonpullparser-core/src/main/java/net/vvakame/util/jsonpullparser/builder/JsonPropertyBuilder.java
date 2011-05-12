@@ -1,6 +1,5 @@
 package net.vvakame.util.jsonpullparser.builder;
 
-
 /**
  * Jsonの各要素に対応する実行時組立用クラス.
  * @author vvakame
@@ -8,19 +7,19 @@ package net.vvakame.util.jsonpullparser.builder;
  */
 public class JsonPropertyBuilder<T> implements JsonPropertyBuilderCreator {
 
-	Class<? extends JsonPropertyFixed<T>> fixedClass;
+	Class<? extends JsonPropertyCoder<T>> coderClass;
 
 	String name;
 
 
 	/**
 	 * the constructor.
-	 * @param fixedClass
+	 * @param coderClass
 	 * @param name
 	 * @category constructor
 	 */
-	public JsonPropertyBuilder(Class<? extends JsonPropertyFixed<T>> fixedClass, String name) {
-		this.fixedClass = fixedClass;
+	public JsonPropertyBuilder(Class<? extends JsonPropertyCoder<T>> coderClass, String name) {
+		this.coderClass = coderClass;
 		this.name = name;
 	}
 
@@ -46,19 +45,17 @@ public class JsonPropertyBuilder<T> implements JsonPropertyBuilderCreator {
 	 * @return 固定されたJson変換用インスタンス
 	 * @author vvakame
 	 */
-	public JsonPropertyFixed<T> fix() {
-		JsonPropertyFixed<T> fixed = null;
+	public JsonPropertyCoder<T> fix() {
+		JsonPropertyCoder<T> coder = null;
 		try {
-			fixed = fixedClass.newInstance();
+			coder = coderClass.newInstance();
 		} catch (InstantiationException e) {
-			// FIXME
-			throw new RuntimeException(e);
+			throw new IllegalArgumentException(e);
 		} catch (IllegalAccessException e) {
-			// FIXME
-			throw new RuntimeException(e);
+			throw new IllegalArgumentException(e);
 		}
-		fixed.name = name;
+		coder.name = name;
 
-		return fixed;
+		return coder;
 	}
 }

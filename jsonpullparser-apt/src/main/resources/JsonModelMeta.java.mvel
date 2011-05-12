@@ -9,9 +9,9 @@ import net.vvakame.util.jsonpullparser.JsonFormatException;
 import net.vvakame.util.jsonpullparser.JsonPullParser;
 import net.vvakame.util.jsonpullparser.JsonPullParser.State;
 import net.vvakame.util.jsonpullparser.builder.JsonModelBuilder;
-import net.vvakame.util.jsonpullparser.builder.JsonModelFixed;
+import net.vvakame.util.jsonpullparser.builder.JsonModelCoder;
 import net.vvakame.util.jsonpullparser.builder.JsonPropertyBuilder;
-import net.vvakame.util.jsonpullparser.builder.JsonPropertyFixed;
+import net.vvakame.util.jsonpullparser.builder.JsonPropertyCoder;
 import net.vvakame.util.jsonpullparser.builder.JsonPropertyMeta;
 import net.vvakame.util.jsonpullparser.util.JsonUtil;
 
@@ -54,15 +54,15 @@ public class @{target}JsonMeta {
 		}
 
 		@Override
-		public JsonModelFixed<@{target}> fix() {
-			Map<String, JsonPropertyFixed<@{target}>> properties = new LinkedHashMap<String, JsonPropertyFixed<@{target}>>();
+		public JsonModelCoder<@{target}> fix() {
+			Map<String, JsonPropertyCoder<@{target}>> properties = new LinkedHashMap<String, JsonPropertyCoder<@{target}>>();
 			for (String key : map.keySet()) {
 				JsonPropertyBuilder<@{target}> builder = map.get(key);
-				JsonPropertyFixed<@{target}> fixed = builder.fix();
+				JsonPropertyCoder<@{target}> fixed = builder.fix();
 				properties.put(key, fixed);
 			}
 
-			JsonModelFixed<@{target}> fixed = new JsonModelFixed<@{target}>(baseClass, treatUnknownKeyAsError, properties);
+			JsonModelCoder<@{target}> fixed = new JsonModelCoder<@{target}>(baseClass, treatUnknownKeyAsError, properties);
 			return fixed;
 		}
 	}
@@ -72,7 +72,7 @@ public class @{target}JsonMeta {
 	 * @{obj.key}用Json変換クラス.
 	 * @author vvakame
 	 */
-	public static class Property_@{obj.key} extends JsonPropertyFixed<@{target}> {
+	public static class Property_@{obj.key} extends JsonPropertyCoder<@{target}> {
 
 		@Override
 		public void encode(Writer writer, @{target} obj) throws IOException {

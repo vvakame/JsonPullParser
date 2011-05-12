@@ -11,7 +11,7 @@ import net.vvakame.util.jsonpullparser.JsonPullParser;
  * @author vvakame
  * @param <T>
  */
-public abstract class JsonPropertyFixed<T> {
+public abstract class JsonPropertyCoder<T> {
 
 	String name;
 

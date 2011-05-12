@@ -47,15 +47,15 @@ public class BuilderTest {
 	}
 
 	/**
-	 * StringとDateのdecode確認
+	 * StringとDateのget確認
 	 * @throws IOException
 	 * @author vvakame
 	 * @throws JsonFormatException 
 	 */
 	@Test
-	public void nameChange_decode() throws IOException, JsonFormatException {
+	public void nameChange_get() throws IOException, JsonFormatException {
 		JsonPullParser parser = JsonPullParser.newParser("{\"hage\":\"hoge\"}");
-		BuilderData data = meta.newBuilder().add(meta.str.name("hage")).fix().decode(parser);
+		BuilderData data = meta.newBuilder().add(meta.str.name("hage")).fix().get(parser);
 		assertThat(data.getStr(), is("hoge"));
 	}
 
@@ -68,7 +68,7 @@ public class BuilderTest {
 	@Test(expected = JsonFormatException.class)
 	public void treatUnknownKeyAsError_on() throws IOException, JsonFormatException {
 		JsonPullParser parser = JsonPullParser.newParser("{\"hage\":\"hoge\"}");
-		meta.newBuilder().treatUnknownKeyAsError(true).add(meta.str).fix().decode(parser);
+		meta.newBuilder().treatUnknownKeyAsError(true).add(meta.str).fix().get(parser);
 	}
 
 	/**
@@ -80,7 +80,7 @@ public class BuilderTest {
 	@Test
 	public void treatUnknownKeyAsError_off() throws IOException, JsonFormatException {
 		JsonPullParser parser = JsonPullParser.newParser("{\"hage\":\"hoge\"}");
-		meta.newBuilder().treatUnknownKeyAsError(false).add(meta.str).fix().decode(parser);
+		meta.newBuilder().treatUnknownKeyAsError(false).add(meta.str).fix().get(parser);
 	}
 
 	/**
@@ -128,17 +128,17 @@ public class BuilderTest {
 	}
 
 	/**
-	 * primitiveのdecode確認
+	 * primitiveのget確認
 	 * @throws IOException
 	 * @author vvakame
 	 * @throws JsonFormatException 
 	 */
 	@Test
-	public void primitive_decode() throws IOException, JsonFormatException {
+	public void primitive_get() throws IOException, JsonFormatException {
 		{
 			// boolean true
 			JsonPullParser parser = JsonPullParser.newParser("{\"bool\":true}");
-			BuilderData data = meta.newBuilder().add(meta.bool).fix().decode(parser);
+			BuilderData data = meta.newBuilder().add(meta.bool).fix().get(parser);
 			assertThat(data.isBool(), is(true));
 		}
 		{
@@ -149,7 +149,7 @@ public class BuilderTest {
 						.newParser("{\"bool\":false,\"c\":\"F\",\"b\":1,\"s\":2,\"i\":3,\"l\":4}");
 			BuilderData data =
 					meta.newBuilder().add(meta.bool, meta.c, meta.b, meta.s, meta.i, meta.l).fix()
-						.decode(parser);
+						.get(parser);
 			assertThat(data.isBool(), is(false));
 			assertThat(data.getC(), is('F'));
 			assertThat(data.getB(), is((byte) 1));
@@ -160,7 +160,7 @@ public class BuilderTest {
 		{
 			// float, double
 			JsonPullParser parser = JsonPullParser.newParser("{\"f\":3.3,\"d\":4.4}");
-			BuilderData data = meta.newBuilder().add(meta.f, meta.d).fix().decode(parser);
+			BuilderData data = meta.newBuilder().add(meta.f, meta.d).fix().get(parser);
 			assertThat(data.getF(), is(3.3f));
 			assertThat(data.getD(), is(4.4));
 		}
@@ -212,17 +212,17 @@ public class BuilderTest {
 	}
 
 	/**
-	 * primitiveのwrapperのdecode確認
+	 * primitiveのwrapperのget確認
 	 * @throws IOException
 	 * @author vvakame
 	 * @throws JsonFormatException 
 	 */
 	@Test
-	public void primitiveWrapper_decode() throws IOException, JsonFormatException {
+	public void primitiveWrapper_get() throws IOException, JsonFormatException {
 		{
 			// boolean true
 			JsonPullParser parser = JsonPullParser.newParser("{\"w_bool\":true}");
-			BuilderData data = meta.newBuilder().add(meta.wBool).fix().decode(parser);
+			BuilderData data = meta.newBuilder().add(meta.wBool).fix().get(parser);
 			assertThat(data.getwBool(), is(true));
 		}
 		{
@@ -233,7 +233,7 @@ public class BuilderTest {
 						.newParser("{\"w_bool\":false,\"wc\":\"F\",\"wb\":1,\"ws\":2,\"wi\":3,\"wl\":4}");
 			BuilderData data =
 					meta.newBuilder().add(meta.wBool, meta.wc, meta.wb, meta.ws, meta.wi, meta.wl)
-						.fix().decode(parser);
+						.fix().get(parser);
 			assertThat(data.getwBool(), is(false));
 			assertThat(data.getWc(), is('F'));
 			assertThat(data.getWb(), is((byte) 1));
@@ -244,7 +244,7 @@ public class BuilderTest {
 		{
 			// float, double
 			JsonPullParser parser = JsonPullParser.newParser("{\"wf\":3.3,\"wd\":4.4}");
-			BuilderData data = meta.newBuilder().add(meta.wf, meta.wd).fix().decode(parser);
+			BuilderData data = meta.newBuilder().add(meta.wf, meta.wd).fix().get(parser);
 			assertThat(data.getWf(), is(3.3f));
 			assertThat(data.getWd(), is(4.4));
 		}
@@ -267,15 +267,15 @@ public class BuilderTest {
 	}
 
 	/**
-	 * StringとDateのdecode確認
+	 * StringとDateのget確認
 	 * @throws IOException
 	 * @author vvakame
 	 * @throws JsonFormatException 
 	 */
 	@Test
-	public void strDate_decode() throws IOException, JsonFormatException {
+	public void strDate_get() throws IOException, JsonFormatException {
 		JsonPullParser parser = JsonPullParser.newParser("{\"str\":\"hoge\",\"date\":1000000}");
-		BuilderData data = meta.newBuilder().add(meta.str, meta.date).fix().decode(parser);
+		BuilderData data = meta.newBuilder().add(meta.str, meta.date).fix().get(parser);
 		assertThat(data.getStr(), is("hoge"));
 		assertThat(data.getDate(), is(new Date(1000000)));
 	}
@@ -298,17 +298,17 @@ public class BuilderTest {
 	}
 
 	/**
-	 * modelのdecode確認
+	 * modelのget確認
 	 * @throws IOException
 	 * @author vvakame
 	 * @throws JsonFormatException 
 	 */
 	@Test
-	public void model_decode() throws IOException, JsonFormatException {
+	public void model_get() throws IOException, JsonFormatException {
 		JsonPullParser parser =
 				JsonPullParser
 					.newParser("{\"model\":{\"has_data\":false,\"name\":null,\"package_name\":null,\"version_code\":0,\"weight\":0.0}}");
-		BuilderData data = meta.newBuilder().add(meta.model).fix().decode(parser);
+		BuilderData data = meta.newBuilder().add(meta.model).fix().get(parser);
 		assertThat(data.getModel(), notNullValue());
 	}
 
@@ -328,15 +328,15 @@ public class BuilderTest {
 	}
 
 	/**
-	 * enumのdecode確認
+	 * enumのget確認
 	 * @throws IOException
 	 * @author vvakame
 	 * @throws JsonFormatException 
 	 */
 	@Test
-	public void enum_decode() throws IOException, JsonFormatException {
+	public void enum_get() throws IOException, JsonFormatException {
 		JsonPullParser parser = JsonPullParser.newParser("{\"outer_enum\":\"PRODUCT\"}");
-		BuilderData data = meta.newBuilder().add(meta.outerEnum).fix().decode(parser);
+		BuilderData data = meta.newBuilder().add(meta.outerEnum).fix().get(parser);
 		assertThat(data.getOuterEnum(), is(SampleEnum.PRODUCT));
 	}
 
@@ -361,17 +361,17 @@ public class BuilderTest {
 	}
 
 	/**
-	 * listのdecode確認
+	 * listのget確認
 	 * @throws IOException
 	 * @author vvakame
 	 * @throws JsonFormatException 
 	 */
 	@Test
-	public void list_decode() throws IOException, JsonFormatException {
+	public void list_get() throws IOException, JsonFormatException {
 		JsonPullParser parser =
 				JsonPullParser
 					.newParser("{\"list1\":[{\"has_data\":false,\"name\":null,\"package_name\":null,\"version_code\":0,\"weight\":0.0}],\"list2\":[{\"has_data\":false,\"name\":null,\"package_name\":null,\"version_code\":0,\"weight\":0.0}]}");
-		BuilderData data = meta.newBuilder().add(meta.list1, meta.list2).fix().decode(parser);
+		BuilderData data = meta.newBuilder().add(meta.list1, meta.list2).fix().get(parser);
 		assertThat(data.getList1().size(), is(1));
 		assertThat(data.getList2().size(), is(1));
 	}
@@ -394,15 +394,15 @@ public class BuilderTest {
 	}
 
 	/**
-	 * converterのdecode確認
+	 * converterのget確認
 	 * @throws IOException
 	 * @author vvakame
 	 * @throws JsonFormatException 
 	 */
 	@Test
-	public void converter_decode() throws IOException, JsonFormatException {
+	public void converter_get() throws IOException, JsonFormatException {
 		JsonPullParser parser = JsonPullParser.newParser("{\"conv\":[1,2,[3,4,[5]]]}");
-		BuilderData data = meta.newBuilder().add(meta.conv).fix().decode(parser);
+		BuilderData data = meta.newBuilder().add(meta.conv).fix().get(parser);
 		assertThat(data.getConv().size(), is(5));
 	}
 
@@ -422,15 +422,15 @@ public class BuilderTest {
 	}
 
 	/**
-	 * JsonHashのdecode確認
+	 * JsonHashのget確認
 	 * @throws IOException
 	 * @author vvakame
 	 * @throws JsonFormatException 
 	 */
 	@Test
-	public void jsonHash_decode() throws IOException, JsonFormatException {
+	public void jsonHash_get() throws IOException, JsonFormatException {
 		JsonPullParser parser = JsonPullParser.newParser("{\"json_hash\":{}}");
-		BuilderData data = meta.newBuilder().add(meta.jsonHash).fix().decode(parser);
+		BuilderData data = meta.newBuilder().add(meta.jsonHash).fix().get(parser);
 		assertThat(data.getJsonHash().size(), is(0));
 	}
 
@@ -450,15 +450,15 @@ public class BuilderTest {
 	}
 
 	/**
-	 * JsonArrayのdecode確認
+	 * JsonArrayのget確認
 	 * @throws IOException
 	 * @author vvakame
 	 * @throws JsonFormatException 
 	 */
 	@Test
-	public void jsonArray_decode() throws IOException, JsonFormatException {
+	public void jsonArray_get() throws IOException, JsonFormatException {
 		JsonPullParser parser = JsonPullParser.newParser("{\"json_array\":[]}");
-		BuilderData data = meta.newBuilder().add(meta.jsonArray).fix().decode(parser);
+		BuilderData data = meta.newBuilder().add(meta.jsonArray).fix().get(parser);
 		assertThat(data.getJsonArray().size(), is(0));
 	}
 

@@ -107,6 +107,7 @@ public class IntFlattenConverter extends TokenConverter<List<Integer>> {
 	public void encodeNullToNull(Writer writer, List<Integer> obj) throws IOException {
 		if (obj == null) {
 			writer.write("null");
+			return;
 		}
 
 		startArray(writer);

@@ -30,6 +30,13 @@ public abstract class JsonModelBuilder<T> {
 	}
 
 	/**
+	 * 全要素のJsonの各要素に対応したビルダの追加
+	 * @return this
+	 * @author vvakame
+	 */
+	public abstract JsonModelBuilder<T> addAll();
+
+	/**
 	 * Jsonの各要素に対応したビルダの追加
 	 * @param creators
 	 * @return this
@@ -44,6 +51,40 @@ public abstract class JsonModelBuilder<T> {
 
 	protected void addSub(JsonPropertyBuilder<T> builder) {
 		map.put(builder.name, builder);
+	}
+
+	/**
+	 * 指定されたビルダを取り除く
+	 * @param creators
+	 * @return this
+	 * @author vvakame
+	 */
+	public JsonModelBuilder<T> rm(JsonPropertyBuilderCreator... creators) {
+		for (JsonPropertyBuilderCreator creator : creators) {
+			rmSub(creator.<T> get());
+		}
+		return this;
+	}
+
+	protected void rmSub(JsonPropertyBuilder<T> builder) {
+		map.remove(builder.name);
+	}
+
+	/**
+	 * 指定されたビルダを取り除く
+	 * @param names
+	 * @return this
+	 * @author vvakame
+	 */
+	public JsonModelBuilder<T> rm(String... names) {
+		for (String name : names) {
+			rmSub(name);
+		}
+		return this;
+	}
+
+	protected void rmSub(String name) {
+		map.remove(name);
 	}
 
 	/**

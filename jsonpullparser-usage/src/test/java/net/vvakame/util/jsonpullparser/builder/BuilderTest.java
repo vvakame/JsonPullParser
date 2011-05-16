@@ -505,6 +505,42 @@ public class BuilderTest {
 		assertThat(list.size(), is(2));
 	}
 
+	/**
+	 * #rm の確認
+	 * @throws IOException
+	 * @author vvakame
+	 */
+	@Test
+	public void rm() throws IOException {
+		BuilderData data = new BuilderData();
+		data.setStr("hoge");
+		data.setI(3);
+		data.setB((byte) 8);
+		StringWriter writer = new StringWriter();
+		meta.newBuilder().add(meta.str.name("hage"), meta.i, meta.b).rm("hage").rm(meta.i).fix()
+			.encode(writer, data);
+		String json = writer.toString();
+		assertThat(json, is("{\"b\":8}"));
+	}
+
+	/**
+	 * #addAll の確認
+	 * @throws IOException
+	 * @author vvakame
+	 */
+	@Test
+	public void addAll() throws IOException {
+		BuilderData data = new BuilderData();
+		data.setI(3);
+		StringWriter writer = new StringWriter();
+		meta.newBuilder().addAll().fix().encode(writer, data);
+		String json = writer.toString();
+		System.out.println(json);
+		assertThat(
+				json,
+				is("{\"b\":0,\"b_list\":null,\"bool\":false,\"bool_list\":null,\"c\":\" \",\"c_list\":null,\"conv\":null,\"d\":0.0,\"d_list\":null,\"date\":null,\"date_list\":null,\"f\":0.0,\"f_list\":null,\"i\":3,\"i_list\":null,\"json_array\":null,\"json_hash\":null,\"l\":0,\"l_list\":null,\"list1\":null,\"list2\":null,\"model\":null,\"outer_enum\":null,\"outer_enum_list\":null,\"s\":0,\"s_list\":null,\"str\":null,\"str_list\":null,\"w_bool\":null,\"wb\":null,\"wc\":null,\"wd\":null,\"wf\":null,\"wi\":null,\"wl\":null,\"ws\":null}"));
+	}
+
 	void printJson(String json) {
 		System.out.println(json.replaceAll("\"", "\\\\\""));
 	}

@@ -25,7 +25,7 @@ public class @{target}JsonMeta {
 	public static @{target}JsonMeta meta = new @{target}JsonMeta();
 @foreach{obj : allElements}
 	/** @{obj.originalName} 用Metaクラス */
-	public JsonPropertyMeta<@{target}> @{obj.originalName} = new JsonPropertyMeta<@{target}>(Property_@{obj.key}.class, "@{obj.key}");
+	public final JsonPropertyMeta<@{target}> @{obj.originalName} = new JsonPropertyMeta<@{target}>(Property_@{obj.key}.class, "@{obj.key}");
 @end{}
 
 	/**
@@ -47,11 +47,19 @@ public class @{target}JsonMeta {
 		return new @{target}Builder(@{target}.class, true);
 	}
 	
-	static class @{target}Builder extends JsonModelBuilder<@{target}> {
+	class @{target}Builder extends JsonModelBuilder<@{target}> {
 
 		public @{target}Builder(Class<@{target}> baseClass, boolean treatUnknownKeyAsError) {
 			super(baseClass, treatUnknownKeyAsError);
 		}
+
+		@Override
+		public JsonModelBuilder<@{target}> addAll() {
+@foreach{obj : allElements}
+			add(@{obj.originalName});
+@end{}
+			return this;
+		}		
 
 		@Override
 		public JsonModelCoder<@{target}> fix() {
@@ -133,9 +141,17 @@ public class @{target}JsonMeta {
 	@else{obj.kind == "ENUM"}
 			JsonUtil.put(writer, obj.@{obj.getter}());
 	@else{obj.kind == "JSON_ARRAY"}
-			obj.@{obj.getter}().toJson(writer);
+			if(obj.@{obj.getter}() != null){
+				obj.@{obj.getter}().toJson(writer);
+			} else {
+				JsonUtil.put(writer, (Object) null);
+			}
 	@else{obj.kind == "JSON_HASH"}
-			obj.@{obj.getter}().toJson(writer);
+			if(obj.@{obj.getter}() != null){
+				obj.@{obj.getter}().toJson(writer);
+			} else {
+				JsonUtil.put(writer, (Object) null);
+			}
 	@else{obj.kind == "MODEL"}
 			@{obj.modelName}@{postfix}.encodeNullToNull(writer, obj.@{obj.getter}());
 	@else{obj.kind == "CONVERTER"}

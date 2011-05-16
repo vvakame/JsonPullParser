@@ -7,7 +7,6 @@ import java.util.Map;
 
 import net.vvakame.util.jsonpullparser.JsonFormatException;
 import net.vvakame.util.jsonpullparser.JsonPullParser;
-import net.vvakame.util.jsonpullparser.JsonPullParser.State;
 import net.vvakame.util.jsonpullparser.builder.JsonModelBuilder;
 import net.vvakame.util.jsonpullparser.builder.JsonModelCoder;
 import net.vvakame.util.jsonpullparser.builder.JsonPropertyBuilder;
@@ -235,13 +234,13 @@ public class @{target}JsonMeta {
 	@else{obj.kind == "SHORT_WRAPPER"}
 			obj.@{obj.setter}(net.vvakame.util.jsonpullparser.util.JsonParseUtil.parserShort(parser));
 	@else{obj.kind == "ENUM"}
-			if(State.VALUE_NULL.equals(parser.getEventType())){
+			if(net.vvakame.util.jsonpullparser.JsonPullParser.State.VALUE_NULL.equals(parser.getEventType())){
 				obj.@{obj.setter}(null);
 			} else {
 				obj.@{obj.setter}(Enum.valueOf(@{obj.modelName}.class, parser.getValueString()));
 			}
 	@else{obj.kind == "DATE"}
-			if(State.VALUE_NULL.equals(parser.getEventType())){
+			if(net.vvakame.util.jsonpullparser.JsonPullParser.State.VALUE_NULL.equals(parser.getEventType())){
 				obj.@{obj.setter}(null);
 			} else {
 				obj.@{obj.setter}(new java.util.Date(parser.getValueLong()));

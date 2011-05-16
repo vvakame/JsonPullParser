@@ -15,7 +15,7 @@
   <classpathentry kind="var" path="M2_REPO/org/codehaus/jackson/jackson-mapper-asl/1.6.3/jackson-mapper-asl-1.6.3.jar"/>
   <classpathentry kind="var" path="M2_REPO/net/sf/json-lib/json-lib/2.4/json-lib-2.4-jdk15.jar"/>
   <classpathentry kind="var" path="M2_REPO/net/arnx/jsonic/jsonic/1.2.0/jsonic-1.2.0.jar"/>
-  <classpathentry kind="var" path="M2_REPO/net/vvakame/jsonpullparser-core/1.2/jsonpullparser-core-1.2.jar" sourcepath="M2_REPO/net/vvakame/jsonpullparser-core/1.2/jsonpullparser-core-1.2-sources.jar"/>
+  <classpathentry kind="var" path="M2_REPO/net/vvakame/jsonpullparser-core/1.3-SNAPSHOT/jsonpullparser-core-1.3-SNAPSHOT.jar" sourcepath="M2_REPO/net/vvakame/jsonpullparser-core/1.3-SNAPSHOT/jsonpullparser-core-1.3-SNAPSHOT-sources.jar"/>
   <classpathentry kind="var" path="M2_REPO/junit/junit/4.8.1/junit-4.8.1.jar" sourcepath="M2_REPO/junit/junit/4.8.1/junit-4.8.1-sources.jar"/>
   <classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 </classpath>

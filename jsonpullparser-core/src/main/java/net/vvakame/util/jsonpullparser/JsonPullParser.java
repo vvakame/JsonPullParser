@@ -25,6 +25,8 @@ import java.io.StringReader;
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.Charset;
 import java.nio.charset.UnsupportedCharsetException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * JSONPullParserを提供します.<br>
@@ -127,6 +129,11 @@ public class JsonPullParser {
 	boolean valueBoolean;
 
 	State lookAhead = null;
+
+	// ログ作成用
+	boolean logEnable = false;
+
+	List<JsonSlice> slices = null;
 
 
 	/**
@@ -269,6 +276,17 @@ public class JsonPullParser {
 		br =
 				(reader instanceof BufferedReader) ? (BufferedReader) reader : new BufferedReader(
 						reader);
+	}
+
+	/**
+	 * Json解釈時にオリジナルと意味的に同一のデータの保存を行います.
+	 * @return {@link JsonPullParser} 自身
+	 * @author vvakame
+	 */
+	public JsonPullParser setLogEnable() {
+		logEnable = true;
+		slices = new ArrayList<JsonSlice>();
+		return this;
 	}
 
 	/**

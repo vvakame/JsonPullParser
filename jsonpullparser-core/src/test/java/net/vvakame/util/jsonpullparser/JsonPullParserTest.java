@@ -21,6 +21,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import net.vvakame.util.jsonpullparser.JsonPullParser.State;
+import net.vvakame.util.jsonpullparser.util.JsonSliceUtil;
 
 import org.junit.Test;
 
@@ -747,6 +748,44 @@ public class JsonPullParserTest {
 		parser.getEventType();
 		parser.getEventType();
 		parser.getEventType();
+	}
+
+	/**
+	 * {@link JsonSlice} の生成テスト.
+	 * @author vvakame
+	 * @throws JsonFormatException 
+	 * @throws IOException 
+	 */
+	@Test
+	public void jsonSlices() throws IOException, JsonFormatException {
+		String json;
+		JsonPullParser parser;
+
+		json = "[1,2.2,true,\"str\"]";
+		parser = JsonPullParser.newParser(json).setLogEnable();
+		parser.getEventType();
+		parser.getEventType();
+		parser.getEventType();
+		parser.getEventType();
+		parser.getEventType();
+		parser.getEventType();
+		assertThat(JsonSliceUtil.slicesToString(parser.getSlices()), is(json));
+
+		json = "[1,2.2,true,\"str\"]";
+		parser = JsonPullParser.newParser(json).setLogEnable();
+		parser.discardArrayToken();
+		assertThat(JsonSliceUtil.slicesToString(parser.getSlices()), is(json));
+
+		json = "{\"str\":\"hoge\"}";
+		parser = JsonPullParser.newParser(json).setLogEnable();
+		parser.discardHashToken();
+		assertThat(JsonSliceUtil.slicesToString(parser.getSlices()), is(json));
+
+		// json = " {\n\r\t\f\b}    ";
+		json = " {} ";
+		parser = JsonPullParser.newParser(json).setLogEnable();
+		parser.discardValue();
+		assertThat(JsonSliceUtil.slicesToString(parser.getSlices()), is("{}"));
 	}
 
 	InputStream getStream(String str) {

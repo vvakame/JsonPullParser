@@ -329,6 +329,7 @@ public class JsonPullParser {
 			return tmp;
 		}
 
+		boolean saveSlice = true;
 		char c = getNextChar();
 		switch (stack.pop()) {
 			case ORIGIN:
@@ -426,6 +427,7 @@ public class JsonPullParser {
 				switch (c) {
 					case ',':
 						getEventType();
+						saveSlice = false;
 						break;
 					case ']':
 						stack.push(State.END_ARRAY);
@@ -444,6 +446,7 @@ public class JsonPullParser {
 				switch (c) {
 					case ',':
 						getEventType();
+						saveSlice = false;
 						break;
 					case ']':
 						stack.push(State.END_ARRAY);
@@ -509,6 +512,7 @@ public class JsonPullParser {
 				switch (c) {
 					case ',':
 						getEventType();
+						saveSlice = false;
 						break;
 					case '}':
 						stack.push(State.END_HASH);
@@ -525,7 +529,39 @@ public class JsonPullParser {
 		}
 
 		current = stack.peek();
+
+		if (logEnable && saveSlice) {
+			saveSlices();
+		}
+
 		return current;
+	}
+
+	void saveSlices() throws JsonFormatException {
+		switch (current) {
+			case START_ARRAY:
+			case END_ARRAY:
+			case START_HASH:
+			case END_HASH:
+			case VALUE_NULL:
+				slices.add(new JsonSlice(current));
+				break;
+			case KEY:
+			case VALUE_STRING:
+				slices.add(new JsonSlice(current, valueStr));
+				break;
+			case VALUE_BOOLEAN:
+				slices.add(new JsonSlice(current, valueBoolean));
+				break;
+			case VALUE_DOUBLE:
+				slices.add(new JsonSlice(current, valueDouble));
+				break;
+			case VALUE_LONG:
+				slices.add(new JsonSlice(current, valueLong));
+				break;
+			default:
+				throw new JsonFormatException("unknown State=" + current);
+		}
 	}
 
 	/**
@@ -873,5 +909,21 @@ public class JsonPullParser {
 		} else {
 			return -1;
 		}
+	}
+
+	/**
+	 * @return the logEnable
+	 * @category accessor
+	 */
+	public boolean isLogEnable() {
+		return logEnable;
+	}
+
+	/**
+	 * @return the slices
+	 * @category accessor
+	 */
+	public List<JsonSlice> getSlices() {
+		return slices;
 	}
 }

@@ -17,6 +17,7 @@
 package net.vvakame.util.jsonpullparser.annotation;
 
 import java.io.IOException;
+import java.util.List;
 
 import net.vvakame.sample.SaveOriginalData1;
 import net.vvakame.sample.SaveOriginalData1Generated;
@@ -24,6 +25,7 @@ import net.vvakame.sample.SaveOriginalData2;
 import net.vvakame.sample.SaveOriginalData2Generated;
 import net.vvakame.util.jsonpullparser.JsonFormatException;
 import net.vvakame.util.jsonpullparser.JsonPullParser;
+import net.vvakame.util.jsonpullparser.util.JsonSliceUtil;
 
 import org.junit.Test;
 
@@ -98,5 +100,44 @@ public class SaveOriginalTest {
 		assertThat(
 				data.getOriginal(),
 				is("{\"str\":\"hoge\",\"num\":1,\"test\":true,\"ary\":[1,2,3,4,5,6],\"hash\":{\"╮( ╹ω╹ )╭\":false}}"));
+	}
+
+	/**
+	 * JsonModelがさらにJsonModelな要素を持つ場合に正常にパースできるか.
+	 * @author vvakame
+	 * @throws JsonFormatException 
+	 * @throws IOException 
+	 */
+	@Test
+	public void partialJson() throws IOException, JsonFormatException {
+		String json = "{\"str\":\"parent\",\"num\":2,\"data1\":{\"str\":\"child\",\"num\":100}}";
+		JsonPullParser parser = JsonPullParser.newParser(json).setLogEnable();
+		SaveOriginalData2 data2 = SaveOriginalData2Generated.get(parser);
+
+		assertThat(data2.getOriginal(),
+				is("{\"str\":\"parent\",\"num\":2,\"data1\":{\"str\":\"child\",\"num\":100}}"));
+		assertThat(data2.getData1().getOriginal(), is("{\"str\":\"child\",\"num\":100}"));
+	}
+
+	/**
+	 * JsonModelのリストを正常にパースできるか.
+	 * @author vvakame
+	 * @throws JsonFormatException 
+	 * @throws IOException 
+	 */
+	@Test
+	public void listJson() throws IOException, JsonFormatException {
+		String json = "[{\"num\"  :  1},\n{\"num\"  :  2},\n{\"num\"  :  3},\n{\"num\"  :  4}]";
+		JsonPullParser parser = JsonPullParser.newParser(json).setLogEnable();
+		List<SaveOriginalData2> list = SaveOriginalData2Generated.getList(parser);
+
+		assertThat(JsonSliceUtil.slicesToString(parser.getSlices()),
+				is("[{\"num\":1},{\"num\":2},{\"num\":3},{\"num\":4}]"));
+
+		assertThat(list.size(), is(4));
+		assertThat(list.get(0).getOriginal(), is("{\"num\":1}"));
+		assertThat(list.get(1).getOriginal(), is("{\"num\":2}"));
+		assertThat(list.get(2).getOriginal(), is("{\"num\":3}"));
+		assertThat(list.get(3).getOriginal(), is("{\"num\":4}"));
 	}
 }

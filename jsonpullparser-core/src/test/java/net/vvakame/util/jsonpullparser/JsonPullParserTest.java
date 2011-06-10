@@ -19,6 +19,7 @@ package net.vvakame.util.jsonpullparser;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
 
 import net.vvakame.util.jsonpullparser.JsonPullParser.State;
 import net.vvakame.util.jsonpullparser.util.JsonSliceUtil;
@@ -801,6 +802,33 @@ public class JsonPullParserTest {
 		parser = JsonPullParser.newParser(json).setLogEnable();
 		parser.discardValue();
 		assertThat(JsonSliceUtil.slicesToString(parser.getSlices()), is("{}"));
+	}
+
+	/**
+	 * {@link JsonPullParser#setLogEnable()} が呼ばれていない場合に例外を飛ばす.
+	 * @author vvakame
+	 * @throws JsonFormatException 
+	 * @throws IOException 
+	 */
+	@Test
+	public void sliceSizeForLookAhead() throws IOException, JsonFormatException {
+		String json = "[{},{}]";
+		JsonPullParser parser = JsonPullParser.newParser(json).setLogEnable();
+
+		parser.getEventType();
+		parser.getEventType();
+		parser.getEventType();
+		parser.lookAhead();
+		int start = parser.getSliceSize();
+		parser.getEventType();
+		parser.getEventType();
+		parser.lookAhead();
+		int end = parser.getSliceSize();
+		parser.getEventType();
+
+		List<JsonSlice> list = parser.getSlices().subList(start, end);
+
+		assertThat(JsonSliceUtil.slicesToString(list), is("{}"));
 	}
 
 	InputStream getStream(String str) {

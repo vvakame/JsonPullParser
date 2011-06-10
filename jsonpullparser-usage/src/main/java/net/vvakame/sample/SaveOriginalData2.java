@@ -17,6 +17,9 @@ public class SaveOriginalData2 {
 	@JsonKey
 	long num;
 
+	@JsonKey
+	SaveOriginalData1 data1;
+
 	@SaveOriginal(treatLogDisabledAsError = false)
 	String original;
 
@@ -51,6 +54,22 @@ public class SaveOriginalData2 {
 	 */
 	public void setNum(long num) {
 		this.num = num;
+	}
+
+	/**
+	 * @return the data1
+	 * @category accessor
+	 */
+	public SaveOriginalData1 getData1() {
+		return data1;
+	}
+
+	/**
+	 * @param data1 the data1 to set
+	 * @category accessor
+	 */
+	public void setData1(SaveOriginalData1 data1) {
+		this.data1 = data1;
 	}
 
 	/**

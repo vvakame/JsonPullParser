@@ -103,6 +103,22 @@ public class SaveOriginalTest {
 	}
 
 	/**
+	 * {@link JsonPullParser#setLogEnable()} が呼ばれていない場合に例外を飛ばす.
+	 * @author vvakame
+	 * @throws JsonFormatException 
+	 * @throws IOException 
+	 */
+	@Test
+	public void decodeUnicode() throws IOException, JsonFormatException {
+		String json = "{\"str\":\"\\u30e1\\u30e2\"}";
+		JsonPullParser parser = JsonPullParser.newParser(json).setLogEnable();
+		SaveOriginalData1 data = SaveOriginalData1Generated.get(parser);
+
+		assertThat(data.getStr(), is("メモ"));
+		assertThat(data.getOriginal(), is("{\"str\":\"メモ\"}"));
+	}
+
+	/**
 	 * JsonModelがさらにJsonModelな要素を持つ場合に正常にパースできるか.
 	 * @author vvakame
 	 * @throws JsonFormatException 

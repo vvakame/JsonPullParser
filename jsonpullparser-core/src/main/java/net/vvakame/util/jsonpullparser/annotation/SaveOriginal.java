@@ -22,7 +22,9 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * オリジナルのJSONを保持させるアノテーション
+ * オリジナルのJSONを保持させるアノテーション.<br>
+ * もし、POJOにマッピングさせた時に読み飛ばしが発生した場合に読み飛ばした要素についても保持する.<br>
+ * ただし、完全にオリジナルのJSONではなく、不要な空白や改行を抜かし、\\uxxxx形式のUnicodeも復号化した状態で保持させる.
  * 
  * @author vvakame
  */

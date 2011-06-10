@@ -41,6 +41,7 @@ import javax.tools.JavaFileObject;
 import net.vvakame.apt.AptUtil;
 import net.vvakame.util.jsonpullparser.annotation.JsonKey;
 import net.vvakame.util.jsonpullparser.annotation.JsonModel;
+import net.vvakame.util.jsonpullparser.annotation.SaveOriginal;
 import net.vvakame.util.jsonpullparser.factory.JsonElement.Kind;
 import net.vvakame.util.jsonpullparser.factory.template.Template;
 import net.vvakame.util.jsonpullparser.util.TokenConverter;
@@ -140,9 +141,10 @@ public class ClassGenerateHelper {
 	 * @author vvakame
 	 */
 	public void process() {
+		List<Element> elements;
+
 		// JsonKeyの収集
-		List<Element> elements =
-				getEnclosedElementsByAnnotation(classElement, JsonKey.class, ElementKind.FIELD);
+		elements = getEnclosedElementsByAnnotation(classElement, JsonKey.class, ElementKind.FIELD);
 		if (elements.size() == 0) {
 			Log.e("not exists any @JsonKey decorated field.", classElement);
 		}
@@ -151,6 +153,40 @@ public class ClassGenerateHelper {
 		for (Element element : elements) {
 			addElement(element);
 		}
+
+		// SaveOriginalの収集
+		elements =
+				getEnclosedElementsByAnnotation(classElement, SaveOriginal.class, ElementKind.FIELD);
+		if (elements.size() == 0) {
+			return;
+		} else if (elements.size() != 1) {
+			Log.e("too much @SaveOriginal decorated field exists.", classElement);
+			encountError = true;
+			return;
+		}
+
+		// SaveOriginalに対応する値取得コードを生成する
+		Element element = elements.get(0);
+		SaveOriginal save = element.getAnnotation(SaveOriginal.class);
+		SaveOriginalElement saveEl = g.getSaveElement();
+		saveEl.setSaveOriginal(true);
+		saveEl.setTreatLogDisabledAsError(save.treatLogDisabledAsError());
+
+		String setter = getElementSetter(element);
+		if (setter == null) {
+			Log.e("can't find setter method", element);
+			encountError = true;
+			return;
+		}
+		saveEl.setSetter(setter);
+
+		String getter = getElementGetter(element);
+		if (getter == null) {
+			Log.e("can't find getter method", element);
+			encountError = true;
+			return;
+		}
+		saveEl.setGetter(getter);
 	}
 
 	String getElementKeyString(Element element) {

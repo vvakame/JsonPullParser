@@ -44,6 +44,8 @@ public class GeneratingModel {
 
 	boolean builder;
 
+	SaveOriginalElement saveElement = new SaveOriginalElement();
+
 
 	/**
 	 * {@link JsonKey} が付加されたフィールドの追加.
@@ -183,5 +185,21 @@ public class GeneratingModel {
 	 */
 	public void setBuilder(boolean builder) {
 		this.builder = builder;
+	}
+
+	/**
+	 * @return the saveElement
+	 * @category accessor
+	 */
+	public SaveOriginalElement getSaveElement() {
+		return saveElement;
+	}
+
+	/**
+	 * @param saveElement the saveElement to set
+	 * @category accessor
+	 */
+	public void setSaveElement(SaveOriginalElement saveElement) {
+		this.saveElement = saveElement;
 	}
 }

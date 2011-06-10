@@ -32,6 +32,7 @@ import javax.tools.JavaFileObject;
 import net.vvakame.util.jsonpullparser.factory.GeneratingModel;
 import net.vvakame.util.jsonpullparser.factory.JsonElement;
 import net.vvakame.util.jsonpullparser.factory.Log;
+import net.vvakame.util.jsonpullparser.factory.SaveOriginalElement;
 
 import org.mvel2.templates.TemplateRuntime;
 
@@ -119,6 +120,10 @@ public class MvelTemplate {
 			}
 			map.put("allElements", jsonElements);
 		}
+		{
+			Map<String, Object> toMap = convSaveOriginalElementToMap(model.getSaveElement());
+			map.put("saveOriginalElement", toMap);
+		}
 		map.put("treatUnknownKeyAsError", model.isTreatUnknownKeyAsError());
 
 		return map;
@@ -134,6 +139,16 @@ public class MvelTemplate {
 		map.put("kind", el.getKind().name());
 		map.put("converter", el.getConverter());
 		map.put("subKind", el.getSubKind().name());
+
+		return map;
+	}
+
+	static Map<String, Object> convSaveOriginalElementToMap(SaveOriginalElement el) {
+		Map<String, Object> map = new LinkedHashMap<String, Object>();
+		map.put("saveOriginal", el.isSaveOriginal());
+		map.put("treatLogDisabledAsError", el.isTreatLogDisabledAsError());
+		map.put("setter", el.getSetter());
+		map.put("getter", el.getGetter());
 
 		return map;
 	}

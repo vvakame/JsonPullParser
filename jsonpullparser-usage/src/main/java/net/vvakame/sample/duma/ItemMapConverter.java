@@ -23,8 +23,8 @@ public class ItemMapConverter extends TokenConverter<Map<String, Item>> {
 
 
 	/**
-	 * へっちょーん！！！
-	 * @return へちょーん？
+	 * インスタンスの取得
+	 * @return インスタンス
 	 * @author vvakame
 	 */
 	public static ItemMapConverter getInstance() {

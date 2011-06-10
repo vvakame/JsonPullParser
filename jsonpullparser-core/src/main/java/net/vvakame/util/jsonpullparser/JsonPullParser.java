@@ -565,6 +565,20 @@ public class JsonPullParser {
 	}
 
 	/**
+	 * {@link JsonPullParser} が保持する解釈中の {@link JsonSlice} のリストのサイズの最後尾を返します.<br>
+	 * {@link #lookAhead()} が呼ばれている場合、実際の再後尾は1小さいため、その分を補正して返します。
+	 * @return 解釈中の {@link JsonSlice} の最後尾
+	 * @author vvakame
+	 */
+	public int getSliceSize() {
+		if (slices == null) {
+			return -1;
+		} else {
+			return lookAhead == null ? slices.size() : slices.size() - 1;
+		}
+	}
+
+	/**
 	 * 次の値を1つ読み捨てます.<br>
 	 * {@link State#START_ARRAY} か {@link State#START_HASH} の場合は配列または連想配列全体を読み捨て.<br>
 	 * {@link State#KEY} の場合は {@link State#KEY} とそれに対応する値を読み捨て.<br>

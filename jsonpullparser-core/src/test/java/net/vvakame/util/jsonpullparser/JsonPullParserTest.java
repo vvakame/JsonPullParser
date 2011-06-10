@@ -416,6 +416,21 @@ public class JsonPullParserTest {
 	}
 
 	/**
+	 * { の直後に空白文字があると解釈に失敗するバグの修正確認.
+	 * @author vvakame
+	 * @throws JsonFormatException 
+	 * @throws IOException 
+	 */
+	@Test
+	public void parseHash_2() throws IOException, JsonFormatException {
+		// String json = " {\n\r\t\f\b} "; // is \f and \bsssssssssssssssssssssssssssssss________________________________________________________________________________ is valid? i think there are invalid...
+		String json = " {\n\r\t } ";
+		JsonPullParser parser = JsonPullParser.newParser(json);
+		assertThat(parser.getEventType(), is(State.START_HASH));
+		assertThat(parser.getEventType(), is(State.END_HASH));
+	}
+
+	/**
 	 * {@link State#START_ARRAY} と {@link State#END_ARRAY} の解釈
 	 * @throws IOException
 	 * @throws JsonFormatException

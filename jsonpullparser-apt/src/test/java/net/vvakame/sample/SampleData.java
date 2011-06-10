@@ -18,6 +18,7 @@ package net.vvakame.sample;
 
 import net.vvakame.util.jsonpullparser.annotation.JsonKey;
 import net.vvakame.util.jsonpullparser.annotation.JsonModel;
+import net.vvakame.util.jsonpullparser.annotation.SaveOriginal;
 
 /**
  * "よくある"フィールドを持つクラス.
@@ -40,6 +41,9 @@ public class SampleData {
 
 	@JsonKey("has_data")
 	boolean hasData;
+
+	@SaveOriginal(treatLogDisabledAsError = true)
+	String original;
 
 
 	/**
@@ -115,5 +119,21 @@ public class SampleData {
 	 */
 	public void setHasData(boolean hasData) {
 		this.hasData = hasData;
+	}
+
+	/**
+	 * @return the original
+	 * @category accessor
+	 */
+	public String getOriginal() {
+		return original;
+	}
+
+	/**
+	 * @param original the original to set
+	 * @category accessor
+	 */
+	public void setOriginal(String original) {
+		this.original = original;
 	}
 }

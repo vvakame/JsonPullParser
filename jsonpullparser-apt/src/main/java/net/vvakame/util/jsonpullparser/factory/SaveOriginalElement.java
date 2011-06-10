@@ -30,8 +30,6 @@ public class SaveOriginalElement {
 
 	String setter;
 
-	String getter;
-
 
 	/**
 	 * @return the saveOriginal
@@ -79,21 +77,5 @@ public class SaveOriginalElement {
 	 */
 	public void setSetter(String setter) {
 		this.setter = setter;
-	}
-
-	/**
-	 * @return the getter
-	 * @category accessor
-	 */
-	public String getGetter() {
-		return getter;
-	}
-
-	/**
-	 * @param getter the getter to set
-	 * @category accessor
-	 */
-	public void setGetter(String getter) {
-		this.getter = getter;
 	}
 }

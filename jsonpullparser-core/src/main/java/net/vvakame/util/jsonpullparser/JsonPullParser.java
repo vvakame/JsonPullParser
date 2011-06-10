@@ -131,7 +131,7 @@ public class JsonPullParser {
 	State lookAhead = null;
 
 	// ログ作成用
-	boolean logEnable = false;
+	boolean logEnabled = false;
 
 	List<JsonSlice> slices = null;
 
@@ -284,7 +284,7 @@ public class JsonPullParser {
 	 * @author vvakame
 	 */
 	public JsonPullParser setLogEnable() {
-		logEnable = true;
+		logEnabled = true;
 		slices = new ArrayList<JsonSlice>();
 		return this;
 	}
@@ -530,7 +530,7 @@ public class JsonPullParser {
 
 		current = stack.peek();
 
-		if (logEnable && saveSlice) {
+		if (logEnabled && saveSlice) {
 			saveSlices();
 		}
 
@@ -929,8 +929,8 @@ public class JsonPullParser {
 	 * @return the logEnable
 	 * @category accessor
 	 */
-	public boolean isLogEnable() {
-		return logEnable;
+	public boolean isLogEnabled() {
+		return logEnabled;
 	}
 
 	/**

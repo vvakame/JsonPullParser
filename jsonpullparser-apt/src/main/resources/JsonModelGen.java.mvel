@@ -13,6 +13,9 @@ import net.vvakame.util.jsonpullparser.JsonPullParser;
 import net.vvakame.util.jsonpullparser.JsonPullParser.State;
 import net.vvakame.util.jsonpullparser.util.JsonUtil;
 import net.vvakame.util.jsonpullparser.util.OnJsonObjectAddListener;
+@if{saveOriginalElement.saveOriginal == true}
+import net.vvakame.util.jsonpullparser.util.JsonSliceUtil;
+@end{}
 
 /**
  * JSONを {@link JsonPullParser} を用いて {@link @{target}} に変換するクラスです.<br>
@@ -195,9 +198,24 @@ public class @{target}@{postfix} {
 	 * @param listener {@link @{target}} 生成中に発生するインスタンスを逐次受け取る {@link OnJsonObjectAddListener} のサブクラス
 	 * @return {@link @{target}}
 	 * @throws IOException 
+	 * @throws IllegalStateException @SaveOrigin ありにも関わらず {@link JsonPullParser#setLogEnable()} が呼ばれていない場合.
 	 * @throws JsonFormatException JSONとして正しくない形式、もしくは期待しない形式だった場合に投げられます
 	 */
-	public static @{target} get(JsonPullParser parser, OnJsonObjectAddListener listener) throws IOException, JsonFormatException {
+	public static @{target} get(JsonPullParser parser, OnJsonObjectAddListener listener) throws IOException, IllegalStateException, JsonFormatException {
+@if{saveOriginalElement.saveOriginal == true}
+		int start;
+	@if{saveOriginalElement.treatLogDisabledAsError == true}
+		if(parser.isLogEnabled()){
+			start = parser.getSliceSize();
+		} else {
+			throw new IllegalStateException("parser is not log enabled.");
+		}
+	@else{}
+		if(parser.isLogEnabled()){
+			start = parser.getSliceSize();
+		}
+	@end{}
+@end{}
 		@{target} obj = new @{target}();
 		State eventType = parser.getEventType();
 		if (eventType == State.VALUE_NULL) {
@@ -228,6 +246,14 @@ public class @{target}@{postfix} {
 			}
 @end{}
 		}
+
+@if{saveOriginalElement.saveOriginal == true}
+		int end;
+		if(parser.isLogEnabled()){
+			end = parser.getSliceSize();
+			obj.@{saveOriginalElement.setter}(JsonSliceUtil.slicesToString(parser.getSlices().subList(start, end)));
+		}
+@end{}
 
 		if (listener != null) {
 			listener.onAdd(obj);

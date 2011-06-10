@@ -148,7 +148,6 @@ public class MvelTemplate {
 		map.put("saveOriginal", el.isSaveOriginal());
 		map.put("treatLogDisabledAsError", el.isTreatLogDisabledAsError());
 		map.put("setter", el.getSetter());
-		map.put("getter", el.getGetter());
 
 		return map;
 	}

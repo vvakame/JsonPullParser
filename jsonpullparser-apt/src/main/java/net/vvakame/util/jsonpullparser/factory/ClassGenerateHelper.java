@@ -179,14 +179,6 @@ public class ClassGenerateHelper {
 			return;
 		}
 		saveEl.setSetter(setter);
-
-		String getter = getElementGetter(element);
-		if (getter == null) {
-			Log.e("can't find getter method", element);
-			encountError = true;
-			return;
-		}
-		saveEl.setGetter(getter);
 	}
 
 	String getElementKeyString(Element element) {

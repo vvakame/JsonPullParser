@@ -203,7 +203,7 @@ public class @{target}@{postfix} {
 	 */
 	public static @{target} get(JsonPullParser parser, OnJsonObjectAddListener listener) throws IOException, IllegalStateException, JsonFormatException {
 @if{saveOriginalElement.saveOriginal == true}
-		int start;
+		int start = -1;
 	@if{saveOriginalElement.treatLogDisabledAsError == true}
 		if(parser.isLogEnabled()){
 			start = parser.getSliceSize();

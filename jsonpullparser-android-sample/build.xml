@@ -42,9 +42,18 @@
 <!--
     <target name="-pre-build">
     </target>
+-->
     <target name="-pre-compile">
+    	<javac fork="yes" srcdir="src" compiler="javac1.6"
+				encoding="UTF-8" includeantruntime="false">
+			<compilerarg line="-proc:only"/>
+			<compilerarg line="-classpath factory/*"/>
+			<compilerarg line="-processor net.vvakame.util.jsonpullparser.factory.JsonAnnotationProcessor"/>
+			<compilerarg line="-s gen"/>
+    	</javac>
     </target>
 
+	<!--
     [This is typically used for code obfuscation.
      Compiled code location: ${out.classes.absolute.dir}
      If this is not done in place, override ${out.dex.input.absolute.dir}]

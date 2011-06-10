@@ -285,17 +285,18 @@ public class BuilderTest {
 	 * modelのencode確認
 	 * @throws IOException
 	 * @author vvakame
+	 * @throws JsonFormatException 
 	 */
 	@Test
-	public void model_encode() throws IOException {
+	public void model_encode() throws IOException, JsonFormatException {
 		BuilderData data = new BuilderData();
 		data.setModel(new TestData());
 		StringWriter writer = new StringWriter();
 		meta.newBuilder().add(meta.model).fix().encode(writer, data);
 		String json = writer.toString();
-		assertThat(
-				json,
-				is("{\"model\":{\"has_data\":false,\"name\":null,\"package_name\":null,\"version_code\":0,\"weight\":0.0}}"));
+		JsonHash hash = JsonHash.fromString(json);
+		assertThat(hash.size(), is(1));
+		assertThat(hash.getJsonHashOrNull("model").size(), is(5));
 	}
 
 	/**
@@ -345,9 +346,10 @@ public class BuilderTest {
 	 * listのencode確認
 	 * @throws IOException
 	 * @author vvakame
+	 * @throws JsonFormatException 
 	 */
 	@Test
-	public void list_encode() throws IOException {
+	public void list_encode() throws IOException, JsonFormatException {
 		BuilderData data = new BuilderData();
 		List<TestData> list = new ArrayList<TestData>();
 		list.add(new TestData());
@@ -356,9 +358,10 @@ public class BuilderTest {
 		StringWriter writer = new StringWriter();
 		meta.newBuilder().add(meta.list1).add(meta.list2).fix().encode(writer, data);
 		String json = writer.toString();
-		assertThat(
-				json,
-				is("{\"list1\":[{\"has_data\":false,\"name\":null,\"package_name\":null,\"version_code\":0,\"weight\":0.0}],\"list2\":[{\"has_data\":false,\"name\":null,\"package_name\":null,\"version_code\":0,\"weight\":0.0}]}"));
+		JsonHash hash = JsonHash.fromString(json);
+		assertThat(hash.size(), is(2));
+		assertThat(hash.getJsonArrayOrNull("list1").size(), is(1));
+		assertThat(hash.getJsonArrayOrNull("list2").size(), is(1));
 	}
 
 	/**
@@ -527,18 +530,17 @@ public class BuilderTest {
 	 * #addAll の確認
 	 * @throws IOException
 	 * @author vvakame
+	 * @throws JsonFormatException 
 	 */
 	@Test
-	public void addAll() throws IOException {
+	public void addAll() throws IOException, JsonFormatException {
 		BuilderData data = new BuilderData();
 		data.setI(3);
 		StringWriter writer = new StringWriter();
 		meta.newBuilder().addAll().fix().encode(writer, data);
 		String json = writer.toString();
-		System.out.println(json);
-		assertThat(
-				json,
-				is("{\"b\":0,\"b_list\":null,\"bool\":false,\"bool_list\":null,\"c\":\" \",\"c_list\":null,\"conv\":null,\"d\":0.0,\"d_list\":null,\"date\":null,\"date_list\":null,\"f\":0.0,\"f_list\":null,\"i\":3,\"i_list\":null,\"json_array\":null,\"json_hash\":null,\"l\":0,\"l_list\":null,\"list1\":null,\"list2\":null,\"model\":null,\"outer_enum\":null,\"outer_enum_list\":null,\"s\":0,\"s_list\":null,\"str\":null,\"str_list\":null,\"w_bool\":null,\"wb\":null,\"wc\":null,\"wd\":null,\"wf\":null,\"wi\":null,\"wl\":null,\"ws\":null}"));
+		JsonHash hash = JsonHash.fromString(json);
+		assertThat(hash.size(), is(36));
 	}
 
 	void printJson(String json) {

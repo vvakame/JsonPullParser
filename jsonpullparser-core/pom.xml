@@ -9,6 +9,7 @@
 		<groupId>net.vvakame</groupId>
 		<artifactId>jsonpullparser-parent</artifactId>
 		<version>1.3</version>
+		<relativePath>../jsonpullparser-parent</relativePath>
 	</parent>
 
 	<dependencies>

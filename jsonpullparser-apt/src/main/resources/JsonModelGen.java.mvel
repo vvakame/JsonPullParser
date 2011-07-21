@@ -105,6 +105,9 @@ public class @{target}@{postfix} {
 		List<@{target}> list = new ArrayList<@{target}>();
 		State eventType = parser.getEventType();
 		if (eventType == State.VALUE_NULL) {
+			if (listener != null) {
+				listener.onAdd(null);
+			}
 			return null;
 		}
 		if (eventType != State.START_ARRAY) {
@@ -219,6 +222,9 @@ public class @{target}@{postfix} {
 		@{target} obj = new @{target}();
 		State eventType = parser.getEventType();
 		if (eventType == State.VALUE_NULL) {
+			if (listener != null) {
+				listener.onAdd(null);
+			}
 			return null;
 		}
 		if (eventType != State.START_HASH) {
@@ -363,11 +369,8 @@ public class @{target}@{postfix} {
 	@else{obj.kind == "JSON_HASH"}
 			obj.@{obj.setter}(net.vvakame.util.jsonpullparser.util.JsonHash.fromParser(parser));
 	@else{obj.kind == "MODEL"}
-			@{obj.modelName} tmp = @{obj.modelName}@{postfix}.get(parser);
+			@{obj.modelName} tmp = @{obj.modelName}@{postfix}.get(parser, listener);
 			obj.@{obj.setter}(tmp);
-			if (listener != null) {
-				listener.onAdd(tmp);
-			}
 	@else{obj.kind == "CONVERTER"}
 			@{obj.converter} converter = @{obj.converter}.getInstance();
 			@{obj.modelName} tmp = converter.parse(parser, listener);

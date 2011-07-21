@@ -50,6 +50,9 @@ public class User {
 	@JsonKey(decamelize = true)
 	String profileImageUrl;
 
+	@JsonKey(decamelize = true)
+	String profileImageUrlHttps;
+
 	@JsonKey
 	String location;
 
@@ -106,6 +109,9 @@ public class User {
 
 	@JsonKey(decamelize = true)
 	String profileBackgroundImageUrl;
+
+	@JsonKey(decamelize = true)
+	String profileBackgroundImageUrlHttps;
 
 	@JsonKey(decamelize = true)
 	String createdAt;
@@ -261,6 +267,22 @@ public class User {
 	 */
 	public void setProfileImageUrl(String profileImageUrl) {
 		this.profileImageUrl = profileImageUrl;
+	}
+
+	/**
+	 * @return the profileImageUrlHttps
+	 * @category accessor
+	 */
+	public String getProfileImageUrlHttps() {
+		return profileImageUrlHttps;
+	}
+
+	/**
+	 * @param profileImageUrlHttps the profileImageUrlHttps to set
+	 * @category accessor
+	 */
+	public void setProfileImageUrlHttps(String profileImageUrlHttps) {
+		this.profileImageUrlHttps = profileImageUrlHttps;
 	}
 
 	/**
@@ -565,6 +587,22 @@ public class User {
 	 */
 	public void setProfileBackgroundImageUrl(String profileBackgroundImageUrl) {
 		this.profileBackgroundImageUrl = profileBackgroundImageUrl;
+	}
+
+	/**
+	 * @return the profileBackgroundImageUrlHttps
+	 * @category accessor
+	 */
+	public String getProfileBackgroundImageUrlHttps() {
+		return profileBackgroundImageUrlHttps;
+	}
+
+	/**
+	 * @param profileBackgroundImageUrlHttps the profileBackgroundImageUrlHttps to set
+	 * @category accessor
+	 */
+	public void setProfileBackgroundImageUrlHttps(String profileBackgroundImageUrlHttps) {
+		this.profileBackgroundImageUrlHttps = profileBackgroundImageUrlHttps;
 	}
 
 	/**

@@ -8,7 +8,7 @@
 	<parent>
 		<groupId>net.vvakame</groupId>
 		<artifactId>jsonpullparser-parent</artifactId>
-		<version>1.4</version>
+		<version>1.5-SNAPSHOT</version>
 		<relativePath>../jsonpullparser-parent</relativePath>
 	</parent>
 

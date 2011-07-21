@@ -32,7 +32,7 @@ import java.lang.annotation.Target;
 @Target({
 	ElementType.FIELD
 })
-public @interface SaveOriginal {
+public @interface StoreJson {
 
 	/**
 	 * オリジナルのJSONを保持しない設定になっていた場合の挙動.<br>

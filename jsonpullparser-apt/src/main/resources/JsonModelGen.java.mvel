@@ -13,7 +13,7 @@ import net.vvakame.util.jsonpullparser.JsonPullParser;
 import net.vvakame.util.jsonpullparser.JsonPullParser.State;
 import net.vvakame.util.jsonpullparser.util.JsonUtil;
 import net.vvakame.util.jsonpullparser.util.OnJsonObjectAddListener;
-@if{saveOriginalElement.saveOriginal == true}
+@if{storeJsonElement.storeJson == true}
 import net.vvakame.util.jsonpullparser.util.JsonSliceUtil;
 @end{}
 
@@ -205,9 +205,9 @@ public class @{target}@{postfix} {
 	 * @throws JsonFormatException JSONとして正しくない形式、もしくは期待しない形式だった場合に投げられます
 	 */
 	public static @{target} get(JsonPullParser parser, OnJsonObjectAddListener listener) throws IOException, IllegalStateException, JsonFormatException {
-@if{saveOriginalElement.saveOriginal == true}
+@if{storeJsonElement.storeJson == true}
 		int start = -1;
-	@if{saveOriginalElement.treatLogDisabledAsError == true}
+	@if{storeJsonElement.treatLogDisabledAsError == true}
 		if(parser.isLogEnabled()){
 			start = parser.getSliceSize();
 		} else {
@@ -253,11 +253,11 @@ public class @{target}@{postfix} {
 @end{}
 		}
 
-@if{saveOriginalElement.saveOriginal == true}
+@if{storeJsonElement.storeJson == true}
 		int end;
 		if(parser.isLogEnabled()){
 			end = parser.getSliceSize();
-			obj.@{saveOriginalElement.setter}(JsonSliceUtil.slicesToString(parser.getSlices().subList(start, end)));
+			obj.@{storeJsonElement.setter}(JsonSliceUtil.slicesToString(parser.getSlices().subList(start, end)));
 		}
 @end{}
 

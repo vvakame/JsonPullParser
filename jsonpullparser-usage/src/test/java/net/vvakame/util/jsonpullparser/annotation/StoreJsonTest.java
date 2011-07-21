@@ -19,10 +19,10 @@ package net.vvakame.util.jsonpullparser.annotation;
 import java.io.IOException;
 import java.util.List;
 
-import net.vvakame.sample.SaveOriginalData1;
-import net.vvakame.sample.SaveOriginalData1Generated;
-import net.vvakame.sample.SaveOriginalData2;
-import net.vvakame.sample.SaveOriginalData2Generated;
+import net.vvakame.sample.StoreJsonData1;
+import net.vvakame.sample.StoreJsonData1Generated;
+import net.vvakame.sample.StoreJsonData2;
+import net.vvakame.sample.StoreJsonData2Generated;
 import net.vvakame.util.jsonpullparser.JsonFormatException;
 import net.vvakame.util.jsonpullparser.JsonPullParser;
 import net.vvakame.util.jsonpullparser.util.JsonSliceUtil;
@@ -34,10 +34,10 @@ import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.*;
 
 /**
- * {@link SaveOriginal} にパラメータを与えた場合のテスト.
+ * {@link StoreJson} にパラメータを与えた場合のテスト.
  * @author vvakame
  */
-public class SaveOriginalTest {
+public class StoreJsonTest {
 
 	/**
 	 * {@link JsonPullParser#setLogEnable()} が呼ばれていない場合に例外を飛ばす.
@@ -49,7 +49,7 @@ public class SaveOriginalTest {
 	public void treatError() throws IOException, JsonFormatException {
 		String json = "{\"str\":\"hoge\",\"num\":1}";
 		JsonPullParser parser = JsonPullParser.newParser(json);
-		SaveOriginalData1Generated.get(parser);
+		StoreJsonData1Generated.get(parser);
 	}
 
 	/**
@@ -62,7 +62,7 @@ public class SaveOriginalTest {
 	public void ignoreError() throws IOException, JsonFormatException {
 		String json = "{\"str\":\"hoge\",\"num\":1}";
 		JsonPullParser parser = JsonPullParser.newParser(json);
-		SaveOriginalData2 data = SaveOriginalData2Generated.get(parser);
+		StoreJsonData2 data = StoreJsonData2Generated.get(parser);
 
 		assertThat(data.getStr(), is("hoge"));
 		assertThat(data.getNum(), is(1L));
@@ -79,7 +79,7 @@ public class SaveOriginalTest {
 	public void saveOriginal1() throws IOException, JsonFormatException {
 		String json = "{\"str\":\"hoge\",\"num\":1    ,   \"test\":true}";
 		JsonPullParser parser = JsonPullParser.newParser(json).setLogEnable();
-		SaveOriginalData1 data = SaveOriginalData1Generated.get(parser);
+		StoreJsonData1 data = StoreJsonData1Generated.get(parser);
 
 		assertThat(data.getOriginal(), is("{\"str\":\"hoge\",\"num\":1,\"test\":true}"));
 	}
@@ -95,7 +95,7 @@ public class SaveOriginalTest {
 		String json =
 				"{\"str\":\"hoge\",\"num\":1    ,   \"test\":true, \"ary\":[1,2,3,4,5,6], \t \r\n \"hash\":{\"╮( ╹ω╹ )╭\": false}}";
 		JsonPullParser parser = JsonPullParser.newParser(json).setLogEnable();
-		SaveOriginalData1 data = SaveOriginalData1Generated.get(parser);
+		StoreJsonData1 data = StoreJsonData1Generated.get(parser);
 
 		assertThat(
 				data.getOriginal(),
@@ -113,7 +113,7 @@ public class SaveOriginalTest {
 		String json =
 				"{\"str\":\"hoge\",\"nest\":[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]}";
 		JsonPullParser parser = JsonPullParser.newParser(json).setLogEnable();
-		SaveOriginalData1 data = SaveOriginalData1Generated.get(parser);
+		StoreJsonData1 data = StoreJsonData1Generated.get(parser);
 
 		assertThat(
 				data.getOriginal(),
@@ -130,7 +130,7 @@ public class SaveOriginalTest {
 	public void decodeUnicode() throws IOException, JsonFormatException {
 		String json = "{\"str\":\"\\u30e1\\u30e2\"}";
 		JsonPullParser parser = JsonPullParser.newParser(json).setLogEnable();
-		SaveOriginalData1 data = SaveOriginalData1Generated.get(parser);
+		StoreJsonData1 data = StoreJsonData1Generated.get(parser);
 
 		assertThat(data.getStr(), is("メモ"));
 		assertThat(data.getOriginal(), is("{\"str\":\"メモ\"}"));
@@ -146,7 +146,7 @@ public class SaveOriginalTest {
 	public void partialJson() throws IOException, JsonFormatException {
 		String json = "{\"str\":\"parent\",\"num\":2,\"data1\":{\"str\":\"child\",\"num\":100}}";
 		JsonPullParser parser = JsonPullParser.newParser(json).setLogEnable();
-		SaveOriginalData2 data2 = SaveOriginalData2Generated.get(parser);
+		StoreJsonData2 data2 = StoreJsonData2Generated.get(parser);
 
 		assertThat(data2.getOriginal(),
 				is("{\"str\":\"parent\",\"num\":2,\"data1\":{\"str\":\"child\",\"num\":100}}"));
@@ -163,7 +163,7 @@ public class SaveOriginalTest {
 	public void listJson() throws IOException, JsonFormatException {
 		String json = "[{\"num\"  :  1},\n{\"num\"  :  2},\n{\"num\"  :  3},\n{\"num\"  :  4}]";
 		JsonPullParser parser = JsonPullParser.newParser(json).setLogEnable();
-		List<SaveOriginalData2> list = SaveOriginalData2Generated.getList(parser);
+		List<StoreJsonData2> list = StoreJsonData2Generated.getList(parser);
 
 		assertThat(JsonSliceUtil.slicesToString(parser.getSlices()),
 				is("[{\"num\":1},{\"num\":2},{\"num\":3},{\"num\":4}]"));

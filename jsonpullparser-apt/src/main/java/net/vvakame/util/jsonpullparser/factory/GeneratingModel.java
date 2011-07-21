@@ -44,7 +44,7 @@ public class GeneratingModel {
 
 	boolean builder;
 
-	SaveOriginalElement saveElement = new SaveOriginalElement();
+	StoreJsonElement storeElement = new StoreJsonElement();
 
 
 	/**
@@ -188,18 +188,18 @@ public class GeneratingModel {
 	}
 
 	/**
-	 * @return the saveElement
+	 * @return the storeElement
 	 * @category accessor
 	 */
-	public SaveOriginalElement getSaveElement() {
-		return saveElement;
+	public StoreJsonElement getStoreElement() {
+		return storeElement;
 	}
 
 	/**
-	 * @param saveElement the saveElement to set
+	 * @param storeElement the storeElement to set
 	 * @category accessor
 	 */
-	public void setSaveElement(SaveOriginalElement saveElement) {
-		this.saveElement = saveElement;
+	public void setStoreElement(StoreJsonElement storeElement) {
+		this.storeElement = storeElement;
 	}
 }

@@ -18,14 +18,14 @@ package net.vvakame.sample;
 
 import net.vvakame.util.jsonpullparser.annotation.JsonKey;
 import net.vvakame.util.jsonpullparser.annotation.JsonModel;
-import net.vvakame.util.jsonpullparser.annotation.SaveOriginal;
+import net.vvakame.util.jsonpullparser.annotation.StoreJson;
 
 /**
- * {@link SaveOriginal} 確認用クラス.
+ * {@link StoreJson} 確認用クラス.
  * @author vvakame
  */
 @JsonModel(treatUnknownKeyAsError = false)
-public class SaveOriginalData1 {
+public class StoreJsonData2 {
 
 	@JsonKey
 	String str;
@@ -33,7 +33,10 @@ public class SaveOriginalData1 {
 	@JsonKey
 	long num;
 
-	@SaveOriginal(treatLogDisabledAsError = true)
+	@JsonKey
+	StoreJsonData1 data1;
+
+	@StoreJson(treatLogDisabledAsError = false)
 	String original;
 
 
@@ -67,6 +70,22 @@ public class SaveOriginalData1 {
 	 */
 	public void setNum(long num) {
 		this.num = num;
+	}
+
+	/**
+	 * @return the data1
+	 * @category accessor
+	 */
+	public StoreJsonData1 getData1() {
+		return data1;
+	}
+
+	/**
+	 * @param data1 the data1 to set
+	 * @category accessor
+	 */
+	public void setData1(StoreJsonData1 data1) {
+		this.data1 = data1;
 	}
 
 	/**

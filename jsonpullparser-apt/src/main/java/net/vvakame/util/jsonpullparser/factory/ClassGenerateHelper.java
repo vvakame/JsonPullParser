@@ -41,7 +41,7 @@ import javax.tools.JavaFileObject;
 import net.vvakame.apt.AptUtil;
 import net.vvakame.util.jsonpullparser.annotation.JsonKey;
 import net.vvakame.util.jsonpullparser.annotation.JsonModel;
-import net.vvakame.util.jsonpullparser.annotation.SaveOriginal;
+import net.vvakame.util.jsonpullparser.annotation.StoreJson;
 import net.vvakame.util.jsonpullparser.factory.JsonElement.Kind;
 import net.vvakame.util.jsonpullparser.factory.template.Template;
 import net.vvakame.util.jsonpullparser.util.TokenConverter;
@@ -154,22 +154,22 @@ public class ClassGenerateHelper {
 			addElement(element);
 		}
 
-		// SaveOriginalの収集
+		// StoreJsonの収集
 		elements =
-				getEnclosedElementsByAnnotation(classElement, SaveOriginal.class, ElementKind.FIELD);
+				getEnclosedElementsByAnnotation(classElement, StoreJson.class, ElementKind.FIELD);
 		if (elements.size() == 0) {
 			return;
 		} else if (elements.size() != 1) {
-			Log.e("too much @SaveOriginal decorated field exists.", classElement);
+			Log.e("too much @StoreJson decorated field exists.", classElement);
 			encountError = true;
 			return;
 		}
 
-		// SaveOriginalに対応する値取得コードを生成する
+		// StoreJsonに対応する値取得コードを生成する
 		Element element = elements.get(0);
-		SaveOriginal save = element.getAnnotation(SaveOriginal.class);
-		SaveOriginalElement saveEl = g.getSaveElement();
-		saveEl.setSaveOriginal(true);
+		StoreJson save = element.getAnnotation(StoreJson.class);
+		StoreJsonElement saveEl = g.getStoreElement();
+		saveEl.setStoreJson(true);
 		saveEl.setTreatLogDisabledAsError(save.treatLogDisabledAsError());
 
 		String setter = getElementSetter(element);

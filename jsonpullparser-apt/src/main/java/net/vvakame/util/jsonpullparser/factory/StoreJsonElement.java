@@ -16,15 +16,15 @@
 
 package net.vvakame.util.jsonpullparser.factory;
 
-import net.vvakame.util.jsonpullparser.annotation.JsonKey;
+import net.vvakame.util.jsonpullparser.annotation.StoreJson;
 
 /**
- * {@link JsonKey} に対応する生成ソースの表現.
+ * {@link StoreJson} に対応する生成ソースの表現.
  * @author vvakame
  */
-public class SaveOriginalElement {
+public class StoreJsonElement {
 
-	boolean saveOriginal = false;
+	boolean storeJson = false;
 
 	boolean treatLogDisabledAsError = false;
 
@@ -32,19 +32,19 @@ public class SaveOriginalElement {
 
 
 	/**
-	 * @return the saveOriginal
+	 * @return the storeJson
 	 * @category accessor
 	 */
-	public boolean isSaveOriginal() {
-		return saveOriginal;
+	public boolean isStoreJson() {
+		return storeJson;
 	}
 
 	/**
-	 * @param saveOriginal the saveOriginal to set
+	 * @param storeJson the storeJson to set
 	 * @category accessor
 	 */
-	public void setSaveOriginal(boolean saveOriginal) {
-		this.saveOriginal = saveOriginal;
+	public void setStoreJson(boolean storeJson) {
+		this.storeJson = storeJson;
 	}
 
 	/**

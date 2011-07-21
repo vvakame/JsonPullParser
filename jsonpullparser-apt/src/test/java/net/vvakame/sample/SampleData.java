@@ -18,7 +18,7 @@ package net.vvakame.sample;
 
 import net.vvakame.util.jsonpullparser.annotation.JsonKey;
 import net.vvakame.util.jsonpullparser.annotation.JsonModel;
-import net.vvakame.util.jsonpullparser.annotation.SaveOriginal;
+import net.vvakame.util.jsonpullparser.annotation.StoreJson;
 
 /**
  * "よくある"フィールドを持つクラス.
@@ -42,7 +42,7 @@ public class SampleData {
 	@JsonKey("has_data")
 	boolean hasData;
 
-	@SaveOriginal(treatLogDisabledAsError = true)
+	@StoreJson(treatLogDisabledAsError = true)
 	String original;
 
 

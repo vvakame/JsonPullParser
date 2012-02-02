@@ -37,7 +37,7 @@ import net.vvakame.util.jsonpullparser.factory.StoreJsonElement;
 import org.mvel2.templates.TemplateRuntime;
 
 /**
- * MVELを抽象化したテンプレートエンジンの表現.
+ * MVEL templating facility.
  * @author vvakame
  */
 public class MvelTemplate {
@@ -46,9 +46,9 @@ public class MvelTemplate {
 	}
 
 	/**
-	 * テンプレートエンジンを利用し fileObject に model の情報を流しこみソースを生成する.
-	 * @param fileObject 生成ソース
-	 * @param model ソース生成用の情報
+	 * Generates source code into the given file object from the given data model, utilizing the templating engine.
+	 * @param fileObject Target file object
+	 * @param model Data model for source code generation
 	 * @throws IOException
 	 * @author vvakame
 	 */
@@ -65,9 +65,9 @@ public class MvelTemplate {
 	}
 
 	/**
-	 * テンプレートエンジンを利用し fileObject に model の情報を流しこみソースを生成する.
-	 * @param fileObject 生成ソース
-	 * @param model ソース生成用の情報
+	 * Generates source code into the given file object from the given data model, utilizing the templating engine.
+	 * @param fileObject Target file object
+	 * @param model Data model for source code generation
 	 * @throws IOException
 	 * @author vvakame
 	 */

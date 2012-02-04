@@ -21,7 +21,7 @@ import net.vvakame.util.jsonpullparser.annotation.JsonModel;
 import net.vvakame.util.jsonpullparser.util.JsonHash;
 
 /**
- * ついったの場所の表現
+ * Sample data model for place (as in Twitter.)
  * @author vvakame
  */
 @JsonModel(treatUnknownKeyAsError = true)

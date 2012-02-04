@@ -37,13 +37,13 @@ import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.*;
 
 /**
- * {@link JsonAnnotationProcessor} のテスト.
+ * The test class for {@link JsonAnnotationProcessor}.
  * @author vvakame
  */
 public class JsonAnnotationProcessorTest extends AptinaTestCase {
 
 	/**
-	 * {@link PrimitiveTypeData} と {@link PrimitiveWrapperData} の処理.
+	 * Tests for proper handling of {@link PrimitiveTypeData} and {@link PrimitiveWrapperData}.
 	 * @throws Exception
 	 * @author vvakame
 	 */
@@ -63,7 +63,7 @@ public class JsonAnnotationProcessorTest extends AptinaTestCase {
 	}
 
 	/**
-	 * {@link SampleData} の処理.
+	 * Tests for proper handling of {@link SampleData}.
 	 * @throws Exception
 	 * @author vvakame
 	 */
@@ -81,7 +81,7 @@ public class JsonAnnotationProcessorTest extends AptinaTestCase {
 	}
 
 	/**
-	 * {@link SampleData} と {@link ComplexData} の処理.
+	 * Tests for proper handling of {@link SampleData} and {@link ComplexData}.
 	 * @throws Exception
 	 * @author vvakame
 	 */
@@ -102,7 +102,7 @@ public class JsonAnnotationProcessorTest extends AptinaTestCase {
 	}
 
 	/**
-	 * {@link ConverterData} の処理.
+	 * Tests for proper handling of {@link ConverterData}.
 	 * @throws Exception
 	 * @author vvakame
 	 */
@@ -118,7 +118,7 @@ public class JsonAnnotationProcessorTest extends AptinaTestCase {
 	}
 
 	/**
-	 * 継承関係の処理.
+	 * Tests for proper handling of inheritance chain.
 	 * @throws Exception
 	 * @author vvakame
 	 */
@@ -135,7 +135,7 @@ public class JsonAnnotationProcessorTest extends AptinaTestCase {
 	}
 
 	/**
-	 * {@link Tweet} とそれにぶら下がるクラスの処理.
+	 * Tests for proper handling of {@link Tweet} class and related.
 	 * @throws Exception
 	 * @author vvakame
 	 */

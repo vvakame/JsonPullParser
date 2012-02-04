@@ -1,15 +1,15 @@
 package net.vvakame.util.jsonpullparser.builder;
 
 /**
- * 複数の引数パターンで常に {@link JsonPropertyBuilder} を取得できるようにするためのIF
+ * An interface for providing consistent access to {@link JsonPropertyBuilder} across various argument patterns.
  * @author vvakame
  */
 public interface JsonPropertyBuilderCreator {
 
 	/**
-	 * {@link JsonPropertyBuilder} を取得する.
+	 * Gets a new {@link JsonPropertyBuilder} instance.
 	 * @param <T> 
-	 * @return ビルダ
+	 * @return An instance of {@link JsonPropertyBuilder}
 	 * @author vvakame
 	 */
 	<T>JsonPropertyBuilder<T> get();

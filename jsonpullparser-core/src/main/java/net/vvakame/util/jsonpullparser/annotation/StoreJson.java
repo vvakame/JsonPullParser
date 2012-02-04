@@ -22,10 +22,8 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * オリジナルのJSONを保持させるアノテーション.<br>
- * もし、POJOにマッピングさせた時に読み飛ばしが発生した場合に読み飛ばした要素についても保持する.<br>
- * ただし、完全にオリジナルのJSONではなく、不要な空白や改行を抜かし、\\uxxxx形式のUnicodeも復号化した状態で保持させる.
- * 
+ * Annotation to keep the original JSON data, including one we skipped on deserialization process.<br>
+ * Kept in compact format (i.e. whitespaces are stripped off and entities are decoded.)
  * @author vvakame
  */
 @Retention(RetentionPolicy.SOURCE)
@@ -35,10 +33,9 @@ import java.lang.annotation.Target;
 public @interface StoreJson {
 
 	/**
-	 * オリジナルのJSONを保持しない設定になっていた場合の挙動.<br>
-	 * 値が {@code true} なら {@link IllegalStateException}.<br>
-	 * 値が {@code false} ならオリジナルのJSONを保存しない.
-	 * @return ログを保存していない場合にエラーにするか
+	 * Specifies whether parsers should error out if it turns out that the JSON logging facility should be disabled or not.<br>
+	 * They should throw {@link IllegalStateException} if true, or silently disable logging and continue otherwise.
+	 * @return Whether parsers should throw error if it turns out the JSON logging facility should be disabled or not.
 	 * @author vvakame
 	 */
 	public boolean treatLogDisabledAsError() default false;

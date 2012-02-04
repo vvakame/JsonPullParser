@@ -10,16 +10,16 @@ import net.vvakame.util.jsonpullparser.JsonPullParser.State;
 import net.vvakame.util.jsonpullparser.JsonSlice;
 
 /**
- * {@link JsonSlice} を扱うためのユーティリティクラス.
+ * An utility class for {@link JsonSlice}
  * @author vvakame
  */
 public class JsonSliceUtil {
 
 	/**
-	 * {@link JsonSlice} のリストをJSON文字列にして返す.<br>
-	 * このメソッドから返る文字列はJSONとしてvalidであり、解釈時に構文エラーにならないことが保証される.
-	 * @param slices 文字列化する {@link JsonSlice} のリスト
-	 * @return validなJSON文字列
+	 * Encodes the given list of {@link JsonSlice}s to valid JSON.
+	 *
+	 * @param slices List of {@link JsonSlice}s to encode
+	 * @return Valid JSON-formatted string
 	 * @throws JsonFormatException
 	 * @throws IOException
 	 * @author vvakame

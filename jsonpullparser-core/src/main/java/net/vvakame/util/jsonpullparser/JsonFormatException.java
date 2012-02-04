@@ -17,7 +17,7 @@
 package net.vvakame.util.jsonpullparser;
 
 /**
- * JSONとして構文的に誤りがあった場合に投げられる.
+ * Thrown if the parser has detected JSON format error.
  * 
  * @author vvakame
  */

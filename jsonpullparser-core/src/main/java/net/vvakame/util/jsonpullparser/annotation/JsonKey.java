@@ -24,7 +24,7 @@ import java.lang.annotation.Target;
 import net.vvakame.util.jsonpullparser.util.TokenConverter;
 
 /**
- * Jsonとしてマッピングしたいクラスのフィールドを装飾するアノテーション.
+ * Annotation to decorate fields should be mapped to JSON.
  * 
  * @see JsonModel
  * @author vvakame
@@ -36,7 +36,7 @@ import net.vvakame.util.jsonpullparser.util.TokenConverter;
 public @interface JsonKey {
 
 	/**
-	 * もっくこんばーた！(ΦωΦ)ｶｯ
+	 * Mock converter!! (ΦωΦ)ｶｯ 
 	 * @author vvakame
 	 */
 	static class MockConverter extends TokenConverter<Void> {
@@ -48,42 +48,39 @@ public @interface JsonKey {
 
 
 	/**
-	 * JSONのKeyに当たる部分の名前.<br>
-	 * 省略時はフィールド名と同じものとして処理される.
-	 * @return JSONのKey部分のマッチングに利用する値
+	 * The string value that should be used as JSON key.<br>
+	 * The field name itself is assumed by default.
+	 * @return The value should be used as JSON key
 	 * @author vvakame
 	 */
 	public String value() default "";
 
 	/**
-	 * fieldの型を本ライブラリでサポートしておらず、さらに {@link JsonModel} でも修飾されていない場合に {@link TokenConverter} の拡張クラスを渡すことにより型変換を行うことが可能です.<br>
-	 * 例えば、 {@link java.util.Date} と {@code long} の変換を定義することができます.
-	 * @return 型変換に利用する {@link TokenConverter} のクラス
+	 * You can pass {@link TokenConverter}-alike classes to perform conversion if you have fields of unsupported type (nor don't have {@link JsonModel} decorate them.)
+	 * (e.g. to define some conversion between {@link java.util.Date} and {@code long})
+	 *
+	 * @return A {@link TokenConverter}-alike class defines conversion
 	 * @author vvakame
 	 */
 	public Class<? extends TokenConverter<?>> converter() default MockConverter.class;
 
 	/**
-	 * JSONからPOJOへのマッピング処理を行うかの制御.<br>
-	 * {@code true} なら行う. {@code false} なら行わない.
-	 * @return JSONデシリアライズ対象
+	 * Inbound (i.e. JSON to POJO) conversion should be performed or not.
+	 * @return True if JSON de-serialization should be performed on the field, false otherwise.
 	 * @author vvakame
 	 */
 	public boolean in() default true;
 
 	/**
-	 * POJOからJSONへの変換処理を行うかの制御.<br>
-	 * {@code true} なら行う. {@code false} なら行わない.
-	 * @return JSONシリアライズ対象
+	 * Outbound (i.e. POJO to JSON) conversion should be performed or not.
+	 * @return True if JSON serialization should be performed on the field, false otherwise.
 	 * @author vvakame
 	 */
 	public boolean out() default true;
 
 	/**
-	 * _記法をキャメル記法に変換した上でマッピングを行うかの制御.<br>
-	 * {@code true} なら行う. {@code false} なら行わない.<br>
-	 * JSONで"source_id"というKeyにsourceIDというフィールドをマッピングさせます.
-	 * @return _記法→キャメル記法変換
+	 * De-camelize the name of field on mapping (i.e. "source_id" becomes "sourceId", and vice versa) or not.
+	 * @return True if de-camelization should be performed, false otherwise.
 	 * @author vvakame
 	 */
 	public boolean decamelize() default false;

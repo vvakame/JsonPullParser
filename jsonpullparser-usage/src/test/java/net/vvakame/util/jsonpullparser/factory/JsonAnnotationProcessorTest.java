@@ -62,13 +62,13 @@ import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.*;
 
 /**
- * JsonAnnotationProcessor 生成物のテスト
+ * Test case for JsonAnnotationProcessor generated codes.
  * @author vvakame
  */
 public class JsonAnnotationProcessorTest {
 
 	/**
-	 * JSON連想配列の解釈.
+	 * Tests for the parsing of hashes.
 	 * @throws IOException
 	 * @throws JsonFormatException
 	 * @author vvakame
@@ -90,7 +90,7 @@ public class JsonAnnotationProcessorTest {
 	}
 
 	/**
-	 * JavaプリミティブからなるJSONの解釈.
+	 * Tests for the parsing of primitives.
 	 * @throws IOException
 	 * @throws JsonFormatException
 	 * @author vvakame
@@ -115,7 +115,7 @@ public class JsonAnnotationProcessorTest {
 	}
 
 	/**
-	 * JSON配列の解釈.
+	 * Tests for the parsing of arrays.
 	 * @throws IOException
 	 * @throws JsonFormatException
 	 * @author vvakame
@@ -133,7 +133,7 @@ public class JsonAnnotationProcessorTest {
 	}
 
 	/**
-	 * 入り組んだJSONの連想配列の解釈.
+	 * Tests for the parsing of hairy hashes.
 	 * @throws IOException
 	 * @throws JsonFormatException
 	 * @author vvakame
@@ -172,7 +172,7 @@ public class JsonAnnotationProcessorTest {
 	}
 
 	/**
-	 * 入り組んだJSONの連想配列の解釈.
+	 * Tests for the parsing of hairy hashes.
 	 * @throws IOException
 	 * @throws JsonFormatException
 	 * @author vvakame
@@ -201,7 +201,7 @@ public class JsonAnnotationProcessorTest {
 	}
 
 	/**
-	 * 継承が絡んだモデルのテスト.
+	 * Tests for the parsing with inherited models.
 	 * @author vvakame
 	 * @throws JsonFormatException 
 	 * @throws IOException 
@@ -251,7 +251,7 @@ public class JsonAnnotationProcessorTest {
 	}
 
 	/**
-	 * 各種encode系メソッドのテスト.
+	 * Tests for the encode method family.
 	 * @throws IOException 
 	 */
 	@Test
@@ -336,7 +336,7 @@ public class JsonAnnotationProcessorTest {
 	}
 
 	/**
-	 * 各種encode系メソッドのテスト.
+	 * Tests for the encode method family.
 	 * @throws IOException
 	 * @author vvakame
 	 * @throws JsonFormatException 
@@ -374,7 +374,7 @@ public class JsonAnnotationProcessorTest {
 
 	/**
 	 * TODO テストを適当な所に移す.<br>
-	 * PrimitiveWrapperのListのテスト.
+	 * Tests for the list of PrimitiveWrapper.
 	 * @author vvakame
 	 * @throws IOException 
 	 * @throws JsonFormatException 
@@ -458,7 +458,7 @@ public class JsonAnnotationProcessorTest {
 	}
 
 	/**
-	 * Twitterだって読めちゃうよ！ to POJO
+	 * We can read Twitter timelines as well! #1: to POJO
 	 * @throws IOException
 	 * @throws JsonFormatException
 	 * @author vvakame
@@ -493,7 +493,7 @@ public class JsonAnnotationProcessorTest {
 	}
 
 	/**
-	 * Twitterだって読めちゃうよ！ to JsonArray
+	 * We can read Twitter timelines as well! #2: to JsonArray
 	 * @throws IOException
 	 * @throws JsonFormatException
 	 * @author vvakame

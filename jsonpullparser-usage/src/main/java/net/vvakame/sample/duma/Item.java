@@ -4,7 +4,7 @@ import net.vvakame.util.jsonpullparser.annotation.JsonKey;
 import net.vvakame.util.jsonpullparser.annotation.JsonModel;
 
 /**
- * ReadItLaterの何かのAPIのItem
+ * Item or something in the ReadItLater API.
  * @author vvakame
  */
 @JsonModel(treatUnknownKeyAsError = true, decamelize = true)

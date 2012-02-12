@@ -12,13 +12,13 @@ import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.*;
 
 /**
- * {@link ReadItLater} と {@link ItemMapConverter} のテストケース.
+ * Test case for {@link ReadItLater} and {@link ItemMapConverter}.
  * @author vvakame
  */
 public class ReadItLaterTest {
 
 	/**
-	 * テスト
+	 * A basic test case.
 	 * @throws JsonFormatException 
 	 * @throws IOException 
 	 */

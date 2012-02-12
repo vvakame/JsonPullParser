@@ -4,7 +4,7 @@ import net.vvakame.util.jsonpullparser.annotation.JsonKey;
 import net.vvakame.util.jsonpullparser.annotation.JsonModel;
 
 /**
- * 継承関係チェック用クラス 継承用.
+ * Inheritance chain test class, for subclasses.
  * @author vvakame
  */
 @JsonModel

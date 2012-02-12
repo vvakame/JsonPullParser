@@ -10,7 +10,7 @@ import net.vvakame.util.jsonpullparser.util.JsonArray;
 import net.vvakame.util.jsonpullparser.util.JsonHash;
 
 /**
- * {@link JsonModel#builder()} のテスト用クラス.
+ * Test class for {@link JsonModel#builder()}.
  * @author vvakame
  */
 @JsonModel(treatUnknownKeyAsError = true, decamelize = true, builder = true)

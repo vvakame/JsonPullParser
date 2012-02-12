@@ -20,7 +20,7 @@ import net.vvakame.util.jsonpullparser.annotation.JsonKey;
 import net.vvakame.util.jsonpullparser.annotation.JsonModel;
 
 /**
- * よくあるデータ
+ * Sample, somewhat "common mode," data set.
  * @author vvakame
  */
 @JsonModel

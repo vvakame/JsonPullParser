@@ -21,8 +21,8 @@ package net.vvakame.sample;
  * @author vvakame
  */
 public enum SampleEnum {
-	/** 適当な定数1 */
+	/** Arbitrary constant #1 */
 	TEST,
-	/** 適当な定数2 */
+	/** Arbitrary constant #2 */
 	PRODUCT,
 }

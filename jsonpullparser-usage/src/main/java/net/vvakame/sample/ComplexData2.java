@@ -22,8 +22,7 @@ import net.vvakame.util.jsonpullparser.annotation.JsonKey;
 import net.vvakame.util.jsonpullparser.annotation.JsonModel;
 
 /**
- * {@link JsonModel} がついたクラスをフィールドに持つクラス.
- * {@link JsonKey#in()} や {@link JsonKey#out()} の指定あり
+ * A class with fields that {@link JsonModel} attached (with {@link JsonKey#in()} and {@link JsonKey#out()})
  * @author vvakame
  */
 @JsonModel

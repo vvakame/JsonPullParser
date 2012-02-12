@@ -25,13 +25,13 @@ import net.vvakame.util.jsonpullparser.JsonFormatException;
 import org.junit.Test;
 
 /**
- * {@link JsonModel} のテスト.
+ * Test class for {@link JsonModel}.
  * @author vvakame
  */
 public class JsonModelTest {
 
 	/**
-	 * {@link JsonModel#treatUnknownKeyAsError()} が {@code true} だと未知のKeyがエラーになることをテスト.
+	 * Ensures {@link JsonModel#treatUnknownKeyAsError()} == {@code true} makes unknown keys freaks parsers out.
 	 * @throws IOException
 	 * @throws JsonFormatException
 	 * @author vvakame
@@ -44,7 +44,7 @@ public class JsonModelTest {
 	}
 
 	/**
-	 * {@link JsonModel#treatUnknownKeyAsError()} が {@code false} だと未知のKeyが単に読み捨てられることをテスト.
+	 * Ensures {@link JsonModel#treatUnknownKeyAsError()} == {@code false} makes unknown keys futile.
 	 * @throws IOException
 	 * @throws JsonFormatException
 	 * @author vvakame

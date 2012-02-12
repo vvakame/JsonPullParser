@@ -26,14 +26,14 @@ import net.vvakame.util.jsonpullparser.JsonPullParser;
 import net.vvakame.util.jsonpullparser.JsonPullParser.State;
 
 /**
- * Json読込支援用ユーティリティ.<br>
- * 本ライブラリ生成ソースからも利用されます.
+ * JSON parse facility.<br>
+ * Generated codes make use of it too.
  * @author vvakame
  */
 public class JsonParseUtil {
 
 	/**
-	 * JSONを解釈し、Integerの返します.
+	 * Parses the current token as an integer.
 	 * @param parser
 	 * @return {@link Integer}
 	 * @throws IOException
@@ -55,7 +55,7 @@ public class JsonParseUtil {
 	}
 
 	/**
-	 * JSONを解釈し、Longを返します.
+	 * Parses the current token as a long.
 	 * @param parser
 	 * @return {@link Long}
 	 * @throws IOException
@@ -76,7 +76,7 @@ public class JsonParseUtil {
 	}
 
 	/**
-	 * JSONを解釈し、Byteを返します.
+	 * Parses the current token as a byte.
 	 * @param parser
 	 * @return {@link Byte}
 	 * @throws IOException
@@ -97,7 +97,7 @@ public class JsonParseUtil {
 	}
 
 	/**
-	 * JSONを解釈し、Shortを返します.
+	 * Parses the current token as a short.
 	 * @param parser
 	 * @return {@link Short}
 	 * @throws IOException
@@ -118,7 +118,7 @@ public class JsonParseUtil {
 	}
 
 	/**
-	 * JSONを解釈し、Booleanを返します.
+	 * Parses the current token as a boolean.
 	 * @param parser
 	 * @return {@link Boolean}
 	 * @throws IOException
@@ -140,7 +140,7 @@ public class JsonParseUtil {
 	}
 
 	/**
-	 * JSONを解釈し、Characterを返します.
+	 * Parses the current token as a character.
 	 * @param parser
 	 * @return {@link Character}
 	 * @throws IOException
@@ -167,7 +167,7 @@ public class JsonParseUtil {
 	}
 
 	/**
-	 * JSONを解釈し、Doubleを返します.
+	 * Parses the current token as a double-precision floating point value.
 	 * @param parser
 	 * @return {@link Double}
 	 * @throws IOException
@@ -189,7 +189,7 @@ public class JsonParseUtil {
 	}
 
 	/**
-	 * JSONを解釈し、Floatを返します.
+	 * Parses the current token as a single-precision floating point value.
 	 * @param parser
 	 * @return {@link Float}
 	 * @throws IOException
@@ -210,9 +210,9 @@ public class JsonParseUtil {
 	}
 
 	/**
-	 * JSONを解釈し、Integerのリストを返します.
+	 * Parses the current token as a list of integers.
 	 * @param parser
-	 * @return {@link Integer} のリスト
+	 * @return List of {@link Integer}s
 	 * @throws IOException
 	 * @throws JsonFormatException
 	 * @author vvakame
@@ -244,9 +244,9 @@ public class JsonParseUtil {
 	}
 
 	/**
-	 * JSONを解釈し、Longのリストを返します.
+	 * Parses the current token as a list of longs.
 	 * @param parser
-	 * @return {@link Long} のリスト
+	 * @return List of {@link Long}s
 	 * @throws IOException
 	 * @throws JsonFormatException
 	 * @author vvakame
@@ -278,9 +278,9 @@ public class JsonParseUtil {
 	}
 
 	/**
-	 * JSONを解釈し、Byteのリストを返します.
+	 * Parses the current token as a list of bytes.
 	 * @param parser
-	 * @return {@link Byte} のリスト
+	 * @return List of {@link Byte}s
 	 * @throws IOException
 	 * @throws JsonFormatException
 	 * @author vvakame
@@ -312,9 +312,9 @@ public class JsonParseUtil {
 	}
 
 	/**
-	 * JSONを解釈し、Shortのリストを返します.
+	 * Parses the current token as a list of shorts.
 	 * @param parser
-	 * @return {@link Short} のリスト
+	 * @return List of {@link Short}s
 	 * @throws IOException
 	 * @throws JsonFormatException
 	 * @author vvakame
@@ -346,9 +346,9 @@ public class JsonParseUtil {
 	}
 
 	/**
-	 * JSONを解釈し、Booleanのリストを返します.
+	 * Parses the current token as a list of booleans.
 	 * @param parser
-	 * @return {@link Boolean} のリスト
+	 * @return List of {@link Boolean}s
 	 * @throws IOException
 	 * @throws JsonFormatException
 	 * @author vvakame
@@ -380,9 +380,9 @@ public class JsonParseUtil {
 	}
 
 	/**
-	 * JSONを解釈し、Characterのリストを返します.
+	 * Parses the current token as a list of characters.
 	 * @param parser
-	 * @return {@link Character} のリスト
+	 * @return List of {@link Character}s
 	 * @throws IOException
 	 * @throws JsonFormatException
 	 * @author vvakame
@@ -419,9 +419,9 @@ public class JsonParseUtil {
 	}
 
 	/**
-	 * JSONを解釈し、Doubleのリストを返します.
+	 * Parses the current token as a list of double-precision floating point numbers.
 	 * @param parser
-	 * @return {@link Double} のリスト
+	 * @return List of {@link Double}s
 	 * @throws IOException
 	 * @throws JsonFormatException
 	 * @author vvakame
@@ -453,9 +453,9 @@ public class JsonParseUtil {
 	}
 
 	/**
-	 * JSONを解釈し、Floatのリストを返します.
+	 * Parses the current token as a list of single-precision floating point numbers.
 	 * @param parser
-	 * @return {@link Float} のリスト
+	 * @return List of {@link Float}.
 	 * @throws IOException
 	 * @throws JsonFormatException
 	 * @author vvakame
@@ -487,9 +487,9 @@ public class JsonParseUtil {
 	}
 
 	/**
-	 * JSONを解釈し、Stringのリストを返します.
+	 * Parses the current token as a list of strings.
 	 * @param parser
-	 * @return {@link String} のリスト
+	 * @return List of {@link String}s
 	 * @throws IOException
 	 * @throws JsonFormatException
 	 * @author vvakame
@@ -522,8 +522,9 @@ public class JsonParseUtil {
 
 	/**
 	 * JSONを解釈し、Dateのリストを返します.
+	 * Parses the current token as a list of Dates.
 	 * @param parser
-	 * @return {@link Date} のリスト
+	 * @return List of {@link Date}s
 	 * @throws IOException
 	 * @throws JsonFormatException
 	 * @author vvakame
@@ -555,11 +556,11 @@ public class JsonParseUtil {
 	}
 
 	/**
-	 * JSONを解釈し、Enumのリストを返します.
+	 * Parses the current token as a list of Enums.
 	 * @param <T> 
 	 * @param parser
 	 * @param clazz 
-	 * @return {@link Enum} のリスト
+	 * @return List of {@link Enum}s
 	 * @throws IOException
 	 * @throws JsonFormatException
 	 * @author vvakame

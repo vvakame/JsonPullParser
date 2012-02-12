@@ -20,7 +20,7 @@ import net.vvakame.util.jsonpullparser.annotation.JsonKey;
 import net.vvakame.util.jsonpullparser.annotation.JsonModel;
 
 /**
- * 値をほとんど持たないクラス.
+ * A class with little value.
  * @author vvakame
  */
 @JsonModel

@@ -16,7 +16,7 @@ import net.vvakame.util.jsonpullparser.util.JsonUtil;
 import net.vvakame.util.jsonpullparser.util.OnJsonObjectAddListener;
 
 /**
- * Json変換用インスタンス.
+ * JSON coding facility.
  * @author vvakame
  * @param <T>
  */
@@ -44,12 +44,12 @@ public class JsonModelCoder<T> {
 	}
 
 	/**
-	 * JSONの {@link List} に変換します.
-	 * 
-	 * @param json JSONによるインスタンスの表現
-	 * @return インスタンスの {@link List}
+	 * Attempts to parse the given data as {@link List} of objects.
+	 *
+	 * @param json JSON-formatted data
+	 * @return {@link List} of objects
 	 * @throws IOException 
-	 * @throws JsonFormatException JSONとして正しくない形式、もしくは期待しない形式だった場合に投げられます
+	 * @throws JsonFormatException The given data is malformed, or its type is unexpected
 	 */
 	public List<T> getList(String json) throws IOException, JsonFormatException {
 		JsonPullParser parser = JsonPullParser.newParser(json);
@@ -57,14 +57,14 @@ public class JsonModelCoder<T> {
 	}
 
 	/**
-	 * JSONの {@link List} に変換します.<br>
-	 * {@link OnJsonObjectAddListener} のサブクラスを渡すことにより、生成中に発生する各種インスタンスを逐次うけとることが可能です.
+	 * Attempts to parse the given data as {@link List} of objects.
+	 * Accepts {@link OnJsonObjectAddListener}; allows you to peek various intermittent instances as parsing goes.
 	 * 
-	 * @param json JSONによる@return インスタンスの {@link List}の表現
-	 * @param listener インスタンス生成中に発生するインスタンスを逐次受け取る {@link OnJsonObjectAddListener} のサブクラス
-	 * @return インスタンスの {@link List}
+	 * @param json JSON-formatted data
+	 * @param listener {@link OnJsonObjectAddListener} to notify
+	 * @return {@link List} of objects
 	 * @throws IOException 
-	 * @throws JsonFormatException JSONとして正しくない形式、もしくは期待しない形式だった場合に投げられます
+	 * @throws JsonFormatException The given data is malformed, or its type is unexpected
 	 */
 	public List<T> getList(String json, OnJsonObjectAddListener listener) throws IOException,
 			JsonFormatException {
@@ -73,12 +73,12 @@ public class JsonModelCoder<T> {
 	}
 
 	/**
-	 * JSONの {@link List} に変換します.
-	 * 
-	 * @param stream JSONによるインスタンスの表現
-	 * @return インスタンスの {@link List}
+	 * Attempts to parse the given data as {@link List} of objects.
+	 *
+	 * @param stream JSON-formatted data
+	 * @return {@link List} of objects
 	 * @throws IOException 
-	 * @throws JsonFormatException JSONとして正しくない形式、もしくは期待しない形式だった場合に投げられます
+	 * @throws JsonFormatException The given data is malformed, or its type is unexpected
 	 */
 	public List<T> getList(InputStream stream) throws IOException, JsonFormatException {
 		JsonPullParser parser = JsonPullParser.newParser(stream);
@@ -86,14 +86,14 @@ public class JsonModelCoder<T> {
 	}
 
 	/**
-	 * JSONの {@link List} に変換します.<br>
-	 * {@link OnJsonObjectAddListener} のサブクラスを渡すことにより、生成中に発生する各種インスタンスを逐次うけとることが可能です.
+	 * Attempts to parse the given data as {@link List} of objects.
+	 * Accepts {@link OnJsonObjectAddListener}; allows you to peek various intermittent instances as parsing goes.
 	 * 
-	 * @param stream JSONによるインスタンスの表現
-	 * @param listener インスタンス生成中に発生するインスタンスを逐次受け取る {@link OnJsonObjectAddListener} のサブクラス
-	 * @return インスタンスの {@link List}
+	 * @param stream JSON-formatted data
+	 * @param listener {@link OnJsonObjectAddListener} to notify
+	 * @return {@link List} of objects
 	 * @throws IOException 
-	 * @throws JsonFormatException JSONとして正しくない形式、もしくは期待しない形式だった場合に投げられます
+	 * @throws JsonFormatException The given data is malformed, or its type is unexpected
 	 */
 	public List<T> getList(InputStream stream, OnJsonObjectAddListener listener)
 			throws IOException, JsonFormatException {
@@ -102,26 +102,26 @@ public class JsonModelCoder<T> {
 	}
 
 	/**
-	 * JSONの {@link List} に変換します.
+	 * Attempts to parse the given data as {@link List} of objects.
 	 * 
-	 * @param parser インスタンスの表現をセットされた {@link JsonPullParser}
-	 * @return インスタンスの {@link List}
+	 * @param parser {@link JsonPullParser} with some JSON-formatted data
+	 * @return {@link List} of objects
 	 * @throws IOException 
-	 * @throws JsonFormatException JSONとして正しくない形式、もしくは期待しない形式だった場合に投げられます
+	 * @throws JsonFormatException The given data is malformed, or its type is unexpected
 	 */
 	public List<T> getList(JsonPullParser parser) throws IOException, JsonFormatException {
 		return getList(parser, null);
 	}
 
 	/**
-	 * JSONを {@link List} に変換します.<br>
-	 * {@link OnJsonObjectAddListener} のサブクラスを渡すことにより、生成中に発生する各種インスタンスを逐次うけとることが可能です.
+	 * Attempts to parse the given data as {@link List} of objects.<br>
+	 * Accepts {@link OnJsonObjectAddListener}; allows you to peek various intermittent instances as parsing goes.
 	 * 
-	 * @param parser インスタンスの表現をセットされた {@link JsonPullParser}
-	 * @param listener インスタンス生成中に発生するインスタンスを逐次受け取る {@link OnJsonObjectAddListener} のサブクラス
-	 * @return インスタンスの {@link List}
+	 * @param parser {@link JsonPullParser} with some JSON-formatted data
+	 * @param listener {@link OnJsonObjectAddListener} to notify
+	 * @return {@link List} of objects
 	 * @throws IOException 
-	 * @throws JsonFormatException JSONとして正しくない形式、期待しない形式だった場合に投げられます
+	 * @throws JsonFormatException The given data is malformed, or its type is unexpected
 	 */
 	public List<T> getList(JsonPullParser parser, OnJsonObjectAddListener listener)
 			throws IOException, JsonFormatException {
@@ -146,12 +146,12 @@ public class JsonModelCoder<T> {
 	}
 
 	/**
-	 * JSONをインスタンスに変換します.
-	 * 
-	 * @param json JSONによるインスタンスの表現
-	 * @return インスタンス
+	 * Attempts to parse the given data as an object.
+	 *
+	 * @param json JSON-formatted data
+	 * @return An object instance
 	 * @throws IOException 
-	 * @throws JsonFormatException JSONとして正しくない形式、もしくは期待しない形式だった場合に投げられます
+	 * @throws JsonFormatException The given data is malformed, or its type is unexpected
 	 */
 	public T get(String json) throws IOException, JsonFormatException {
 		JsonPullParser parser = JsonPullParser.newParser(json);
@@ -159,14 +159,14 @@ public class JsonModelCoder<T> {
 	}
 
 	/**
-	 * JSONをインスタンスに変換します.<br>
-	 * {@link OnJsonObjectAddListener} のサブクラスを渡すことにより、生成中に発生する各種インスタンスを逐次うけとることが可能です.
+	 * Attempts to parse the given data as an object.<br>
+	 * Accepts {@link OnJsonObjectAddListener}; allows you to peek various intermittent instances as parsing goes.
 	 * 
-	 * @param json JSONによるインスタンスの表現
-	 * @param listener インスタンス生成中に発生するインスタンスを逐次受け取る {@link OnJsonObjectAddListener} のサブクラス
-	 * @return インスタンス
+	 * @param json JSON-formatted data
+	 * @param listener {@link OnJsonObjectAddListener} to notify
+	 * @return An object instance
 	 * @throws IOException 
-	 * @throws JsonFormatException JSONとして正しくない形式、もしくは期待しない形式だった場合に投げられます
+	 * @throws JsonFormatException The given data is malformed, or its type is unexpected
 	 */
 	public T get(String json, OnJsonObjectAddListener listener) throws IOException,
 			JsonFormatException {
@@ -175,12 +175,12 @@ public class JsonModelCoder<T> {
 	}
 
 	/**
-	 * JSONをインスタンスに変換します.
-	 * 
-	 * @param stream JSONによるインスタンスの表現
-	 * @return インスタンス
+	 * Attempts to parse the given data as an object.
+	 *
+	 * @param stream JSON-formatted data
+	 * @return An object instance
 	 * @throws IOException 
-	 * @throws JsonFormatException JSONとして正しくない形式、もしくは期待しない形式だった場合に投げられます
+	 * @throws JsonFormatException The given data is malformed, or its type is unexpected
 	 */
 	public T get(InputStream stream) throws IOException, JsonFormatException {
 		JsonPullParser parser = JsonPullParser.newParser(stream);
@@ -188,14 +188,14 @@ public class JsonModelCoder<T> {
 	}
 
 	/**
-	 * JSONをインスタンスに変換します.<br>
-	 * {@link OnJsonObjectAddListener} のサブクラスを渡すことにより、生成中に発生する各種インスタンスを逐次うけとることが可能です.
+	 * Attempts to parse the given data as an object.<br>
+	 * Accepts {@link OnJsonObjectAddListener}; allows you to peek various intermittent instances as parsing goes.
 	 * 
-	 * @param stream JSONによるインスタンスの表現
-	 * @param listener インスタンス生成中に発生するインスタンスを逐次受け取る {@link OnJsonObjectAddListener} のサブクラス
-	 * @return インスタンス
+	 * @param stream JSON-formatted data
+	 * @param listener {@link OnJsonObjectAddListener} to notify
+	 * @return An object instance
 	 * @throws IOException 
-	 * @throws JsonFormatException JSONとして正しくない形式、もしくは期待しない形式だった場合に投げられます
+	 * @throws JsonFormatException The given data is malformed, or its type is unexpected
 	 */
 	public T get(InputStream stream, OnJsonObjectAddListener listener) throws IOException,
 			JsonFormatException {
@@ -204,26 +204,27 @@ public class JsonModelCoder<T> {
 	}
 
 	/**
-	 * JSONをインスタンスに変換します.
-	 * 
-	 * @param parser インスタンスの表現をセットされた {@link JsonPullParser}
-	 * @return インスタンス
+	 * Attempts to parse the given data as an object.
+	 *
+	 * @param parser {@link JsonPullParser} with some JSON-formatted data
+	 * @return An object instance
 	 * @throws IOException 
-	 * @throws JsonFormatException JSONとして正しくない形式、もしくは期待しない形式だった場合に投げられます
+	 * @throws JsonFormatException The given data is malformed, or its type is unexpected
 	 */
 	public T get(JsonPullParser parser) throws IOException, JsonFormatException {
 		return get(parser, null);
 	}
 
 	/**
-	 * JSONをインスタンスに変換します.<br>
-	 * {@link OnJsonObjectAddListener} のサブクラスを渡すことにより、生成中に発生する各種インスタンスを逐次うけとることが可能です.
+	 * Attempts to parse the given data as an object.<br>
+	 * Accepts {@link OnJsonObjectAddListener}; allows you to peek various intermittent instances as parsing goes.
 	 * 
-	 * @param parser インスタンスの表現をセットされた {@link JsonPullParser}
-	 * @param listener インスタンス生成中に発生するインスタンスを逐次受け取る {@link OnJsonObjectAddListener} のサブクラス
-	 * @return インスタンス
+	 * @param parser {@link JsonPullParser} with some JSON-formatted data
+	 * @param listener {@link OnJsonObjectAddListener} to notify
+	 * @return An object instance
 	 * @throws IOException 
-	 * @throws JsonFormatException JSONとして正しくない形式、もしくは期待しない形式だった場合に投げられます
+	 * @throws IllegalStateException @SaveOrigin is enabled while {@link JsonPullParser#setLogEnable()} is not called yet.
+	 * @throws JsonFormatException The given data is malformed, or its type is unexpected
 	 */
 	public T get(JsonPullParser parser, OnJsonObjectAddListener listener) throws IOException,
 			JsonFormatException {
@@ -272,15 +273,16 @@ public class JsonModelCoder<T> {
 	}
 
 	/**
-	 * ※ このメソッドを呼び出さないでください ※.<br>
-	 * 生成クラスの内部から呼び出すためのメソッドです.他パッケージにある生成クラスからアクセス出来るようにするため、publicになっています.
-	 * @param parser 利用途中の {@link JsonPullParser}
-	 * @param listener インスタンスが生成した場合に通知する {@link OnJsonObjectAddListener}
-	 * @param key 処理途中のJSONのkey
-	 * @param obj 組み立て途中のインスタンスもしくはそのサブクラスのインスタンス
-	 * @return keyの処理に成功したかどうか
+	 * *** Internal use only; please do not call directly. ***<br>
+	 * *** Public access granted only to allow reusing from other packages. ***
+	 * 
+	 * @param parser {@link JsonPullParser} in action
+	 * @param listener {@link OnJsonObjectAddListener} to listen new instance creations
+	 * @param key JSON key being parsed
+	 * @param obj {@link @{target}} (and like) being rebuilt
+	 * @return True if the given key is parsed successfully, false otherwise
 	 * @throws IOException 
-	 * @throws JsonFormatException JSONとして正しくない形式、もしくは期待しない形式だった場合に投げられます
+	 * @throws JsonFormatException Data is malformed, or its type is unexpected
 	 * @author vvakame
 	 */
 	public boolean parseValue(JsonPullParser parser, OnJsonObjectAddListener listener, String key,
@@ -297,12 +299,11 @@ public class JsonModelCoder<T> {
 	}
 
 	/**
-	 * インスタンスの {@link List} のJSON表現を生成します.<br>
-	 * out は {@link JsonPullParser#DEFAULT_CHARSET} で処理されます.<br>
-	 * このメソッドは{@link #encodeListNullToBlank(Writer, List)} へのaliasです.
+	 * Encodes the given {@link List} of values into the JSON format, and appends it into the given stream using {@link JsonPullParser#DEFAULT_CHARSET}.<br>
+	 * This method is an alias of {@link #encodeListNullToBlank(Writer, List)}.
 	 * 
-	 * @param out JSONを追記する {@link OutputStream}
-	 * @param list JSON変換したいインスタンス の {@link List}
+	 * @param out {@link OutputStream} to be written
+	 * @param list {@link List} of values to be encoded
 	 * @throws IOException 
 	 */
 	public void encodeList(OutputStream out, List<T> list) throws IOException {
@@ -311,11 +312,11 @@ public class JsonModelCoder<T> {
 	}
 
 	/**
-	 * インスタンスの {@link List} のJSON表現を生成します.<br>
-	 * このメソッドは{@link #encodeListNullToBlank(Writer, List)} へのaliasです.
+	 * Encodes the given {@link List} of values into the JSON format, and writes it using the given writer.<br>
+	 * This method is an alias of {@link #encodeListNullToBlank(Writer, List)}.
 	 * 
-	 * @param writer JSONを追記する {@link Writer}
-	 * @param list JSON変換したいインスタンスの {@link List}
+	 * @param out {@link Writer} to be used for writing value
+	 * @param list {@link List} of values to be encoded
 	 * @throws IOException 
 	 */
 	public void encodeList(Writer writer, List<T> list) throws IOException {
@@ -323,10 +324,11 @@ public class JsonModelCoder<T> {
 	}
 
 	/**
-	 * インスタンスの {@link List} のJSON表現を生成します.
+	 * Encodes the given {@link List} of values into the JSON format, and writes it using the given writer.<br>
+	 * Writes "[]" if null is given.
 	 * 
-	 * @param writer JSONを追記する {@link Writer}
-	 * @param list JSON変換したいインスタンスの {@link List}
+	 * @param out {@link Writer} to be used for writing value
+	 * @param list {@link List} of values to be encoded
 	 * @throws IOException 
 	 */
 	public void encodeListNullToBlank(Writer writer, List<T> list) throws IOException {
@@ -340,10 +342,11 @@ public class JsonModelCoder<T> {
 	}
 
 	/**
-	 * インスタンスの {@link List} のJSON表現を生成します.
+	 * Encodes the given {@link List} of values into the JSON format, and writes it using the given writer.<br>
+	 * Writes "null" if null is given.
 	 * 
-	 * @param writer JSONを追記する {@link Writer}
-	 * @param list JSON変換したいインスタンスの {@link List}
+	 * @param out {@link Writer} to be used for writing value
+	 * @param list {@link List} of values to be encoded
 	 * @throws IOException 
 	 */
 	public void encodeListNullToNull(Writer writer, List<T> list) throws IOException {
@@ -370,12 +373,11 @@ public class JsonModelCoder<T> {
 	}
 
 	/**
-	 * インスタンスのJSON表現を生成します.<br>
-	 * out は {@link JsonPullParser#DEFAULT_CHARSET} で処理されます.<br>
-	 * このメソッドは{@link #encodeNullToBlank(Writer, Object)} へのaliasです.
+	 * Encodes the given value into the JSON format, and appends it into the given stream using {@link JsonPullParser#DEFAULT_CHARSET}.<br>
+	 * This method is an alias of {@link #encodeListNullToBlank(Writer, @{target})}.
 	 * 
-	 * @param out JSONを追記する {@link OutputStream}
-	 * @param obj JSON変換したいインスタンス
+	 * @param out {@link OutputStream} to be written
+	 * @param obj Value to encoded
 	 * @throws IOException 
 	 */
 	public void encode(OutputStream out, T obj) throws IOException {
@@ -384,11 +386,11 @@ public class JsonModelCoder<T> {
 	}
 
 	/**
-	 * インスタンスのJSON表現を生成します.<br>
-	 * このメソッドは{@link #encodeNullToBlank(Writer, Object)} へのaliasです.
+	 * Encodes the given value into the JSON format, and writes it using the given writer.<br>
+	 * This method is an alias of {@link #encodeListNullToBlank(Writer, @{target})}.
 	 * 
-	 * @param writer JSONを追記する {@link Writer}
-	 * @param obj JSON変換したいインスタンス
+	 * @param out {@link Writer} to be used for writing value
+	 * @param obj Value to encoded
 	 * @throws IOException 
 	 */
 	public void encode(Writer writer, T obj) throws IOException {
@@ -396,11 +398,11 @@ public class JsonModelCoder<T> {
 	}
 
 	/**
-	 * インスタンスのJSON表現を生成します.<br>
-	 * もし、受け取った obj が null だった場合、{} を出力します.
+	 * Encodes the given value into the JSON format, and writes it using the given writer.<br>
+	 * Writes "{}" if null is given.
 	 * 
-	 * @param writer JSONを追記する {@link Writer}
-	 * @param obj JSON変換したいインスタンス
+	 * @param out {@link Writer} to be used for writing value
+	 * @param obj Value to encoded
 	 * @throws IOException 
 	 */
 	public void encodeNullToBlank(Writer writer, T obj) throws IOException {
@@ -414,11 +416,11 @@ public class JsonModelCoder<T> {
 	}
 
 	/**
-	 * インスタンスのJSON表現を生成します.<br>
-	 * もし、受け取った obj が null だった場合、{@code "null"} を出力します.
+	 * Encodes the given value into the JSON format, and writes it using the given writer.<br>
+	 * Writes "null" if null is given.
 	 * 
-	 * @param writer JSONを追記する {@link Writer}
-	 * @param obj JSON変換したいインスタンス
+	 * @param out {@link Writer} to be used for writing value
+	 * @param obj Value to encoded
 	 * @throws IOException 
 	 */
 	public void encodeNullToNull(Writer writer, T obj) throws IOException {
@@ -437,10 +439,11 @@ public class JsonModelCoder<T> {
 	}
 
 	/**
-	 * ※ このメソッドを呼び出さないでください ※.<br>
-	 * 生成クラスの内部から呼び出すためのメソッドです.他パッケージにある生成クラスからアクセス出来るようにするため、publicになっています.
-	 * @param writer 出力先
-	 * @param obj データ元
+	 * *** Internal use only; please do not call directly. ***<br>
+	 * *** Public access granted only to allow reusing from other packages. ***
+	 * 
+	 * @param writer {@link Writer}
+	 * @param obj value
 	 * @throws IOException 
 	 * @author vvakame
 	 */

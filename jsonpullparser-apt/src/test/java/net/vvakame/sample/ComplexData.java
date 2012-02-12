@@ -23,7 +23,7 @@ import net.vvakame.util.jsonpullparser.annotation.JsonKey;
 import net.vvakame.util.jsonpullparser.annotation.JsonModel;
 
 /**
- * {@link JsonModel} がついたクラスをフィールドに持つクラス.
+ * A class with fields that {@link JsonModel} attached.
  * @author vvakame
  */
 @JsonModel(builder = true)
@@ -54,11 +54,11 @@ public class ComplexData {
 	SampleData data;
 
 
-	/** クラス内に static で定義された {@link Enum} */
+	/** Statically defined {@link Enum} inside class. */
 	public static enum InternalEnum {
-		/** テスト1 */
+		/** Test case 1 */
 		TEST1,
-		/** テスト2 */
+		/** Test case 2 */
 		TEST2
 	}
 

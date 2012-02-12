@@ -48,8 +48,8 @@ import net.vvakame.util.jsonpullparser.util.TokenConverter;
 import static net.vvakame.apt.AptUtil.*;
 
 /**
- * アノテーション処理の本体.<br>
- * 1インスタンス = 1 {@link JsonModel} の処理.
+ * Annotation processor.<br>
+ * Handles 1 {@link JsonModel} per instance (i.e. cannot be reused.)
  * @author vvakame
  */
 public class ClassGenerateHelper {
@@ -66,7 +66,7 @@ public class ClassGenerateHelper {
 
 
 	/**
-	 * 初期化処理
+	 * Initialization.
 	 * @param env
 	 * @author vvakame
 	 */
@@ -75,7 +75,7 @@ public class ClassGenerateHelper {
 	}
 
 	/**
-	 * インスタンス生成
+	 * Generates new instance.
 	 * @param element
 	 * @return {@link ClassGenerateHelper}
 	 * @author vvakame
@@ -107,7 +107,7 @@ public class ClassGenerateHelper {
 	}
 
 	/**
-	 * {@link JsonKey} が付加されているフィールドの解釈.
+	 * Keeps the given element.
 	 * @param element
 	 * @author vvakame
 	 */
@@ -117,7 +117,7 @@ public class ClassGenerateHelper {
 	}
 
 	/**
-	 * ソース生成.
+	 * Generates the source code.
 	 * @throws IOException
 	 * @author vvakame
 	 */
@@ -137,7 +137,7 @@ public class ClassGenerateHelper {
 	}
 
 	/**
-	 * アノテーション読み取り処理
+	 * Processes annotations.
 	 * @author vvakame
 	 */
 	public void process() {

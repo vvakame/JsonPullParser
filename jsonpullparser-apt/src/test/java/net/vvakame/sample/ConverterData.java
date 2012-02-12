@@ -25,7 +25,7 @@ import net.vvakame.util.jsonpullparser.annotation.JsonModel;
 import net.vvakame.util.jsonpullparser.util.TokenConverter;
 
 /**
- * {@link TokenConverter} での変換を行うフィールドを持つクラス.
+ * A class with fields that shall be treated with {@link TokenConverter}.
  * @author vvakame
  */
 @JsonModel

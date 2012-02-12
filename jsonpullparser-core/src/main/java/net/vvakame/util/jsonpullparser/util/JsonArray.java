@@ -28,7 +28,7 @@ import net.vvakame.util.jsonpullparser.JsonPullParser.State;
 import static net.vvakame.util.jsonpullparser.util.JsonUtil.*;
 
 /**
- * JSONの配列 [] に対応するJavaクラス.
+ * A JSON array ([]).
  * @author vvakame
  */
 public class JsonArray extends ArrayList<Object> {
@@ -39,9 +39,9 @@ public class JsonArray extends ArrayList<Object> {
 
 
 	/**
-	 * JSONの文字列表現をパースし {@link JsonArray} に変換します.
-	 * @param json パース対象のJSON
-	 * @return パース結果の {@link JsonArray}
+	 * Parses the given JSON data as an array.
+	 * @param json JSON-formatted data
+	 * @return {@link JsonArray}
 	 * @throws IOException
 	 * @throws JsonFormatException
 	 * @author vvakame
@@ -52,9 +52,9 @@ public class JsonArray extends ArrayList<Object> {
 	}
 
 	/**
-	 * JSONの文字列表現をパースし {@link JsonArray} に変換します.
-	 * @param parser パースに利用する {@link JsonPullParser}
-	 * @return パース結果の {@link JsonArray}
+	 * Parses the given JSON data as an array.
+	 * @param parser {@link JsonPullParser} with some JSON-formatted data
+	 * @return {@link JsonArray}
 	 * @throws IOException
 	 * @throws JsonFormatException
 	 * @author vvakame
@@ -79,8 +79,8 @@ public class JsonArray extends ArrayList<Object> {
 	}
 
 	/**
-	 * インスタンスが保持する内容をJSONにシリアライズしwriterに書きこむ.
-	 * @param writer 書込み先
+	 * Encodes into the JSON format.
+	 * @param writer {@link Writer} to be used for writing
 	 * @throws IOException
 	 * @author vvakame
 	 */
@@ -99,11 +99,11 @@ public class JsonArray extends ArrayList<Object> {
 	}
 
 	/**
-	 * インスタンスの index 番目の要素を {@link Boolean} として取得します.<br>
-	 * {@code null} または {@link Boolean} が保持されていない場合、 {@link IllegalStateException} が発生します.
+	 * Retrieves the nth element in the array as boolean.<br>
+	 * If it is neither {@code null} nor a {@link Boolean}, {@link IllegalStateException} will be thrown.
 	 * @param index
-	 * @return index番目の値
-	 * @throws IllegalStateException indexに {@code null} または {@link Boolean} が保持されていない場合
+	 * @return The element
+	 * @throws IllegalStateException The given index points neither {@code null} nor a {@link Boolean}.
 	 * @author vvakame
 	 */
 	public Boolean getBooleanOrNull(int index) throws IllegalStateException {
@@ -119,11 +119,11 @@ public class JsonArray extends ArrayList<Object> {
 	}
 
 	/**
-	 * インスタンスの index 番目の要素を {@link String} として取得します.<br>
-	 * {@code null} または {@link String} が保持されていない場合、 {@link IllegalStateException} が発生します.
+	 * Retrieves the nth element in the array as string.<br>
+	 * If it is neither {@code null} nor a {@link String}, {@link IllegalStateException} will be thrown.
 	 * @param index
-	 * @return index番目の値
-	 * @throws IllegalStateException indexに {@code null} または {@link String} が保持されていない場合
+	 * @return The element
+	 * @throws IllegalStateException The given index points neither {@code null} nor a {@link String}.
 	 * @author vvakame
 	 */
 	public String getStringOrNull(int index) throws IllegalStateException {
@@ -139,11 +139,11 @@ public class JsonArray extends ArrayList<Object> {
 	}
 
 	/**
-	 * インスタンスの index 番目の要素を {@link Long} として取得します.<br>
-	 * {@code null} または {@link Long} が保持されていない場合、 {@link IllegalStateException} が発生します.
+	 * Retrieves the nth element in the array as integer.<br>
+	 * If it is neither {@code null} nor a {@link Long}, {@link IllegalStateException} will be thrown.
 	 * @param index
-	 * @return index番目の値
-	 * @throws IllegalStateException indexに {@code null} または {@link Long} が保持されていない場合
+	 * @return The element
+	 * @throws IllegalStateException The given index points neither {@code null} nor a {@link Long}.
 	 * @author vvakame
 	 */
 	public Long getLongOrNull(int index) throws IllegalStateException {
@@ -159,11 +159,11 @@ public class JsonArray extends ArrayList<Object> {
 	}
 
 	/**
-	 * インスタンスの index 番目の要素を {@link Double} として取得します.<br>
-	 * {@code null} または {@link Double} が保持されていない場合、 {@link IllegalStateException} が発生します.
+	 * Retrieves the nth element in the array as double-precision floating point number.<br>
+	 * If it is neither {@code null} nor a {@link Double}, {@link IllegalStateException} will be thrown.
 	 * @param index
-	 * @return index番目の値
-	 * @throws IllegalStateException indexに {@code null} または {@link Double} が保持されていない場合
+	 * @return The element
+	 * @throws IllegalStateException The given index points neither {@code null} nor a {@link Double}.
 	 * @author vvakame
 	 */
 	public Double getDoubleOrNull(int index) throws IllegalStateException {
@@ -179,11 +179,11 @@ public class JsonArray extends ArrayList<Object> {
 	}
 
 	/**
-	 * インスタンスの index 番目の要素を {@link JsonArray} として取得します.<br>
-	 * {@code null} または {@link JsonArray} が保持されていない場合、 {@link IllegalStateException} が発生します.
+	 * Retrieves the nth element in the array as {@link JsonArray}.<br>
+	 * If it is neither {@code null} nor a {@link JsonArray}, {@link IllegalStateException} will be thrown.
 	 * @param index
-	 * @return index番目の値
-	 * @throws IllegalStateException indexに {@code null} または {@link JsonArray} が保持されていない場合
+	 * @return The element
+	 * @throws IllegalStateException The given index points neither {@code null} nor a {@link JsonArray}.
 	 * @author vvakame
 	 */
 	public JsonArray getJsonArrayOrNull(int index) throws IllegalStateException {
@@ -199,11 +199,11 @@ public class JsonArray extends ArrayList<Object> {
 	}
 
 	/**
-	 * インスタンスの index 番目の要素を {@link JsonHash} として取得します.<br>
-	 * {@code null} または {@link JsonHash} が保持されていない場合、 {@link IllegalStateException} が発生します.
+	 * Retrieves the nth element in the array as {@link JsonHash}.<br>
+	 * If it is neither {@code null} nor a {@link JsonHash}, {@link IllegalStateException} will be thrown.
 	 * @param index
-	 * @return index番目の値
-	 * @throws IllegalStateException indexに {@code null} または {@link JsonHash} が保持されていない場合
+	 * @return The element
+	 * @throws IllegalStateException The given index points neither {@code null} nor a {@link JsonHash}.
 	 * @author vvakame
 	 */
 	public JsonHash getJsonHashOrNull(int index) throws IllegalStateException {
@@ -219,11 +219,10 @@ public class JsonArray extends ArrayList<Object> {
 	}
 
 	/**
-	 * インスタンスの index 番目の要素が何かを {@link State} として取得します.<br>
-	 * ただし、 {@link JsonHash} を保持している場合は {@link State#START_HASH} が返ります.<br>
-	 * {@link JsonArray} を保持している場合は {@link State#START_ARRAY} が返ります.<br>
+	 * Retrieves the type of the nth element in the array as {@link State}.<br>
+	 * NB. this method returns {@link State#START_HASH} for a {@link JsonHash}, {@link State#START_ARRAY} for a {@link JsonArray}.
 	 * @param index
-	 * @return index番目の要素の種類
+	 * @return The element type
 	 * @author vvakame
 	 */
 	public State getState(int index) {
@@ -258,11 +257,11 @@ public class JsonArray extends ArrayList<Object> {
 	}
 
 	/**
-	 * 渡された引数が {@link State} の何にあたるかを判定し返します.<br>
+	 * Returns the type code (as in {@link State}) the given object has.
 	 * 
 	 * @param obj
-	 *            判定したいオブジェクト
-	 * @return {@link State} の何にあたるか.
+	 *            The value
+	 * @return The type code (see {@link State})
 	 */
 	State isState(Object obj) {
 		State state = null;
@@ -289,14 +288,14 @@ public class JsonArray extends ArrayList<Object> {
 	}
 
 	/**
-	 * 指定された位置に、渡されたオブジェクト、 {@link State} をセットします.
+	 * Inserts the given object and State at the given index in the array.
 	 * 
 	 * @param index
-	 *            挿入位置
+	 *            The index to insert at.
 	 * @param obj
-	 *            保持するオブジェクト
+	 *            The value to insert.
 	 * @param state
-	 *            保持するオブジェクトの {@link State} 表現
+	 *            The type code of the value (see {@link State})
 	 */
 	public void add(int index, Object obj, State state) {
 		stateList.add(index, state);
@@ -304,13 +303,13 @@ public class JsonArray extends ArrayList<Object> {
 	}
 
 	/**
-	 * 指定された位置に、渡されたオブジェクトをセットします.<br> {@link #isState(Object)} を利用し {@link State}
-	 * を推測しますが、意図しない挙動に繋がる可能性があるので利用しないほうがよいです.
+	 * Inserts the given object at the given index in the array.<br>
+	 * WARNING: While we attempt to guess the value type with {@link #isState(Object)}, it is error-prone, thus it is not advisable to use this method.
 	 * 
 	 * @param index
-	 *            挿入位置
+	 *            The index to insert at.
 	 * @param obj
-	 *            保持するオブジェクト
+	 *            The value to insert.
 	 */
 	@Deprecated
 	@Override
@@ -320,13 +319,13 @@ public class JsonArray extends ArrayList<Object> {
 	}
 
 	/**
-	 * リストの末尾に、渡されたオブジェクト、 {@link State} をセットします.
+	 * Appends the given object and State to the array.
 	 * 
 	 * @param obj
-	 *            保持するオブジェクト
+	 *            The value to append.
 	 * @param state
-	 *            保持するオブジェクトの {@link State} 表現
-	 * @return {@link Collection#add(Object)} 参照
+	 *            The type code of the value (see {@link State})
+	 * @return {@link Collection#add(Object)} reference
 	 */
 	public boolean add(Object obj, State state) {
 		stateList.add(state);
@@ -334,11 +333,12 @@ public class JsonArray extends ArrayList<Object> {
 	}
 
 	/**
-	 * リストの末尾に、渡されたオブジェクトをセットします.<br> {@link #isState(Object)} を利用し {@link State}
-	 * を推測しますが、意図しない挙動に繋がる可能性があるので利用しないほうがよいです.
+	 * Appends the given object and State to the array.
+	 * WARNING: While we attempt to guess the value type with {@link #isState(Object)}, it is error-prone, thus it is not advisable to use this method.
 	 * 
 	 * @param obj
-	 *            保持するオブジェクト
+	 *            The value to append.
+	 * @return {@link Collection#add(Object)} reference
 	 */
 	@Deprecated
 	@Override
@@ -348,11 +348,12 @@ public class JsonArray extends ArrayList<Object> {
 	}
 
 	/**
-	 * 指定された要素全てをリストの末尾に追加します.<br> {@link #isState(Object)}を利用し {@link State}
-	 * を推測しますが、意図しない挙動に繋がる可能性があるので利用しないほうがよいです.
+	 * Appends the given objects to the array.
+	 * WARNING: While we attempt to guess the value type with {@link #isState(Object)}, it is error-prone, thus it is not advisable to use this method.
 	 * 
 	 * @param args
-	 *            追加するオブジェクト群
+	 *            The values to append.
+	 * @return {@link Collection#add(Object)} reference
 	 */
 	@Deprecated
 	@Override
@@ -366,12 +367,12 @@ public class JsonArray extends ArrayList<Object> {
 	}
 
 	/**
-	 * 指定された要素全てをリストの指定された位置に追加します.<br> {@link #isState(Object)}を利用し {@link State}
-	 * を推測しますが、意図しない挙動に繋がる可能性があるので利用しないほうがよいです.
+	 * Inserts the given objects at the given index in the array.
+	 * WARNING: While we attempt to guess the value type with {@link #isState(Object)}, it is error-prone, thus it is not advisable to use this method.
 	 * 
-	 * @oaram start 挿入開始位置
+	 * @oaram start The index to insert at.
 	 * @param args
-	 *            追加するオブジェクト群
+	 *            The values to insert.
 	 */
 	@Deprecated
 	@Override
@@ -394,7 +395,7 @@ public class JsonArray extends ArrayList<Object> {
 	}
 
 	/**
-	 * 動作を定義していないため動作しません.
+	 * Currently undefined; merely throws UnsupportedOperationException.
 	 * 
 	 * @throws UnsupportedOperationException
 	 */
@@ -432,7 +433,7 @@ public class JsonArray extends ArrayList<Object> {
 	 * @param index 
 	 * @param obj 
 	 * @param state 
-	 * @return 指定位置に元々入っていたインスタンス
+	 * @return The instance at the given index in the array
 	 */
 	public Object set(int index, Object obj, State state) {
 		stateList.set(index, state);

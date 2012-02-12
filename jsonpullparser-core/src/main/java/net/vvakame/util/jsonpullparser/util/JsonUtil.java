@@ -22,15 +22,15 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * {@link TokenConverter} 記述支援用ユーティリティ.<br>
- * 本ライブラリ生成ソースからも利用されます.
+ * {@link TokenConverter} supporting facility.<br>
+ * Generated codes make use of it too.
  * @author vvakame
  */
 public class JsonUtil {
 
 	/**
-	 * { を書き込みます
-	 * @param writer 出力先
+	 * Writes "{".
+	 * @param writer {@link Writer} to be used for writing value
 	 * @throws IOException
 	 * @author vvakame
 	 */
@@ -39,8 +39,8 @@ public class JsonUtil {
 	}
 
 	/**
-	 * } を書き込みます
-	 * @param writer 出力先
+	 * Writes "}".
+	 * @param writer {@link Writer} to be used for writing value
 	 * @throws IOException
 	 * @author vvakame
 	 */
@@ -49,8 +49,8 @@ public class JsonUtil {
 	}
 
 	/**
-	 * [ を書き込みます
-	 * @param writer 出力先
+	 * Writes "[".
+	 * @param writer {@link Writer} to be used for writing value
 	 * @throws IOException
 	 * @author vvakame
 	 */
@@ -59,8 +59,8 @@ public class JsonUtil {
 	}
 
 	/**
-	 * ] を書き込みます
-	 * @param writer 出力先
+	 * Writes "]".
+	 * @param writer {@link Writer} to be used for writing value
 	 * @throws IOException
 	 * @author vvakame
 	 */
@@ -69,8 +69,8 @@ public class JsonUtil {
 	}
 
 	/**
-	 * , を書き込みます
-	 * @param writer 出力先
+	 * Writes ",".
+	 * @param writer {@link Writer} to be used for writing value
 	 * @throws IOException
 	 * @author vvakame
 	 */
@@ -79,9 +79,8 @@ public class JsonUtil {
 	}
 
 	/**
-	 * JSONの連想配列の Key を書き込みます.<br>
-	 * 出力する際、 {@link #sanitize(String)} を利用してJSONとしてvalidな文字列に変換されます.
-	 * @param writer 出力先
+	 * Writes the given key as a JSON hash key, sanitizing with {@link #sanitize(String)} as a valid JSON-formatted data.
+	 * @param writer {@link Writer} to be used for writing value
 	 * @param key Keyの文字列表現
 	 * @throws IOException
 	 * @author vvakame
@@ -93,9 +92,9 @@ public class JsonUtil {
 	}
 
 	/**
-	 * obj を writer に出力します.<br>
-	 * {@link String} {@link Boolean} {@link Long} {@link Double} {@link JsonHash} {@link JsonArray} を書きこむことが可能です.<br>
-	 * 未知のインスタンスだった場合、 {@link IllegalStateException} が投げられます.
+	 * Writes the given object.<br>
+	 * Supported types are: {@link String} {@link Boolean} {@link Long} {@link Double} {@link JsonHash} {@link JsonArray}.<br>
+	 * An {@link IllegalStateException} will be thrown if the given object has an unsupported type.
 	 * @param writer
 	 * @param value
 	 * @throws IOException
@@ -127,8 +126,7 @@ public class JsonUtil {
 	}
 
 	/**
-	 * writer に value を書き込みます.<br>
-	 * 書き込む際、 {@link #sanitize(String)} で処理されます.
+	 * Writes the given value with the given writer, sanitizing with {@link #sanitize(String)} as a valid JSON-formatted data.
 	 * @param writer
 	 * @param value
 	 * @throws IOException
@@ -145,8 +143,7 @@ public class JsonUtil {
 	}
 
 	/**
-	 * writer に value を書き込みます.<br>
-	 * 書き込む際、 {@link #sanitize(String)} で処理されます.
+	 * Writes the given value with the given writer, sanitizing with {@link #sanitize(String)} as a valid JSON-formatted data.
 	 * @param writer
 	 * @param values
 	 * @throws IOException
@@ -168,8 +165,7 @@ public class JsonUtil {
 	}
 
 	/**
-	 * writer に value を書き込みます.<br>
-	 * 書き込む際、 {@link #sanitize(String)} で処理されます.
+	 * Writes the given value with the given writer, sanitizing with {@link #sanitize(String)} as a valid JSON-formatted data.
 	 * @param writer
 	 * @param value
 	 * @throws IOException
@@ -182,8 +178,7 @@ public class JsonUtil {
 	}
 
 	/**
-	 * writer に value を書き込みます.<br>
-	 * 書き込む際、 {@link #sanitize(String)} で処理されます.
+	 * Writes the given value with the given writer, sanitizing with {@link #sanitize(String)} as a valid JSON-formatted data.
 	 * @param writer
 	 * @param value
 	 * @throws IOException
@@ -200,8 +195,7 @@ public class JsonUtil {
 	}
 
 	/**
-	 * writer に value を書き込みます.<br>
-	 * 書き込む際、 {@link #sanitize(String)} で処理されます.
+	 * Writes the given value with the given writer, sanitizing with {@link #sanitize(String)} as a valid JSON-formatted data.
 	 * @param writer
 	 * @param values
 	 * @throws IOException
@@ -223,7 +217,7 @@ public class JsonUtil {
 	}
 
 	/**
-	 * writer に value を書き込みます.
+	 * Writes the given value with the given writer.
 	 * @param writer
 	 * @param value
 	 * @throws IOException
@@ -234,7 +228,7 @@ public class JsonUtil {
 	}
 
 	/**
-	 * writer に value を書き込みます.
+	 * Writes the given value with the given writer.
 	 * @param writer
 	 * @param value
 	 * @throws IOException
@@ -249,7 +243,7 @@ public class JsonUtil {
 	}
 
 	/**
-	 * writer に value を書き込みます.
+	 * Writes the given value with the given writer.
 	 * @param writer
 	 * @param values
 	 * @throws IOException
@@ -271,7 +265,7 @@ public class JsonUtil {
 	}
 
 	/**
-	 * writer に value を書き込みます.
+	 * Writes the given value with the given writer.
 	 * @param writer
 	 * @param value
 	 * @throws IOException
@@ -282,7 +276,7 @@ public class JsonUtil {
 	}
 
 	/**
-	 * writer に value を書き込みます.
+	 * Writes the given value with the given writer.
 	 * @param writer
 	 * @param value
 	 * @throws IOException
@@ -297,7 +291,7 @@ public class JsonUtil {
 	}
 
 	/**
-	 * writer に value を書き込みます.
+	 * Writes the given value with the given writer.
 	 * @param writer
 	 * @param values
 	 * @throws IOException
@@ -319,7 +313,7 @@ public class JsonUtil {
 	}
 
 	/**
-	 * writer に value を書き込みます.
+	 * Writes the given value with the given writer.
 	 * @param writer
 	 * @param value
 	 * @throws IOException
@@ -330,7 +324,7 @@ public class JsonUtil {
 	}
 
 	/**
-	 * writer に value を書き込みます.
+	 * Writes the given value with the given writer.
 	 * @param writer
 	 * @param value
 	 * @throws IOException
@@ -345,7 +339,7 @@ public class JsonUtil {
 	}
 
 	/**
-	 * writer に value を書き込みます.
+	 * Writes the given value with the given writer.
 	 * @param writer
 	 * @param values
 	 * @throws IOException
@@ -367,7 +361,7 @@ public class JsonUtil {
 	}
 
 	/**
-	 * writer に value を書き込みます.
+	 * Writes the given value with the given writer.
 	 * @param writer
 	 * @param value
 	 * @throws IOException
@@ -378,7 +372,7 @@ public class JsonUtil {
 	}
 
 	/**
-	 * writer に value を書き込みます.
+	 * Writes the given value with the given writer.
 	 * @param writer
 	 * @param value
 	 * @throws IOException
@@ -393,7 +387,7 @@ public class JsonUtil {
 	}
 
 	/**
-	 * writer に value を書き込みます.
+	 * Writes the given value with the given writer.
 	 * @param writer
 	 * @param values
 	 * @throws IOException
@@ -415,7 +409,7 @@ public class JsonUtil {
 	}
 
 	/**
-	 * writer に value を書き込みます.
+	 * Writes the given value with the given writer.
 	 * @param writer
 	 * @param value
 	 * @throws IOException
@@ -426,7 +420,7 @@ public class JsonUtil {
 	}
 
 	/**
-	 * writer に value を書き込みます.
+	 * Writes the given value with the given writer.
 	 * @param writer
 	 * @param value
 	 * @throws IOException
@@ -441,7 +435,7 @@ public class JsonUtil {
 	}
 
 	/**
-	 * writer に value を書き込みます.
+	 * Writes the given value with the given writer.
 	 * @param writer
 	 * @param values
 	 * @throws IOException
@@ -463,7 +457,7 @@ public class JsonUtil {
 	}
 
 	/**
-	 * writer に value を書き込みます.
+	 * Writes the given value with the given writer.
 	 * @param writer
 	 * @param value
 	 * @throws IOException
@@ -474,7 +468,7 @@ public class JsonUtil {
 	}
 
 	/**
-	 * writer に value を書き込みます.
+	 * Writes the given value with the given writer.
 	 * @param writer
 	 * @param value
 	 * @throws IOException
@@ -489,7 +483,7 @@ public class JsonUtil {
 	}
 
 	/**
-	 * writer に value を書き込みます.
+	 * Writes the given value with the given writer.
 	 * @param writer
 	 * @param values
 	 * @throws IOException
@@ -511,7 +505,7 @@ public class JsonUtil {
 	}
 
 	/**
-	 * writer に value を書き込みます.
+	 * Writes the given value with the given writer.
 	 * @param writer
 	 * @param value
 	 * @throws IOException
@@ -522,7 +516,7 @@ public class JsonUtil {
 	}
 
 	/**
-	 * writer に value を書き込みます.
+	 * Writes the given value with the given writer.
 	 * @param writer
 	 * @param value
 	 * @throws IOException
@@ -537,7 +531,7 @@ public class JsonUtil {
 	}
 
 	/**
-	 * writer に value を書き込みます.
+	 * Writes the given value with the given writer.
 	 * @param writer
 	 * @param values
 	 * @throws IOException
@@ -559,7 +553,7 @@ public class JsonUtil {
 	}
 
 	/**
-	 * writer に value を書き込みます.
+	 * Writes the given value with the given writer.
 	 * @param writer
 	 * @param value
 	 * @throws IOException
@@ -574,7 +568,7 @@ public class JsonUtil {
 	}
 
 	/**
-	 * writer に value を書き込みます.
+	 * Writes the given value with the given writer.
 	 * @param writer
 	 * @param value
 	 * @throws IOException
@@ -591,7 +585,7 @@ public class JsonUtil {
 	}
 
 	/**
-	 * writer に value を書き込みます.
+	 * Writes the given value with the given writer.
 	 * @param writer
 	 * @param values
 	 * @throws IOException
@@ -615,7 +609,7 @@ public class JsonUtil {
 	}
 
 	/**
-	 * writer に value を書き込みます.
+	 * Writes the given value with the given writer.
 	 * @param writer
 	 * @param values
 	 * @throws IOException

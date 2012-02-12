@@ -30,7 +30,7 @@ import net.vvakame.util.jsonpullparser.util.TokenConverter;
 import static net.vvakame.util.jsonpullparser.util.JsonUtil.*;
 
 /**
- * 入れ子構造になっている 整数値の配列のJSON と {@link Integer} の {@link List} をマッピングします. 
+ * Converts nested integer array (in JSON form) into {@link List} of {@link Integer}s.
  * @author vvakame
  */
 public class IntFlattenConverter extends TokenConverter<List<Integer>> {
@@ -39,8 +39,8 @@ public class IntFlattenConverter extends TokenConverter<List<Integer>> {
 
 
 	/**
-	 * {@link IntFlattenConverter} を取得する.<br>
-	 * 内部で状態を持たないクラスであるため、実装はシングルトン
+	 * Returns an instance of {@link IntFlattenConverter}.<br>
+	 * NB: Implemented as singleton, as it has stateless nature.
 	 * @return {@link IntFlattenConverter}
 	 * @author vvakame
 	 */

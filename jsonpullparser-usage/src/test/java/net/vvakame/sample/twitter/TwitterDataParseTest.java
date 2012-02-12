@@ -28,13 +28,13 @@ import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.*;
 
 /**
- * Twitterのツイートを解釈するテスト.
+ * Test case for parsing tweet (as in Twitter.)
  * @author vvakame
  */
 public class TwitterDataParseTest {
 
 	/**
-	 * {@link Tweet} の {@link List} として解釈されるJSONを喰わせる.
+	 * Tests for parsing JSON carrying {@link List} of {@link Tweet}s.
 	 * @throws IOException
 	 * @throws JsonFormatException
 	 * @author vvakame
@@ -49,7 +49,7 @@ public class TwitterDataParseTest {
 	}
 
 	/**
-	 * {@link Place} の {@link List} として解釈されるJSONを喰わせる.
+	 * Tests for parsing JSON carrying {@link List} of {@link Place}s.
 	 * @throws IOException
 	 * @throws JsonFormatException
 	 * @author vvakame

@@ -30,13 +30,13 @@ import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.*;
 
 /**
- * {@link JsonHash} のテスト.
+ * Test class for {@link JsonHash}.
  * @author vvakame
  */
 public class JsonHashTest {
 
 	/**
-	 * 要素0の連想配列のテスト.
+	 * Tests the parsing of hash with 0-element (i.e. empty.)
 	 * @throws IOException
 	 * @throws JsonFormatException
 	 * @author vvakame
@@ -51,7 +51,7 @@ public class JsonHashTest {
 	}
 
 	/**
-	 * 簡単な連想配列のテスト.
+	 * Tests the parsing of a simple hash.
 	 * @throws IOException
 	 * @throws JsonFormatException
 	 * @author vvakame
@@ -68,7 +68,7 @@ public class JsonHashTest {
 	}
 
 	/**
-	 * 簡単な連想配列の解釈. 値がnullの場合.
+	 * Tests the parsing of a simple hash with null value.
 	 * @throws IOException
 	 * @throws JsonFormatException
 	 * @author vvakame
@@ -85,7 +85,7 @@ public class JsonHashTest {
 	}
 
 	/**
-	 * 連想配列の中に連想配列がネストしている場合の解釈.
+	 * Tests the parsing of a nested hash.
 	 * @throws IOException
 	 * @throws JsonFormatException
 	 * @author vvakame
@@ -105,7 +105,7 @@ public class JsonHashTest {
 	}
 
 	/**
-	 * {@link JsonPullParser}を途中まで手で操作したのちに {@link JsonHash#fromParser(JsonPullParser)} を利用したときのテスト.
+	 * Tests the parser handling of {@link JsonHash#fromParser(JsonPullParser)} with pre-manipulated one.
 	 * @throws IOException
 	 * @throws JsonFormatException
 	 * @author vvakame
@@ -124,7 +124,7 @@ public class JsonHashTest {
 	}
 
 	/**
-	 * {@link State} で定義されているトークンを全部使ってテスト.
+	 * Tests the parsing of a hash with all the types.
 	 * @throws IOException
 	 * @throws JsonFormatException
 	 * @author vvakame
@@ -169,7 +169,7 @@ public class JsonHashTest {
 	}
 
 	/**
-	 * {@link JsonHash#toJson(java.io.Writer)} のテスト.
+	 * Tests the behavior of {@link JsonHash#toJson(java.io.Writer)}.
 	 * @throws IOException
 	 * @throws JsonFormatException
 	 * @author vvakame

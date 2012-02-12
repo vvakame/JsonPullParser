@@ -14,7 +14,7 @@ import net.vvakame.util.jsonpullparser.util.TokenConverter;
 import static net.vvakame.util.jsonpullparser.util.JsonUtil.*;
 
 /**
- * ReadItLaterの何かのAPIのItemをMap<String, Item>としてパースするための {@link TokenConverter}
+ * {@link TokenConverter} for parsing items or something in the ReadItLater API as Map<String, Item>
  * @author vvakame
  */
 public class ItemMapConverter extends TokenConverter<Map<String, Item>> {
@@ -23,8 +23,8 @@ public class ItemMapConverter extends TokenConverter<Map<String, Item>> {
 
 
 	/**
-	 * インスタンスの取得
-	 * @return インスタンス
+	 * Gets a new instance of ItemMapConverter
+	 * @return A new instance of ItemMapConverter
 	 * @author vvakame
 	 */
 	public static ItemMapConverter getInstance() {

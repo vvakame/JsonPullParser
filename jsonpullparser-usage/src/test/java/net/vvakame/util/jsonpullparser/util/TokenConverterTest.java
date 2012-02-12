@@ -30,13 +30,13 @@ import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.*;
 
 /**
- * {@link TokenConverter} のテスト.
+ * Test class for {@link TokenConverter}.
  * @author vvakame
  */
 public class TokenConverterTest {
 
 	/**
-	 * {@link TokenConverter} を利用したクラスのデシリアライズをテスト.
+	 * Ensures classes with {@link TokenConverter} can be deserialized properly.
 	 * @throws IOException
 	 * @throws JsonFormatException
 	 * @author vvakame
@@ -52,7 +52,7 @@ public class TokenConverterTest {
 	}
 
 	/**
-	 * {@link TokenConverter} を利用したクラスのデシリアライズとシリアライズをテスト.
+	 * Ensures classes with {@link TokenConverter} can be serialized and deserialized properly.
 	 * @throws IOException
 	 * @throws JsonFormatException
 	 * @author vvakame

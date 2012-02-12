@@ -26,7 +26,7 @@ import net.vvakame.util.jsonpullparser.util.JsonHash;
 import net.vvakame.util.jsonpullparser.util.TokenConverter;
 
 /**
- * {@link JsonKey} に対応する生成ソースの表現.
+ * Internal data model for source code generation ({@link JsonKey})
  * @author vvakame
  */
 public class JsonElement {
@@ -53,7 +53,7 @@ public class JsonElement {
 
 
 	/**
-	 * {@link JsonModel} が表す型
+	 * The type {@link JsonModel} represents.
 	 * @author vvakame
 	 */
 	public static enum Kind {

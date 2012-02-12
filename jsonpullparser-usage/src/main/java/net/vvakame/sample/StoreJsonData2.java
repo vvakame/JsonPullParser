@@ -21,7 +21,7 @@ import net.vvakame.util.jsonpullparser.annotation.JsonModel;
 import net.vvakame.util.jsonpullparser.annotation.StoreJson;
 
 /**
- * {@link StoreJson} 確認用クラス.
+ * Test class for {@link StoreJson}.
  * @author vvakame
  */
 @JsonModel(treatUnknownKeyAsError = false)

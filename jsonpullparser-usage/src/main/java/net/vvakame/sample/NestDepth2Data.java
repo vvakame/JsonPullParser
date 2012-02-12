@@ -4,7 +4,7 @@ import net.vvakame.util.jsonpullparser.annotation.JsonKey;
 import net.vvakame.util.jsonpullparser.annotation.JsonModel;
 
 /**
- * 深くネストするパターンのためのクラス.
+ * A model for deeply nested patterns.
  * @author vvakame
  */
 @JsonModel(decamelize = true)

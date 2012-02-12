@@ -3,7 +3,7 @@ package net.vvakame.util.jsonpullparser;
 import net.vvakame.util.jsonpullparser.JsonPullParser.State;
 
 /**
- * ある {@link State} とその付帯情報.
+ * A {@link State} and related stuff.
  * @author vvakame
  */
 public class JsonSlice {

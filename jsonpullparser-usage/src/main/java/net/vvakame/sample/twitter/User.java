@@ -20,7 +20,7 @@ import net.vvakame.util.jsonpullparser.annotation.JsonKey;
 import net.vvakame.util.jsonpullparser.annotation.JsonModel;
 
 /**
- * ついったの人の表現
+ * Sample data model for user (as in Twitter.)
  * @author vvakame
  */
 @JsonModel(treatUnknownKeyAsError = true)

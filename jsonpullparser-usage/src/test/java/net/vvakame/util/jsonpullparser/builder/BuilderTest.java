@@ -24,7 +24,7 @@ import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.*;
 
 /**
- * {@link JsonModel#builder()} のテストケース.
+ * Test case for {@link JsonModel#builder()} のテストケース.
  * @author vvakame
  */
 public class BuilderTest {
@@ -33,7 +33,7 @@ public class BuilderTest {
 
 
 	/**
-	 * StringとDateのencode確認
+	 * Tests for the behavior of encode() on String and Date.
 	 * @throws IOException
 	 * @author vvakame
 	 */
@@ -48,7 +48,7 @@ public class BuilderTest {
 	}
 
 	/**
-	 * StringとDateのget確認
+	 * Tests for the behavior of get() on String and Date.
 	 * @throws IOException
 	 * @author vvakame
 	 * @throws JsonFormatException 
@@ -61,7 +61,7 @@ public class BuilderTest {
 	}
 
 	/**
-	 * 未知のKeyでエラーが通知されるか
+	 * Ensures unknown keys should raise an exception.
 	 * @throws IOException
 	 * @author vvakame
 	 * @throws JsonFormatException 
@@ -73,7 +73,7 @@ public class BuilderTest {
 	}
 
 	/**
-	 * 未知のKeyでエラーが通知されないか
+	 * Ensures unknown keys should not raise any exception.
 	 * @throws IOException
 	 * @author vvakame
 	 * @throws JsonFormatException 
@@ -85,7 +85,7 @@ public class BuilderTest {
 	}
 
 	/**
-	 * primitiveのencode確認
+	 * Tests for the behavior of encode() on primitives.
 	 * @throws IOException
 	 * @author vvakame
 	 */
@@ -129,7 +129,7 @@ public class BuilderTest {
 	}
 
 	/**
-	 * primitiveのget確認
+	 * Tests for the behavior of get() on primitives.
 	 * @throws IOException
 	 * @author vvakame
 	 * @throws JsonFormatException 
@@ -168,7 +168,7 @@ public class BuilderTest {
 	}
 
 	/**
-	 * primitiveのwrapperのencode確認
+	 * Tests for the behavior of encode() on wrapped primitives.
 	 * @throws IOException
 	 * @author vvakame
 	 */
@@ -213,7 +213,7 @@ public class BuilderTest {
 	}
 
 	/**
-	 * primitiveのwrapperのget確認
+	 * Tests for the behavior of get() on wrapped primitives.
 	 * @throws IOException
 	 * @author vvakame
 	 * @throws JsonFormatException 
@@ -252,7 +252,7 @@ public class BuilderTest {
 	}
 
 	/**
-	 * StringとDateのencode確認
+	 * Tests for the behavior of encode() on String and Date.
 	 * @throws IOException
 	 * @author vvakame
 	 */
@@ -268,7 +268,7 @@ public class BuilderTest {
 	}
 
 	/**
-	 * StringとDateのget確認
+	 * Tests for the behavior of get() on String and Date.
 	 * @throws IOException
 	 * @author vvakame
 	 * @throws JsonFormatException 
@@ -282,7 +282,7 @@ public class BuilderTest {
 	}
 
 	/**
-	 * modelのencode確認
+	 * Tests for the behavior of encode() on models
 	 * @throws IOException
 	 * @author vvakame
 	 * @throws JsonFormatException 
@@ -300,7 +300,7 @@ public class BuilderTest {
 	}
 
 	/**
-	 * modelのget確認
+	 * Tests for the behavior of get() on models
 	 * @throws IOException
 	 * @author vvakame
 	 * @throws JsonFormatException 
@@ -315,7 +315,7 @@ public class BuilderTest {
 	}
 
 	/**
-	 * enumのencode確認
+	 * Tests for the behavior of encode() on enums
 	 * @throws IOException
 	 * @author vvakame
 	 */
@@ -330,7 +330,7 @@ public class BuilderTest {
 	}
 
 	/**
-	 * enumのget確認
+	 * Tests for the behavior of get() on enums
 	 * @throws IOException
 	 * @author vvakame
 	 * @throws JsonFormatException 
@@ -343,7 +343,7 @@ public class BuilderTest {
 	}
 
 	/**
-	 * listのencode確認
+	 * Tests for the behavior of encode() on lists
 	 * @throws IOException
 	 * @author vvakame
 	 * @throws JsonFormatException 
@@ -365,7 +365,7 @@ public class BuilderTest {
 	}
 
 	/**
-	 * listのget確認
+	 * Tests for the behavior of get() on lists
 	 * @throws IOException
 	 * @author vvakame
 	 * @throws JsonFormatException 
@@ -381,7 +381,7 @@ public class BuilderTest {
 	}
 
 	/**
-	 * converterのencode確認
+	 * Tests for the behavior of encode() on converters
 	 * @throws IOException
 	 * @author vvakame
 	 */
@@ -398,7 +398,7 @@ public class BuilderTest {
 	}
 
 	/**
-	 * converterのget確認
+	 * Tests for the behavior of get() on converters
 	 * @throws IOException
 	 * @author vvakame
 	 * @throws JsonFormatException 
@@ -411,7 +411,7 @@ public class BuilderTest {
 	}
 
 	/**
-	 * JsonHashのencode確認
+	 * Tests for the behavior of encode() on JsonHash's
 	 * @throws IOException
 	 * @author vvakame
 	 */
@@ -426,7 +426,7 @@ public class BuilderTest {
 	}
 
 	/**
-	 * JsonHashのget確認
+	 * Tests for the behavior of get() on JsonHash's
 	 * @throws IOException
 	 * @author vvakame
 	 * @throws JsonFormatException 
@@ -439,7 +439,7 @@ public class BuilderTest {
 	}
 
 	/**
-	 * JsonArrayのencode確認
+	 * Tests for the behavior of encode() on JsonArray's
 	 * @throws IOException
 	 * @author vvakame
 	 */
@@ -454,7 +454,7 @@ public class BuilderTest {
 	}
 
 	/**
-	 * JsonArrayのget確認
+	 * Tests for the behavior of get() on JsonArray's
 	 * @throws IOException
 	 * @author vvakame
 	 * @throws JsonFormatException 
@@ -467,7 +467,7 @@ public class BuilderTest {
 	}
 
 	/**
-	 * #encodeList の確認
+	 * Tests for the behavior of #encodeList
 	 * @author vvakame
 	 * @throws IOException 
 	 */
@@ -489,7 +489,7 @@ public class BuilderTest {
 	}
 
 	/**
-	 * #getList の確認
+	 * Tests for the behavior of #getList
 	 * @author vvakame
 	 * @throws IOException 
 	 * @throws JsonFormatException 
@@ -509,7 +509,7 @@ public class BuilderTest {
 	}
 
 	/**
-	 * #rm の確認
+	 * Tests for the behavior of #rm
 	 * @throws IOException
 	 * @author vvakame
 	 */
@@ -527,7 +527,7 @@ public class BuilderTest {
 	}
 
 	/**
-	 * #addAll の確認
+	 * Tests for the behavior of #addAll
 	 * @throws IOException
 	 * @author vvakame
 	 * @throws JsonFormatException 

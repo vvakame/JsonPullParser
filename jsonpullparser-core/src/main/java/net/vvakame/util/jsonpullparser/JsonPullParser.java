@@ -29,87 +29,87 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * JSONPullParserを提供します.<br>
- * 現在処理中の場所までのJSONとして正しい形式かチェックされます.<br>
- * ただし、最後まで処理したときにJSONとして正しい形式になっているかはわかりません.<br>
- * 途中でJSONとして正しくない形式だった場合は例外が発生します.<br>
- * ライブラリ利用者は、その場合も正しくプログラムが動作するようにコーディングしなければならないです.
- * 
+ * A JSON pull parser implementation.<br>
+ * The parser guarantees format correctness till the point it stands at any given moment.<br>
+ * (however, a successful parse doesn't guarantee for overall concreteness of the document.)<br>
+ * As it throws an exception anytime it encounters an unexpected format defect, it is imperative that the caller handles that situation gracefully. 
+ *
  * @author vvakame
  * 
  */
 public class JsonPullParser {
 
 	/**
-	 * 現在処理中のトークン.
+	 * The token in the hand.
 	 * 
 	 * @author vvakame
 	 */
 	public static enum State {
 		/**
-		 * 初期状態.
+		 * The initial state.
 		 */
 		ORIGIN,
 		/**
-		 * キー.<br>
-		 * keyの文字列 → {"key":"value"}
+		 * Key.<br>
+		 * (e.g. {"key":...})
 		 */
 		KEY,
 		/**
-		 * 文字列の値.<br>
-		 * valueの値 → {"key":"value"}
+		 * String value.<br>
+		 * (e.g. {...:"value"})
 		 */
 		VALUE_STRING,
 		/**
-		 * 数字の値.<br>
-		 * valueの値 → {"key":0123}
+		 *
+		 * Long value.<br>
+		 * (e.g. {...:0123})
 		 */
 		VALUE_LONG,
 		/**
-		 * 数字の値.<br>
-		 * valueの値 → {"key":0123.11}
+		 * Double precision real value.<br>
+		 * (e.g. {...:0123.11})
 		 */
 		VALUE_DOUBLE,
 		/**
-		 * 真偽値の値.<br>
-		 * valueの値 → {"key":true}
+		 * Boolean value.<br>
+		 * (e.g. {...:true})
 		 */
 		VALUE_BOOLEAN,
 		/**
-		 * nullの値.<br>
-		 * valueの値 → {"key":null}
+		 * The null value.<br>
+		 * (e.g. {...:null})
 		 */
 		VALUE_NULL,
 		/**
-		 * ハッシュのスタート.<br>
-		 * これ → {
+		 * Hash start marker.<br>
+		 * (i.e. {)
 		 */
 		START_HASH,
 		/**
-		 * ハッシュのエンド.<br>
-		 * これ → }
+		 * Hash end marker.<br>
+		 * (e.g. })
 		 */
 		END_HASH,
 		/**
-		 * 配列のスタート.<br>
-		 * これ → [
+		 * Array start marker.<br>
+		 * (e.g. [)
 		 */
 		START_ARRAY,
 		/**
-		 * 配列のエンド.<br>
-		 * これ → ]
+		 * Array end marker.<br>
+		 * (e.g. ])
 		 */
 		END_ARRAY,
 	}
 
 
 	/**
-	 * バイトストリームに対してエンコーディング指定がされてなかった場合の デフォルトエンコーディング名です.
+	 * The fallback encoding for naive streams.
 	 */
 	public static final String DEFAULT_CHARSET_NAME = "UTF-8";
 
 	/**
-	 * バイトストリームに対してエンコーディング指定がされてなかった場合の デフォルトエンコーディングです.
+	 * The fallback encoding if naive streams.
 	 */
 	public static final Charset DEFAULT_CHARSET = Charset.forName(DEFAULT_CHARSET_NAME);
 
@@ -137,40 +137,39 @@ public class JsonPullParser {
 
 
 	/**
-	 * パース対象の {@code JSON} データを返す入力ストリームを設定します.
+	 * Creates a new parser, using the given InputStream as its {@code JSON} feed.
 	 * 
 	 * <p>
-	 * ストリームから読み込むバイト列は {@link #DEFAULT_CHARSET_NAME} として扱います.
+	 * Assumes the characters in the stream are encoded in {@link #DEFAULT_CHARSET_NAME}.
 	 * </p>
 	 * 
 	 * @param is
-	 *            パース対象の {@code JSON} 文字列に対するバイトストリーム.読み込まれるバイト列は、
-	 *            {@link #DEFAULT_CHARSET_NAME} として処理します.{@code null} 禁止.
-	 * @return isがセットされた {@link JsonPullParser}
+	 *            An InputStream serves as {@code JSON} feed (should be in the default encoding.)  Cannot be null.
+	 *
+	 * @return {@link JsonPullParser}
 	 * @throws IllegalArgumentException
-	 *             {@code null} 禁止の引き数に {@code null} が渡された場合.
+	 *             {@code null} has been passed in where not applicable.
 	 */
 	public static JsonPullParser newParser(InputStream is) {
 		return newParser(is, DEFAULT_CHARSET);
 	}
 
 	/**
-	 * パース対象の {@code JSON} データを返す入力ストリームを設定します.
+	 * Creates a new parser, using the given InputStream as its {@code JSON} feed.
 	 * 
 	 * <p>
-	 * インスタンス生成後、他のメソッドを呼ぶ前に一度だけ {@code setSource(...)} のうちの いずれかを一度だけ呼び出してください.
+	 * Please call one of the {@code setSource(...)}'s before calling other methods.
 	 * </p>
 	 * 
 	 * @param is
-	 *            パース対象の {@code JSON} 文字列に対するバイトストリーム.{@code null} 禁止.
+	 *            An InputStream serves as {@code JSON} feed. Cannot be null.
 	 * @param charsetName
-	 *            {@code is} が返すバイト列のエンコーディング名を指定します.{@code null} が渡された 場合は
-	 *            {@link #DEFAULT_CHARSET_NAME} として処理します.
-	 * @return isがセットされた {@link JsonPullParser}
+	 *            The character set should be assumed in which in the stream are encoded. {@link #DEFAULT_CHARSET_NAME} is assumed if null is passed.
+	 * @return {@link JsonPullParser}
 	 * @throws UnsupportedEncodingException
-	 *             {@code charsetName} で指定されたエンコーディングがサポートされていない場合.
+	 *             An unknown character set is specified.
 	 * @throws IllegalArgumentException
-	 *             {@code null} 禁止の引き数に {@code null} が渡された場合.
+	 *             {@code null} has been passed in where not applicable.
 	 */
 	public static JsonPullParser newParser(InputStream is, String charsetName)
 			throws UnsupportedEncodingException {
@@ -187,20 +186,19 @@ public class JsonPullParser {
 	}
 
 	/**
-	 * パース対象の {@code JSON} データを返す入力ストリームを設定します.
+	 * Creates a new parser, using the given InputStream as its {@code JSON} feed.
 	 * 
 	 * <p>
-	 * インスタンス生成後、他のメソッドを呼ぶ前に一度だけ {@code setSource(...)} のうちの いずれかを一度だけ呼び出してください.
+	 * Please call one of the {@code setSource(...)}'s before calling other methods.
 	 * </p>
 	 * 
 	 * @param is
-	 *            入力ストリーム.{@code null} 禁止.
+	 *            An InputStream serves as {@code JSON} feed.  Cannot be null.
 	 * @param charset
-	 *            {@code is} が返すバイト列のエンコーディングを指定します.{@code null} が渡された 場合は
-	 *            {@link #DEFAULT_CHARSET_NAME} として処理します.
-	 * @return isがセットされた {@link JsonPullParser}
+	 *            The character set should be assumed in which in the stream are encoded. {@link #DEFAULT_CHARSET_NAME} is assumed if null is passed.
+	 * @return {@link JsonPullParser}
 	 * @throws IllegalArgumentException
-	 *             {@code null} 禁止の引き数に {@code null} が渡された場合.
+	 *             {@code null} has been passed in where not applicable.
 	 */
 	public static JsonPullParser newParser(InputStream is, Charset charset) {
 		if (is == null) {
@@ -213,17 +211,17 @@ public class JsonPullParser {
 	}
 
 	/**
-	 * パース対象の {@code JSON} 文字列を設定します.
+	 * Creates a new parser, using the given InputStream as its {@code JSON} feed.
 	 * 
 	 * <p>
-	 * インスタンス生成後、他のメソッドを呼ぶ前に一度だけ {@code setSource(...)} のうちの いずれかを一度だけ呼び出してください.
+	 * Please call one of the {@code setSource(...)}'s before calling other methods.
 	 * </p>
 	 * 
 	 * @param json
-	 *            パース対象の {@code JSON} 文字列.{@code null} 禁止.
-	 * @return isがセットされた {@link JsonPullParser}
+	 *            An InputStream serves as {@code JSON} feed.  Cannot be null.
+	 * @return {@link JsonPullParser}
 	 * @throws IllegalArgumentException
-	 *             {@code null} 禁止の引き数に {@code null} が渡された場合.
+	 *             {@code null} has been passed in where not applicable.
 	 */
 	public static JsonPullParser newParser(String json) {
 		if (json == null) {
@@ -234,17 +232,17 @@ public class JsonPullParser {
 	}
 
 	/**
-	 * パース対象の {@code JSON} データを返す入力ストリームを設定します.
+	 * Creates a new parser, using the given InputStream as its {@code JSON} feed.
 	 * 
 	 * <p>
-	 * インスタンス生成後、他のメソッドを呼ぶ前に一度だけ {@code setSource(...)} のうちの いずれかを一度だけ呼び出してください.
+	 * Please call one of the {@code setSource(...)}'s before calling other methods.
 	 * </p>
 	 * 
 	 * @param reader
-	 *            入力ストリーム.{@code null} 禁止.
-	 * @return readerがセットされた {@link JsonPullParser}
+	 *            A Reader. Cannot be null.
+	 * @return {@link JsonPullParser}
 	 * @throws IllegalArgumentException
-	 *             {@code null} 禁止の引き数に {@code null} が渡された場合.
+	 *             {@code null} has been passed in where not applicable.
 	 */
 	public static JsonPullParser newParser(Reader reader) {
 		if (reader == null) {
@@ -264,9 +262,9 @@ public class JsonPullParser {
 	}
 
 	/**
-	 * パース対象の {@code JSON} データを返すリーダーを設定します.
+	 * Sets an Reader as the {@code JSON} feed.
 	 * @param reader
-	 *            入力ストリーム.{@code null} 禁止.
+	 *            A Reader. Cannot be null.
 	 */
 	void setSource(Reader reader) {
 		if (reader == null) {
@@ -279,8 +277,8 @@ public class JsonPullParser {
 	}
 
 	/**
-	 * Json解釈時にオリジナルと意味的に同一のデータの保存を行います.
-	 * @return {@link JsonPullParser} 自身
+	 * Sets if original-equivalent data should be saved as parsing goes.
+	 * @return this ({@link JsonPullParser})
 	 * @author vvakame
 	 */
 	public JsonPullParser setLogEnable() {
@@ -290,21 +288,20 @@ public class JsonPullParser {
 	}
 
 	/**
-	 * 一つ先の要素を先読みます.
+	 * Advances by one element.
 	 * 
 	 * <p>
-	 * このメソッドは真のlookAheadではありません.呼び出した途端、getValueXxx()の返り値は
-	 * 壊れてしまいます.なるべく、このメソッドは使わないほうがよいでしょう.
+	 * This method is not a true lookahead operation, and has adverse effects on the return value of getValue* family.  You have been warned.
 	 * </p>
 	 * <p>
-	 * lookAheadは何回呼び出しても、 {@link #getEventType()} を呼び出すまで、同じ値を 返します.
+	 * Its return value does not mutate until you call {@link #getEventType()}.
 	 * </p>
 	 * 
-	 * @return 一つ先の要素のトークンの種別.
+	 * @return The next token type.
 	 * @throws IOException
-	 *             {@code JSON} データの読み込みが正常に行えなかった場合.
+	 *             {@code JSON} data cannot read successfully.
 	 * @throws JsonFormatException
-	 *             入力データが {@code JSON} として正しくない場合.
+	 *             The data is malformed
 	 */
 	public State lookAhead() throws IOException, JsonFormatException {
 		if (lookAhead == null) {
@@ -314,13 +311,13 @@ public class JsonPullParser {
 	}
 
 	/**
-	 * 現在の状態を取得します.
+	 * Returns the current token type.
 	 * 
-	 * @return 現在のトークンの種別.
+	 * @return The token type in the hand.
 	 * @throws IOException
-	 *             {@code JSON} データの読み込みが正常に行えなかった場合.
+	 *             {@code JSON} data cannot read successfully.
 	 * @throws JsonFormatException
-	 *             入力データが {@code JSON} として正しくない場合.
+	 *             The data is malformed
 	 */
 	public State getEventType() throws IOException, JsonFormatException {
 		if (lookAhead != null) {
@@ -565,9 +562,9 @@ public class JsonPullParser {
 	}
 
 	/**
-	 * {@link JsonPullParser} が保持する解釈中の {@link JsonSlice} のリストのサイズの最後尾を返します.<br>
-	 * {@link #lookAhead()} が呼ばれている場合、実際の再後尾は1小さいため、その分を補正して返します。
-	 * @return 解釈中の {@link JsonSlice} の最後尾
+	 * Returns the size of the {@link JsonSlice} in the hand.<br>
+	 * Consider and compensates the effect of {@link #lookAhead()} (i.e. it consumes the slice by 1.)
+	 * @return The current slice size.
 	 * @author vvakame
 	 */
 	public int getSliceSize() {
@@ -579,16 +576,18 @@ public class JsonPullParser {
 	}
 
 	/**
-	 * 次の値を1つ読み捨てます.<br>
-	 * {@link State#START_ARRAY} か {@link State#START_HASH} の場合は配列または連想配列全体を読み捨て.<br>
-	 * {@link State#KEY} の場合は {@link State#KEY} とそれに対応する値を読み捨て.<br>
-	 * それ以外のVALUEの場合は値を読み捨て.
-	 * それ以外の場合は想定していないため、 {@link IllegalStateException} を投げる.
+	 * Reads and discards the next value.<br>
+	 * We:
+	 * a) discard the whole element if we're standing on an array ({@link State#START_HASH}) or a hash ({@link State#START_HASH},) or
+	 * b) discard the key and corresponding value if we're standing on a key ({@link State#KEY},) or
+	 * c) discard the value itself if we're standing on a value, or
+	 * d) throw {@link IllegalStateException} as we're in an unexpected situation.
+	 *
 	 * @throws IOException
-	 *             {@code JSON} データの読み込みが正常に行えなかった場合.
+	 *             {@code JSON} data cannot read successfully.
 	 * @throws JsonFormatException
-	 *             入力データが {@code JSON} として正しくない場合.
-	 * @throws IllegalStateException 想定していない {@link State} が読み込まれた場合.
+	 *             The data is malformed
+	 * @throws IllegalStateException when it stumbles upon an unexpected {@link State}.
 	 */
 	public void discardValue() throws IOException, JsonFormatException, IllegalStateException {
 		State state = lookAhead();
@@ -616,14 +615,13 @@ public class JsonPullParser {
 	}
 
 	/**
-	 * 次の値が {@link State#START_ARRAY} の場合、配列全体を読み捨て.<br>
-	 * {@link State#VALUE_NULL} の場合、nullを読み捨て.<br>
-	 * それ以外の場合は想定していないため、 {@link IllegalStateException} を投げる.
+	 * Reads and discards the next array/hash or null.<br>
+	 * Throws {@link IllegalStateException} otherwise.
 	 * @throws IOException
-	 *             {@code JSON} データの読み込みが正常に行えなかった場合.
+	 *             {@code JSON} data cannot read successfully.
 	 * @throws JsonFormatException
-	 *             入力データが {@code JSON} として正しくない場合.
-	 * @throws IllegalStateException 想定していない {@link State} が読み込まれた場合.
+	 *             The data is malformed
+	 * @throws IllegalStateException when it stumbles upon an unexpected {@link State}.
 	 */
 	public void discardArrayToken() throws IOException, JsonFormatException, IllegalStateException {
 		State state = lookAhead();
@@ -661,14 +659,13 @@ public class JsonPullParser {
 	}
 
 	/**
-	 * 次の値が {@link State#START_HASH} の場合、配列全体を読み捨て.<br>
-	 * {@link State#VALUE_NULL} の場合、nullを読み捨て.<br>
-	 * それ以外の場合は想定していないため、 {@link IllegalStateException} を投げる.
+	 * Reads and discards the next hash or null.<br>
+	 * Throws {@link IllegalStateException} otherwise.
 	 * @throws IOException
-	 *             {@code JSON} データの読み込みが正常に行えなかった場合.
+	 *             {@code JSON} data cannot read successfully.
 	 * @throws JsonFormatException
-	 *             入力データが {@code JSON} として正しくない場合.
-	 * @throws IllegalStateException 想定していない {@link State} が読み込まれた場合.
+	 *             The data is malformed
+	 * @throws IllegalStateException when it stumbles upon an unexpected {@link State}.
 	 */
 	public void discardHashToken() throws IOException, JsonFormatException, IllegalStateException {
 		State state = lookAhead();
@@ -707,14 +704,14 @@ public class JsonPullParser {
 	}
 
 	/**
-	 * 値を文字列として取得します.
+	 * Get the current value as string.<br>
 	 * 
 	 * <p>
-	 * {@link JsonPullParser#getEventType()} を読んだ時に {@link State#KEY} もしくは
-	 * {@link State#VALUE_STRING} が返ってきたときに呼び出してください.
+	 * Please call if {@link JsonPullParser#getEventType()} returns {@link State#KEY} or
+	 * {@link State#VALUE_STRING}.
 	 * </p>
 	 * 
-	 * @return 読み込んだ文字列
+	 * @return The current value read as string.
 	 */
 	public String getValueString() {
 		if (current == State.KEY) {
@@ -729,15 +726,14 @@ public class JsonPullParser {
 	}
 
 	/**
-	 * 値を整数値として取得します.
+	 * Get the current value as integer.<br>
 	 * 
 	 * <p>
-	 * {@link JsonPullParser#getEventType()}を呼んだ時に {@link State#VALUE_LONG}
-	 * が返ってきたときに呼び出してください.
+	 * Please call if {@link JsonPullParser#getEventType()} returns {@link State#VALUE_LONG}.
 	 * </p>
 	 * 
-	 * @return 読み込んだ整数値
-	 * @throws NullPointerException 現在の {@link #getEventType()} の結果が {@link State#VALUE_NULL} の場合
+	 * @return The current value read as integer.
+	 * @throws NullPointerException The current value is null ({@link #getEventType()} returns {@link State#VALUE_NULL}.)
 	 */
 	public long getValueLong() throws NullPointerException {
 		if (current == State.VALUE_LONG) {
@@ -750,15 +746,14 @@ public class JsonPullParser {
 	}
 
 	/**
-	 * 値を整数値として取得します.
+	 * Get the current value as double-precison floating point number.<br>
 	 * 
 	 * <p>
-	 * {@link JsonPullParser#getEventType()} を呼んだ時に {@link State#VALUE_DOUBLE}
-	 * が返ってきたときに呼び出してください.
+	 * Please call if {@link JsonPullParser#getEventType()} returns {@link State#VALUE_DOUBLE}.
 	 * </p>
 	 * 
-	 * @return 読み込んだ浮動小数点の値
-	 * @throws NullPointerException 現在の {@link #getEventType()} の結果が {@link State#VALUE_NULL} の場合
+	 * @return The current value read as double-precison floating point number.
+	 * @throws NullPointerException The current value is null ({@link #getEventType()} returns {@link State#VALUE_NULL}.)
 	 */
 	public double getValueDouble() throws NullPointerException {
 		if (current == State.VALUE_DOUBLE) {
@@ -773,15 +768,14 @@ public class JsonPullParser {
 	}
 
 	/**
-	 * 値を整数値として取得します.
+	 * Get the current value as boolean.<br>
 	 * 
 	 * <p>
-	 * {@link JsonPullParser#getEventType()} を呼んだ時に {@link State#VALUE_BOOLEAN}
-	 * が返ってきたときに呼び出してください.
+	 * Please call if {@link JsonPullParser#getEventType()} returns {@link State#VALUE_BOOLEAN}.
 	 * </p>
 	 * 
-	 * @return 読み込んだ真偽値の値
-	 * @throws NullPointerException 現在の {@link #getEventType()} の結果が {@link State#VALUE_NULL} の場合
+	 * @return The current value read as boolean.
+	 * @throws NullPointerException The current value is null ({@link #getEventType()} returns {@link State#VALUE_NULL}.)
 	 */
 	public boolean getValueBoolean() throws NullPointerException {
 		if (current == State.VALUE_BOOLEAN) {

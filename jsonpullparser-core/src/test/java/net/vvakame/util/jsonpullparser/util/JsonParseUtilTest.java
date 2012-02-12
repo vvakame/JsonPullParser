@@ -15,13 +15,13 @@ import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.*;
 
 /**
- * {@link JsonParseUtil} のテスト.
+ * Test class for {@link JsonParseUtil} のテスト.
  * @author vvakame
  */
 public class JsonParseUtilTest {
 
 	/**
-	 * {@link Integer} を要素とするJSONの配列の解釈.
+	 * Tests the parsing of array with {@link Integer} elements.
 	 * @throws IOException
 	 * @throws JsonFormatException
 	 * @author vvakame
@@ -41,7 +41,7 @@ public class JsonParseUtilTest {
 	}
 
 	/**
-	 * {@link Long} を要素とするJSONの配列の解釈.
+	 * Tests the parsing of array with {@link Long} elements.
 	 * @throws IOException
 	 * @throws JsonFormatException
 	 * @author vvakame
@@ -61,7 +61,7 @@ public class JsonParseUtilTest {
 	}
 
 	/**
-	 * {@link Byte} を要素とするJSONの配列の解釈.
+	 * Tests the parsing of array with {@link Byte} elements.
 	 * @throws IOException
 	 * @throws JsonFormatException
 	 * @author vvakame
@@ -81,7 +81,7 @@ public class JsonParseUtilTest {
 	}
 
 	/**
-	 * {@link Short} を要素とするJSONの配列の解釈.
+	 * Tests the parsing of array with {@link Short} elements.
 	 * @throws IOException
 	 * @throws JsonFormatException
 	 * @author vvakame
@@ -101,7 +101,7 @@ public class JsonParseUtilTest {
 	}
 
 	/**
-	 * {@link Boolean} を要素とするJSONの配列の解釈.
+	 * Tests the parsing of array with {@link Boolean} elements.
 	 * @throws IOException
 	 * @throws JsonFormatException
 	 * @author vvakame
@@ -120,7 +120,7 @@ public class JsonParseUtilTest {
 	}
 
 	/**
-	 * {@link Character} を要素とするJSONの配列の解釈.
+	 * Tests the parsing of array with {@link Character} elements.
 	 * @throws IOException
 	 * @throws JsonFormatException
 	 * @author vvakame
@@ -138,7 +138,7 @@ public class JsonParseUtilTest {
 	}
 
 	/**
-	 * {@link Double} を要素とするJSONの配列の解釈.
+	 * Tests the parsing of array with {@link Double} elements.
 	 * @throws IOException
 	 * @throws JsonFormatException
 	 * @author vvakame
@@ -158,7 +158,7 @@ public class JsonParseUtilTest {
 	}
 
 	/**
-	 * {@link Float} を要素とするJSONの配列の解釈.
+	 * Tests the parsing of array with {@link Float} elements.
 	 * @throws IOException
 	 * @throws JsonFormatException
 	 * @author vvakame
@@ -178,7 +178,7 @@ public class JsonParseUtilTest {
 	}
 
 	/**
-	 * {@link Integer} を要素とするJSONの配列の解釈.
+	 * Tests the parsing of array with {@link Integer} elements.
 	 * @throws IOException
 	 * @throws JsonFormatException
 	 * @author vvakame
@@ -198,7 +198,7 @@ public class JsonParseUtilTest {
 	}
 
 	/**
-	 * {@link Long} を要素とするJSONの配列の解釈.
+	 * Tests the parsing of array with {@link Long} elements.
 	 * @throws IOException
 	 * @throws JsonFormatException
 	 * @author vvakame
@@ -218,7 +218,7 @@ public class JsonParseUtilTest {
 	}
 
 	/**
-	 * {@link Byte} を要素とするJSONの配列の解釈.
+	 * Tests the parsing of array with {@link Byte} elements.
 	 * @throws IOException
 	 * @throws JsonFormatException
 	 * @author vvakame
@@ -238,7 +238,7 @@ public class JsonParseUtilTest {
 	}
 
 	/**
-	 * {@link Short} を要素とするJSONの配列の解釈.
+	 * Tests the parsing of array with {@link Short} elements.
 	 * @throws IOException
 	 * @throws JsonFormatException
 	 * @author vvakame
@@ -258,7 +258,7 @@ public class JsonParseUtilTest {
 	}
 
 	/**
-	 * {@link Boolean} を要素とするJSONの配列の解釈.
+	 * Tests the parsing of array with {@link Boolean} elements.
 	 * @throws IOException
 	 * @throws JsonFormatException
 	 * @author vvakame
@@ -277,7 +277,7 @@ public class JsonParseUtilTest {
 	}
 
 	/**
-	 * {@link Character} を要素とするJSONの配列の解釈.
+	 * Tests the parsing of array with {@link Character} elements.
 	 * @throws IOException
 	 * @throws JsonFormatException
 	 * @author vvakame
@@ -295,7 +295,7 @@ public class JsonParseUtilTest {
 	}
 
 	/**
-	 * {@link Double} を要素とするJSONの配列の解釈.
+	 * Tests the parsing of array with {@link Double} elements.
 	 * @throws IOException
 	 * @throws JsonFormatException
 	 * @author vvakame
@@ -315,7 +315,7 @@ public class JsonParseUtilTest {
 	}
 
 	/**
-	 * {@link Float} を要素とするJSONの配列の解釈.
+	 * Tests the parsing of array with {@link Float} elements.
 	 * @throws IOException
 	 * @throws JsonFormatException
 	 * @author vvakame
@@ -335,7 +335,7 @@ public class JsonParseUtilTest {
 	}
 
 	/**
-	 * {@link String} を要素とするJSONの配列の解釈.
+	 * Tests the parsing of array with {@link String} elements.
 	 * @throws IOException
 	 * @throws JsonFormatException
 	 * @author vvakame
@@ -353,7 +353,7 @@ public class JsonParseUtilTest {
 	}
 
 	/**
-	 * {@link Date} を要素とするJSONの配列の解釈.
+	 * Tests the parsing of array with {@link Date} elements.
 	 * @throws IOException
 	 * @throws JsonFormatException
 	 * @author vvakame
@@ -371,7 +371,7 @@ public class JsonParseUtilTest {
 	}
 
 	/**
-	 * {@link Enum} を要素とするJSONの配列の解釈.
+	 * Tests the parsing of array with {@link Enum} elements.
 	 * @throws IOException
 	 * @throws JsonFormatException
 	 * @author vvakame
@@ -390,7 +390,7 @@ public class JsonParseUtilTest {
 
 
 	/**
-	 * テスト利用向けenum
+	 * Enum for testing
 	 * @author vvakame
 	 */
 	public static enum EnumForTest {

@@ -33,7 +33,7 @@ import net.vvakame.util.jsonpullparser.annotation.JsonModel;
 import static javax.lang.model.util.ElementFilter.*;
 
 /**
- * アノテーションプロセッサ本体.
+ * Annotation processing logic.
  * @see ClassGenerateHelper
  * @author vvakame
  */

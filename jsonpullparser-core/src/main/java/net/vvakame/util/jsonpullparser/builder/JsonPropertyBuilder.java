@@ -1,7 +1,7 @@
 package net.vvakame.util.jsonpullparser.builder;
 
 /**
- * Jsonの各要素に対応する実行時組立用クラス.
+ * JSON property builder.
  * @author vvakame
  * @param <T>
  */
@@ -30,7 +30,7 @@ public class JsonPropertyBuilder<T> implements JsonPropertyBuilderCreator {
 	}
 
 	/**
-	 * 変換時に使うKey名を設定する.
+	 * Sets the JSON key name it uses.
 	 * @param name
 	 * @return this
 	 * @author vvakame
@@ -41,8 +41,9 @@ public class JsonPropertyBuilder<T> implements JsonPropertyBuilderCreator {
 	}
 
 	/**
-	 * 現在組立中の内容で確定する.
-	 * @return 固定されたJson変換用インスタンス
+	 * Fixiates the current state for coding.
+	 * 
+	 * @return A JsonModelCoder instance for the actual coding.
 	 * @author vvakame
 	 */
 	public JsonPropertyCoder<T> fix() {

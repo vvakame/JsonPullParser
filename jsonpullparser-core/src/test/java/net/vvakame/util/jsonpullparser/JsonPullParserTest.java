@@ -31,13 +31,13 @@ import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.*;
 
 /**
- * {@link JsonPullParser} のテスト.
+ * Test class for {@link JsonPullParser}.
  * @author vvakame
  */
 public class JsonPullParserTest {
 
 	/**
-	 * {@link JsonPullParser} に <code>{}</code>を喰わせた時のテスト.
+	 * Tests the handling of <code>{}</code> in {@link JsonPullParser}.
 	 * @throws IOException
 	 * @throws JsonFormatException
 	 * @author vvakame
@@ -54,7 +54,7 @@ public class JsonPullParserTest {
 	}
 
 	/**
-	 * {@link JsonPullParser} に <code>[]</code>を喰わせた時のテスト.
+	 * Tests the handling of <code>[]</code> in {@link JsonPullParser}.
 	 * @throws IOException
 	 * @throws JsonFormatException
 	 * @author vvakame
@@ -71,7 +71,7 @@ public class JsonPullParserTest {
 	}
 
 	/**
-	 * {@link JsonPullParser} に適当な空要素({}, [])を喰わせた時のテスト.
+	 * Tests the handling of empty elements in {@link JsonPullParser}.
 	 * @throws IOException
 	 * @throws JsonFormatException
 	 * @author vvakame
@@ -92,7 +92,7 @@ public class JsonPullParserTest {
 	}
 
 	/**
-	 * {@link State#VALUE_STRING} に解釈されるデータを与えた時のテスト.
+	 * Tests the handling of {@link State#VALUE_STRING} typed data in {@link JsonPullParser}.
 	 * @throws IOException
 	 * @throws JsonFormatException
 	 * @author vvakame
@@ -118,7 +118,7 @@ public class JsonPullParserTest {
 	}
 
 	/**
-	 * JSONの定義上特殊な文字であると定義されている文字を含む文字列の解釈.
+	 * Tests the handling of strings including special characters.
 	 * @throws IOException
 	 * @throws JsonFormatException
 	 * @author vvakame
@@ -145,7 +145,7 @@ public class JsonPullParserTest {
 	}
 
 	/**
-	 * \\uxxxx 形式の文字の解釈
+	 * Tests the handling of characters represented in the \\uxxxx form.
 	 * @throws IOException
 	 * @throws JsonFormatException
 	 * @author vvakame
@@ -177,7 +177,7 @@ public class JsonPullParserTest {
 	}
 
 	/**
-	 * 空白扱いの文字の解釈
+	 * Tests the handling of whitespace characters.
 	 * @throws IOException
 	 * @throws JsonFormatException
 	 * @author vvakame
@@ -203,7 +203,7 @@ public class JsonPullParserTest {
 	}
 
 	/**
-	 * {@link State#VALUE_BOOLEAN} の {@code true} の解釈
+	 * Tests the handling of {@link State#VALUE_BOOLEAN}, esp. {@code true}.
 	 * @throws IOException
 	 * @throws JsonFormatException
 	 * @author vvakame
@@ -230,7 +230,7 @@ public class JsonPullParserTest {
 	}
 
 	/**
-	 * {@link State#VALUE_BOOLEAN} の {@code false} の解釈
+	 * Tests the handling of {@link State#VALUE_BOOLEAN}, esp. {@code false}.
 	 * @throws IOException
 	 * @throws JsonFormatException
 	 * @author vvakame
@@ -257,7 +257,7 @@ public class JsonPullParserTest {
 	}
 
 	/**
-	 * {@link State#VALUE_NULL} のの解釈
+	 * Tests the handling of {@link State#VALUE_NULL}.
 	 * @throws IOException
 	 * @throws JsonFormatException
 	 * @author vvakame
@@ -281,7 +281,7 @@ public class JsonPullParserTest {
 	}
 
 	/**
-	 * {@link State#VALUE_LONG} の解釈
+	 * Tests the handling of {@link State#VALUE_LONG}.
 	 * @throws IOException
 	 * @throws JsonFormatException
 	 * @author vvakame
@@ -308,7 +308,7 @@ public class JsonPullParserTest {
 	}
 
 	/**
-	 * {@link State#VALUE_DOUBLE} の解釈
+	 * Tests the handling of {@link State#VALUE_DOUBLE}.
 	 * @throws IOException
 	 * @throws JsonFormatException
 	 * @author vvakame
@@ -335,7 +335,7 @@ public class JsonPullParserTest {
 	}
 
 	/**
-	 * {@link State#START_HASH} と {@link State#END_HASH} の解釈
+	 * Tests the handling of {@link State#START_HASH} and {@link State#END_HASH}.
 	 * @throws IOException
 	 * @throws JsonFormatException
 	 * @author vvakame
@@ -417,7 +417,7 @@ public class JsonPullParserTest {
 	}
 
 	/**
-	 * { の直後に空白文字があると解釈に失敗するバグの修正確認.
+	 * Ensures the parser doesn't choke on whitespace right after "{".
 	 * @author vvakame
 	 * @throws JsonFormatException 
 	 * @throws IOException 
@@ -432,7 +432,7 @@ public class JsonPullParserTest {
 	}
 
 	/**
-	 * {@link State#START_ARRAY} と {@link State#END_ARRAY} の解釈
+	 * Tests the handling of {@link State#START_ARRAY} and {@link State#END_ARRAY}.
 	 * @throws IOException
 	 * @throws JsonFormatException
 	 * @author vvakame
@@ -475,7 +475,7 @@ public class JsonPullParserTest {
 	}
 
 	/**
-	 * こみいっててめんどいJSONの解釈
+	 * Tests the handling of a hairy case.
 	 * @throws IOException
 	 * @throws JsonFormatException
 	 * @author vvakame
@@ -529,7 +529,7 @@ public class JsonPullParserTest {
 	}
 
 	/**
-	 * こみいっててめんどいJSONの解釈
+	 * Tests the handling of a hairy case.
 	 * @throws IOException
 	 * @throws JsonFormatException
 	 * @author vvakame
@@ -563,7 +563,7 @@ public class JsonPullParserTest {
 	}
 
 	/**
-	 * {@link JsonPullParser#lookAhead()} のテスト.
+	 * Tests the behavior of {@link JsonPullParser#lookAhead()}.
 	 * @throws IOException
 	 * @throws JsonFormatException
 	 * @author vvakame
@@ -596,7 +596,7 @@ public class JsonPullParserTest {
 	}
 
 	/**
-	 * {@link JsonPullParser#discardValue()} のテスト.
+	 * Tests the behavior of {@link JsonPullParser#discardValue()}.
 	 * @throws IOException
 	 * @throws JsonFormatException
 	 * @author vvakame
@@ -639,7 +639,7 @@ public class JsonPullParserTest {
 	}
 
 	/**
-	 * {@link JsonPullParser#discardArrayToken()} のテスト.
+	 * Tests the behavior of {@link JsonPullParser#discardArrayToken()}.
 	 * @throws IOException
 	 * @throws JsonFormatException
 	 * @author vvakame
@@ -666,7 +666,7 @@ public class JsonPullParserTest {
 	}
 
 	/**
-	 * {@link JsonPullParser#discardHashToken()} のテスト.
+	 * Tests the behavior of {@link JsonPullParser#discardHashToken()}.
 	 * @throws IOException
 	 * @throws JsonFormatException
 	 * @author vvakame
@@ -710,7 +710,7 @@ public class JsonPullParserTest {
 	}
 
 	/**
-	 * 解釈に失敗するパターンのテスト.
+	 * Tests for the behavior of parser on malformed data.
 	 * @throws IOException
 	 * @throws JsonFormatException
 	 * @author vvakame
@@ -724,7 +724,7 @@ public class JsonPullParserTest {
 	}
 
 	/**
-	 * 解釈に失敗するパターンのテスト.
+	 * Tests for the behavior of parser on malformed data.
 	 * @throws IOException
 	 * @throws JsonFormatException
 	 * @author vvakame
@@ -738,7 +738,7 @@ public class JsonPullParserTest {
 	}
 
 	/**
-	 * 解釈に失敗するパターンのテスト.
+	 * Tests for the behavior of parser on malformed data.
 	 * @throws IOException
 	 * @throws JsonFormatException
 	 * @author vvakame
@@ -752,7 +752,7 @@ public class JsonPullParserTest {
 	}
 
 	/**
-	 * 解釈に失敗するパターンのテスト.
+	 * Tests for the behavior of parser on malformed data.
 	 * @throws IOException
 	 * @throws JsonFormatException
 	 * @author vvakame
@@ -767,7 +767,7 @@ public class JsonPullParserTest {
 	}
 
 	/**
-	 * {@link JsonSlice} の生成テスト.
+	 * Tests for {@link JsonSlice} generation.
 	 * @author vvakame
 	 * @throws JsonFormatException 
 	 * @throws IOException 
@@ -805,7 +805,7 @@ public class JsonPullParserTest {
 	}
 
 	/**
-	 * {@link JsonPullParser#setLogEnable()} が呼ばれていない場合に例外を飛ばす.
+	 * Ensures an exception should be raised if {@link JsonPullParser#setLogEnable()} has not been called yet.
 	 * @author vvakame
 	 * @throws JsonFormatException 
 	 * @throws IOException 

@@ -33,14 +33,14 @@ import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.*;
 
 /**
- * {@link JsonUtil}のテスト.
+ * Test class for {@link JsonUtil}.
  * 
  * @author vvakame
  */
 public class JsonUtilTest {
 
 	/**
-	 * JSON配列を出力するテスト.
+	 * Writing a JSON array for test.
 	 * @throws IOException
 	 * @author vvakame
 	 */
@@ -85,7 +85,7 @@ public class JsonUtilTest {
 	}
 
 	/**
-	 * JSON連想配列を出力するテスト.
+	 * Writing a JSON hash for test.
 	 * @throws IOException
 	 * @author vvakame
 	 */
@@ -124,7 +124,7 @@ public class JsonUtilTest {
 	}
 
 	/**
-	 * {@link JsonUtil#sanitize(String)}のテスト
+	 * Tests for the behavior of {@link JsonUtil#sanitize(String)}.
 	 */
 	@Test
 	public void sanitize() {
@@ -135,7 +135,7 @@ public class JsonUtilTest {
 	}
 
 	/**
-	 * primitive型をArrayで出力してみる.
+	 * Writing an array with primitive values for test.
 	 * @throws IOException
 	 * @author vvakame
 	 */
@@ -180,7 +180,7 @@ public class JsonUtilTest {
 	}
 
 	/**
-	 * primitiveのラッパでArrayで出力してみる.
+	 * Writing an array with primitive values (with wrapper) for test.
 	 * @throws IOException
 	 * @author vvakame
 	 */
@@ -225,7 +225,7 @@ public class JsonUtilTest {
 	}
 
 	/**
-	 * primitiveのラッパでArrayで出力してみる.
+	 * Writing an array with primitive values (with wrapper) for test.
 	 * @throws IOException
 	 * @author vvakame
 	 * @throws JsonFormatException 
@@ -271,7 +271,7 @@ public class JsonUtilTest {
 	}
 
 	/**
-	 * primitiveのラッパでArrayで出力してみる.
+	 * Writing an array with primitive values (with wrapper) for test.
 	 * @throws IOException
 	 * @author vvakame
 	 * @throws JsonFormatException 

@@ -15,13 +15,13 @@ import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.*;
 
 /**
- * {@link JsonSliceUtil} のテストケース.
+ * Test class for {@link JsonSliceUtil}.
  * @author vvakame
  */
 public class JsonSliceUtilTest {
 
 	/**
-	 * 動作確認.
+	 * Tests for specific behavior.
 	 * @author vvakame
 	 */
 	@Test
@@ -44,7 +44,7 @@ public class JsonSliceUtilTest {
 	}
 
 	/**
-	 * 動作確認.
+	 * Tests for specific behavior.
 	 * @author vvakame
 	 */
 	@Test
@@ -67,7 +67,7 @@ public class JsonSliceUtilTest {
 	}
 
 	/**
-	 * 動作確認
+	 * Tests for specific behavior
 	 * @author vvakame
 	 * @throws IOException 
 	 * @throws JsonFormatException 
@@ -78,7 +78,7 @@ public class JsonSliceUtilTest {
 	}
 
 	/**
-	 * 動作確認
+	 * Tests for specific behavior
 	 * @author vvakame
 	 * @throws IOException 
 	 * @throws JsonFormatException 
@@ -89,7 +89,7 @@ public class JsonSliceUtilTest {
 	}
 
 	/**
-	 * 動作確認
+	 * Tests for specific behavior
 	 * @author vvakame
 	 * @throws IOException 
 	 * @throws JsonFormatException 
@@ -162,7 +162,7 @@ public class JsonSliceUtilTest {
 	}
 
 	/**
-	 * 動作確認
+	 * Tests for specific behavior
 	 * @author vvakame
 	 * @throws IOException 
 	 * @throws JsonFormatException 
@@ -226,7 +226,7 @@ public class JsonSliceUtilTest {
 	}
 
 	/**
-	 * 動作確認
+	 * Tests for specific behavior
 	 * @author vvakame
 	 * @throws IOException 
 	 * @throws JsonFormatException 
@@ -244,7 +244,7 @@ public class JsonSliceUtilTest {
 	}
 
 	/**
-	 * 動作確認
+	 * Tests for specific behavior
 	 * @author vvakame
 	 * @throws IOException 
 	 * @throws JsonFormatException 
@@ -259,7 +259,7 @@ public class JsonSliceUtilTest {
 	}
 
 	/**
-	 * 動作確認
+	 * Tests for specific behavior
 	 * @author vvakame
 	 * @throws IOException 
 	 * @throws JsonFormatException 
@@ -274,7 +274,7 @@ public class JsonSliceUtilTest {
 	}
 
 	/**
-	 * 動作確認
+	 * Tests for specific behavior
 	 * @author vvakame
 	 * @throws IOException 
 	 * @throws JsonFormatException 

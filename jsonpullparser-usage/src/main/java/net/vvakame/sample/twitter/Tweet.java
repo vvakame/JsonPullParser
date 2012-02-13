@@ -21,7 +21,7 @@ import net.vvakame.util.jsonpullparser.annotation.JsonModel;
 import net.vvakame.util.jsonpullparser.util.JsonHash;
 
 /**
- * ついったのツイートの表現
+ * Sample data model for tweet (as in Twitter.)
  * @author vvakame
  */
 @JsonModel(treatUnknownKeyAsError = true, decamelize = true)

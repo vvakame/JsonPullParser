@@ -19,7 +19,7 @@ package net.vvakame.util.jsonpullparser.factory;
 import net.vvakame.util.jsonpullparser.annotation.StoreJson;
 
 /**
- * {@link StoreJson} に対応する生成ソースの表現.
+ * Internal data model for source code generation ({@link StoreJson})
  * @author vvakame
  */
 public class StoreJsonElement {

@@ -27,7 +27,7 @@ import net.vvakame.util.jsonpullparser.util.JsonArray;
 import net.vvakame.util.jsonpullparser.util.JsonHash;
 
 /**
- * {@link String} や {@link List} {@link JsonHash} {@link JsonArray} を判定できるようにした {@link TypeKindVisitor6}
+ * A {@link TypeKindVisitor6} variant, which is also capable of recognizing {@link String}, {@link List}, {@link JsonHash} and {@link JsonArray}.
  * @author vvakame
  * @param <R>
  * @param <P>

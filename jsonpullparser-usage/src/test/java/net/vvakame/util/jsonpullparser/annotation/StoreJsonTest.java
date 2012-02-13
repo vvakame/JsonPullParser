@@ -34,13 +34,13 @@ import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.*;
 
 /**
- * {@link StoreJson} にパラメータを与えた場合のテスト.
+ * Test class for passing {@link StoreJson} parameters.
  * @author vvakame
  */
 public class StoreJsonTest {
 
 	/**
-	 * {@link JsonPullParser#setLogEnable()} が呼ばれていない場合に例外を飛ばす.
+	 * Ensures an exception should be raised if {@link JsonPullParser#setLogEnable()} has not been called yet.
 	 * @author vvakame
 	 * @throws JsonFormatException 
 	 * @throws IOException 
@@ -53,7 +53,7 @@ public class StoreJsonTest {
 	}
 
 	/**
-	 * {@link JsonPullParser#setLogEnable()} が呼ばれていなくても例外を飛ばさない.
+	 * Ensures an exception should not be raised even if {@link JsonPullParser#setLogEnable()} has not been called yet.
 	 * @author vvakame
 	 * @throws JsonFormatException 
 	 * @throws IOException 
@@ -70,7 +70,7 @@ public class StoreJsonTest {
 	}
 
 	/**
-	 * {@link JsonPullParser#setLogEnable()} が呼ばれていない場合に例外を飛ばす.
+	 * Ensures an exception should be raised if {@link JsonPullParser#setLogEnable()} has not been called yet.
 	 * @author vvakame
 	 * @throws JsonFormatException 
 	 * @throws IOException 
@@ -85,7 +85,7 @@ public class StoreJsonTest {
 	}
 
 	/**
-	 * {@link JsonPullParser#setLogEnable()} が呼ばれていない場合に例外を飛ばす.
+	 * Ensures an exception should be raised if {@link JsonPullParser#setLogEnable()} has not been called yet.
 	 * @author vvakame
 	 * @throws JsonFormatException 
 	 * @throws IOException 
@@ -103,7 +103,7 @@ public class StoreJsonTest {
 	}
 
 	/**
-	 * {@link JsonPullParser#setLogEnable()} が呼ばれていない場合に例外を飛ばす.
+	 * Ensures an exception should be raised if {@link JsonPullParser#setLogEnable()} has not been called yet.
 	 * @author vvakame
 	 * @throws JsonFormatException 
 	 * @throws IOException 
@@ -121,7 +121,7 @@ public class StoreJsonTest {
 	}
 
 	/**
-	 * {@link JsonPullParser#setLogEnable()} が呼ばれていない場合に例外を飛ばす.
+	 * Ensures an exception should be raised if {@link JsonPullParser#setLogEnable()} has not been called yet.
 	 * @author vvakame
 	 * @throws JsonFormatException 
 	 * @throws IOException 
@@ -137,7 +137,7 @@ public class StoreJsonTest {
 	}
 
 	/**
-	 * JsonModelがさらにJsonModelな要素を持つ場合に正常にパースできるか.
+	 * Tests the handling of nested JsonModels.
 	 * @author vvakame
 	 * @throws JsonFormatException 
 	 * @throws IOException 
@@ -154,7 +154,7 @@ public class StoreJsonTest {
 	}
 
 	/**
-	 * JsonModelのリストを正常にパースできるか.
+	 * Tests the handling of lists of JsonModels.
 	 * @author vvakame
 	 * @throws JsonFormatException 
 	 * @throws IOException 

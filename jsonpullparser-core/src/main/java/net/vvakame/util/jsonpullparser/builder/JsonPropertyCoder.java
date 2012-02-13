@@ -7,7 +7,7 @@ import net.vvakame.util.jsonpullparser.JsonFormatException;
 import net.vvakame.util.jsonpullparser.JsonPullParser;
 
 /**
- * Jsonの各要素変換用インスタンス.
+ * JSON property coder.
  * @author vvakame
  * @param <T>
  */
@@ -17,7 +17,7 @@ public abstract class JsonPropertyCoder<T> {
 
 
 	/**
-	 * JsonからJavaインスタンスへの変換を行う.
+	 * Encodes the given instance to JSON format.
 	 * @param writer 
 	 * @param data
 	 * @author vvakame
@@ -26,7 +26,7 @@ public abstract class JsonPropertyCoder<T> {
 	public abstract void encode(Writer writer, T data) throws IOException;
 
 	/**
-	 * JavaインスタンスからJsonへの変換を行う.
+	 * Decodes the given JSON data to an instance.
 	 * @param parser 
 	 * @param data
 	 * @author vvakame

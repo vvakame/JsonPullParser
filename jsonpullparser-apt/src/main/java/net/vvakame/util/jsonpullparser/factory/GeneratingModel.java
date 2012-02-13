@@ -23,7 +23,7 @@ import net.vvakame.util.jsonpullparser.annotation.JsonKey;
 import net.vvakame.util.jsonpullparser.annotation.JsonModel;
 
 /**
- * {@link JsonModel} に対応する生成ソースの表現.
+ * Internal data model for source code generation ({@link JsonModel})
  * @author vvakame
  */
 public class GeneratingModel {
@@ -48,7 +48,7 @@ public class GeneratingModel {
 
 
 	/**
-	 * {@link JsonKey} が付加されたフィールドの追加.
+	 * Keeps the given element.
 	 * @param jsonElement
 	 * @author vvakame
 	 */

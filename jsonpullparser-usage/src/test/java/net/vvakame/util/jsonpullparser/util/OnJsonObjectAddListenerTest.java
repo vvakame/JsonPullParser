@@ -40,7 +40,7 @@ import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.*;
 
 /**
- * {@link OnJsonObjectAddListener} のテスト.
+ * Test class for {@link OnJsonObjectAddListener}.
  * @author vvakame
  */
 public class OnJsonObjectAddListenerTest {
@@ -71,7 +71,7 @@ public class OnJsonObjectAddListenerTest {
 
 
 	/**
-	 * インスタンスが逐次渡されるかのテスト.
+	 * Ensures the callback is properly fired.
 	 * @throws IOException
 	 * @throws JsonFormatException
 	 * @author vvakame
@@ -93,7 +93,7 @@ public class OnJsonObjectAddListenerTest {
 	}
 
 	/**
-	 * インスタンスが逐次渡されるかのテスト.
+	 * Ensures the callback is properly fired.
 	 * @throws IOException
 	 * @throws JsonFormatException
 	 * @author vvakame
@@ -117,7 +117,7 @@ public class OnJsonObjectAddListenerTest {
 	}
 
 	/**
-	 * テストの初期設定.
+	 * Test setup.
 	 * @author vvakame
 	 */
 	@Before

@@ -21,7 +21,7 @@ import javax.lang.model.element.Element;
 import javax.tools.Diagnostic;
 
 /**
- * AndroidのLogクラスっぽい使い方で出力を行えるようにしたクラス.
+ * Logging facility modelled after Android's Log class.
  * @author vvakame
  */
 public class Log {
@@ -32,7 +32,7 @@ public class Log {
 
 
 	/**
-	 * 初期化.
+	 * Initialization.
 	 * @param msgr
 	 * @author vvakame
 	 */
@@ -41,8 +41,8 @@ public class Log {
 	}
 
 	/**
-	 * デバッグモードの設定.
-	 * @param d デバッグモード
+	 * Enables or disables debugging mode.
+	 * @param d True to enable, false to disable
 	 * @author vvakame
 	 */
 	public static void setDebug(boolean d) {
@@ -50,8 +50,8 @@ public class Log {
 	}
 
 	/**
-	 * デバッグ出力を行う.<br>
-	 * {@link #debug} がfalseの場合出力を行わない.
+	 * Logs debug message.<br>
+	 * No-op if the debugging mode ({@link #debug}) is disabled.
 	 * @author vvakame
 	 */
 	public static void d() {
@@ -62,9 +62,9 @@ public class Log {
 	}
 
 	/**
-	 * デバッグ出力を行う.<br>
-	 * {@link #debug} がfalseの場合出力を行わない.
-	 * @param msg 出力メッセージ
+	 * Logs debug message.<br>
+	 * No-op if the debugging mode ({@link #debug}) is disabled.
+	 * @param msg Message
 	 * @author vvakame
 	 */
 	public static void d(String msg) {
@@ -78,8 +78,8 @@ public class Log {
 	}
 
 	/**
-	 * 警告出力を行う.
-	 * @param msg 出力メッセージ
+	 * Logs warning message.
+	 * @param msg Message
 	 * @author vvakame
 	 */
 	public static void w(String msg) {
@@ -87,9 +87,9 @@ public class Log {
 	}
 
 	/**
-	 * element に対してWarning出力を行う.<br>
-	 * @param msg 出力メッセージ
-	 * @param element 警告対象
+	 * Logs warning message about the given element.<br>
+	 * @param msg Message
+	 * @param element Offending element
 	 * @author vvakame
 	 */
 	public static void w(String msg, Element element) {
@@ -97,8 +97,8 @@ public class Log {
 	}
 
 	/**
-	 * エラー出力を行う.
-	 * @param msg 出力メッセージ
+	 * Logs error message.
+	 * @param msg Message
 	 * @author vvakame
 	 */
 	public static void e(String msg) {
@@ -106,9 +106,9 @@ public class Log {
 	}
 
 	/**
-	 * element をコンパイルエラーにする.
-	 * @param msg 出力メッセージ
-	 * @param element コンパイルエラー対象
+	 * Logs error message about the given element.
+	 * @param msg Message
+	 * @param element Offending element
 	 * @author vvakame
 	 */
 	public static void e(String msg, Element element) {
@@ -116,8 +116,8 @@ public class Log {
 	}
 
 	/**
-	 * エラー出力を行う.
-	 * @param e 発生した例外
+	 * Logs error message about the given exception.
+	 * @param e Offending throwable
 	 * @author vvakame
 	 */
 	public static void e(Throwable e) {

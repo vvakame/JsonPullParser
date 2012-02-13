@@ -21,7 +21,7 @@ import net.vvakame.util.jsonpullparser.annotation.JsonModel;
 import net.vvakame.util.jsonpullparser.annotation.StoreJson;
 
 /**
- * "よくある"フィールドを持つクラス.
+ * Sample, somewhat "common mode," data set.
  * @author vvakame
  */
 @JsonModel(builder = true)

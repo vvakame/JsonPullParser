@@ -29,7 +29,7 @@ import net.vvakame.util.jsonpullparser.JsonPullParser.State;
 import static net.vvakame.util.jsonpullparser.util.JsonUtil.*;
 
 /**
- * JSONの連想配列 {} に対応するJavaクラス.
+ * A JSON hash ({}).
  * @author vvakame
  */
 public class JsonHash extends LinkedHashMap<String, Object> {
@@ -40,9 +40,9 @@ public class JsonHash extends LinkedHashMap<String, Object> {
 
 
 	/**
-	 * JSONの文字列表現をパースし {@link JsonHash} に変換します.
-	 * @param json パース対象のJSON
-	 * @return パース結果の {@link JsonHash}
+	 * Parses the given JSON data as a hash.
+	 * @param json JSON-formatted data
+	 * @return {@link JsonHash}
 	 * @throws IOException
 	 * @throws JsonFormatException
 	 * @author vvakame
@@ -53,9 +53,9 @@ public class JsonHash extends LinkedHashMap<String, Object> {
 	}
 
 	/**
-	 * JSONの文字列表現をパースし {@link JsonHash} に変換します.
-	 * @param parser パースに利用する {@link JsonPullParser}
-	 * @return パース結果の {@link JsonHash}
+	 * Parses the given JSON data as a hash.
+	 * @param parser {@link JsonPullParser} with some JSON-formatted data
+	 * @return {@link JsonHash}
 	 * @throws IOException
 	 * @throws JsonFormatException
 	 * @author vvakame
@@ -86,8 +86,8 @@ public class JsonHash extends LinkedHashMap<String, Object> {
 	}
 
 	/**
-	 * インスタンスが保持する内容をJSONにシリアライズしwriterに書きこむ.
-	 * @param writer 書込み先
+	 * Encodes into the JSON format.
+	 * @param writer {@link Writer} to be used for writing
 	 * @throws IOException
 	 * @author vvakame
 	 */
@@ -123,11 +123,11 @@ public class JsonHash extends LinkedHashMap<String, Object> {
 	}
 
 	/**
-	 * 渡された引数が {@link State} の何にあたるかを判定し返します.<br>
+	 * Returns the type code (as in {@link State}) the given object has.
 	 * 
 	 * @param obj
-	 *            判定したいオブジェクト
-	 * @return {@link State} の何にあたるか.
+	 *            The value
+	 * @return The type code (see {@link State})
 	 */
 	State isState(Object obj) {
 		State state = null;
@@ -154,11 +154,11 @@ public class JsonHash extends LinkedHashMap<String, Object> {
 	}
 
 	/**
-	 * インスタンスの key に対応する要素を {@link Boolean} として取得します.<br>
-	 * {@code null} または {@link Boolean} が保持されていない場合、 {@link IllegalStateException} が発生します.
+	 * Retrieves the corresponding value of the given key as boolean.<br>
+	 * If it is neither {@code null} nor a {@link Boolean}, {@link IllegalStateException} will be thrown.
 	 * @param key
-	 * @return key に対応する値
-	 * @throws IllegalStateException indexに {@code null} または {@link Boolean} が保持されていない場合
+	 * @return The value
+	 * @throws IllegalStateException The given index points neither {@code null} nor a {@link Boolean}.
 	 * @author vvakame
 	 */
 	public Boolean getBooleanOrNull(String key) throws IllegalStateException {
@@ -174,11 +174,11 @@ public class JsonHash extends LinkedHashMap<String, Object> {
 	}
 
 	/**
-	 * インスタンスの key に対応する要素を {@link String} として取得します.<br>
-	 * {@code null} または {@link String} が保持されていない場合、 {@link IllegalStateException} が発生します.
+	 * Retrieves the corresponding value of the given key as string.<br>
+	 * If it is neither {@code null} nor a {@link String}, {@link IllegalStateException} will be thrown.
 	 * @param key
-	 * @return key に対応する値
-	 * @throws IllegalStateException indexに {@code null} または {@link String} が保持されていない場合
+	 * @return The value
+	 * @throws IllegalStateException The given index points neither {@code null} nor a {@link String}.
 	 * @author vvakame
 	 */
 	public String getStringOrNull(String key) throws IllegalStateException {
@@ -194,11 +194,11 @@ public class JsonHash extends LinkedHashMap<String, Object> {
 	}
 
 	/**
-	 * インスタンスの key に対応する要素を {@link Long} として取得します.<br>
-	 * {@code null} または {@link Long} が保持されていない場合、 {@link IllegalStateException} が発生します.
+	 * Retrieves the corresponding value of the given key as integer.<br>
+	 * If it is neither {@code null} nor a {@link Long}, {@link IllegalStateException} will be thrown.
 	 * @param key
-	 * @return key に対応する値
-	 * @throws IllegalStateException indexに {@code null} または {@link Long} が保持されていない場合
+	 * @return The value
+	 * @throws IllegalStateException The given index points neither {@code null} nor a {@link Long}.
 	 * @author vvakame
 	 */
 	public Long getLongOrNull(String key) throws IllegalStateException {
@@ -214,11 +214,11 @@ public class JsonHash extends LinkedHashMap<String, Object> {
 	}
 
 	/**
-	 * インスタンスの key に対応する要素を {@link Double} として取得します.<br>
-	 * {@code null} または {@link Double} が保持されていない場合、 {@link IllegalStateException} が発生します.
+	 * Retrieves the corresponding value of the given key as double-precision floating point number.<br>
+	 * If it is neither {@code null} nor a {@link Double}, {@link IllegalStateException} will be thrown.
 	 * @param key
-	 * @return key に対応する値
-	 * @throws IllegalStateException indexに {@code null} または {@link Double} が保持されていない場合
+	 * @return The value
+	 * @throws IllegalStateException The given index points neither {@code null} nor a {@link Double}.
 	 * @author vvakame
 	 */
 	public Double getDoubleOrNull(String key) throws IllegalStateException {
@@ -234,11 +234,11 @@ public class JsonHash extends LinkedHashMap<String, Object> {
 	}
 
 	/**
-	 * インスタンスの key に対応する要素を {@link JsonHash} として取得します.<br>
-	 * {@code null} または {@link JsonHash} が保持されていない場合、 {@link IllegalStateException} が発生します.
+	 * Retrieves the corresponding value of the given key as {@link JsonHash}.<br>
+	 * If it is neither {@code null} nor a {@link JsonHash}, {@link IllegalStateException} will be thrown.
 	 * @param key
-	 * @return key に対応する値
-	 * @throws IllegalStateException indexに {@code null} または {@link JsonHash} が保持されていない場合
+	 * @return The value
+	 * @throws IllegalStateException The given index points neither {@code null} nor a {@link JsonHash}.
 	 * @author vvakame
 	 */
 	public JsonHash getJsonHashOrNull(String key) throws IllegalStateException {
@@ -254,11 +254,11 @@ public class JsonHash extends LinkedHashMap<String, Object> {
 	}
 
 	/**
-	 * インスタンスの key に対応する要素を {@link JsonArray} として取得します.<br>
-	 * {@code null} または {@link JsonArray} が保持されていない場合、 {@link IllegalStateException} が発生します.
+	 * Retrieves the corresponding value of the given key as {@link Jsonarray}.<br>
+	 * If it is neither {@code null} nor a {@link Jsonarray}, {@link IllegalStateException} will be thrown.
 	 * @param key
-	 * @return key に対応する値
-	 * @throws IllegalStateException indexに {@code null} または {@link JsonArray} が保持されていない場合
+	 * @return The value
+	 * @throws IllegalStateException The given index points neither {@code null} nor a {@link Jsonarray}.
 	 * @author vvakame
 	 */
 	public JsonArray getJsonArrayOrNull(String key) throws IllegalStateException {
@@ -274,12 +274,12 @@ public class JsonHash extends LinkedHashMap<String, Object> {
 	}
 
 	/**
-	 * インスタンスの key に対応する要素が何かを {@link State} として取得します.<br>
-	 * ただし、 {@link JsonHash} を保持している場合は {@link State#START_HASH} が返ります.<br>
-	 * {@link JsonArray} を保持している場合は {@link State#START_ARRAY} が返ります.<br>
-	 * @param key
-	 * @return key に対応する要素の種類
-	 * @author vvakame
+	 * Returns the type code (as in {@link State}) the corresponding value of the given key has.<br>
+	 * NB. this method returns {@link State#START_HASH} for a {@link JsonHash}, {@link State#START_ARRAY} for a {@link JsonArray}.
+	 *
+	 * @param obj
+	 *            The value
+	 * @return The type code (see {@link State})
 	 */
 	public State getState(String key) {
 		return stateMap.get(key);
@@ -317,7 +317,7 @@ public class JsonHash extends LinkedHashMap<String, Object> {
 	 * @param key 
 	 * @param value 
 	 * @param state 
-	 * @return 指定位置に元々入っていたインスタンス
+	 * @return The instance of the value for the given key
 	 */
 	public Object put(String key, Object value, State state) {
 		stateMap.put(key, state);

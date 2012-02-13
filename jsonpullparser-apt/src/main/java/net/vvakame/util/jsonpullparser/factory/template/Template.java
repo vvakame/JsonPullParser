@@ -23,7 +23,7 @@ import javax.tools.JavaFileObject;
 import net.vvakame.util.jsonpullparser.factory.GeneratingModel;
 
 /**
- * テンプレートエンジンの抽象
+ * Templating facility in general.
  * @author vvakame
  */
 public class Template {
@@ -32,9 +32,9 @@ public class Template {
 	}
 
 	/**
-	 * テンプレートエンジンを利用し fileObject に model の情報を流しこみソースを生成する.
-	 * @param fileObject 生成ソース
-	 * @param model ソース生成用の情報
+	 * Generates source code into the given file object from the given data model, utilizing the templating engine.
+	 * @param fileObject Target file object
+	 * @param model Data model for source code generation
 	 * @throws IOException
 	 * @author vvakame
 	 */
@@ -44,9 +44,9 @@ public class Template {
 	}
 
 	/**
-	 * テンプレートエンジンを利用し fileObject に model の情報を流しこみソースを生成する.
-	 * @param fileObject 生成ソース
-	 * @param model ソース生成用の情報
+	 * Generates source code into the given file object from the given data model, utilizing the templating engine.
+	 * @param fileObject Target file object
+	 * @param model Data model for source code generation
 	 * @throws IOException
 	 * @author vvakame
 	 */

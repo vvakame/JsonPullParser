@@ -4,7 +4,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
- * Jsonに対応する実行時組立用クラス.
+ * JSON model builder.
  * @author vvakame
  * @param <T>
  */
@@ -30,14 +30,14 @@ public abstract class JsonModelBuilder<T> {
 	}
 
 	/**
-	 * 全要素のJsonの各要素に対応したビルダの追加
+	 * Attaches property builder for the all types.
 	 * @return this
 	 * @author vvakame
 	 */
 	public abstract JsonModelBuilder<T> addAll();
 
 	/**
-	 * Jsonの各要素に対応したビルダの追加
+	 * Attaches property builder for the given types.
 	 * @param creators
 	 * @return this
 	 * @author vvakame
@@ -54,7 +54,7 @@ public abstract class JsonModelBuilder<T> {
 	}
 
 	/**
-	 * 指定されたビルダを取り除く
+	 * Detaches property builder for the given types.
 	 * @param creators
 	 * @return this
 	 * @author vvakame
@@ -71,7 +71,7 @@ public abstract class JsonModelBuilder<T> {
 	}
 
 	/**
-	 * 指定されたビルダを取り除く
+	 * Detaches property builder for the given names.
 	 * @param names
 	 * @return this
 	 * @author vvakame
@@ -88,7 +88,7 @@ public abstract class JsonModelBuilder<T> {
 	}
 
 	/**
-	 * Json組立時未知のKeyを検知した際、無視するか例外を投げるか.
+	 * Sets if the exception should be thrown upon deserializing unknown keys.
 	 * @param treatUnknownKeyAsError
 	 * @return this
 	 * @author vvakame
@@ -99,8 +99,8 @@ public abstract class JsonModelBuilder<T> {
 	}
 
 	/**
-	 * 現在組立中の内容で確定する.
-	 * @return 固定されたJson変換用インスタンス
+	 * Fixiates the current state for coding.
+	 * @return A JsonModelCoder instance for the actual coding.
 	 * @author vvakame
 	 */
 	public abstract JsonModelCoder<T> fix();

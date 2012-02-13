@@ -37,14 +37,14 @@ import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.*;
 
 /**
- * {@link JsonKey} にパラメータを与えた場合のテスト.
+ * Test class for passing {@link JsonKey} parameters.
  * @author vvakame
  */
 public class JsonKeyTest {
 
 	/**
-	 * {@link JsonKey#in()} {@link JsonKey#out()} の指定なし.<br>
-	 * デシリアライズとシリアライズ.
+	 * Without {@link JsonKey#in()} and {@link JsonKey#out()}.<br>
+	 * Serialization and deserialization.
 	 * @throws IllegalStateException
 	 * @throws IOException
 	 * @throws JsonFormatException
@@ -74,8 +74,8 @@ public class JsonKeyTest {
 	}
 
 	/**
-	 * {@link JsonKey#in()} {@link JsonKey#out()} の指定あり.<br>
-	 * デシリアライズとシリアライズ.
+	 * With {@link JsonKey#in()} and {@link JsonKey#out()}.<br>
+	 * Serialization and deserialization.
 	 * @throws IllegalStateException
 	 * @throws IOException
 	 * @throws JsonFormatException
@@ -107,7 +107,7 @@ public class JsonKeyTest {
 	}
 
 	/**
-	 * nullを渡した時のシリアライズ.
+	 * Serialization with null.
 	 * @throws IllegalStateException
 	 * @throws IOException
 	 * @throws JsonFormatException
@@ -124,7 +124,7 @@ public class JsonKeyTest {
 	}
 
 	/**
-	 * フィールドがnullばかりのインスタンスを渡した時のシリアライズ.
+	 * Serialization of instances filled with nulls.
 	 * @throws IllegalStateException
 	 * @throws IOException
 	 * @throws JsonFormatException
@@ -145,7 +145,7 @@ public class JsonKeyTest {
 	}
 
 	/**
-	 * nullを渡した時のシリアライズ.
+	 * Serialization with null.
 	 * @throws IllegalStateException
 	 * @throws IOException
 	 * @throws JsonFormatException
@@ -162,7 +162,7 @@ public class JsonKeyTest {
 	}
 
 	/**
-	 * フィールドがnullばかりのインスタンスを渡した時のシリアライズ.
+	 * Serialization of instances filled with nulls.
 	 * @throws IllegalStateException
 	 * @throws IOException
 	 * @throws JsonFormatException

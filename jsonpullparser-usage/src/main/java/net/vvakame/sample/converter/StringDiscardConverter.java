@@ -27,13 +27,13 @@ import net.vvakame.util.jsonpullparser.util.OnJsonObjectAddListener;
 import net.vvakame.util.jsonpullparser.util.TokenConverter;
 
 /**
- * 文字列を　JSONに したりもどしたり.
+ * Converts string (in JSON form) into {@link String}, or vice versa.
  * @author vvakame
  */
 public class StringDiscardConverter extends TokenConverter<String> {
 
 	/**
-	 * {@link StringDiscardConverter} を取得する.
+	 * Returns an instance of {@link StringDiscardConverter}.
 	 * @return {@link StringDiscardConverter}
 	 * @author vvakame
 	 */

@@ -6,7 +6,7 @@ import net.vvakame.util.jsonpullparser.annotation.JsonKey;
 import net.vvakame.util.jsonpullparser.annotation.JsonModel;
 
 /**
- * ReadItLaterの何かのAPIのMapper
+ * Mapper class for something in the ReadItLater API
  * @author vvakame
  */
 @JsonModel(treatUnknownKeyAsError = true, decamelize = true)

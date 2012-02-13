@@ -21,9 +21,9 @@ import java.util.List;
 import java.util.NoSuchElementException;
 
 /**
- * {@link java.util.Stack} とほぼ同じ機能を持ちます.<br> {@link java.util.Stack}
- * を使わないのは、同期をとる必要がないからです.<br> {@link java.util.Deque}
- * を使わないのは、AndroidではLevel9以上でないと使えないからです.
+ * {@link java.util.Stack} equivalent.<br> We won't use {@link java.util.Stack}
+ * because we don't have to synchronize.<br> And we cannot use {@link java.util.Deque}
+ * because it requires an API level of 9 or better on the Android platform.
  * 
  * @param <T>
  * @author vvakame
@@ -35,8 +35,8 @@ final public class Stack<T> {
 
 
 	/**
-	 * 値を積みます.
-	 * @param arg 積む値
+	 * Pushes the given value to the stack.
+	 * @param arg The value to be pushed
 	 * @author vvakame
 	 */
 	public void push(T arg) {
@@ -44,8 +44,8 @@ final public class Stack<T> {
 	}
 
 	/**
-	 * スタックの先頭にある要素を取り除き、返す.
-	 * @return スタックの先頭の要素.
+	 * Pops the value from the top of stack and returns it.
+	 * @return The value has been popped.
 	 * @author vvakame
 	 */
 	public T pop() {
@@ -57,8 +57,8 @@ final public class Stack<T> {
 	}
 
 	/**
-	 * スタックの先頭にある要素返す.取り除かない.
-	 * @return スタックの先頭の要素.
+	 * Returns the value currently on the top of the stack.
+	 * @return The value on the top.
 	 * @author vvakame
 	 */
 	public T peek() {

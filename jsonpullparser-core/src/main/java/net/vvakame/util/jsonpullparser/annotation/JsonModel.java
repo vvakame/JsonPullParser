@@ -24,7 +24,7 @@ import java.lang.annotation.Target;
 import net.vvakame.util.jsonpullparser.JsonPullParser;
 
 /**
- * Jsonとしてマッピングしたいクラスを装飾するアノテーション.
+ * Annotation to decorate classes should be mapped to JSON.
  * 
  * @see JsonKey
  * @author vvakame
@@ -36,28 +36,24 @@ import net.vvakame.util.jsonpullparser.JsonPullParser;
 public @interface JsonModel {
 
 	/**
-	 * 未知のKeyがJSONに含まれている場合の挙動.<br>
-	 * 値が {@code true} なら {@link IllegalStateException}.<br>
-	 * 値が {@code false} なら {@link JsonPullParser#discardValue()} で値を読み捨てます.
-	 * @return 未知のKeyをエラーにするか
+	 * Specifies whether parsers should error out on detection of an unknown key in JSON describling this class or not.<br>
+	 * They should throw {@link IllegalStateException} if true, or discard it (with {@link JsonPullParser#discardValue()}) and continue otherwise.
+	 * @return Whether parsers should throw error upon detection of unknown key about this class or not.
 	 * @author vvakame
 	 */
 	public boolean treatUnknownKeyAsError() default false;
 
 	/**
-	 * 配下の要素の_記法をキャメル記法に変換した上でマッピングを行うかの制御.<br>
-	 * {@code true} なら行う. {@code false} なら行わない.<br>
-	 * JSONで"source_id"というKeyにsourceIDというフィールドをマッピングさせます.
-	 * @return _記法→キャメル記法変換
+	 * De-camelize the name of class on mapping (i.e. "source_id" becomes "sourceId", and vice versa) or not.
+	 * @return True if de-camelization should be performed, false otherwise.
 	 * @see JsonKey#decamelize()
 	 * @author vvakame
 	 */
 	public boolean decamelize() default false;
 
 	/**
-	 * 動的なJSON組み立てのためのコードを生成するかの制御.<br>
-	 * {@code true} なら生成する. {@code false} なら生成しない.
-	 * @return 動的JSON組み立ての有効化
+	 * Whether a dynamic JSON builder should be generated for this class or not.
+	 * @return True if dynamic JSON builder should be generated, false otherwise.
 	 * @author vvakame
 	 */
 	public boolean builder() default false;

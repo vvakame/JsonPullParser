@@ -30,13 +30,13 @@ import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.*;
 
 /**
- * {@link JsonArray} のテスト.
+ * Test class for {@link JsonArray}.
  * @author vvakame
  */
 public class JsonArrayTest {
 
 	/**
-	 * 要素0の配列の解釈.
+	 * Tests the parsing of array with 0-element (i.e. empty.)
 	 * @throws IOException
 	 * @throws JsonFormatException
 	 * @author vvakame
@@ -51,7 +51,7 @@ public class JsonArrayTest {
 	}
 
 	/**
-	 * 簡単な配列の解釈.
+	 * Tests the parsing of a simple array.
 	 * @throws IOException
 	 * @throws JsonFormatException
 	 * @author vvakame
@@ -68,7 +68,7 @@ public class JsonArrayTest {
 	}
 
 	/**
-	 * 簡単な配列の解釈. 値がnullの場合.
+	 * Tests the parsing of a simple array with null value.
 	 * @throws IOException
 	 * @throws JsonFormatException
 	 * @author vvakame
@@ -85,7 +85,7 @@ public class JsonArrayTest {
 	}
 
 	/**
-	 * 配列の中に配列がネストしている場合の解釈.
+	 * Tests the parsing of a nested array.
 	 * @throws IOException
 	 * @throws JsonFormatException
 	 * @author vvakame
@@ -103,7 +103,7 @@ public class JsonArrayTest {
 	}
 
 	/**
-	 * {@link JsonPullParser}を途中まで手で操作したのちに {@link JsonArray#fromParser(JsonPullParser)} を利用したときのテスト.
+	 * Tests the parser handling of {@link JsonArray#fromParser(JsonPullParser)} with pre-manipulated one.
 	 * @throws IOException
 	 * @throws JsonFormatException
 	 * @author vvakame
@@ -123,7 +123,7 @@ public class JsonArrayTest {
 	}
 
 	/**
-	 * {@link State} で定義されているトークンを全部使ってテスト.
+	 * Tests the parsing of an array with all the types.
 	 * @throws IOException
 	 * @throws JsonFormatException
 	 * @author vvakame
@@ -166,7 +166,7 @@ public class JsonArrayTest {
 	}
 
 	/**
-	 * {@link JsonArray#toJson(java.io.Writer)} のテスト.
+	 * Tests the behavior of {@link JsonArray#toJson(java.io.Writer)}.
 	 * @throws IOException
 	 * @throws JsonFormatException
 	 * @author vvakame

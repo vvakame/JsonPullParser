@@ -19,7 +19,6 @@ package net.vvakame.util.jsonpullparser.factory;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.vvakame.util.jsonpullparser.annotation.JsonKey;
 import net.vvakame.util.jsonpullparser.annotation.JsonModel;
 
 /**

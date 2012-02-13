@@ -22,6 +22,7 @@ import net.vvakame.sample.converter.IntFlattenConverter;
 import net.vvakame.sample.converter.StringDiscardConverter;
 import net.vvakame.util.jsonpullparser.annotation.JsonKey;
 import net.vvakame.util.jsonpullparser.annotation.JsonModel;
+import net.vvakame.util.jsonpullparser.util.TokenConverter;
 
 /**
  * A class with fields that shall be treated with {@link TokenConverter}.

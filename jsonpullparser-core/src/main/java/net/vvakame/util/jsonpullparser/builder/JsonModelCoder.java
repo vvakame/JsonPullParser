@@ -279,7 +279,7 @@ public class JsonModelCoder<T> {
 	 * @param parser {@link JsonPullParser} in action
 	 * @param listener {@link OnJsonObjectAddListener} to listen new instance creations
 	 * @param key JSON key being parsed
-	 * @param obj {@link @{target}} (and like) being rebuilt
+	 * @param obj target (and like) being rebuilt
 	 * @return True if the given key is parsed successfully, false otherwise
 	 * @throws IOException 
 	 * @throws JsonFormatException Data is malformed, or its type is unexpected
@@ -315,7 +315,7 @@ public class JsonModelCoder<T> {
 	 * Encodes the given {@link List} of values into the JSON format, and writes it using the given writer.<br>
 	 * This method is an alias of {@link #encodeListNullToBlank(Writer, List)}.
 	 * 
-	 * @param out {@link Writer} to be used for writing value
+	 * @param writer {@link Writer} to be used for writing value
 	 * @param list {@link List} of values to be encoded
 	 * @throws IOException 
 	 */
@@ -327,7 +327,7 @@ public class JsonModelCoder<T> {
 	 * Encodes the given {@link List} of values into the JSON format, and writes it using the given writer.<br>
 	 * Writes "[]" if null is given.
 	 * 
-	 * @param out {@link Writer} to be used for writing value
+	 * @param writer {@link Writer} to be used for writing value
 	 * @param list {@link List} of values to be encoded
 	 * @throws IOException 
 	 */
@@ -345,7 +345,7 @@ public class JsonModelCoder<T> {
 	 * Encodes the given {@link List} of values into the JSON format, and writes it using the given writer.<br>
 	 * Writes "null" if null is given.
 	 * 
-	 * @param out {@link Writer} to be used for writing value
+	 * @param writer {@link Writer} to be used for writing value
 	 * @param list {@link List} of values to be encoded
 	 * @throws IOException 
 	 */
@@ -374,7 +374,7 @@ public class JsonModelCoder<T> {
 
 	/**
 	 * Encodes the given value into the JSON format, and appends it into the given stream using {@link JsonPullParser#DEFAULT_CHARSET}.<br>
-	 * This method is an alias of {@link #encodeListNullToBlank(Writer, @{target})}.
+	 * This method is an alias of {@link #encodeListNullToBlank(Writer, List)}.
 	 * 
 	 * @param out {@link OutputStream} to be written
 	 * @param obj Value to encoded
@@ -387,9 +387,9 @@ public class JsonModelCoder<T> {
 
 	/**
 	 * Encodes the given value into the JSON format, and writes it using the given writer.<br>
-	 * This method is an alias of {@link #encodeListNullToBlank(Writer, @{target})}.
+	 * This method is an alias of {@link #encodeListNullToBlank(Writer, List)}.
 	 * 
-	 * @param out {@link Writer} to be used for writing value
+	 * @param writer {@link Writer} to be used for writing value
 	 * @param obj Value to encoded
 	 * @throws IOException 
 	 */
@@ -401,7 +401,7 @@ public class JsonModelCoder<T> {
 	 * Encodes the given value into the JSON format, and writes it using the given writer.<br>
 	 * Writes "{}" if null is given.
 	 * 
-	 * @param out {@link Writer} to be used for writing value
+	 * @param writer {@link Writer} to be used for writing value
 	 * @param obj Value to encoded
 	 * @throws IOException 
 	 */
@@ -419,7 +419,7 @@ public class JsonModelCoder<T> {
 	 * Encodes the given value into the JSON format, and writes it using the given writer.<br>
 	 * Writes "null" if null is given.
 	 * 
-	 * @param out {@link Writer} to be used for writing value
+	 * @param writer {@link Writer} to be used for writing value
 	 * @param obj Value to encoded
 	 * @throws IOException 
 	 */

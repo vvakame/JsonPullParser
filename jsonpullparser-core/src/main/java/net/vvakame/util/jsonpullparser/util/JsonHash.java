@@ -254,11 +254,11 @@ public class JsonHash extends LinkedHashMap<String, Object> {
 	}
 
 	/**
-	 * Retrieves the corresponding value of the given key as {@link Jsonarray}.<br>
-	 * If it is neither {@code null} nor a {@link Jsonarray}, {@link IllegalStateException} will be thrown.
+	 * Retrieves the corresponding value of the given key as {@link JsonArray}.<br>
+	 * If it is neither {@code null} nor a {@link JsonArray}, {@link IllegalStateException} will be thrown.
 	 * @param key
 	 * @return The value
-	 * @throws IllegalStateException The given index points neither {@code null} nor a {@link Jsonarray}.
+	 * @throws IllegalStateException The given index points neither {@code null} nor a {@link JsonArray}.
 	 * @author vvakame
 	 */
 	public JsonArray getJsonArrayOrNull(String key) throws IllegalStateException {
@@ -277,8 +277,7 @@ public class JsonHash extends LinkedHashMap<String, Object> {
 	 * Returns the type code (as in {@link State}) the corresponding value of the given key has.<br>
 	 * NB. this method returns {@link State#START_HASH} for a {@link JsonHash}, {@link State#START_ARRAY} for a {@link JsonArray}.
 	 *
-	 * @param obj
-	 *            The value
+	 * @param key The key
 	 * @return The type code (see {@link State})
 	 */
 	public State getState(String key) {

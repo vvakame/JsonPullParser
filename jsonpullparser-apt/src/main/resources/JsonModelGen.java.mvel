@@ -404,7 +404,7 @@ public class @{target}@{postfix} {
 	 * Encodes the given {@link List} of {@link @{target}} into the JSON format, and writes it using the given writer.<br>
 	 * This method is an alias of {@link #encodeListNullToBlank(Writer, List)}.
 	 * 
-	 * @param out {@link Writer} to be used for writing value
+	 * @param writer {@link Writer} to be used for writing value
 	 * @param list {@link List} of {@link @{target}} to be encoded
 	 * @throws IOException 
 	 */
@@ -416,7 +416,7 @@ public class @{target}@{postfix} {
 	 * Encodes the given {@link List} of {@link @{target}} into the JSON format, and writes it using the given writer.<br>
 	 * Writes "[]" if null is given.
 	 * 
-	 * @param out {@link Writer} to be used for writing value
+	 * @param writer {@link Writer} to be used for writing value
 	 * @param list {@link List} of {@link @{target}} to be encoded
 	 * @throws IOException 
 	 */
@@ -434,7 +434,7 @@ public class @{target}@{postfix} {
 	 * Encodes the given {@link List} of {@link @{target}} into the JSON format, and writes it using the given writer.<br>
 	 * Writes "null" if null is given.
 	 * 
-	 * @param out {@link Writer} to be used for writing value
+	 * @param writer {@link Writer} to be used for writing value
 	 * @param list {@link List} of {@link @{target}} to be encoded
 	 * @throws IOException 
 	 */
@@ -463,7 +463,7 @@ public class @{target}@{postfix} {
 
 	/**
 	 * Encodes the given {@link @{target}} into the JSON format, and appends it into the given stream using {@link JsonPullParser#DEFAULT_CHARSET}.<br>
-	 * This method is an alias of {@link #encodeListNullToBlank(Writer, @{target})}.
+	 * This method is an alias of {@link #encodeNullToBlank(Writer, @{target})}.
 	 * 
 	 * @param out {@link OutputStream} to be written
 	 * @param obj {@link @{target}} to be encoded
@@ -476,9 +476,9 @@ public class @{target}@{postfix} {
 	
 	/**
 	 * Encodes the given {@link @{target}} into the JSON format, and writes it using the given writer.<br>
-	 * This method is an alias of {@link #encodeListNullToBlank(Writer, @{target})}.
+	 * This method is an alias of {@link #encodeNullToBlank(Writer, @{target})}.
 	 * 
-	 * @param out {@link Writer} to be used for writing value
+	 * @param writer {@link Writer} to be used for writing value
 	 * @param obj {@link @{target}} to be encoded
 	 * @throws IOException 
 	 */
@@ -490,7 +490,7 @@ public class @{target}@{postfix} {
 	 * Encodes the given {@link @{target}} into the JSON format, and writes it using the given writer.<br>
 	 * Writes "{}" if null is given.
 	 * 
-	 * @param out {@link Writer} to be used for writing value
+	 * @param writer {@link Writer} to be used for writing value
 	 * @param obj {@link @{target}} to be encoded
 	 * @throws IOException 
 	 */
@@ -508,7 +508,7 @@ public class @{target}@{postfix} {
 	 * Encodes the given {@link @{target}} into the JSON format, and writes it using the given writer.<br>
 	 * Writes "null" if null is given.
 	 * 
-	 * @param out {@link Writer} to be used for writing value
+	 * @param writer {@link Writer} to be used for writing value
 	 * @param obj {@link @{target}} to be encoded
 	 * @throws IOException 
 	 */
@@ -533,13 +533,22 @@ public class @{target}@{postfix} {
 	 * 
 	 * @param writer {@link Writer}
 	 * @param obj value
+	 * @return is write some value
 	 * @throws IOException 
 	 * @author vvakame
 	 */
-	public static void encodeValue(Writer writer, @{target} obj) throws IOException {
+	public static boolean encodeValue(Writer writer, @{target} obj) throws IOException {
 @if{existsBase == true}
-		@{targetBase}@{postfix}.encodeValue(writer, obj);
-		JsonUtil.addSeparator(writer);
+@if{outElements.size() == 0}
+		boolean existParentValue = false;
+@end{}
+		if(@{targetBase}@{postfix}.encodeValue(writer, obj)){
+@if{outElements.size() != 0}
+			JsonUtil.addSeparator(writer);
+@else{}
+			existParentValue = true;
+@end{}
+		}
 @end{}
 @foreach{obj : outElements}
 		JsonUtil.putKey(writer, "@{obj.key}");
@@ -611,5 +620,19 @@ public class @{target}@{postfix} {
 		JsonUtil.put(writer, obj.@{obj.getter}());
 	@end{}
 @end{'		JsonUtil.addSeparator(writer);'}
+
+@if{existsBase == true}
+@if{outElements.size() == 0}
+		return existParentValue;
+@else{}
+		return true;
+@end{}
+@else{}
+@if{outElements.size() == 0}
+		return false;
+@else{}
+		return true;
+@end{}
+@end{}
 	}
 }

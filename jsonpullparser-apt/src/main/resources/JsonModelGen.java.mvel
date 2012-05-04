@@ -27,7 +27,7 @@ public class @{target}@{postfix} {
 	 * Attempts to parse the given data as {@link List} of {@link @{target}}.
 	 * @param json JSON-formatted data
 	 * @return {@link List} of {@link @{target}}
-	 * @throws IOException 
+	 * @throws IOException if an I/O error occurs.
 	 * @throws JsonFormatException The given data is malformed, or its type is unexpected
 	 */
 	public static List<@{target}> getList(String json) throws IOException, JsonFormatException {
@@ -42,7 +42,7 @@ public class @{target}@{postfix} {
 	 * @param json JSON-formatted data
 	 * @param listener {@link OnJsonObjectAddListener} to notify
 	 * @return {@link List} of {@link @{target}}
-	 * @throws IOException 
+	 * @throws IOException if an I/O error occurs.
 	 * @throws JsonFormatException The given data is malformed, or its type is unexpected
 	 */
 	public static List<@{target}> getList(String json, OnJsonObjectAddListener listener) throws IOException, JsonFormatException {
@@ -55,7 +55,7 @@ public class @{target}@{postfix} {
 	 * 
 	 * @param stream JSON-formatted data
 	 * @return {@link List} of {@link @{target}}
-	 * @throws IOException 
+	 * @throws IOException if an I/O error occurs.
 	 * @throws JsonFormatException The given data is malformed, or its type is unexpected
 	 */
 	public static List<@{target}> getList(InputStream stream) throws IOException, JsonFormatException {
@@ -70,7 +70,7 @@ public class @{target}@{postfix} {
 	 * @param stream JSON-formatted data
 	 * @param listener {@link OnJsonObjectAddListener} to notify
 	 * @return {@link List} of {@link @{target}}
-	 * @throws IOException 
+	 * @throws IOException if an I/O error occurs.
 	 * @throws JsonFormatException The given data is malformed, or its type is unexpected
 	 */
 	public static List<@{target}> getList(InputStream stream, OnJsonObjectAddListener listener) throws IOException, JsonFormatException {
@@ -83,7 +83,7 @@ public class @{target}@{postfix} {
 	 * 
 	 * @param parser {@link JsonPullParser} with some JSON-formatted data
 	 * @return {@link List} of {@link @{target}}
-	 * @throws IOException 
+	 * @throws IOException if an I/O error occurs.
 	 * @throws JsonFormatException The given data is malformed, or its type is unexpected
 	 */
 	public static List<@{target}> getList(JsonPullParser parser) throws IOException, JsonFormatException {
@@ -97,7 +97,7 @@ public class @{target}@{postfix} {
 	 * @param parser {@link JsonPullParser} with some JSON-formatted data
 	 * @param listener {@link OnJsonObjectAddListener} to notify
 	 * @return {@link List} of {@link @{target}}
-	 * @throws IOException 
+	 * @throws IOException if an I/O error occurs.
 	 * @throws JsonFormatException The given data is malformed, or its type is unexpected
 	 */
 	public static List<@{target}> getList(JsonPullParser parser, OnJsonObjectAddListener listener) throws IOException, JsonFormatException {
@@ -129,7 +129,7 @@ public class @{target}@{postfix} {
 	 *
 	 * @param json JSON-formatted data
 	 * @return {{@link @{target}}
-	 * @throws IOException 
+	 * @throws IOException if an I/O error occurs.
 	 * @throws JsonFormatException The given data is malformed, or its type is unexpected
 	 */
 	public static @{target} get(String json) throws IOException, JsonFormatException {
@@ -144,7 +144,7 @@ public class @{target}@{postfix} {
 	 * @param json JSON-formatted data
 	 * @param listener {@link OnJsonObjectAddListener} to notify
 	 * @return {@link @{target}}
-	 * @throws IOException 
+	 * @throws IOException if an I/O error occurs.
 	 * @throws JsonFormatException The given data is malformed, or its type is unexpected
 	 */
 	public static @{target} get(String json, OnJsonObjectAddListener listener) throws IOException, JsonFormatException {
@@ -157,7 +157,7 @@ public class @{target}@{postfix} {
 	 *
 	 * @param stream JSON-formatted data
 	 * @return {{@link @{target}}
-	 * @throws IOException 
+	 * @throws IOException if an I/O error occurs.
 	 * @throws JsonFormatException The given data is malformed, or its type is unexpected
 	 */
 	public static @{target} get(InputStream stream) throws IOException, JsonFormatException {
@@ -172,7 +172,7 @@ public class @{target}@{postfix} {
 	 * @param stream JSON-formatted data
 	 * @param listener {@link OnJsonObjectAddListener} to notify
 	 * @return {@link @{target}}
-	 * @throws IOException 
+	 * @throws IOException if an I/O error occurs.
 	 * @throws JsonFormatException The given data is malformed, or its type is unexpected
 	 */
 	public static @{target} get(InputStream stream, OnJsonObjectAddListener listener) throws IOException, JsonFormatException {
@@ -185,7 +185,7 @@ public class @{target}@{postfix} {
 	 *
 	 * @param parser {@link JsonPullParser} with some JSON-formatted data
 	 * @return {{@link @{target}}
-	 * @throws IOException 
+	 * @throws IOException  if an I/O error occurs.
 	 * @throws JsonFormatException The given data is malformed, or its type is unexpected
 	 */
 	public static @{target} get(JsonPullParser parser) throws IOException, JsonFormatException {
@@ -199,7 +199,7 @@ public class @{target}@{postfix} {
 	 * @param parser {@link JsonPullParser} with some JSON-formatted data
 	 * @param listener {@link OnJsonObjectAddListener} to notify
 	 * @return {@link @{target}}
-	 * @throws IOException 
+	 * @throws IOException if an I/O error occurs.
 	 * @throws IllegalStateException @SaveOrigin is enabled while {@link JsonPullParser#setLogEnable()} is not called yet.
 	 * @throws JsonFormatException The given data is malformed, or its type is unexpected
 	 */
@@ -276,7 +276,7 @@ public class @{target}@{postfix} {
 	 * @param key JSON key being parsed
 	 * @param obj {@link @{target}} (and like) being rebuilt
 	 * @return True if the given key is parsed successfully, false otherwise
-	 * @throws IOException 
+	 * @throws IOException if an I/O error occurs.
 	 * @throws JsonFormatException Data is malformed, or its type is unexpected
 	 * @author vvakame
 	 */
@@ -393,7 +393,7 @@ public class @{target}@{postfix} {
 	 * 
 	 * @param out {@link OutputStream} to be written
 	 * @param list {@link List} of {@link @{target}} to be encoded
-	 * @throws IOException 
+	 * @throws IOException if an I/O error occurs.
 	 */
 	public static void encodeList(OutputStream out, List<? extends @{target}> list) throws IOException {
 		OutputStreamWriter writer = new OutputStreamWriter(out, JsonPullParser.DEFAULT_CHARSET);
@@ -406,7 +406,7 @@ public class @{target}@{postfix} {
 	 * 
 	 * @param writer {@link Writer} to be used for writing value
 	 * @param list {@link List} of {@link @{target}} to be encoded
-	 * @throws IOException 
+	 * @throws IOException if an I/O error occurs.
 	 */
 	public static void encodeList(Writer writer, List<? extends @{target}> list) throws IOException {
 		encodeListNullToBlank(writer, list);
@@ -418,7 +418,7 @@ public class @{target}@{postfix} {
 	 * 
 	 * @param writer {@link Writer} to be used for writing value
 	 * @param list {@link List} of {@link @{target}} to be encoded
-	 * @throws IOException 
+	 * @throws IOException if an I/O error occurs.
 	 */
 	public static void encodeListNullToBlank(Writer writer, List<? extends @{target}> list) throws IOException {
 		if (list == null) {
@@ -436,7 +436,7 @@ public class @{target}@{postfix} {
 	 * 
 	 * @param writer {@link Writer} to be used for writing value
 	 * @param list {@link List} of {@link @{target}} to be encoded
-	 * @throws IOException 
+	 * @throws IOException if an I/O error occurs.
 	 */
 	public static void encodeListNullToNull(Writer writer, List<? extends @{target}> list) throws IOException {
 		if (list == null) {
@@ -467,7 +467,7 @@ public class @{target}@{postfix} {
 	 * 
 	 * @param out {@link OutputStream} to be written
 	 * @param obj {@link @{target}} to be encoded
-	 * @throws IOException 
+	 * @throws IOException if an I/O error occurs.
 	 */
 	public static void encode(OutputStream out, @{target} obj) throws IOException {
 		OutputStreamWriter writer = new OutputStreamWriter(out, JsonPullParser.DEFAULT_CHARSET);
@@ -480,7 +480,7 @@ public class @{target}@{postfix} {
 	 * 
 	 * @param writer {@link Writer} to be used for writing value
 	 * @param obj {@link @{target}} to be encoded
-	 * @throws IOException 
+	 * @throws IOException if an I/O error occurs.
 	 */
 	public static void encode(Writer writer, @{target} obj) throws IOException {
 		encodeNullToBlank(writer, obj);
@@ -492,7 +492,7 @@ public class @{target}@{postfix} {
 	 * 
 	 * @param writer {@link Writer} to be used for writing value
 	 * @param obj {@link @{target}} to be encoded
-	 * @throws IOException 
+	 * @throws IOException if an I/O error occurs.
 	 */
 	public static void encodeNullToBlank(Writer writer, @{target} obj) throws IOException {
 		if (obj == null) {
@@ -510,7 +510,7 @@ public class @{target}@{postfix} {
 	 * 
 	 * @param writer {@link Writer} to be used for writing value
 	 * @param obj {@link @{target}} to be encoded
-	 * @throws IOException 
+	 * @throws IOException if an I/O error occurs.
 	 */
 	public static void encodeNullToNull(Writer writer, @{target} obj) throws IOException {
 		if (obj == null) {
@@ -534,7 +534,7 @@ public class @{target}@{postfix} {
 	 * @param writer {@link Writer}
 	 * @param obj value
 	 * @return is write some value
-	 * @throws IOException 
+	 * @throws IOException if an I/O error occurs.
 	 * @author vvakame
 	 */
 	public static boolean encodeValue(Writer writer, @{target} obj) throws IOException {

@@ -16,6 +16,7 @@
 
 package net.vvakame.util.jsonpullparser.factory;
 
+import net.vvakame.sample.AbstractData;
 import net.vvakame.sample.BaseData;
 import net.vvakame.sample.ComplexData;
 import net.vvakame.sample.ConverterData;
@@ -154,6 +155,23 @@ public class JsonAnnotationProcessorTest extends AptinaTestCase {
 		String source = getGeneratedSource(User.class.getName() + "Gen");
 
 		assertThat(getCompiledResult(), is(true));
+	}
+
+	/**
+	 * Tests for error raised to abstract class.
+	 * @throws Exception
+	 * @author vvakame
+	 */
+	@Test
+	public void testForAbstractClass() throws Exception {
+		JsonAnnotationProcessor processor = new JsonAnnotationProcessor();
+		addProcessor(processor);
+
+		addCompilationUnit(AbstractData.class);
+
+		compile();
+
+		assertThat(getCompiledResult(), is(false));
 	}
 
 	@Override

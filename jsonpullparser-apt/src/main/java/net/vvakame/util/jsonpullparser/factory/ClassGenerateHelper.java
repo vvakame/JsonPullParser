@@ -265,6 +265,16 @@ public class ClassGenerateHelper {
 				return defaultAction(t, el);
 			}
 
+			for (Modifier modifier : el.getEnclosingElement().getModifiers()) {
+				Log.d("modifier = " + modifier);
+				if (Modifier.ABSTRACT == modifier) {
+					Log.e("abstract class that can not be applied to @JsonModel",
+							el.getEnclosingElement());
+					encountError = true;
+					return defaultAction(t, el);
+				}
+			}
+
 			JsonElement jsonElement = new JsonElement();
 			jsonElement.setKey(getElementKeyString(el));
 			jsonElement.setOriginalName(el.toString());

@@ -17,6 +17,8 @@
 package net.vvakame.util.jsonpullparser.factory;
 
 import java.io.IOException;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -139,8 +141,9 @@ public class ClassGenerateHelper {
 	/**
 	 * Processes annotations.
 	 * @author vvakame
+	 * @param <T>
 	 */
-	public void process() {
+	public <T>void process() {
 		List<Element> elements;
 
 		// JsonKeyの収集
@@ -148,6 +151,17 @@ public class ClassGenerateHelper {
 		if (elements.size() == 0) {
 			Log.e("not exists any @JsonKey decorated field.", classElement);
 		}
+		Comparator<Element> comparator = new Comparator<Element>() {
+
+			@Override
+			public int compare(Element e1, Element e2) {
+				JsonKey jsonKey1 = e1.getAnnotation(JsonKey.class);
+				JsonKey jsonKey2 = e2.getAnnotation(JsonKey.class);
+
+				return jsonKey1.sortOrder() - jsonKey2.sortOrder();
+			}
+		};
+		Collections.sort(elements, comparator);
 
 		// JsonKeyに対応する値取得コードを生成する
 		for (Element element : elements) {

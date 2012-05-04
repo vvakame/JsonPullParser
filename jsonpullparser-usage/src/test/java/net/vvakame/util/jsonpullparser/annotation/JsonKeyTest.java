@@ -26,6 +26,10 @@ import net.vvakame.sample.ComplexData2Generated;
 import net.vvakame.sample.MiniData;
 import net.vvakame.sample.PrimitiveTypeData;
 import net.vvakame.sample.PrimitiveTypeDataGenerated;
+import net.vvakame.sample.SortOrderData1;
+import net.vvakame.sample.SortOrderData1Generated;
+import net.vvakame.sample.SortOrderData2;
+import net.vvakame.sample.SortOrderData2Generated;
 import net.vvakame.util.jsonpullparser.JsonFormatException;
 import net.vvakame.util.jsonpullparser.util.JsonArray;
 import net.vvakame.util.jsonpullparser.util.JsonHash;
@@ -183,5 +187,26 @@ public class JsonKeyTest {
 		assertThat(jsonHash.size(), is(2));
 		assertThat(jsonHash.get("name"), nullValue());
 		assertThat(jsonHash.get("data"), nullValue());
+	}
+
+	/**
+	 * sort order of json member.
+	 * @throws IOException
+	 * @author vvakame
+	 */
+	@Test
+	public void sortOrder() throws IOException {
+		{
+			SortOrderData1 data1 = new SortOrderData1();
+			StringWriter writer = new StringWriter();
+			SortOrderData1Generated.encode(writer, data1);
+			assertThat(writer.toString(), is("{\"a\":0,\"b\":0}"));
+		}
+		{
+			SortOrderData2 data2 = new SortOrderData2();
+			StringWriter writer = new StringWriter();
+			SortOrderData2Generated.encode(writer, data2);
+			assertThat(writer.toString(), is("{\"b\":0,\"a\":0}"));
+		}
 	}
 }

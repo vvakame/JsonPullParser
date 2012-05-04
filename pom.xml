@@ -8,6 +8,79 @@
 	<version>1.5-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
+	<name>JsonPullParser</name>
+	<description>
+		Lightweight JSON library.
+		at development, use the APT library. it generate a java source file on compile-time.
+		at runtime, required library is a only core library(jsonpullparser-core).
+		JsonPullParser can running on GAE/J, Android and normal Java enviroment.
+	</description>
+	<url>https://github.com/vvakame/jsonpullparser</url>
+
+	<licenses>
+		<license>
+			<name>The Apache Software License, Version 2.0</name>
+			<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+			<distribution>repo</distribution>
+		</license>
+	</licenses>
+
+	<scm>
+		<url>https://github.com/vvakame/jsonpullparser</url>
+		<connection>scm:git:git://github.com/vvakame/JsonPullParser.git</connection>
+		<developerConnection>scm:git:git://github.com/vvakame/JsonPullParser.git</developerConnection>
+	</scm>
+
+	<developers>
+		<developer>
+			<id>vvakame</id>
+			<name>wakame masahiro</name>
+			<email>vvakame@gmail.com</email>
+			<url>http://d.hatena.ne.jp/vvakame/</url>
+			<roles>
+				<role>lead</role>
+				<role>architect</role>
+				<role>developer</role>
+			</roles>
+			<timezone>+9</timezone>
+		</developer>
+	</developers>
+
+	<issueManagement>
+		<system>github</system>
+		<url>https://github.com/vvakame/jsonpullparser/issues</url>
+	</issueManagement>
+
+	<profiles>
+		<profile>
+			<id>release-sign-artifacts</id>
+			<activation>
+				<property>
+					<name>performRelease</name>
+					<value>true</value>
+				</property>
+			</activation>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-gpg-plugin</artifactId>
+						<version>1.4</version>
+						<executions>
+							<execution>
+								<id>sign-artifacts</id>
+								<phase>verify</phase>
+								<goals>
+									<goal>sign</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
+
 	<modules>
 		<module>jsonpullparser-parent</module>
 		<module>jsonpullparser-core</module>
@@ -25,21 +98,5 @@
 		</snapshotRepository>
 	</distributionManagement>
 
-	<licenses>
-		<license>
-			<name>The Apache Software License, Version 2.0</name>
-			<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
-			<distribution>repo</distribution>
-		</license>
-	</licenses>
-	<developers>
-		<developer>
-			<id>vvakame</id>
-			<name>wakame masahiro</name>
-			<email></email>
-			<url>http://d.hatena.ne.jp/vvakame/</url>
-			<timezone>+9</timezone>
-		</developer>
-	</developers>
 </project>
 

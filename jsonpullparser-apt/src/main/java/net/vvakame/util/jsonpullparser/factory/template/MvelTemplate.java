@@ -90,6 +90,7 @@ public class MvelTemplate {
 		map.put("existsBase", model.isExistsBase());
 		map.put("targetBase", model.getTargetBase());
 		map.put("target", model.getTarget());
+		map.put("targetNew", model.getTargetNew());
 		{
 			List<Map<String, String>> jsonElements = new ArrayList<Map<String, String>>();
 			for (JsonElement jsonElement : model.getElements()) {

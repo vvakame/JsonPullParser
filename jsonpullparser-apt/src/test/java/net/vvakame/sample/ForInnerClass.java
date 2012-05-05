@@ -82,7 +82,7 @@ public class ForInnerClass {
 			 * @param c the c to set
 			 * @category accessor
 			 */
-			public void setA(int c) {
+			public void setC(int c) {
 				this.c = c;
 			}
 		}

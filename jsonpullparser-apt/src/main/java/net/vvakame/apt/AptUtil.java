@@ -169,6 +169,9 @@ public class AptUtil {
 		if (element.getKind() != ElementKind.CLASS) {
 			throw new IllegalStateException();
 		}
+		if (element.getEnclosingElement().getKind() == ElementKind.CLASS) {
+			return getPackageName(element.getEnclosingElement());
+		}
 		String str = element.asType().toString();
 		int i = str.lastIndexOf(".");
 		return str.substring(0, i);
@@ -188,6 +191,35 @@ public class AptUtil {
 		String str = element.asType().toString();
 		int i = str.lastIndexOf(".");
 		return str.substring(i + 1);
+	}
+
+	/**
+	 * Returns unqualified class name (e.g. String, if java.lang.String)
+	 * NB: This method requires the given element has the kind of {@link ElementKind#CLASS}.
+	 * @param element
+	 * @return unqualified class name
+	 * @author vvakame
+	 */
+	public static String getNameForNew(Element element) {
+		if (element.getKind() != ElementKind.CLASS) {
+			throw new IllegalStateException();
+		}
+		return getNameForNew("", element);
+	}
+
+	static String getNameForNew(String current, Element element) {
+		if (element.getKind() == ElementKind.PACKAGE) {
+			return current;
+		} else {
+			String str = element.asType().toString();
+			int i = str.lastIndexOf(".");
+			String now = str.substring(i + 1);
+			if ("".equals(current)) {
+				return getNameForNew(now, element.getEnclosingElement());
+			} else {
+				return getNameForNew(now + "." + current, element.getEnclosingElement());
+			}
+		}
 	}
 
 	/**

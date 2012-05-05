@@ -96,6 +96,7 @@ public class ClassGenerateHelper {
 
 		g.setPackageName(getPackageName(element));
 		g.setTarget(getSimpleName(element));
+		g.setTargetNew(getNameForNew(element));
 
 		TypeElement superclass = AptUtil.getSuperClassElement(element);
 		if (superclass.getAnnotation(JsonModel.class) != null) {
@@ -126,7 +127,7 @@ public class ClassGenerateHelper {
 	public void write() throws IOException {
 		{
 			Filer filer = processingEnv.getFiler();
-			String generateClassName = classElement.asType().toString() + postfix;
+			String generateClassName = g.getPackageName() + "." + g.getTarget() + postfix;
 			JavaFileObject fileObject = filer.createSourceFile(generateClassName, classElement);
 			Template.writeGen(fileObject, g);
 		}

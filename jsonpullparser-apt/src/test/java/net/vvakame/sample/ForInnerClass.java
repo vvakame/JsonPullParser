@@ -10,7 +10,7 @@ import net.vvakame.util.jsonpullparser.annotation.JsonModel;
  * Test for @JsonModel at inner class.
  * @author vvakame
  */
-@JsonModel
+@JsonModel(builder = true)
 public class ForInnerClass {
 
 	@JsonKey
@@ -67,7 +67,7 @@ public class ForInnerClass {
 		 * Test for @JsonModel at inner class. (grandchild) 
 		 * @author vvakame
 		 */
-		@JsonModel
+		@JsonModel(builder = true)
 		public static class InnerClass2 {
 
 			@JsonKey
@@ -96,7 +96,7 @@ public class ForInnerClass {
 	 * Test for @JsonModel at inner class. (field has inner class) 
 	 * @author vvakame
 	 */
-	@JsonModel
+	@JsonModel(builder = true)
 	public static class InnerClass3 {
 
 		@JsonKey

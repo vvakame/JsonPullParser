@@ -189,8 +189,6 @@ public class JsonAnnotationProcessorTest extends AptinaTestCase {
 
 		compile();
 
-		System.out.println(getGeneratedSource("net.vvakame.sample.InnerClass3Gen"));
-
 		assertThat(getCompiledResult(), is(true));
 	}
 

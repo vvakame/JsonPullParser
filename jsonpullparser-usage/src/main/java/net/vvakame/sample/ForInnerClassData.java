@@ -10,7 +10,7 @@ import net.vvakame.util.jsonpullparser.annotation.JsonModel;
  * Generate class for inner class. 
  * @author vvakame
  */
-@JsonModel
+@JsonModel(builder = true)
 public class ForInnerClassData {
 
 	@JsonKey
@@ -66,7 +66,7 @@ public class ForInnerClassData {
 		 * Generate class for inner class. 
 		 * @author vvakame
 		 */
-		@JsonModel
+		@JsonModel(builder = true)
 		public static class InnerClassAB {
 
 			@JsonKey
@@ -95,7 +95,7 @@ public class ForInnerClassData {
 	 * Generate class for inner class. 
 	 * @author vvakame
 	 */
-	@JsonModel
+	@JsonModel(builder = true)
 	public static class InnerClassB {
 
 		@JsonKey

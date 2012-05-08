@@ -130,14 +130,12 @@ public class ClassGenerateHelper {
 		{
 			Filer filer = processingEnv.getFiler();
 			String generateClassName = g.getPackageName() + "." + g.getTarget() + postfix;
-			Log.d("generateClassName=" + generateClassName);
-			Log.d("classElement=" + classElement.getSimpleName().toString());
 			JavaFileObject fileObject = filer.createSourceFile(generateClassName, classElement);
 			Template.writeGen(fileObject, g);
 		}
 		if (g.isBuilder()) {
 			Filer filer = processingEnv.getFiler();
-			String generateClassName = classElement.asType().toString() + "JsonMeta";
+			String generateClassName = g.getPackageName() + "." + g.getTarget() + "JsonMeta";
 			JavaFileObject fileObject = filer.createSourceFile(generateClassName, classElement);
 			Template.writeJsonMeta(fileObject, g);
 		}

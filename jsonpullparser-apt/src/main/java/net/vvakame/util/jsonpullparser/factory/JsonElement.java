@@ -47,6 +47,8 @@ public class JsonElement {
 
 	String modelName;
 
+	String genName;
+
 	String converter;
 
 	Kind subKind = Kind.UNKNOWN;
@@ -236,6 +238,22 @@ public class JsonElement {
 	 */
 	public void setModelName(String modelName) {
 		this.modelName = modelName;
+	}
+
+	/**
+	 * @return the genName
+	 * @category accessor
+	 */
+	public String getGenName() {
+		return genName;
+	}
+
+	/**
+	 * @param genName the genName to set
+	 * @category accessor
+	 */
+	public void setGenName(String genName) {
+		this.genName = genName;
 	}
 
 	/**

@@ -30,6 +30,7 @@ import javax.lang.model.type.DeclaredType;
 import javax.lang.model.type.TypeKind;
 import javax.lang.model.type.TypeMirror;
 import javax.lang.model.util.ElementFilter;
+import javax.lang.model.util.Elements;
 import javax.lang.model.util.Types;
 
 /**
@@ -161,17 +162,13 @@ public class AptUtil {
 	/**
 	 * Returns the package name of the given element.
 	 * NB: This method requires the given element has the kind of {@link ElementKind#CLASS}.
+	 * @param elementUtils 
 	 * @param element
 	 * @return the package name
 	 * @author vvakame
 	 */
-	public static String getPackageName(Element element) {
-		if (element.getKind() != ElementKind.CLASS) {
-			throw new IllegalStateException();
-		}
-		String str = element.asType().toString();
-		int i = str.lastIndexOf(".");
-		return str.substring(0, i);
+	public static String getPackageName(Elements elementUtils, Element element) {
+		return elementUtils.getPackageOf(element).getQualifiedName().toString();
 	}
 
 	/**
@@ -188,6 +185,35 @@ public class AptUtil {
 		String str = element.asType().toString();
 		int i = str.lastIndexOf(".");
 		return str.substring(i + 1);
+	}
+
+	/**
+	 * Returns unqualified class name (e.g. String, if java.lang.String)
+	 * NB: This method requires the given element has the kind of {@link ElementKind#CLASS}.
+	 * @param element
+	 * @return unqualified class name
+	 * @author vvakame
+	 */
+	public static String getNameForNew(Element element) {
+		if (element.getKind() != ElementKind.CLASS) {
+			throw new IllegalStateException();
+		}
+		return getNameForNew("", element);
+	}
+
+	static String getNameForNew(String current, Element element) {
+		if (element.getKind() == ElementKind.PACKAGE) {
+			return current;
+		} else {
+			String str = element.asType().toString();
+			int i = str.lastIndexOf(".");
+			String now = str.substring(i + 1);
+			if ("".equals(current)) {
+				return getNameForNew(now, element.getEnclosingElement());
+			} else {
+				return getNameForNew(now + "." + current, element.getEnclosingElement());
+			}
+		}
 	}
 
 	/**

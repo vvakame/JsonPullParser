@@ -2,19 +2,19 @@ package net.vvakame.sample;
 
 import java.util.List;
 
-import net.vvakame.sample.ForInnerClass.InnerClass1.InnerClass2;
+import net.vvakame.sample.ForInnerClassData.InnerClassA.InnerClassAB;
 import net.vvakame.util.jsonpullparser.annotation.JsonKey;
 import net.vvakame.util.jsonpullparser.annotation.JsonModel;
 
 /**
- * Test for @JsonModel at inner class.
+ * Generate class for inner class. 
  * @author vvakame
  */
 @JsonModel
-public class ForInnerClass {
+public class ForInnerClassData {
 
 	@JsonKey
-	int a = 0;
+	int a;
 
 
 	/**
@@ -35,15 +35,14 @@ public class ForInnerClass {
 
 
 	/**
-	 * Test for @JsonModel at inner class. (child) 
+	 * Generate class for inner class. 
 	 * @author vvakame
 	 */
 	// @JsonModel
-	// is this bug? can't find up Element on apt round.
-	public static class InnerClass1 {
+	public static class InnerClassA {
 
 		@JsonKey
-		int b = 0;
+		int b;
 
 
 		/**
@@ -64,14 +63,14 @@ public class ForInnerClass {
 
 
 		/**
-		 * Test for @JsonModel at inner class. (grandchild) 
+		 * Generate class for inner class. 
 		 * @author vvakame
 		 */
 		@JsonModel
-		public static class InnerClass2 {
+		public static class InnerClassAB {
 
 			@JsonKey
-			int c = 0;
+			int c;
 
 
 			/**
@@ -93,49 +92,49 @@ public class ForInnerClass {
 	}
 
 	/**
-	 * Test for @JsonModel at inner class. (field has inner class) 
+	 * Generate class for inner class. 
 	 * @author vvakame
 	 */
 	@JsonModel
-	public static class InnerClass3 {
+	public static class InnerClassB {
 
 		@JsonKey
-		InnerClass2 a;
+		InnerClassAB d;
 
 		@JsonKey
-		List<InnerClass2> b;
+		List<InnerClassAB> e;
 
 
 		/**
-		 * @return the a
+		 * @return the d
 		 * @category accessor
 		 */
-		public InnerClass2 getA() {
-			return a;
+		public InnerClassAB getD() {
+			return d;
 		}
 
 		/**
-		 * @param a the a to set
+		 * @param d the d to set
 		 * @category accessor
 		 */
-		public void setA(InnerClass2 a) {
-			this.a = a;
+		public void setD(InnerClassAB d) {
+			this.d = d;
 		}
 
 		/**
-		 * @return the b
+		 * @return the e
 		 * @category accessor
 		 */
-		public List<InnerClass2> getB() {
-			return b;
+		public List<InnerClassAB> getE() {
+			return e;
 		}
 
 		/**
-		 * @param b the b to set
+		 * @param e the e to set
 		 * @category accessor
 		 */
-		public void setB(List<InnerClass2> b) {
-			this.b = b;
+		public void setE(List<InnerClassAB> e) {
+			this.e = e;
 		}
 	}
 }

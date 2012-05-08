@@ -37,6 +37,7 @@ import javax.lang.model.type.DeclaredType;
 import javax.lang.model.type.PrimitiveType;
 import javax.lang.model.type.TypeMirror;
 import javax.lang.model.type.WildcardType;
+import javax.lang.model.util.Elements;
 import javax.lang.model.util.Types;
 import javax.tools.JavaFileObject;
 
@@ -94,7 +95,8 @@ public class ClassGenerateHelper {
 	public ClassGenerateHelper(Element element) {
 		classElement = element;
 
-		g.setPackageName(getPackageName(element));
+		Elements elementUtils = processingEnv.getElementUtils();
+		g.setPackageName(getPackageName(elementUtils, element));
 		g.setTarget(getSimpleName(element));
 		g.setTargetNew(getNameForNew(element));
 
@@ -128,6 +130,8 @@ public class ClassGenerateHelper {
 		{
 			Filer filer = processingEnv.getFiler();
 			String generateClassName = g.getPackageName() + "." + g.getTarget() + postfix;
+			Log.d("generateClassName=" + generateClassName);
+			Log.d("classElement=" + classElement.getSimpleName().toString());
 			JavaFileObject fileObject = filer.createSourceFile(generateClassName, classElement);
 			Template.writeGen(fileObject, g);
 		}
@@ -326,6 +330,13 @@ public class ClassGenerateHelper {
 			jsonElement.setOut(key.out());
 			jsonElement.setGetter(getter);
 			jsonElement.setModelName(t.toString());
+			if (kind == Kind.MODEL) {
+				Elements elementUtils = processingEnv.getElementUtils();
+				String packageName = getPackageName(elementUtils, el);
+				jsonElement.setGenName(packageName + "." + getSimpleName(el.asType()));
+			} else {
+				jsonElement.setGenName(t.toString());
+			}
 			jsonElement.setKind(kind);
 			jsonElement.setConverter(converterClassName);
 
@@ -455,6 +466,9 @@ public class ClassGenerateHelper {
 				jsonElement.setOut(key.out());
 				jsonElement.setGetter(getter);
 				jsonElement.setModelName(tm.toString());
+				Elements elementUtils = processingEnv.getElementUtils();
+				String packageName = getPackageName(elementUtils, el);
+				jsonElement.setGenName(packageName + "." + getSimpleName(type.asType()));
 				jsonElement.setKind(Kind.LIST);
 			}
 

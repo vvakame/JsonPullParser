@@ -30,6 +30,7 @@ import javax.lang.model.type.DeclaredType;
 import javax.lang.model.type.TypeKind;
 import javax.lang.model.type.TypeMirror;
 import javax.lang.model.util.ElementFilter;
+import javax.lang.model.util.Elements;
 import javax.lang.model.util.Types;
 
 /**
@@ -161,20 +162,13 @@ public class AptUtil {
 	/**
 	 * Returns the package name of the given element.
 	 * NB: This method requires the given element has the kind of {@link ElementKind#CLASS}.
+	 * @param elementUtils 
 	 * @param element
 	 * @return the package name
 	 * @author vvakame
 	 */
-	public static String getPackageName(Element element) {
-		if (element.getKind() != ElementKind.CLASS) {
-			throw new IllegalStateException();
-		}
-		if (element.getEnclosingElement().getKind() == ElementKind.CLASS) {
-			return getPackageName(element.getEnclosingElement());
-		}
-		String str = element.asType().toString();
-		int i = str.lastIndexOf(".");
-		return str.substring(0, i);
+	public static String getPackageName(Elements elementUtils, Element element) {
+		return elementUtils.getPackageOf(element).getQualifiedName().toString();
 	}
 
 	/**

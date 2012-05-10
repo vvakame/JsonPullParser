@@ -4,7 +4,7 @@
 
 	<groupId>net.vvakame</groupId>
 	<artifactId>jsonpullparser-benchmark</artifactId>
-	<version>1.4.5-SNAPSHOT</version>
+	<version>1.4.12-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
 	<properties>
@@ -19,10 +19,6 @@
 			<id>maven.seasar.org</id>
 			<name>The Seasar Foundation Maven2 Repository</name>
 			<url>http://maven.seasar.org/maven2</url>
-		</repository>
-		<repository>
-			<id>vvakame-jsonpullparser-release</id>
-			<url>http://vvakame.github.com/JsonPullParser/release</url>
 		</repository>
 		<repository>
 			<id>vvakame-jsonpullparser-snapshot</id>

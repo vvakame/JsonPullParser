@@ -12,3 +12,7 @@ log
 .project
 **/.settings/
 
+pom.xml.releaseBackup
+release.properties
+
+target/

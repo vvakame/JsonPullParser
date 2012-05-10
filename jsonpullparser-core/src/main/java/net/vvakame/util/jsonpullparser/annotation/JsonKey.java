@@ -84,4 +84,11 @@ public @interface JsonKey {
 	 * @author vvakame
 	 */
 	public boolean decamelize() default false;
+
+	/**
+	 * sort order for json member.
+	 * @return sort order
+	 * @author vvakame
+	 */
+	public int sortOrder() default Integer.MAX_VALUE;
 }

@@ -17,6 +17,8 @@
 package net.vvakame.util.jsonpullparser.factory;
 
 import java.io.IOException;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -35,6 +37,7 @@ import javax.lang.model.type.DeclaredType;
 import javax.lang.model.type.PrimitiveType;
 import javax.lang.model.type.TypeMirror;
 import javax.lang.model.type.WildcardType;
+import javax.lang.model.util.Elements;
 import javax.lang.model.util.Types;
 import javax.tools.JavaFileObject;
 
@@ -92,8 +95,10 @@ public class ClassGenerateHelper {
 	public ClassGenerateHelper(Element element) {
 		classElement = element;
 
-		g.setPackageName(getPackageName(element));
+		Elements elementUtils = processingEnv.getElementUtils();
+		g.setPackageName(getPackageName(elementUtils, element));
 		g.setTarget(getSimpleName(element));
+		g.setTargetNew(getNameForNew(element));
 
 		TypeElement superclass = AptUtil.getSuperClassElement(element);
 		if (superclass.getAnnotation(JsonModel.class) != null) {
@@ -124,13 +129,13 @@ public class ClassGenerateHelper {
 	public void write() throws IOException {
 		{
 			Filer filer = processingEnv.getFiler();
-			String generateClassName = classElement.asType().toString() + postfix;
+			String generateClassName = g.getPackageName() + "." + g.getTarget() + postfix;
 			JavaFileObject fileObject = filer.createSourceFile(generateClassName, classElement);
 			Template.writeGen(fileObject, g);
 		}
 		if (g.isBuilder()) {
 			Filer filer = processingEnv.getFiler();
-			String generateClassName = classElement.asType().toString() + "JsonMeta";
+			String generateClassName = g.getPackageName() + "." + g.getTarget() + "JsonMeta";
 			JavaFileObject fileObject = filer.createSourceFile(generateClassName, classElement);
 			Template.writeJsonMeta(fileObject, g);
 		}
@@ -139,8 +144,9 @@ public class ClassGenerateHelper {
 	/**
 	 * Processes annotations.
 	 * @author vvakame
+	 * @param <T>
 	 */
-	public void process() {
+	public <T>void process() {
 		List<Element> elements;
 
 		// JsonKeyの収集
@@ -148,6 +154,17 @@ public class ClassGenerateHelper {
 		if (elements.size() == 0) {
 			Log.e("not exists any @JsonKey decorated field.", classElement);
 		}
+		Comparator<Element> comparator = new Comparator<Element>() {
+
+			@Override
+			public int compare(Element e1, Element e2) {
+				JsonKey jsonKey1 = e1.getAnnotation(JsonKey.class);
+				JsonKey jsonKey2 = e2.getAnnotation(JsonKey.class);
+
+				return jsonKey1.sortOrder() - jsonKey2.sortOrder();
+			}
+		};
+		Collections.sort(elements, comparator);
 
 		// JsonKeyに対応する値取得コードを生成する
 		for (Element element : elements) {
@@ -266,7 +283,6 @@ public class ClassGenerateHelper {
 			}
 
 			for (Modifier modifier : el.getEnclosingElement().getModifiers()) {
-				Log.d("modifier = " + modifier);
 				if (Modifier.ABSTRACT == modifier) {
 					Log.e("abstract class that can not be applied to @JsonModel",
 							el.getEnclosingElement());
@@ -312,6 +328,13 @@ public class ClassGenerateHelper {
 			jsonElement.setOut(key.out());
 			jsonElement.setGetter(getter);
 			jsonElement.setModelName(t.toString());
+			if (kind == Kind.MODEL) {
+				Elements elementUtils = processingEnv.getElementUtils();
+				String packageName = getPackageName(elementUtils, el);
+				jsonElement.setGenName(packageName + "." + getSimpleName(el.asType()));
+			} else {
+				jsonElement.setGenName(t.toString());
+			}
 			jsonElement.setKind(kind);
 			jsonElement.setConverter(converterClassName);
 
@@ -441,6 +464,9 @@ public class ClassGenerateHelper {
 				jsonElement.setOut(key.out());
 				jsonElement.setGetter(getter);
 				jsonElement.setModelName(tm.toString());
+				Elements elementUtils = processingEnv.getElementUtils();
+				String packageName = getPackageName(elementUtils, el);
+				jsonElement.setGenName(packageName + "." + getSimpleName(type.asType()));
 				jsonElement.setKind(Kind.LIST);
 			}
 

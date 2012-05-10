@@ -39,6 +39,15 @@ import net.vvakame.sample.ExtendsData1;
 import net.vvakame.sample.ExtendsData1Generated;
 import net.vvakame.sample.ExtendsData2;
 import net.vvakame.sample.ExtendsData2Generated;
+import net.vvakame.sample.ForInnerClassData;
+import net.vvakame.sample.ForInnerClassData.InnerClassA.InnerClassAB;
+import net.vvakame.sample.ForInnerClassData.InnerClassB;
+import net.vvakame.sample.ForInnerClassDataGenerated;
+import net.vvakame.sample.ForInnerClassDataJsonMeta;
+import net.vvakame.sample.InnerClassABGenerated;
+import net.vvakame.sample.InnerClassABJsonMeta;
+import net.vvakame.sample.InnerClassBGenerated;
+import net.vvakame.sample.InnerClassBJsonMeta;
 import net.vvakame.sample.MiniData;
 import net.vvakame.sample.MiniDataGenerated;
 import net.vvakame.sample.PrimitiveTypeData;
@@ -52,6 +61,7 @@ import net.vvakame.sample.twitter.Tweet;
 import net.vvakame.sample.twitter.TweetGenerated;
 import net.vvakame.util.jsonpullparser.JsonFormatException;
 import net.vvakame.util.jsonpullparser.JsonPullParser;
+import net.vvakame.util.jsonpullparser.builder.JsonModelCoder;
 import net.vvakame.util.jsonpullparser.util.JsonArray;
 import net.vvakame.util.jsonpullparser.util.JsonHash;
 
@@ -455,6 +465,98 @@ public class JsonAnnotationProcessorTest {
 		assertThat(data2.getL(), is(data1.getL()));
 		assertThat(data2.getS(), is(data1.getS()));
 		assertThat(data2.getStr(), is(data1.getStr()));
+	}
+
+	/**
+	 * TODO テストを適当な所に移す.<br>
+	 * Tests for the inner class by Gen.
+	 * @author vvakame
+	 * @throws IOException 
+	 * @throws JsonFormatException 
+	 * @throws IllegalStateException 
+	 */
+	@Test
+	public void innerClassGen() throws IOException, JsonFormatException {
+		{ // normal
+			ForInnerClassData data = new ForInnerClassData();
+			data.setA(1);
+			StringWriter writer = new StringWriter();
+			ForInnerClassDataGenerated.encode(writer, data);
+			assertThat("{\"a\":1}", is(writer.toString()));
+		}
+		{ // grandchild
+			InnerClassAB data = new InnerClassAB();
+			data.setC(2);
+			StringWriter writer = new StringWriter();
+			InnerClassABGenerated.encode(writer, data);
+			assertThat("{\"c\":2}", is(writer.toString()));
+
+			data = InnerClassABGenerated.get(writer.toString());
+			assertThat(data.getC(), is(2));
+		}
+		{ // child
+			InnerClassB data = new InnerClassB();
+			data.setD(new InnerClassAB());
+			List<InnerClassAB> list = new ArrayList<InnerClassAB>();
+			list.add(new InnerClassAB());
+			data.setE(list);
+			StringWriter writer = new StringWriter();
+			InnerClassBGenerated.encode(writer, data);
+			System.out.println(writer.toString());
+			assertThat("{\"d\":{\"c\":0},\"e\":[{\"c\":0}]}", is(writer.toString()));
+
+			data = InnerClassBGenerated.get(writer.toString());
+			assertThat(data.getD(), notNullValue());
+			assertThat(data.getE().size(), is(1));
+		}
+	}
+
+	/**
+	 * TODO テストを適当な所に移す.<br>
+	 * Tests for the inner class by JsonMeta.
+	 * @author vvakame
+	 * @throws IOException 
+	 * @throws JsonFormatException 
+	 * @throws IllegalStateException 
+	 */
+	@Test
+	public void innerClassMeta() throws IOException, JsonFormatException {
+		{ // normal
+			ForInnerClassData data = new ForInnerClassData();
+			data.setA(1);
+			StringWriter writer = new StringWriter();
+			ForInnerClassDataJsonMeta.get().newBuilder().addAll().fix().encode(writer, data);
+			assertThat("{\"a\":1}", is(writer.toString()));
+		}
+		{ // grandchild
+			JsonModelCoder<InnerClassAB> coder =
+					InnerClassABJsonMeta.get().newBuilder().addAll().fix();
+			InnerClassAB data = new InnerClassAB();
+			data.setC(2);
+			StringWriter writer = new StringWriter();
+			coder.encode(writer, data);
+			assertThat("{\"c\":2}", is(writer.toString()));
+
+			data = coder.get(writer.toString());
+			assertThat(data.getC(), is(2));
+		}
+		{ // child
+			JsonModelCoder<InnerClassB> coder =
+					InnerClassBJsonMeta.get().newBuilder().addAll().fix();
+			InnerClassB data = new InnerClassB();
+			data.setD(new InnerClassAB());
+			List<InnerClassAB> list = new ArrayList<InnerClassAB>();
+			list.add(new InnerClassAB());
+			data.setE(list);
+			StringWriter writer = new StringWriter();
+			coder.encode(writer, data);
+			System.out.println(writer.toString());
+			assertThat("{\"d\":{\"c\":0},\"e\":[{\"c\":0}]}", is(writer.toString()));
+
+			data = coder.get(writer.toString());
+			assertThat(data.getD(), notNullValue());
+			assertThat(data.getE().size(), is(1));
+		}
 	}
 
 	/**

@@ -21,6 +21,7 @@ import net.vvakame.sample.BaseData;
 import net.vvakame.sample.ComplexData;
 import net.vvakame.sample.ConverterData;
 import net.vvakame.sample.ExtendsData;
+import net.vvakame.sample.ForInnerClass;
 import net.vvakame.sample.PrimitiveTypeData;
 import net.vvakame.sample.PrimitiveWrapperData;
 import net.vvakame.sample.PrimitiveWrapperListData;
@@ -172,6 +173,23 @@ public class JsonAnnotationProcessorTest extends AptinaTestCase {
 		compile();
 
 		assertThat(getCompiledResult(), is(false));
+	}
+
+	/**
+	 * Tests for error raised to abstract class.
+	 * @throws Exception
+	 * @author vvakame
+	 */
+	@Test
+	public void testForInnerClass() throws Exception {
+		JsonAnnotationProcessor processor = new JsonAnnotationProcessor();
+		addProcessor(processor);
+
+		addCompilationUnit(ForInnerClass.class);
+
+		compile();
+
+		assertThat(getCompiledResult(), is(true));
 	}
 
 	@Override

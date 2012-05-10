@@ -4,7 +4,7 @@
 
 	<groupId>net.vvakame</groupId>
 	<artifactId>jsonpullparser</artifactId>
-	<version>1.4.5-SNAPSHOT</version>
+	<version>1.4.12-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
 	<name>JsonPullParser</name>
@@ -88,8 +88,10 @@
 
 	<distributionManagement>
 		<repository>
-			<id>repo</id>
-			<url>http://vvakame.github.com/JsonPullParser/release</url>
+			<id>sonatype-nexus-staging</id>
+			<name>Nexus Release Repository</name>
+			<uniqueVersion>false</uniqueVersion>
+			<url>http://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
 		</repository>
 		<snapshotRepository>
 			<id>snapshot-repo</id>

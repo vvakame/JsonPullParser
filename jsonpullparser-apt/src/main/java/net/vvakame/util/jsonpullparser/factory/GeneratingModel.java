@@ -37,6 +37,8 @@ public class GeneratingModel {
 
 	String target = "Invalid";
 
+	String targetNew = "Invalid";
+
 	List<JsonElement> elements = new ArrayList<JsonElement>();
 
 	boolean treatUnknownKeyAsError;
@@ -136,6 +138,22 @@ public class GeneratingModel {
 	 */
 	public void setTarget(String target) {
 		this.target = target;
+	}
+
+	/**
+	 * @return the targetNew
+	 * @category accessor
+	 */
+	public String getTargetNew() {
+		return targetNew;
+	}
+
+	/**
+	 * @param targetNew the targetNew to set
+	 * @category accessor
+	 */
+	public void setTargetNew(String targetNew) {
+		this.targetNew = targetNew;
 	}
 
 	/**

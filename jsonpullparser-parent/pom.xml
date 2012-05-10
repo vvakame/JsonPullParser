@@ -4,7 +4,7 @@
 
 	<groupId>net.vvakame</groupId>
 	<artifactId>jsonpullparser-parent</artifactId>
-	<version>1.4.5-SNAPSHOT</version>
+	<version>1.4.12-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
 	<properties>
@@ -12,16 +12,14 @@
 		<eclipse.lib>eclipse.lib</eclipse.lib>
 	</properties>
 
-	<distributionManagement>
-		<repository>
-			<id>repo</id>
-			<url>http://vvakame.github.com/JsonPullParser/release</url>
-		</repository>
-		<snapshotRepository>
-			<id>snapshot-repo</id>
-			<url>http://vvakame.github.com/JsonPullParser/snapshots</url>
-		</snapshotRepository>
-	</distributionManagement>
+	<name>JsonPullParser</name>
+	<description>
+		Lightweight JSON library.
+		at development, use the APT library. it generate a java source file on compile-time.
+		at runtime, required library is a only core library(jsonpullparser-core).
+		JsonPullParser can running on GAE/J, Android and normal Java enviroment.
+	</description>
+	<url>https://github.com/vvakame/jsonpullparser</url>
 
 	<licenses>
 		<license>
@@ -30,15 +28,75 @@
 			<distribution>repo</distribution>
 		</license>
 	</licenses>
+
+	<scm>
+		<connection>scm:git:git@github.com:vvakame/JsonPullParser.git</connection>
+		<developerConnection>scm:git:git@github.com:vvakame/JsonPullParser.git</developerConnection>
+		<url>git@github.com:vvakame/JsonPullParser.git</url>
+	</scm>
+
 	<developers>
 		<developer>
 			<id>vvakame</id>
 			<name>wakame masahiro</name>
-			<email />
+			<email>vvakame@gmail.com</email>
 			<url>http://d.hatena.ne.jp/vvakame/</url>
+			<roles>
+				<role>lead</role>
+				<role>architect</role>
+				<role>developer</role>
+			</roles>
 			<timezone>+9</timezone>
 		</developer>
 	</developers>
+
+	<issueManagement>
+		<system>github</system>
+		<url>https://github.com/vvakame/jsonpullparser/issues</url>
+	</issueManagement>
+
+	<profiles>
+		<profile>
+			<id>release-sign-artifacts</id>
+			<activation>
+				<property>
+					<name>performRelease</name>
+					<value>true</value>
+				</property>
+			</activation>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-gpg-plugin</artifactId>
+						<version>1.4</version>
+						<executions>
+							<execution>
+								<id>sign-artifacts</id>
+								<phase>verify</phase>
+								<goals>
+									<goal>sign</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
+
+	<distributionManagement>
+		<repository>
+			<id>sonatype-nexus-staging</id>
+			<name>Nexus Release Repository</name>
+			<uniqueVersion>false</uniqueVersion>
+			<url>http://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+		</repository>
+		<snapshotRepository>
+			<id>snapshot-repo</id>
+			<url>http://vvakame.github.com/JsonPullParser/snapshots</url>
+		</snapshotRepository>
+	</distributionManagement>
 
 	<repositories>
 		<repository>
@@ -66,6 +124,10 @@
 	<build>
 		<pluginManagement>
 			<plugins>
+				<plugin>
+					<artifactId>maven-release-plugin</artifactId>
+					<version>2.0-beta-9</version>
+				</plugin>
 				<plugin>
 					<artifactId>maven-compiler-plugin</artifactId>
 					<configuration>

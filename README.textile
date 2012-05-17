@@ -1,0 +1,2 @@
+!https://buildhive.cloudbees.com/job/vvakame/job/JsonPullParser/badge/icon(BuildeHive)!:https://buildhive.cloudbees.com/job/vvakame/job/JsonPullParser/
+

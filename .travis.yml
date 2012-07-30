@@ -1,0 +1,15 @@
+language: java
+jdk:
+  - openjdk7
+  - oraclejdk7
+
+branches:
+  except:
+    - gh-pages
+
+notifications:
+  email:
+    recipients:
+      - vvakame@gmail.com
+
+

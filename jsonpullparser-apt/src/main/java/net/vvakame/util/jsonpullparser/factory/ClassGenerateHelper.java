@@ -329,8 +329,7 @@ public class ClassGenerateHelper {
 			jsonElement.setGetter(getter);
 			jsonElement.setModelName(t.toString());
 			if (kind == Kind.MODEL) {
-				Elements elementUtils = processingEnv.getElementUtils();
-				String packageName = getPackageName(elementUtils, el);
+				String packageName = getPackageName(el.asType());
 				jsonElement.setGenName(packageName + "." + getSimpleName(el.asType()));
 			} else {
 				jsonElement.setGenName(t.toString());
@@ -464,8 +463,7 @@ public class ClassGenerateHelper {
 				jsonElement.setOut(key.out());
 				jsonElement.setGetter(getter);
 				jsonElement.setModelName(tm.toString());
-				Elements elementUtils = processingEnv.getElementUtils();
-				String packageName = getPackageName(elementUtils, el);
+				String packageName = getPackageName(tm);
 				jsonElement.setGenName(packageName + "." + getSimpleName(type.asType()));
 				jsonElement.setKind(Kind.LIST);
 			}

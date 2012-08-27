@@ -171,6 +171,11 @@ public class AptUtil {
 		return elementUtils.getPackageOf(element).getQualifiedName().toString();
 	}
 
+	public static String getPackageName(TypeMirror type) {
+		String s = type.toString();
+		return s.substring(0, s.lastIndexOf('.'));
+	}
+
 	/**
 	 * Returns unqualified class name (e.g. String, if java.lang.String)
 	 * NB: This method requires the given element has the kind of {@link ElementKind#CLASS}.

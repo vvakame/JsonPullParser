@@ -30,14 +30,19 @@ import javax.lang.model.element.AnnotationMirror;
 import javax.lang.model.element.AnnotationValue;
 import javax.lang.model.element.Element;
 import javax.lang.model.element.ElementKind;
+import javax.lang.model.element.ElementVisitor;
 import javax.lang.model.element.ExecutableElement;
 import javax.lang.model.element.Modifier;
+import javax.lang.model.element.NestingKind;
 import javax.lang.model.element.TypeElement;
 import javax.lang.model.type.DeclaredType;
 import javax.lang.model.type.PrimitiveType;
 import javax.lang.model.type.TypeMirror;
+import javax.lang.model.type.TypeVisitor;
 import javax.lang.model.type.WildcardType;
 import javax.lang.model.util.Elements;
+import javax.lang.model.util.SimpleElementVisitor6;
+import javax.lang.model.util.SimpleTypeVisitor6;
 import javax.lang.model.util.Types;
 import javax.tools.JavaFileObject;
 
@@ -463,12 +468,40 @@ public class ClassGenerateHelper {
 				jsonElement.setOut(key.out());
 				jsonElement.setGetter(getter);
 				jsonElement.setModelName(tm.toString());
+
 				String packageName = getPackageName(tm);
+
 				jsonElement.setGenName(packageName + "." + getSimpleName(type.asType()));
 				jsonElement.setKind(Kind.LIST);
 			}
 
 			return jsonElement;
+		}
+
+		private String getPackageName(TypeMirror type) {
+			TypeVisitor<DeclaredType, Object> tv = new SimpleTypeVisitor6<DeclaredType, Object>() {
+
+				@Override
+				public DeclaredType visitDeclared(DeclaredType t, Object p) {
+					return t;
+				}
+			};
+			DeclaredType dt = type.accept(tv, null);
+			if (dt != null) {
+				ElementVisitor<TypeElement, Object> ev =
+						new SimpleElementVisitor6<TypeElement, Object>() {
+
+							@Override
+							public TypeElement visitType(TypeElement e, Object p) {
+								return e;
+							}
+						};
+				TypeElement el = processingEnv.getTypeUtils().asElement(dt).accept(ev, null);
+				if (el != null && el.getNestingKind() != NestingKind.TOP_LEVEL) {
+					return AptUtil.getPackageName(processingEnv.getElementUtils(), el);
+				}
+			}
+			return AptUtil.getPackageName(type);
 		}
 
 		@Override

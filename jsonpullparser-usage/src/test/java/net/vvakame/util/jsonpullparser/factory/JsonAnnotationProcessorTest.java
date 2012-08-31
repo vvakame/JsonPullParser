@@ -35,6 +35,9 @@ import net.vvakame.sample.BaseDataGenerated;
 import net.vvakame.sample.ComplexData;
 import net.vvakame.sample.ComplexData.InternalEnum;
 import net.vvakame.sample.ComplexDataGenerated;
+import net.vvakame.sample.ContainsAnotherPackageObjectData;
+import net.vvakame.sample.ContainsAnotherPackageObjectDataGenerated;
+import net.vvakame.sample.ContainsAnotherPackageObjectDataJsonMeta;
 import net.vvakame.sample.ExtendsData1;
 import net.vvakame.sample.ExtendsData1Generated;
 import net.vvakame.sample.ExtendsData2;
@@ -57,6 +60,7 @@ import net.vvakame.sample.PrimitiveWrapperListDataGenerated;
 import net.vvakame.sample.SampleEnum;
 import net.vvakame.sample.TestData;
 import net.vvakame.sample.TestDataGenerated;
+import net.vvakame.sample.anotherpackage.AnotherPackageClass;
 import net.vvakame.sample.twitter.Tweet;
 import net.vvakame.sample.twitter.TweetGenerated;
 import net.vvakame.util.jsonpullparser.JsonFormatException;
@@ -557,6 +561,43 @@ public class JsonAnnotationProcessorTest {
 			assertThat(data.getD(), notNullValue());
 			assertThat(data.getE().size(), is(1));
 		}
+	}
+
+	/**
+	 * TODO テストを適当な所に移す.<br>
+	 * Tests for member has class on another package by Gen.
+	 * @author vvakame
+	 * @throws IOException 
+	 * @throws JsonFormatException 
+	 * @throws IllegalStateException 
+	 */
+	@Test
+	public void anotherPackageClassGen() throws IOException, JsonFormatException {
+		ContainsAnotherPackageObjectData data = new ContainsAnotherPackageObjectData();
+		data.setAnotherPackageClass(new AnotherPackageClass());
+		StringWriter writer = new StringWriter();
+		ContainsAnotherPackageObjectDataGenerated.encode(writer, data);
+		assertThat("{\"anotherPackageClass\":{\"value\":null},\"anotherPackageClasses\":null}",
+				is(writer.toString()));
+	}
+
+	/**
+	 * TODO テストを適当な所に移す.<br>
+	 * Tests for member has class on another package by JsonMeta.
+	 * @author vvakame
+	 * @throws IOException 
+	 * @throws JsonFormatException 
+	 * @throws IllegalStateException 
+	 */
+	@Test
+	public void anotherPackageClassMeta() throws IOException, JsonFormatException {
+		ContainsAnotherPackageObjectData data = new ContainsAnotherPackageObjectData();
+		data.setAnotherPackageClass(new AnotherPackageClass());
+		StringWriter writer = new StringWriter();
+		ContainsAnotherPackageObjectDataJsonMeta.get().newBuilder().addAll().fix()
+			.encode(writer, data);
+		assertThat("{\"anotherPackageClass\":{\"value\":null},\"anotherPackageClasses\":null}",
+				is(writer.toString()));
 	}
 
 	/**

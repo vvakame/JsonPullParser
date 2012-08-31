@@ -194,6 +194,11 @@ public class JsonAnnotationProcessorTest extends AptinaTestCase {
 		assertThat(getCompiledResult(), is(true));
 	}
 
+	/**
+	 * Tests for error raised to abstract class.
+	 * @throws Exception
+	 * @author backpaper0
+	 */
 	public void testForContainsAnotherPackageObject() throws Exception {
 		JsonAnnotationProcessor processor = new JsonAnnotationProcessor();
 		addProcessor(processor);

@@ -171,6 +171,12 @@ public class AptUtil {
 		return elementUtils.getPackageOf(element).getQualifiedName().toString();
 	}
 
+	/**
+	 * Returns the package name of the given {@link TypeMirror}.
+	 * @param type 
+	 * @return the package name
+	 * @author backpaper0
+	 */
 	public static String getPackageName(TypeMirror type) {
 		String s = type.toString();
 		return s.substring(0, s.lastIndexOf('.'));

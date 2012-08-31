@@ -1,5 +1,3 @@
-BuildHive [![Build Status](https://buildhive.cloudbees.com/job/vvakame/job/JsonPullParser/badge/icon)](https://buildhive.cloudbees.com/job/vvakame/job/JsonPullParser/)
-
 Travis-CI (master) [![Build Status](https://secure.travis-ci.org/vvakame/JsonPullParser.png?branch=master)](http://travis-ci.org/vvakame/JsonPullParser)
 
 Travis-CI (develop) [![Build Status](https://secure.travis-ci.org/vvakame/JsonPullParser.png?branch=develop)](http://travis-ci.org/vvakame/JsonPullParser)

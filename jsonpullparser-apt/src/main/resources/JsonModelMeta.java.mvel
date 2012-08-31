@@ -75,7 +75,7 @@ public class @{target}JsonMeta {
 
 @foreach{obj : allElements}
 	/**
-	 * JSON property coder for @{obj.key}.
+	 * JSON property coder for @{obj.key}. this method use {@link JsonUtil}.
 	 * @author vvakame
 	 */
 	public static class Property_@{obj.key} extends JsonPropertyCoder<@{targetNew}> {

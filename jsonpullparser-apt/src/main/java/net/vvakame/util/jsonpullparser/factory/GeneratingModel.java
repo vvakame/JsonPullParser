@@ -43,6 +43,10 @@ public class GeneratingModel {
 
 	boolean treatUnknownKeyAsError;
 
+	boolean genToPackagePrivate;
+
+	boolean jsonMetaToPackagePrivate;
+
 	boolean builder;
 
 	StoreJsonElement storeElement = new StoreJsonElement();
@@ -186,6 +190,38 @@ public class GeneratingModel {
 	 */
 	public void setTreatUnknownKeyAsError(boolean treatUnknownKeyAsError) {
 		this.treatUnknownKeyAsError = treatUnknownKeyAsError;
+	}
+
+	/**
+	 * @return the genToPackagePrivate
+	 * @category accessor
+	 */
+	public boolean isGenToPackagePrivate() {
+		return genToPackagePrivate;
+	}
+
+	/**
+	 * @param genToPackagePrivate the genToPackagePrivate to set
+	 * @category accessor
+	 */
+	public void setGenToPackagePrivate(boolean genToPackagePrivate) {
+		this.genToPackagePrivate = genToPackagePrivate;
+	}
+
+	/**
+	 * @return the jsonMetaToPackagePrivate
+	 * @category accessor
+	 */
+	public boolean isJsonMetaToPackagePrivate() {
+		return jsonMetaToPackagePrivate;
+	}
+
+	/**
+	 * @param jsonMetaToPackagePrivate the jsonMetaToPackagePrivate to set
+	 * @category accessor
+	 */
+	public void setJsonMetaToPackagePrivate(boolean jsonMetaToPackagePrivate) {
+		this.jsonMetaToPackagePrivate = jsonMetaToPackagePrivate;
 	}
 
 	/**

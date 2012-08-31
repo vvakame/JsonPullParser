@@ -126,6 +126,8 @@ public class MvelTemplate {
 			map.put("storeJsonElement", toMap);
 		}
 		map.put("treatUnknownKeyAsError", model.isTreatUnknownKeyAsError());
+		map.put("genToPackagePrivate", model.isGenToPackagePrivate());
+		map.put("jsonMetaToPackagePrivate", model.isJsonMetaToPackagePrivate());
 
 		return map;
 	}

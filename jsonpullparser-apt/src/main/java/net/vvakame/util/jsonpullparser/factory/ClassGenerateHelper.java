@@ -114,6 +114,8 @@ public class ClassGenerateHelper {
 
 		g.setPostfix(postfix);
 		g.setTreatUnknownKeyAsError(getTreatUnknownKeyAsError(element));
+		g.setGenToPackagePrivate(getGenToPackagePrivate(element));
+		g.setJsonMetaToPackagePrivate(getJsonMetaToPackagePrivate(element));
 		g.setBuilder(getBuilder(element));
 	}
 
@@ -153,6 +155,13 @@ public class ClassGenerateHelper {
 	 * @param <T>
 	 */
 	public <T>void process() {
+		// check @JsonModel parameter combination
+		if (g.isBuilder() == false && g.isJsonMetaToPackagePrivate() == true) {
+			Log.e("builder parameter or jsonMetaToPackagePrivate parameter change value.",
+					classElement);
+			encountError = true;
+		}
+
 		List<Element> elements;
 
 		// JsonKeyの収集
@@ -268,6 +277,22 @@ public class ClassGenerateHelper {
 			throw new IllegalArgumentException();
 		}
 		return model.treatUnknownKeyAsError();
+	}
+
+	boolean getGenToPackagePrivate(Element element) {
+		JsonModel model = element.getAnnotation(JsonModel.class);
+		if (model == null) {
+			throw new IllegalArgumentException();
+		}
+		return model.genToPackagePrivate();
+	}
+
+	boolean getJsonMetaToPackagePrivate(Element element) {
+		JsonModel model = element.getAnnotation(JsonModel.class);
+		if (model == null) {
+			throw new IllegalArgumentException();
+		}
+		return model.jsonMetaToPackagePrivate();
 	}
 
 	boolean getBuilder(Element element) {

@@ -69,6 +69,7 @@ import net.vvakame.util.jsonpullparser.builder.JsonModelCoder;
 import net.vvakame.util.jsonpullparser.util.JsonArray;
 import net.vvakame.util.jsonpullparser.util.JsonHash;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
 import static org.hamcrest.CoreMatchers.*;
@@ -607,6 +608,7 @@ public class JsonAnnotationProcessorTest {
 	 * @author vvakame
 	 */
 	@Test
+	@Ignore("this is flaky.")
 	public void twitterPublicTimelinePOJO() throws IOException, JsonFormatException {
 		final String PUBLIC_TIMELINE_URL = "http://api.twitter.com/1/statuses/public_timeline.json";
 
@@ -642,6 +644,7 @@ public class JsonAnnotationProcessorTest {
 	 * @author vvakame
 	 */
 	@Test
+	@Ignore("this is flaky.")
 	public void twitterPublicTimelineJson() throws IOException, JsonFormatException {
 		final String PUBLIC_TIMELINE_URL = "http://api.twitter.com/1/statuses/public_timeline.json";
 

@@ -1,6 +1,6 @@
 language: java
 
-script: mvn clean test install && cd jsonpullparser-usage && mvn clean test && cd ..
+script: mvn clean install -Dmaven.test.skip=true && mvn clean test install && cd jsonpullparser-usage && mvn clean test && cd ..
 
 jdk:
   - openjdk7

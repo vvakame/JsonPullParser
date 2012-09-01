@@ -19,14 +19,19 @@ package net.vvakame.util.jsonpullparser.factory;
 import net.vvakame.sample.AbstractData;
 import net.vvakame.sample.BaseData;
 import net.vvakame.sample.ComplexData;
+import net.vvakame.sample.ContainsAnotherPackageObjectData;
 import net.vvakame.sample.ConverterData;
 import net.vvakame.sample.ExtendsData;
 import net.vvakame.sample.ForInnerClass;
+import net.vvakame.sample.GenToPackagePrivateData;
+import net.vvakame.sample.JsonMetaToPackagePrivateInvalidData;
+import net.vvakame.sample.JsonMetaToPackagePrivateValidData;
 import net.vvakame.sample.PrimitiveTypeData;
 import net.vvakame.sample.PrimitiveWrapperData;
 import net.vvakame.sample.PrimitiveWrapperListData;
 import net.vvakame.sample.SampleData;
 import net.vvakame.sample.SampleEnum;
+import net.vvakame.sample.anotherpackage.AnotherPackageClass;
 import net.vvakame.sample.twitter.Place;
 import net.vvakame.sample.twitter.Tweet;
 import net.vvakame.sample.twitter.User;
@@ -190,6 +195,79 @@ public class JsonAnnotationProcessorTest extends AptinaTestCase {
 		compile();
 
 		assertThat(getCompiledResult(), is(true));
+	}
+
+	/**
+	 * Tests for error raised to abstract class.
+	 * @throws Exception
+	 * @author backpaper0
+	 */
+	@Test
+	public void testForContainsAnotherPackageObject() throws Exception {
+		JsonAnnotationProcessor processor = new JsonAnnotationProcessor();
+		addProcessor(processor);
+
+		addCompilationUnit(AnotherPackageClass.class);
+		addCompilationUnit(ContainsAnotherPackageObjectData.class);
+
+		compile();
+
+		assertThat(getCompiledResult(), is(true));
+	}
+
+	/**
+	 * Tests for generated class. it modifier is "package private".
+	 * @throws Exception
+	 * @author vvakame
+	 */
+	@Test
+	public void testForGenToPackagePrivate() throws Exception {
+		JsonAnnotationProcessor processor = new JsonAnnotationProcessor();
+		addProcessor(processor);
+
+		addCompilationUnit(GenToPackagePrivateData.class);
+
+		compile();
+
+		assertThat(getCompiledResult(), is(true));
+	}
+
+	/**
+	 * Tests for JsonMeta class. it modifier is "package private".
+	 * @throws Exception
+	 * @author vvakame
+	 */
+	@Test
+	public void testForJsonMetaToPackagePrivateValid() throws Exception {
+		JsonAnnotationProcessor processor = new JsonAnnotationProcessor();
+		addProcessor(processor);
+
+		addCompilationUnit(JsonMetaToPackagePrivateValidData.class);
+
+		compile();
+
+		@SuppressWarnings("unused")
+		String source =
+				getGeneratedSource(JsonMetaToPackagePrivateValidData.class.getName() + "JsonMeta");
+
+		assertThat(getCompiledResult(), is(true));
+	}
+
+	/**
+	 * Tests for JsonMeta class. invalid case. builder == false && jsonMetaToPackagePrivate == true
+	 * @throws Exception
+	 * @author vvakame
+	 */
+	@Test
+	public void testForJsonMetaToPackagePrivateInvalid() throws Exception {
+		JsonAnnotationProcessor processor = new JsonAnnotationProcessor();
+		addProcessor(processor);
+
+		addCompilationUnit(JsonMetaToPackagePrivateInvalidData.class);
+
+		compile();
+
+		assertThat(getCompiledResult(), is(false));
 	}
 
 	@Override

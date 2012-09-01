@@ -59,6 +59,10 @@ public class ClassGenerateHelper {
 
 	static ProcessingEnvironment processingEnv = null;
 
+	static Types typeUtils;
+
+	static Elements elementUtils;
+
 	static String postfix = "";
 
 	GeneratingModel g = new GeneratingModel();
@@ -75,6 +79,8 @@ public class ClassGenerateHelper {
 	 */
 	public static void init(ProcessingEnvironment env) {
 		processingEnv = env;
+		typeUtils = processingEnv.getTypeUtils();
+		elementUtils = processingEnv.getElementUtils();
 	}
 
 	/**
@@ -108,6 +114,8 @@ public class ClassGenerateHelper {
 
 		g.setPostfix(postfix);
 		g.setTreatUnknownKeyAsError(getTreatUnknownKeyAsError(element));
+		g.setGenToPackagePrivate(getGenToPackagePrivate(element));
+		g.setJsonMetaToPackagePrivate(getJsonMetaToPackagePrivate(element));
 		g.setBuilder(getBuilder(element));
 	}
 
@@ -147,6 +155,13 @@ public class ClassGenerateHelper {
 	 * @param <T>
 	 */
 	public <T>void process() {
+		// check @JsonModel parameter combination
+		if (g.isBuilder() == false && g.isJsonMetaToPackagePrivate() == true) {
+			Log.e("builder parameter or jsonMetaToPackagePrivate parameter change value.",
+					classElement);
+			encountError = true;
+		}
+
 		List<Element> elements;
 
 		// JsonKeyの収集
@@ -264,6 +279,22 @@ public class ClassGenerateHelper {
 		return model.treatUnknownKeyAsError();
 	}
 
+	boolean getGenToPackagePrivate(Element element) {
+		JsonModel model = element.getAnnotation(JsonModel.class);
+		if (model == null) {
+			throw new IllegalArgumentException();
+		}
+		return model.genToPackagePrivate();
+	}
+
+	boolean getJsonMetaToPackagePrivate(Element element) {
+		JsonModel model = element.getAnnotation(JsonModel.class);
+		if (model == null) {
+			throw new IllegalArgumentException();
+		}
+		return model.jsonMetaToPackagePrivate();
+	}
+
 	boolean getBuilder(Element element) {
 		JsonModel model = element.getAnnotation(JsonModel.class);
 		if (model == null) {
@@ -329,8 +360,7 @@ public class ClassGenerateHelper {
 			jsonElement.setGetter(getter);
 			jsonElement.setModelName(t.toString());
 			if (kind == Kind.MODEL) {
-				Elements elementUtils = processingEnv.getElementUtils();
-				String packageName = getPackageName(elementUtils, el);
+				String packageName = AptUtil.getPackageName(elementUtils, typeUtils, el.asType());
 				jsonElement.setGenName(packageName + "." + getSimpleName(el.asType()));
 			} else {
 				jsonElement.setGenName(t.toString());
@@ -464,8 +494,9 @@ public class ClassGenerateHelper {
 				jsonElement.setOut(key.out());
 				jsonElement.setGetter(getter);
 				jsonElement.setModelName(tm.toString());
-				Elements elementUtils = processingEnv.getElementUtils();
-				String packageName = getPackageName(elementUtils, el);
+
+				String packageName = AptUtil.getPackageName(elementUtils, typeUtils, tm);
+
 				jsonElement.setGenName(packageName + "." + getSimpleName(type.asType()));
 				jsonElement.setKind(Kind.LIST);
 			}

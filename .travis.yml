@@ -1,0 +1,19 @@
+language: java
+
+script: mvn clean test install && cd jsonpullparser-usage && mvn clean test && cd ..
+
+jdk:
+  - openjdk7
+  - oraclejdk7
+  - openjdk6
+
+branches:
+  except:
+    - gh-pages
+
+notifications:
+  email:
+    recipients:
+      - vvakame@gmail.com
+
+

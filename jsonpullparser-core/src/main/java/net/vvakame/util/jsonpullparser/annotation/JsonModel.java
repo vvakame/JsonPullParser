@@ -52,6 +52,20 @@ public @interface JsonModel {
 	public boolean decamelize() default false;
 
 	/**
+	 * Modifier of generated class change to "package private" from "public". 
+	 * @return True if modifier change to package private, false otherwise.
+	 * @author vvakame
+	 */
+	public boolean genToPackagePrivate() default false;
+
+	/**
+	 * Modifier of JsonMeta class change to "package private" from "public". 
+	 * @return True if modifier change to package private, false otherwise.
+	 * @author vvakame
+	 */
+	public boolean jsonMetaToPackagePrivate() default false;
+
+	/**
 	 * Whether a dynamic JSON builder should be generated for this class or not.
 	 * @return True if dynamic JSON builder should be generated, false otherwise.
 	 * @author vvakame

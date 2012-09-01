@@ -1,0 +1,3 @@
+$ mvn release:prepare
+$ mvn -e release:perform -Dgpg.passphrase=**** -Darguments="-Dgpg.passphrase=****"
+

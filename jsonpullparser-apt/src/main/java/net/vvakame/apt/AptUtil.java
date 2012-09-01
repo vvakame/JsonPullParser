@@ -23,14 +23,19 @@ import java.util.List;
 
 import javax.lang.model.element.Element;
 import javax.lang.model.element.ElementKind;
+import javax.lang.model.element.ElementVisitor;
 import javax.lang.model.element.ExecutableElement;
 import javax.lang.model.element.Modifier;
+import javax.lang.model.element.NestingKind;
 import javax.lang.model.element.TypeElement;
 import javax.lang.model.type.DeclaredType;
 import javax.lang.model.type.TypeKind;
 import javax.lang.model.type.TypeMirror;
+import javax.lang.model.type.TypeVisitor;
 import javax.lang.model.util.ElementFilter;
 import javax.lang.model.util.Elements;
+import javax.lang.model.util.SimpleElementVisitor6;
+import javax.lang.model.util.SimpleTypeVisitor6;
 import javax.lang.model.util.Types;
 
 /**
@@ -169,6 +174,46 @@ public class AptUtil {
 	 */
 	public static String getPackageName(Elements elementUtils, Element element) {
 		return elementUtils.getPackageOf(element).getQualifiedName().toString();
+	}
+
+	/**
+	 * Returns the package name of the given {@link TypeMirror}.
+	 * @param elementUtils 
+	 * @param typeUtils 
+	 * @param type 
+	 * @return the package name
+	 * @author backpaper0
+	 * @author vvakame
+	 */
+	public static String getPackageName(Elements elementUtils, Types typeUtils, TypeMirror type) {
+		TypeVisitor<DeclaredType, Object> tv = new SimpleTypeVisitor6<DeclaredType, Object>() {
+
+			@Override
+			public DeclaredType visitDeclared(DeclaredType t, Object p) {
+				return t;
+			}
+		};
+		DeclaredType dt = type.accept(tv, null);
+		if (dt != null) {
+			ElementVisitor<TypeElement, Object> ev =
+					new SimpleElementVisitor6<TypeElement, Object>() {
+
+						@Override
+						public TypeElement visitType(TypeElement e, Object p) {
+							return e;
+						}
+					};
+			TypeElement el = typeUtils.asElement(dt).accept(ev, null);
+			if (el != null && el.getNestingKind() != NestingKind.TOP_LEVEL) {
+				return AptUtil.getPackageName(elementUtils, el);
+			}
+		}
+		return AptUtil.getPackageNameSub(type);
+	}
+
+	private static String getPackageNameSub(TypeMirror type) {
+		String s = type.toString();
+		return s.substring(0, s.lastIndexOf('.'));
 	}
 
 	/**

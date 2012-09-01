@@ -107,8 +107,16 @@ public class JsonUtil {
 			put(writer, (String) value);
 		} else if (value instanceof Boolean) {
 			put(writer, (boolean) (Boolean) value);
+		} else if (value instanceof Byte) {
+			put(writer, (long) (Byte) value);
+		} else if (value instanceof Short) {
+			put(writer, (long) (Short) value);
+		} else if (value instanceof Integer) {
+			put(writer, (long) (Integer) value);
 		} else if (value instanceof Long) {
 			put(writer, (long) (Long) value);
+		} else if (value instanceof Float) {
+			put(writer, (double) (Float) value);
 		} else if (value instanceof Double) {
 			put(writer, (double) (Double) value);
 		} else if (value instanceof Date) {

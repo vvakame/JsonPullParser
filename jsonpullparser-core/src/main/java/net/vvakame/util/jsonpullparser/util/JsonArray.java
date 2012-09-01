@@ -21,6 +21,7 @@ import java.io.StringWriter;
 import java.io.Writer;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import net.vvakame.util.jsonpullparser.JsonFormatException;
 import net.vvakame.util.jsonpullparser.JsonPullParser;
@@ -35,7 +36,7 @@ public class JsonArray extends ArrayList<Object> {
 
 	private static final long serialVersionUID = -3685725206266732067L;
 
-	ArrayList<State> stateList = new ArrayList<State>();
+	ArrayList<Type> stateList = new ArrayList<Type>();
 
 
 	/**
@@ -78,6 +79,33 @@ public class JsonArray extends ArrayList<Object> {
 		return jsonArray;
 	}
 
+	static Object getValue(JsonPullParser parser) throws IOException, JsonFormatException {
+		State state = parser.lookAhead();
+		switch (state) {
+			case VALUE_BOOLEAN:
+				parser.getEventType();
+				return parser.getValueBoolean();
+			case VALUE_STRING:
+				parser.getEventType();
+				return parser.getValueString();
+			case VALUE_DOUBLE:
+				parser.getEventType();
+				return parser.getValueDouble();
+			case VALUE_LONG:
+				parser.getEventType();
+				return parser.getValueLong();
+			case VALUE_NULL:
+				parser.getEventType();
+				return null;
+			case START_ARRAY:
+				return fromParser(parser);
+			case START_HASH:
+				return JsonHash.fromParser(parser);
+			default:
+				throw new JsonFormatException("unexpected token. token=" + state);
+		}
+	}
+
 	/**
 	 * Encodes into the JSON format.
 	 * @param writer {@link Writer} to be used for writing
@@ -107,14 +135,14 @@ public class JsonArray extends ArrayList<Object> {
 	 * @author vvakame
 	 */
 	public Boolean getBooleanOrNull(int index) throws IllegalStateException {
-		State state = stateList.get(index);
-		switch (state) {
-			case VALUE_NULL:
+		Type type = stateList.get(index);
+		switch (type) {
+			case NULL:
 				return null;
-			case VALUE_BOOLEAN:
+			case BOOLEAN:
 				return (Boolean) get(index);
 			default:
-				throw new IllegalStateException("unexpected token. token=" + state);
+				throw new IllegalStateException("unexpected token. token=" + type);
 		}
 	}
 
@@ -127,14 +155,14 @@ public class JsonArray extends ArrayList<Object> {
 	 * @author vvakame
 	 */
 	public String getStringOrNull(int index) throws IllegalStateException {
-		State state = stateList.get(index);
-		switch (state) {
-			case VALUE_NULL:
+		Type type = stateList.get(index);
+		switch (type) {
+			case NULL:
 				return null;
-			case VALUE_STRING:
+			case STRING:
 				return (String) get(index);
 			default:
-				throw new IllegalStateException("unexpected token. token=" + state);
+				throw new IllegalStateException("unexpected token. token=" + type);
 		}
 	}
 
@@ -147,14 +175,26 @@ public class JsonArray extends ArrayList<Object> {
 	 * @author vvakame
 	 */
 	public Long getLongOrNull(int index) throws IllegalStateException {
-		State state = stateList.get(index);
-		switch (state) {
-			case VALUE_NULL:
+		Type type = stateList.get(index);
+		switch (type) {
+			case NULL:
 				return null;
-			case VALUE_LONG:
-				return (Long) get(index);
+			case LONG:
+				Object obj = get(index);
+				if (obj instanceof Integer) {
+					return (long) (Integer) obj;
+				} else if (obj instanceof Long) {
+					return (Long) obj;
+				} else if (obj instanceof Byte) {
+					return (long) (Byte) obj;
+				} else if (obj instanceof Short) {
+					return (long) (Short) obj;
+				} else {
+					throw new IllegalStateException("unexpected class. class="
+							+ obj.getClass().getCanonicalName());
+				}
 			default:
-				throw new IllegalStateException("unexpected token. token=" + state);
+				throw new IllegalStateException("unexpected token. token=" + type);
 		}
 	}
 
@@ -167,14 +207,22 @@ public class JsonArray extends ArrayList<Object> {
 	 * @author vvakame
 	 */
 	public Double getDoubleOrNull(int index) throws IllegalStateException {
-		State state = stateList.get(index);
-		switch (state) {
-			case VALUE_NULL:
+		Type type = stateList.get(index);
+		switch (type) {
+			case NULL:
 				return null;
-			case VALUE_DOUBLE:
-				return (Double) get(index);
+			case DOUBLE:
+				Object obj = get(index);
+				if (obj instanceof Double) {
+					return (Double) obj;
+				} else if (obj instanceof Float) {
+					return (double) (Float) obj;
+				} else {
+					throw new IllegalStateException("unexpected class. class="
+							+ obj.getClass().getCanonicalName());
+				}
 			default:
-				throw new IllegalStateException("unexpected token. token=" + state);
+				throw new IllegalStateException("unexpected token. token=" + type);
 		}
 	}
 
@@ -187,14 +235,14 @@ public class JsonArray extends ArrayList<Object> {
 	 * @author vvakame
 	 */
 	public JsonArray getJsonArrayOrNull(int index) throws IllegalStateException {
-		State state = stateList.get(index);
-		switch (state) {
-			case VALUE_NULL:
+		Type type = stateList.get(index);
+		switch (type) {
+			case NULL:
 				return null;
-			case START_ARRAY:
+			case ARRAY:
 				return (JsonArray) get(index);
 			default:
-				throw new IllegalStateException("unexpected token. token=" + state);
+				throw new IllegalStateException("unexpected token. token=" + type);
 		}
 	}
 
@@ -207,14 +255,14 @@ public class JsonArray extends ArrayList<Object> {
 	 * @author vvakame
 	 */
 	public JsonHash getJsonHashOrNull(int index) throws IllegalStateException {
-		State state = stateList.get(index);
-		switch (state) {
-			case VALUE_NULL:
+		Type type = stateList.get(index);
+		switch (type) {
+			case NULL:
 				return null;
-			case START_HASH:
+			case HASH:
 				return (JsonHash) get(index);
 			default:
-				throw new IllegalStateException("unexpected token. token=" + state);
+				throw new IllegalStateException("unexpected token. token=" + type);
 		}
 	}
 
@@ -223,37 +271,23 @@ public class JsonArray extends ArrayList<Object> {
 	 * NB. this method returns {@link State#START_HASH} for a {@link JsonHash}, {@link State#START_ARRAY} for a {@link JsonArray}.
 	 * @param index
 	 * @return The element type
+	 * @deprecated {@link State} is confuse the users. replace to {@link Type} in about {@link JsonArray}. since 1.4.12.
 	 * @author vvakame
 	 */
+	@Deprecated
 	public State getState(int index) {
-		return stateList.get(index);
+		return Type.to(stateList.get(index));
 	}
 
-	static Object getValue(JsonPullParser parser) throws IOException, JsonFormatException {
-		State state = parser.lookAhead();
-		switch (state) {
-			case VALUE_BOOLEAN:
-				parser.getEventType();
-				return parser.getValueBoolean();
-			case VALUE_STRING:
-				parser.getEventType();
-				return parser.getValueString();
-			case VALUE_DOUBLE:
-				parser.getEventType();
-				return parser.getValueDouble();
-			case VALUE_LONG:
-				parser.getEventType();
-				return parser.getValueLong();
-			case VALUE_NULL:
-				parser.getEventType();
-				return null;
-			case START_ARRAY:
-				return fromParser(parser);
-			case START_HASH:
-				return JsonHash.fromParser(parser);
-			default:
-				throw new JsonFormatException("unexpected token. token=" + state);
-		}
+	/**
+	 * Retrieves the type of the nth element in the array as {@link Type}.<br>
+	 * @param index 
+	 * @return The type code (see {@link Type})
+	 * @since 1.4.12
+	 * @author vvakame
+	 */
+	public Type getType(int index) {
+		return stateList.get(index);
 	}
 
 	/**
@@ -262,7 +296,9 @@ public class JsonArray extends ArrayList<Object> {
 	 * @param obj
 	 *            The value
 	 * @return The type code (see {@link State})
+	 * @deprecated {@link State} is confuse the users. replace to {@link Type} in about {@link JsonArray}. since 1.4.12.
 	 */
+	@Deprecated
 	State isState(Object obj) {
 		State state = null;
 		if (obj == null) {
@@ -296,9 +332,26 @@ public class JsonArray extends ArrayList<Object> {
 	 *            The value to insert.
 	 * @param state
 	 *            The type code of the value (see {@link State})
+	 * @deprecated {@link State} is confuse the users. replace to {@link Type} in about {@link JsonArray}. since 1.4.12.
 	 */
+	@Deprecated
 	public void add(int index, Object obj, State state) {
-		stateList.add(index, state);
+		stateList.add(index, Type.from(state));
+		super.add(index, obj);
+	}
+
+	/**
+	 * Inserts the given object and State at the given index in the array.
+	 * 
+	 * @param index
+	 *            The index to insert at.
+	 * @param obj
+	 *            The value to insert.
+	 * @param type
+	 *            The type code of the value (see {@link Type})
+	 */
+	public void add(int index, Object obj, Type type) {
+		stateList.add(index, type);
 		super.add(index, obj);
 	}
 
@@ -311,11 +364,190 @@ public class JsonArray extends ArrayList<Object> {
 	 * @param obj
 	 *            The value to insert.
 	 */
-	@Deprecated
 	@Override
 	public void add(int index, Object obj) {
-		State state = isState(obj);
-		add(index, obj, state);
+		Type type = Type.getType(obj);
+		add(index, obj, type);
+	}
+
+	/**
+	 * see {@link List#add(int, Object)}
+	 * this method is alternative of {@link #add(int, Object, Type)} call with {@link Type#STRING}.
+	 * @param index 
+	 * @param value
+	 * @since 1.4.12
+	 * @author vvakame
+	 */
+	public void add(int index, String value) {
+		if (value == null) {
+			stateList.add(index, Type.NULL);
+		} else {
+			stateList.add(index, Type.STRING);
+		}
+
+		super.add(index, value);
+	}
+
+	/**
+	 * see {@link List#add(int, Object)}
+	 * this method is alternative of {@link #add(int, Object, Type)} call with {@link Type#BOOLEAN}.
+	 * @param index 
+	 * @param value
+	 * @since 1.4.12
+	 * @author vvakame
+	 */
+	public void add(int index, Boolean value) {
+		if (value == null) {
+			stateList.add(index, Type.NULL);
+		} else {
+			stateList.add(index, Type.BOOLEAN);
+		}
+
+		super.add(index, value);
+	}
+
+	/**
+	 * see {@link List#add(int, Object)}
+	 * this method is alternative of {@link #add(int, Object, Type)} call with {@link Type#DOUBLE}.
+	 * @param index 
+	 * @param value
+	 * @since 1.4.12
+	 * @author vvakame
+	 */
+	public void add(int index, Double value) {
+		if (value == null) {
+			stateList.add(index, Type.NULL);
+		} else {
+			stateList.add(index, Type.DOUBLE);
+		}
+
+		super.add(index, value);
+	}
+
+	/**
+	 * see {@link List#add(int, Object)}
+	 * this method is alternative of {@link #add(int, Object, Type)} call with {@link Type#DOUBLE}.
+	 * @param index 
+	 * @param value
+	 * @since 1.4.12
+	 * @author vvakame
+	 */
+	public void add(int index, Float value) {
+		if (value == null) {
+			stateList.add(index, Type.NULL);
+		} else {
+			stateList.add(index, Type.DOUBLE);
+		}
+
+		super.add(index, value);
+	}
+
+	/**
+	 * see {@link List#add(int, Object)}
+	 * this method is alternative of {@link #add(int, Object, Type)} call with {@link Type#LONG}.
+	 * @param index 
+	 * @param value
+	 * @since 1.4.12
+	 * @author vvakame
+	 */
+	public void add(int index, Byte value) {
+		if (value == null) {
+			stateList.add(index, Type.NULL);
+		} else {
+			stateList.add(index, Type.LONG);
+		}
+
+		super.add(index, value);
+	}
+
+	/**
+	 * see {@link List#add(int, Object)}
+	 * this method is alternative of {@link #add(int, Object, Type)} call with {@link Type#LONG}.
+	 * @param index 
+	 * @param value
+	 * @since 1.4.12
+	 * @author vvakame
+	 */
+	public void add(int index, Short value) {
+		if (value == null) {
+			stateList.add(index, Type.NULL);
+		} else {
+			stateList.add(index, Type.LONG);
+		}
+
+		super.add(index, value);
+	}
+
+	/**
+	 * see {@link List#add(int, Object)}
+	 * this method is alternative of {@link #add(int, Object, Type)} call with {@link Type#LONG}.
+	 * @param index 
+	 * @param value
+	 * @since 1.4.12
+	 * @author vvakame
+	 */
+	public void add(int index, Integer value) {
+		if (value == null) {
+			stateList.add(index, Type.NULL);
+		} else {
+			stateList.add(index, Type.LONG);
+		}
+
+		super.add(index, value);
+	}
+
+	/**
+	 * see {@link List#add(int, Object)}
+	 * this method is alternative of {@link #add(int, Object, Type)} call with {@link Type#LONG}.
+	 * @param index 
+	 * @param value
+	 * @since 1.4.12
+	 * @author vvakame
+	 */
+	public void add(int index, Long value) {
+		if (value == null) {
+			stateList.add(index, Type.NULL);
+		} else {
+			stateList.add(index, Type.LONG);
+		}
+
+		super.add(index, value);
+	}
+
+	/**
+	 * see {@link List#add(int, Object)}
+	 * this method is alternative of {@link #add(int, Object, Type)} call with {@link Type#ARRAY}.
+	 * @param index 
+	 * @param value
+	 * @since 1.4.12
+	 * @author vvakame
+	 */
+	public void add(int index, JsonArray value) {
+		if (value == null) {
+			stateList.add(index, Type.NULL);
+		} else {
+			stateList.add(index, Type.ARRAY);
+		}
+
+		super.add(index, value);
+	}
+
+	/**
+	 * see {@link List#add(int, Object)}
+	 * this method is alternative of {@link #add(int, Object, Type)} call with {@link Type#HASH}.
+	 * @param index 
+	 * @param value
+	 * @since 1.4.12
+	 * @author vvakame
+	 */
+	public void add(int index, JsonHash value) {
+		if (value == null) {
+			stateList.add(index, Type.NULL);
+		} else {
+			stateList.add(index, Type.HASH);
+		}
+
+		super.add(index, value);
 	}
 
 	/**
@@ -326,9 +558,25 @@ public class JsonArray extends ArrayList<Object> {
 	 * @param state
 	 *            The type code of the value (see {@link State})
 	 * @return {@link Collection#add(Object)} reference
+	 * @deprecated {@link State} is confuse the users. replace to {@link Type} in about {@link JsonArray}. since 1.4.12.
 	 */
+	@Deprecated
 	public boolean add(Object obj, State state) {
-		stateList.add(state);
+		stateList.add(Type.from(state));
+		return super.add(obj);
+	}
+
+	/**
+	 * Appends the given object and State to the array.
+	 * 
+	 * @param obj
+	 *            The value to append.
+	 * @param type
+	 *            The type code of the value (see {@link Type})
+	 * @return {@link Collection#add(Object)} reference
+	 */
+	public boolean add(Object obj, Type type) {
+		stateList.add(type);
 		return super.add(obj);
 	}
 
@@ -340,11 +588,190 @@ public class JsonArray extends ArrayList<Object> {
 	 *            The value to append.
 	 * @return {@link Collection#add(Object)} reference
 	 */
-	@Deprecated
 	@Override
 	public boolean add(Object obj) {
-		State state = isState(obj);
-		return add(obj, state);
+		Type type = Type.getType(obj);
+		return add(obj, type);
+	}
+
+	/**
+	 * see {@link List#add(Object)}.
+	 * this method is alternative of {@link #add(Object, Type)} call with {@link Type#STRING}.
+	 * @param value
+	 * @return see {@link List#add(Object)}
+	 * @since 1.4.12
+	 * @author vvakame
+	 */
+	public boolean add(String value) {
+		if (value == null) {
+			stateList.add(Type.NULL);
+		} else {
+			stateList.add(Type.STRING);
+		}
+
+		return super.add(value);
+	}
+
+	/**
+	 * see {@link List#add(Object)}.
+	 * this method is alternative of {@link #add(Object, Type)} call with {@link Type#BOOLEAN}.
+	 * @param value
+	 * @return see {@link List#add(Object)}
+	 * @since 1.4.12
+	 * @author vvakame
+	 */
+	public boolean add(Boolean value) {
+		if (value == null) {
+			stateList.add(Type.NULL);
+		} else {
+			stateList.add(Type.BOOLEAN);
+		}
+
+		return super.add(value);
+	}
+
+	/**
+	 * see {@link List#add(Object)}.
+	 * this method is alternative of {@link #add(Object, Type)} call with {@link Type#DOUBLE}.
+	 * @param value
+	 * @return see {@link List#add(Object)}
+	 * @since 1.4.12
+	 * @author vvakame
+	 */
+	public boolean add(Double value) {
+		if (value == null) {
+			stateList.add(Type.NULL);
+		} else {
+			stateList.add(Type.DOUBLE);
+		}
+
+		return super.add(value);
+	}
+
+	/**
+	 * see {@link List#add(Object)}.
+	 * this method is alternative of {@link #add(Object, Type)} call with {@link Type#DOUBLE}.
+	 * @param value
+	 * @return see {@link List#add(Object)}
+	 * @since 1.4.12
+	 * @author vvakame
+	 */
+	public boolean add(Float value) {
+		if (value == null) {
+			stateList.add(Type.NULL);
+		} else {
+			stateList.add(Type.DOUBLE);
+		}
+
+		return super.add(value);
+	}
+
+	/**
+	 * see {@link List#add(Object)}.
+	 * this method is alternative of {@link #add(Object, Type)} call with {@link Type#LONG}.
+	 * @param value
+	 * @return see {@link List#add(Object)}
+	 * @since 1.4.12
+	 * @author vvakame
+	 */
+	public boolean add(Byte value) {
+		if (value == null) {
+			stateList.add(Type.NULL);
+		} else {
+			stateList.add(Type.LONG);
+		}
+
+		return super.add(value);
+	}
+
+	/**
+	 * see {@link List#add(Object)}.
+	 * this method is alternative of {@link #add(Object, Type)} call with {@link Type#LONG}.
+	 * @param value
+	 * @return see {@link List#add(Object)}
+	 * @since 1.4.12
+	 * @author vvakame
+	 */
+	public boolean add(Short value) {
+		if (value == null) {
+			stateList.add(Type.NULL);
+		} else {
+			stateList.add(Type.LONG);
+		}
+
+		return super.add(value);
+	}
+
+	/**
+	 * see {@link List#add(Object)}.
+	 * this method is alternative of {@link #add(Object, Type)} call with {@link Type#LONG}.
+	 * @param value
+	 * @return see {@link List#add(Object)}
+	 * @since 1.4.12
+	 * @author vvakame
+	 */
+	public boolean add(Integer value) {
+		if (value == null) {
+			stateList.add(Type.NULL);
+		} else {
+			stateList.add(Type.LONG);
+		}
+
+		return super.add(value);
+	}
+
+	/**
+	 * see {@link List#add(Object)}.
+	 * this method is alternative of {@link #add(Object, Type)} call with {@link Type#LONG}.
+	 * @param value
+	 * @return see {@link List#add(Object)}
+	 * @since 1.4.12
+	 * @author vvakame
+	 */
+	public boolean add(Long value) {
+		if (value == null) {
+			stateList.add(Type.NULL);
+		} else {
+			stateList.add(Type.LONG);
+		}
+
+		return super.add(value);
+	}
+
+	/**
+	 * see {@link List#add(Object)}.
+	 * this method is alternative of {@link #add(Object, Type)} call with {@link Type#ARRAY}.
+	 * @param value
+	 * @return see {@link List#add(Object)}
+	 * @since 1.4.12
+	 * @author vvakame
+	 */
+	public boolean add(JsonArray value) {
+		if (value == null) {
+			stateList.add(Type.NULL);
+		} else {
+			stateList.add(Type.ARRAY);
+		}
+
+		return super.add(value);
+	}
+
+	/**
+	 * see {@link List#add(Object)}.
+	 * this method is alternative of {@link #add(Object, Type)} call with {@link Type#HASH}.
+	 * @param value
+	 * @return see {@link List#add(Object)}
+	 * @since 1.4.12
+	 * @author vvakame
+	 */
+	public boolean add(JsonHash value) {
+		if (value == null) {
+			stateList.add(Type.NULL);
+		} else {
+			stateList.add(Type.HASH);
+		}
+
+		return super.add(value);
 	}
 
 	/**
@@ -355,7 +782,6 @@ public class JsonArray extends ArrayList<Object> {
 	 *            The values to append.
 	 * @return {@link Collection#add(Object)} reference
 	 */
-	@Deprecated
 	@Override
 	public boolean addAll(Collection<? extends Object> args) {
 		boolean result = false;
@@ -374,13 +800,16 @@ public class JsonArray extends ArrayList<Object> {
 	 * @param args
 	 *            The values to insert.
 	 */
-	@Deprecated
 	@Override
 	public boolean addAll(int start, Collection<? extends Object> args) {
 		boolean result = false;
 		for (Object obj : args) {
 			result = true;
-			add(start++, obj);
+			try {
+				add(start++, obj);
+			} catch (IllegalArgumentException e) {
+				throw new IllegalArgumentException("index " + start + " is invalid type", e);
+			}
 		}
 		return result;
 	}
@@ -429,14 +858,14 @@ public class JsonArray extends ArrayList<Object> {
 	}
 
 	/**
-	 * unknown
+	 * TODO
 	 * @param index 
 	 * @param obj 
 	 * @param state 
 	 * @return The instance at the given index in the array
 	 */
 	public Object set(int index, Object obj, State state) {
-		stateList.set(index, state);
+		stateList.set(index, Type.from(state));
 		return super.set(index, obj);
 	}
 

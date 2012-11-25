@@ -25,13 +25,27 @@ public class JsonFormatException extends Exception {
 
 	private static final long serialVersionUID = -1877852218539180703L;
 
+	final JsonPullParser parser;
+
 
 	/**
 	 * the constructor.
 	 * @category constructor
 	 */
+	@Deprecated
 	public JsonFormatException() {
 		super();
+		this.parser = null;
+	}
+
+	/**
+	 * the constructor.
+	 * @param parser
+	 * @category constructor
+	 */
+	public JsonFormatException(JsonPullParser parser) {
+		super();
+		this.parser = parser;
 	}
 
 	/**
@@ -41,6 +55,18 @@ public class JsonFormatException extends Exception {
 	 */
 	public JsonFormatException(String msg) {
 		super(msg);
+		this.parser = null;
+	}
+
+	/**
+	 * the constructor.
+	 * @param msg
+	 * @param parser
+	 * @category constructor
+	 */
+	public JsonFormatException(String msg, JsonPullParser parser) {
+		super(msg);
+		this.parser = parser;
 	}
 
 	/**
@@ -48,7 +74,28 @@ public class JsonFormatException extends Exception {
 	 * @param e
 	 * @category constructor
 	 */
+	@Deprecated
 	public JsonFormatException(Throwable e) {
 		super(e);
+		this.parser = null;
+	}
+
+	/**
+	 * the constructor.
+	 * @param e
+	 * @param parser
+	 * @category constructor
+	 */
+	public JsonFormatException(Throwable e, JsonPullParser parser) {
+		super(e);
+		this.parser = parser;
+	}
+
+	/**
+	 * @return the parser
+	 * @category accessor
+	 */
+	public JsonPullParser getParser() {
+		return parser;
 	}
 }

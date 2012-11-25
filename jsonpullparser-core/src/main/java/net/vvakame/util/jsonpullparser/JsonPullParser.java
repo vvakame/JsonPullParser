@@ -338,7 +338,7 @@ public class JsonPullParser {
 						stack.push(State.START_ARRAY);
 						break;
 					default:
-						throw new JsonFormatException("unexpected token. token=" + c);
+						throw new JsonFormatException("unexpected token. token=" + c, this);
 				}
 				break;
 			case START_ARRAY:
@@ -387,7 +387,7 @@ public class JsonPullParser {
 							fetchNextNumeric();
 							break;
 						} catch (NumberFormatException e) {
-							throw new JsonFormatException(e);
+							throw new JsonFormatException(e, this);
 						}
 				}
 				break;
@@ -409,17 +409,17 @@ public class JsonPullParser {
 						valueStr = getNextString();
 						c = getNextChar();
 						if (c != ':') {
-							throw new JsonFormatException("unexpected token. token=" + c);
+							throw new JsonFormatException("unexpected token. token=" + c, this);
 						}
 						break;
 					default:
-						throw new JsonFormatException("unexpected token. token=" + c);
+						throw new JsonFormatException("unexpected token. token=" + c, this);
 				}
 				break;
 
 			case END_ARRAY:
 				if (!State.START_ARRAY.equals(stack.pop())) {
-					throw new JsonFormatException("unexpected token.");
+					throw new JsonFormatException("unexpected token.", this);
 				}
 				switch (c) {
 					case ',':
@@ -433,12 +433,12 @@ public class JsonPullParser {
 						stack.push(State.END_HASH);
 						break;
 					default:
-						throw new JsonFormatException("unexpected token. token=" + c);
+						throw new JsonFormatException("unexpected token. token=" + c, this);
 				}
 				break;
 			case END_HASH:
 				if (!State.START_HASH.equals(stack.pop())) {
-					throw new JsonFormatException("unexpected token.");
+					throw new JsonFormatException("unexpected token.", this);
 				}
 				switch (c) {
 					case ',':
@@ -452,7 +452,7 @@ public class JsonPullParser {
 						stack.push(State.END_HASH);
 						break;
 					default:
-						throw new JsonFormatException("unexpected token. token=" + c);
+						throw new JsonFormatException("unexpected token. token=" + c, this);
 				}
 				break;
 			case KEY:
@@ -497,7 +497,7 @@ public class JsonPullParser {
 							fetchNextNumeric();
 							break;
 						} catch (NumberFormatException e) {
-							throw new JsonFormatException(e);
+							throw new JsonFormatException(e, this);
 						}
 				}
 				break;
@@ -518,11 +518,11 @@ public class JsonPullParser {
 						stack.push(State.END_ARRAY);
 						break;
 					default:
-						throw new JsonFormatException("unexpected token. token=" + c);
+						throw new JsonFormatException("unexpected token. token=" + c, this);
 				}
 				break;
 			default:
-				throw new JsonFormatException("unexpected token.");
+				throw new JsonFormatException("unexpected token.", this);
 		}
 
 		current = stack.peek();
@@ -557,7 +557,7 @@ public class JsonPullParser {
 				slices.add(new JsonSlice(current, valueLong));
 				break;
 			default:
-				throw new JsonFormatException("unknown State=" + current);
+				throw new JsonFormatException("unknown State=" + current, this);
 		}
 	}
 
@@ -800,7 +800,8 @@ public class JsonPullParser {
 	private void expectNextChar(char expect) throws IOException, JsonFormatException {
 		char c = getNextChar();
 		if (c != expect) {
-			throw new JsonFormatException("unexpected char. expected=" + expect + ", char=" + c);
+			throw new JsonFormatException("unexpected char. expected=" + expect + ", char=" + c,
+					this);
 		}
 	}
 

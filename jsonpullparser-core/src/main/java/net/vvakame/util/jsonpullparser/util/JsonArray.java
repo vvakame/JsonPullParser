@@ -67,7 +67,7 @@ public class JsonArray extends ArrayList<Object> {
 		if (state == State.VALUE_NULL) {
 			return null;
 		} else if (state != State.START_ARRAY) {
-			throw new JsonFormatException("unexpected token. token=" + state);
+			throw new JsonFormatException("unexpected token. token=" + state, parser);
 		}
 
 		JsonArray jsonArray = new JsonArray();
@@ -102,7 +102,7 @@ public class JsonArray extends ArrayList<Object> {
 			case START_HASH:
 				return JsonHash.fromParser(parser);
 			default:
-				throw new JsonFormatException("unexpected token. token=" + state);
+				throw new JsonFormatException("unexpected token. token=" + state, parser);
 		}
 	}
 

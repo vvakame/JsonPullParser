@@ -111,9 +111,9 @@ import net.vvakame.util.jsonpullparser.util.JsonSliceUtil;
 		}
 		if (eventType != State.START_ARRAY) {
 			if(eventType == State.START_HASH){
-				throw new JsonFormatException("not started '('!, Do you want the json hash?");
+				throw new JsonFormatException("not started '['!, Do you want the json hash?");
 			} else {
-				throw new JsonFormatException("not started '('!");
+				throw new JsonFormatException("not started '['!");
 			}
 		}
 		while (parser.lookAhead() != State.END_ARRAY) {

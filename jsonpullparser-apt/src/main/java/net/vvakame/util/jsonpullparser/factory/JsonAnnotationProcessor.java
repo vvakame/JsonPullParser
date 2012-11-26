@@ -34,7 +34,7 @@ import static javax.lang.model.util.ElementFilter.*;
 
 /**
  * Annotation processing logic.
- * @see ClassGenerator
+ * @see JsonModelGenerator
  * @author vvakame
  */
 @SupportedSourceVersion(SourceVersion.RELEASE_6)
@@ -64,7 +64,7 @@ public class JsonAnnotationProcessor extends AbstractProcessor {
 	@Override
 	public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {
 
-		ClassGenerator.init(processingEnv);
+		JsonModelGenerator.init(processingEnv);
 
 		Log.d("start process method.");
 
@@ -82,7 +82,7 @@ public class JsonAnnotationProcessor extends AbstractProcessor {
 
 			Log.d("process " + element.toString());
 
-			ClassGenerator generater = ClassGenerator.from(element, postfix);
+			JsonModelGenerator generater = JsonModelGenerator.from(element, postfix);
 			if (generater.isEncountError()) {
 				continue;
 			}

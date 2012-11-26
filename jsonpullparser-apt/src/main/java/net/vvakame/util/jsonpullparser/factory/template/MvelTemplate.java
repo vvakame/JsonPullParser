@@ -57,7 +57,8 @@ public class MvelTemplate {
 
 		Writer writer = fileObject.openWriter();
 		PrintWriter printWriter = new PrintWriter(writer);
-		String generated = (String) TemplateRuntime.eval(getTemplateString("Gen"), map);
+		String generated =
+				(String) TemplateRuntime.eval(getTemplateString("JsonModelGen.java.mvel"), map);
 		printWriter.write(generated);
 		printWriter.flush();
 		printWriter.close();
@@ -76,7 +77,8 @@ public class MvelTemplate {
 
 		Writer writer = fileObject.openWriter();
 		PrintWriter printWriter = new PrintWriter(writer);
-		String generated = (String) TemplateRuntime.eval(getTemplateString("JsonMeta"), map);
+		String generated =
+				(String) TemplateRuntime.eval(getTemplateString("JsonModelMeta.java.mvel"), map);
 		printWriter.write(generated);
 		printWriter.flush();
 		printWriter.close();
@@ -131,41 +133,32 @@ public class MvelTemplate {
 		return map;
 	}
 
-	static Map<String, String> convJsonModelToMap(JsonKeyModel el) {
+	static Map<String, String> convJsonModelToMap(JsonKeyModel key) {
 		Map<String, String> map = new LinkedHashMap<String, String>();
-		map.put("key", el.getKey());
-		map.put("originalName", el.getOriginalName());
-		map.put("modelName", el.getModelName());
-		map.put("genName", el.getGenName());
-		map.put("setter", el.getSetter());
-		map.put("getter", el.getGetter());
-		map.put("kind", el.getKind().name());
-		map.put("converter", el.getConverter());
-		map.put("subKind", el.getSubKind().name());
+		map.put("key", key.getKey());
+		map.put("originalName", key.getOriginalName());
+		map.put("modelName", key.getModelName());
+		map.put("genName", key.getGenName());
+		map.put("setter", key.getSetter());
+		map.put("getter", key.getGetter());
+		map.put("kind", key.getKind().name());
+		map.put("converter", key.getConverter());
+		map.put("subKind", key.getSubKind().name());
 
 		return map;
 	}
 
-	static Map<String, Object> convStoreJsonModelToMap(StoreJsonModel el) {
+	static Map<String, Object> convStoreJsonModelToMap(StoreJsonModel storeJson) {
 		Map<String, Object> map = new LinkedHashMap<String, Object>();
-		map.put("storeJson", el.isStoreJson());
-		map.put("treatLogDisabledAsError", el.isTreatLogDisabledAsError());
-		map.put("setter", el.getSetter());
+		map.put("storeJson", storeJson.isStoreJson());
+		map.put("treatLogDisabledAsError", storeJson.isTreatLogDisabledAsError());
+		map.put("setter", storeJson.getSetter());
 
 		return map;
 	}
 
-	static String getTemplateString(String src) {
-		InputStream stream;
-		if (src.endsWith("JsonMeta")) {
-			stream =
-					MvelTemplate.class.getClassLoader().getResourceAsStream(
-							"JsonModelMeta.java.mvel");
-		} else {
-			stream =
-					MvelTemplate.class.getClassLoader().getResourceAsStream(
-							"JsonModelGen.java.mvel");
-		}
+	static String getTemplateString(String resourceName) {
+		InputStream stream = MvelTemplate.class.getClassLoader().getResourceAsStream(resourceName);
 		try {
 			String template = streamToString(stream);
 			// Log.d(template);

@@ -21,7 +21,6 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 
 import javax.annotation.processing.Filer;
@@ -54,7 +53,7 @@ import static net.vvakame.apt.AptUtil.*;
  * Handles 1 {@link JsonModel} per instance (i.e. cannot be reused.)
  * @author vvakame
  */
-public class ClassGenerator {
+public class JsonModelGenerator {
 
 	static ProcessingEnvironment processingEnv = null;
 
@@ -62,11 +61,11 @@ public class ClassGenerator {
 
 	static Elements elementUtils;
 
-	String postfix;
+	final Element classElement;
 
-	JsonModelModel jsonModel = new JsonModelModel();
+	final String postfix;
 
-	Element classElement;
+	final JsonModelModel jsonModel = new JsonModelModel();
 
 	boolean encountError = false;
 
@@ -86,12 +85,16 @@ public class ClassGenerator {
 	 * Process {@link Element} to generate.
 	 * @param element
 	 * @param classNamePostfix 
-	 * @return {@link ClassGenerator}
+	 * @return {@link JsonModelGenerator}
 	 * @author vvakame
 	 */
-	public static ClassGenerator from(Element element, String classNamePostfix) {
-		ClassGenerator generator = new ClassGenerator(element, classNamePostfix);
-		generator.process();
+	public static JsonModelGenerator from(Element element, String classNamePostfix) {
+		JsonModelGenerator generator = new JsonModelGenerator(element, classNamePostfix);
+
+		generator.processJsonModel();
+		generator.processJsonKeys();
+		generator.processStoreJson();
+
 		return generator;
 	}
 
@@ -101,35 +104,9 @@ public class ClassGenerator {
 	 * @param classNamePostfix 
 	 * @category constructor
 	 */
-	ClassGenerator(Element element, String classNamePostfix) {
+	JsonModelGenerator(Element element, String classNamePostfix) {
 		classElement = element;
 		postfix = classNamePostfix;
-
-		jsonModel.setPackageName(getPackageName(elementUtils, element));
-		jsonModel.setTarget(getSimpleName(element));
-		jsonModel.setTargetNew(getNameForNew(element));
-
-		TypeElement superClass = getSuperClassElement(element);
-		if (superClass.getAnnotation(JsonModel.class) != null) {
-			jsonModel.setTargetBase(getFullQualifiedName(superClass));
-			jsonModel.setExistsBase(true);
-		}
-
-		jsonModel.setPostfix(postfix);
-		jsonModel.setTreatUnknownKeyAsError(getTreatUnknownKeyAsError(element));
-		jsonModel.setGenToPackagePrivate(getGenToPackagePrivate(element));
-		jsonModel.setJsonMetaToPackagePrivate(getJsonMetaToPackagePrivate(element));
-		jsonModel.setBuilder(getBuilder(element));
-	}
-
-	/**
-	 * Keeps the given element.
-	 * @param element
-	 * @author vvakame
-	 */
-	public void addJsonKey(Element element) {
-		JsonKeyModel jsonKey = element.asType().accept(new ValueExtractVisitor(), element);
-		jsonModel.addJsonKey(jsonKey);
 	}
 
 	/**
@@ -154,22 +131,33 @@ public class ClassGenerator {
 		}
 	}
 
-	/**
-	 * Processes annotations.
-	 * @author vvakame
-	 */
-	void process() {
-		// check @JsonModel parameter combination
+	void processJsonModel() {
+		jsonModel.setPackageName(getPackageName(elementUtils, classElement));
+		jsonModel.setTarget(getSimpleName(classElement));
+		jsonModel.setTargetNew(getNameForNew(classElement));
+
+		TypeElement superClass = getSuperClassElement(classElement);
+		if (superClass.getAnnotation(JsonModel.class) != null) {
+			jsonModel.setTargetBase(getFullQualifiedName(superClass));
+			jsonModel.setExistsBase(true);
+		}
+
+		jsonModel.setPostfix(postfix);
+		jsonModel.setTreatUnknownKeyAsError(getTreatUnknownKeyAsError(classElement));
+		jsonModel.setGenToPackagePrivate(getGenToPackagePrivate(classElement));
+		jsonModel.setJsonMetaToPackagePrivate(getJsonMetaToPackagePrivate(classElement));
+		jsonModel.setBuilder(getBuilder(classElement));
+
 		if (jsonModel.isBuilder() == false && jsonModel.isJsonMetaToPackagePrivate() == true) {
 			Log.e("builder parameter or jsonMetaToPackagePrivate parameter change value.",
 					classElement);
 			encountError = true;
 		}
+	}
 
-		List<Element> elements;
-
-		// JsonKeyの収集
-		elements = getEnclosedElementsByAnnotation(classElement, JsonKey.class, ElementKind.FIELD);
+	void processJsonKeys() {
+		List<Element> elements =
+				getEnclosedElementsByAnnotation(classElement, JsonKey.class, ElementKind.FIELD);
 		if (elements.size() == 0) {
 			Log.e("not exists any @JsonKey decorated field.", classElement);
 		}
@@ -185,13 +173,14 @@ public class ClassGenerator {
 		};
 		Collections.sort(elements, comparator);
 
-		// JsonKeyに対応する値取得コードを生成する
 		for (Element element : elements) {
-			addJsonKey(element);
+			JsonKeyModel jsonKey = element.asType().accept(new ValueExtractVisitor(), element);
+			jsonModel.addJsonKey(jsonKey);
 		}
+	}
 
-		// StoreJsonの収集
-		elements =
+	void processStoreJson() {
+		List<Element> elements =
 				getEnclosedElementsByAnnotation(classElement, StoreJson.class, ElementKind.FIELD);
 		if (elements.size() == 0) {
 			return;
@@ -201,12 +190,11 @@ public class ClassGenerator {
 			return;
 		}
 
-		// StoreJsonに対応する値取得コードを生成する
 		Element element = elements.get(0);
-		StoreJson store = element.getAnnotation(StoreJson.class);
+		StoreJson annotation = element.getAnnotation(StoreJson.class);
 		StoreJsonModel storeJson = jsonModel.getStoreJson();
 		storeJson.setStoreJson(true);
-		storeJson.setTreatLogDisabledAsError(store.treatLogDisabledAsError());
+		storeJson.setTreatLogDisabledAsError(annotation.treatLogDisabledAsError());
 
 		String setter = getElementSetter(element);
 		if (setter == null) {
@@ -217,37 +205,48 @@ public class ClassGenerator {
 		storeJson.setSetter(setter);
 	}
 
+	/**
+	 * Get JSON key string.
+	 * @param element
+	 * @return JSON key string
+	 * @author vvakame
+	 */
 	String getElementKeyString(Element element) {
 		JsonKey key = element.getAnnotation(JsonKey.class);
 		JsonModel model = element.getEnclosingElement().getAnnotation(JsonModel.class);
-		String keyStr;
 		if (!"".equals(key.value())) {
-			keyStr = key.value();
+			return key.value();
 		} else if ("".equals(key.value()) && key.decamelize()) {
-			keyStr = decamelize(element.toString());
+			return decamelize(element.toString());
 		} else if ("".equals(key.value()) && model.decamelize()) {
-			keyStr = decamelize(element.toString());
+			return decamelize(element.toString());
 		} else {
-			keyStr = element.toString();
+			return element.toString();
 		}
-		return keyStr;
 	}
 
+	/**
+	 * Decamelize string.<br>
+	 * example, "fooBar" to "foo_bar".
+	 * @param str
+	 * @return decamelized string
+	 * @author vvakame
+	 */
 	String decamelize(String str) {
 		StringBuilder builder = new StringBuilder();
 		int len = str.length();
 		for (int i = 0; i < len; i++) {
 			char c = str.charAt(i);
 			if ('A' <= c && c <= 'Z') {
-				builder.append('_').append(c);
+				builder.append('_').append(Character.toLowerCase(c));
 			} else {
 				builder.append(c);
 			}
 		}
-		return builder.toString().toLowerCase(Locale.ENGLISH);
+		return builder.toString();
 	}
 
-	String getConverterClassName(Element el) {
+	String getTokenConverterClassName(Element el) {
 
 		AnnotationValue converter = null;
 
@@ -276,35 +275,35 @@ public class ClassGenerator {
 	}
 
 	boolean getTreatUnknownKeyAsError(Element element) {
-		JsonModel model = element.getAnnotation(JsonModel.class);
-		if (model == null) {
+		JsonModel annotation = element.getAnnotation(JsonModel.class);
+		if (annotation == null) {
 			throw new IllegalArgumentException();
 		}
-		return model.treatUnknownKeyAsError();
+		return annotation.treatUnknownKeyAsError();
 	}
 
 	boolean getGenToPackagePrivate(Element element) {
-		JsonModel model = element.getAnnotation(JsonModel.class);
-		if (model == null) {
+		JsonModel annotation = element.getAnnotation(JsonModel.class);
+		if (annotation == null) {
 			throw new IllegalArgumentException();
 		}
-		return model.genToPackagePrivate();
+		return annotation.genToPackagePrivate();
 	}
 
 	boolean getJsonMetaToPackagePrivate(Element element) {
-		JsonModel model = element.getAnnotation(JsonModel.class);
-		if (model == null) {
+		JsonModel annotation = element.getAnnotation(JsonModel.class);
+		if (annotation == null) {
 			throw new IllegalArgumentException();
 		}
-		return model.jsonMetaToPackagePrivate();
+		return annotation.jsonMetaToPackagePrivate();
 	}
 
 	boolean getBuilder(Element element) {
-		JsonModel model = element.getAnnotation(JsonModel.class);
-		if (model == null) {
+		JsonModel annotation = element.getAnnotation(JsonModel.class);
+		if (annotation == null) {
 			throw new IllegalArgumentException();
 		}
-		return model.builder();
+		return annotation.builder();
 	}
 
 
@@ -330,23 +329,23 @@ public class ClassGenerator {
 			jsonKey.setKey(getElementKeyString(el));
 			jsonKey.setOriginalName(el.toString());
 
-			JsonKey key = el.getAnnotation(JsonKey.class);
+			JsonKey annotation = el.getAnnotation(JsonKey.class);
 
 			String setter = getElementSetter(el);
-			if (key.in() && setter == null) {
+			if (annotation.in() && setter == null) {
 				Log.e("can't find setter method", el);
 				encountError = true;
 				return defaultAction(t, el);
 			}
 
 			String getter = getElementGetter(el);
-			if (key.out() && getter == null) {
+			if (annotation.out() && getter == null) {
 				Log.e("can't find getter method", el);
 				encountError = true;
 				return defaultAction(t, el);
 			}
 
-			String converterClassName = getConverterClassName(el);
+			String converterClassName = getTokenConverterClassName(el);
 			if (converterClassName != null) {
 				TypeElement element =
 						processingEnv.getElementUtils().getTypeElement(converterClassName);
@@ -358,9 +357,9 @@ public class ClassGenerator {
 				kind = Kind.CONVERTER;
 			}
 
-			jsonKey.setIn(key.in());
+			jsonKey.setIn(annotation.in());
 			jsonKey.setSetter(setter);
-			jsonKey.setOut(key.out());
+			jsonKey.setOut(annotation.out());
 			jsonKey.setGetter(getter);
 			jsonKey.setModelName(t.toString());
 			if (kind == Kind.MODEL) {
@@ -423,11 +422,9 @@ public class ClassGenerator {
 		@Override
 		public JsonKeyModel visitList(DeclaredType t, Element el) {
 
-			JsonKeyModel jsonKey;
-
-			String converterClassName = getConverterClassName(el);
+			String converterClassName = getTokenConverterClassName(el);
 			if (converterClassName != null) {
-				jsonKey = genJsonElement(t, el, Kind.CONVERTER);
+				return genJsonElement(t, el, Kind.CONVERTER);
 
 			} else {
 
@@ -452,7 +449,7 @@ public class ClassGenerator {
 					}
 				}
 
-				jsonKey = new JsonKeyModel();
+				JsonKeyModel jsonKey = new JsonKeyModel();
 
 				Element type = processingEnv.getTypeUtils().asElement(tm);
 				JsonModel jsonModel = type.getAnnotation(JsonModel.class);
@@ -477,25 +474,25 @@ public class ClassGenerator {
 				jsonKey.setKey(getElementKeyString(el));
 				jsonKey.setOriginalName(el.toString());
 
-				JsonKey key = el.getAnnotation(JsonKey.class);
+				JsonKey annotation = el.getAnnotation(JsonKey.class);
 
 				String setter = getElementSetter(el);
-				if (key.in() && setter == null) {
+				if (annotation.in() && setter == null) {
 					Log.e("can't find setter method", el);
 					encountError = true;
 					return defaultAction(t, el);
 				}
 
 				String getter = getElementGetter(el);
-				if (key.out() && getter == null) {
+				if (annotation.out() && getter == null) {
 					Log.e("can't find getter method", el);
 					encountError = true;
 					return defaultAction(t, el);
 				}
 
-				jsonKey.setIn(key.in());
+				jsonKey.setIn(annotation.in());
 				jsonKey.setSetter(setter);
-				jsonKey.setOut(key.out());
+				jsonKey.setOut(annotation.out());
 				jsonKey.setGetter(getter);
 				jsonKey.setModelName(tm.toString());
 
@@ -503,9 +500,9 @@ public class ClassGenerator {
 
 				jsonKey.setGenName(packageName + "." + getSimpleName(type.asType()));
 				jsonKey.setKind(Kind.LIST);
-			}
 
-			return jsonKey;
+				return jsonKey;
+			}
 		}
 
 		@Override
@@ -588,7 +585,7 @@ public class ClassGenerator {
 			TypeMirror tm = t.asElement().asType();
 			Element type = processingEnv.getTypeUtils().asElement(tm);
 			JsonModel jsonModel = type.getAnnotation(JsonModel.class);
-			String converterClassName = getConverterClassName(el);
+			String converterClassName = getTokenConverterClassName(el);
 			if (jsonModel == null && converterClassName == null) {
 				Log.e("expect for use decorated class by JsonModel annotation.", el);
 				encountError = true;

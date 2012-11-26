@@ -41,7 +41,6 @@ import javax.lang.model.util.Elements;
 import javax.lang.model.util.Types;
 import javax.tools.JavaFileObject;
 
-import net.vvakame.apt.AptUtil;
 import net.vvakame.util.jsonpullparser.annotation.JsonKey;
 import net.vvakame.util.jsonpullparser.annotation.JsonModel;
 import net.vvakame.util.jsonpullparser.annotation.StoreJson;
@@ -55,7 +54,7 @@ import static net.vvakame.apt.AptUtil.*;
  * Handles 1 {@link JsonModel} per instance (i.e. cannot be reused.)
  * @author vvakame
  */
-public class ClassGenerateHelper {
+public class ClassGenerator {
 
 	static ProcessingEnvironment processingEnv = null;
 
@@ -63,9 +62,9 @@ public class ClassGenerateHelper {
 
 	static Elements elementUtils;
 
-	static String postfix = "";
+	String postfix;
 
-	JsonModelModel g = new JsonModelModel();
+	JsonModelModel jsonModel = new JsonModelModel();
 
 	Element classElement;
 
@@ -84,39 +83,43 @@ public class ClassGenerateHelper {
 	}
 
 	/**
-	 * Generates new instance.
+	 * Process {@link Element} to generate.
 	 * @param element
-	 * @return {@link ClassGenerateHelper}
+	 * @param classNamePostfix 
+	 * @return {@link ClassGenerator}
 	 * @author vvakame
 	 */
-	public static ClassGenerateHelper newInstance(Element element) {
-		return new ClassGenerateHelper(element);
+	public static ClassGenerator from(Element element, String classNamePostfix) {
+		ClassGenerator generator = new ClassGenerator(element, classNamePostfix);
+		generator.process();
+		return generator;
 	}
 
 	/**
 	 * the constructor.
 	 * @param element
+	 * @param classNamePostfix 
 	 * @category constructor
 	 */
-	public ClassGenerateHelper(Element element) {
+	ClassGenerator(Element element, String classNamePostfix) {
 		classElement = element;
+		postfix = classNamePostfix;
 
-		Elements elementUtils = processingEnv.getElementUtils();
-		g.setPackageName(getPackageName(elementUtils, element));
-		g.setTarget(getSimpleName(element));
-		g.setTargetNew(getNameForNew(element));
+		jsonModel.setPackageName(getPackageName(elementUtils, element));
+		jsonModel.setTarget(getSimpleName(element));
+		jsonModel.setTargetNew(getNameForNew(element));
 
-		TypeElement superclass = AptUtil.getSuperClassElement(element);
-		if (superclass.getAnnotation(JsonModel.class) != null) {
-			g.setTargetBase(AptUtil.getFullQualifiedName(superclass));
-			g.setExistsBase(true);
+		TypeElement superClass = getSuperClassElement(element);
+		if (superClass.getAnnotation(JsonModel.class) != null) {
+			jsonModel.setTargetBase(getFullQualifiedName(superClass));
+			jsonModel.setExistsBase(true);
 		}
 
-		g.setPostfix(postfix);
-		g.setTreatUnknownKeyAsError(getTreatUnknownKeyAsError(element));
-		g.setGenToPackagePrivate(getGenToPackagePrivate(element));
-		g.setJsonMetaToPackagePrivate(getJsonMetaToPackagePrivate(element));
-		g.setBuilder(getBuilder(element));
+		jsonModel.setPostfix(postfix);
+		jsonModel.setTreatUnknownKeyAsError(getTreatUnknownKeyAsError(element));
+		jsonModel.setGenToPackagePrivate(getGenToPackagePrivate(element));
+		jsonModel.setJsonMetaToPackagePrivate(getJsonMetaToPackagePrivate(element));
+		jsonModel.setBuilder(getBuilder(element));
 	}
 
 	/**
@@ -124,9 +127,9 @@ public class ClassGenerateHelper {
 	 * @param element
 	 * @author vvakame
 	 */
-	public void addElement(Element element) {
-		JsonKeyModel jsonElement = element.asType().accept(new ValueExtractVisitor(), element);
-		g.addJsonElement(jsonElement);
+	public void addJsonKey(Element element) {
+		JsonKeyModel jsonKey = element.asType().accept(new ValueExtractVisitor(), element);
+		jsonModel.addJsonKey(jsonKey);
 	}
 
 	/**
@@ -137,26 +140,27 @@ public class ClassGenerateHelper {
 	public void write() throws IOException {
 		{
 			Filer filer = processingEnv.getFiler();
-			String generateClassName = g.getPackageName() + "." + g.getTarget() + postfix;
+			String generateClassName =
+					jsonModel.getPackageName() + "." + jsonModel.getTarget() + postfix;
 			JavaFileObject fileObject = filer.createSourceFile(generateClassName, classElement);
-			Template.writeGen(fileObject, g);
+			Template.writeGen(fileObject, jsonModel);
 		}
-		if (g.isBuilder()) {
+		if (jsonModel.isBuilder()) {
 			Filer filer = processingEnv.getFiler();
-			String generateClassName = g.getPackageName() + "." + g.getTarget() + "JsonMeta";
+			String generateClassName =
+					jsonModel.getPackageName() + "." + jsonModel.getTarget() + "JsonMeta";
 			JavaFileObject fileObject = filer.createSourceFile(generateClassName, classElement);
-			Template.writeJsonMeta(fileObject, g);
+			Template.writeJsonMeta(fileObject, jsonModel);
 		}
 	}
 
 	/**
 	 * Processes annotations.
 	 * @author vvakame
-	 * @param <T>
 	 */
-	public <T>void process() {
+	void process() {
 		// check @JsonModel parameter combination
-		if (g.isBuilder() == false && g.isJsonMetaToPackagePrivate() == true) {
+		if (jsonModel.isBuilder() == false && jsonModel.isJsonMetaToPackagePrivate() == true) {
 			Log.e("builder parameter or jsonMetaToPackagePrivate parameter change value.",
 					classElement);
 			encountError = true;
@@ -183,7 +187,7 @@ public class ClassGenerateHelper {
 
 		// JsonKeyに対応する値取得コードを生成する
 		for (Element element : elements) {
-			addElement(element);
+			addJsonKey(element);
 		}
 
 		// StoreJsonの収集
@@ -199,10 +203,10 @@ public class ClassGenerateHelper {
 
 		// StoreJsonに対応する値取得コードを生成する
 		Element element = elements.get(0);
-		StoreJson save = element.getAnnotation(StoreJson.class);
-		StoreJsonModel saveEl = g.getStoreElement();
-		saveEl.setStoreJson(true);
-		saveEl.setTreatLogDisabledAsError(save.treatLogDisabledAsError());
+		StoreJson store = element.getAnnotation(StoreJson.class);
+		StoreJsonModel storeJson = jsonModel.getStoreJson();
+		storeJson.setStoreJson(true);
+		storeJson.setTreatLogDisabledAsError(store.treatLogDisabledAsError());
 
 		String setter = getElementSetter(element);
 		if (setter == null) {
@@ -210,7 +214,7 @@ public class ClassGenerateHelper {
 			encountError = true;
 			return;
 		}
-		saveEl.setSetter(setter);
+		storeJson.setSetter(setter);
 	}
 
 	String getElementKeyString(Element element) {
@@ -322,9 +326,9 @@ public class ClassGenerateHelper {
 				}
 			}
 
-			JsonKeyModel jsonElement = new JsonKeyModel();
-			jsonElement.setKey(getElementKeyString(el));
-			jsonElement.setOriginalName(el.toString());
+			JsonKeyModel jsonKey = new JsonKeyModel();
+			jsonKey.setKey(getElementKeyString(el));
+			jsonKey.setOriginalName(el.toString());
 
 			JsonKey key = el.getAnnotation(JsonKey.class);
 
@@ -354,21 +358,21 @@ public class ClassGenerateHelper {
 				kind = Kind.CONVERTER;
 			}
 
-			jsonElement.setIn(key.in());
-			jsonElement.setSetter(setter);
-			jsonElement.setOut(key.out());
-			jsonElement.setGetter(getter);
-			jsonElement.setModelName(t.toString());
+			jsonKey.setIn(key.in());
+			jsonKey.setSetter(setter);
+			jsonKey.setOut(key.out());
+			jsonKey.setGetter(getter);
+			jsonKey.setModelName(t.toString());
 			if (kind == Kind.MODEL) {
-				String packageName = AptUtil.getPackageName(elementUtils, typeUtils, el.asType());
-				jsonElement.setGenName(packageName + "." + getSimpleName(el.asType()));
+				String packageName = getPackageName(elementUtils, typeUtils, el.asType());
+				jsonKey.setGenName(packageName + "." + getSimpleName(el.asType()));
 			} else {
-				jsonElement.setGenName(t.toString());
+				jsonKey.setGenName(t.toString());
 			}
-			jsonElement.setKind(kind);
-			jsonElement.setConverter(converterClassName);
+			jsonKey.setKind(kind);
+			jsonKey.setConverter(converterClassName);
 
-			return jsonElement;
+			return jsonKey;
 		}
 
 		@Override
@@ -419,11 +423,11 @@ public class ClassGenerateHelper {
 		@Override
 		public JsonKeyModel visitList(DeclaredType t, Element el) {
 
-			JsonKeyModel jsonElement;
+			JsonKeyModel jsonKey;
 
 			String converterClassName = getConverterClassName(el);
 			if (converterClassName != null) {
-				jsonElement = genJsonElement(t, el, Kind.CONVERTER);
+				jsonKey = genJsonElement(t, el, Kind.CONVERTER);
 
 			} else {
 
@@ -448,30 +452,30 @@ public class ClassGenerateHelper {
 					}
 				}
 
-				jsonElement = new JsonKeyModel();
+				jsonKey = new JsonKeyModel();
 
 				Element type = processingEnv.getTypeUtils().asElement(tm);
-				JsonModel hash = type.getAnnotation(JsonModel.class);
-				if (hash != null) {
+				JsonModel jsonModel = type.getAnnotation(JsonModel.class);
+				if (jsonModel != null) {
 					// OK
-					jsonElement.setSubKind(Kind.MODEL); // FQNではModelとEnumの区別がつかない
-				} else if (AptUtil.isPrimitiveWrapper(type)) {
+					jsonKey.setSubKind(Kind.MODEL); // FQNではModelとEnumの区別がつかない
+				} else if (isPrimitiveWrapper(type)) {
 					// OK
 				} else if (type.toString().equals(Date.class.getCanonicalName())) {
 					// OK
 				} else if (type.toString().equals(String.class.getCanonicalName())) {
 					// OK
-				} else if (AptUtil.isEnum(type)) {
+				} else if (isEnum(type)) {
 					// OK
-					jsonElement.setSubKind(Kind.ENUM);
+					jsonKey.setSubKind(Kind.ENUM);
 				} else {
 					Log.e("expect for use decorated class by JsonModel annotation.", el);
 					encountError = true;
 					return defaultAction(t, el);
 				}
 
-				jsonElement.setKey(getElementKeyString(el));
-				jsonElement.setOriginalName(el.toString());
+				jsonKey.setKey(getElementKeyString(el));
+				jsonKey.setOriginalName(el.toString());
 
 				JsonKey key = el.getAnnotation(JsonKey.class);
 
@@ -489,19 +493,19 @@ public class ClassGenerateHelper {
 					return defaultAction(t, el);
 				}
 
-				jsonElement.setIn(key.in());
-				jsonElement.setSetter(setter);
-				jsonElement.setOut(key.out());
-				jsonElement.setGetter(getter);
-				jsonElement.setModelName(tm.toString());
+				jsonKey.setIn(key.in());
+				jsonKey.setSetter(setter);
+				jsonKey.setOut(key.out());
+				jsonKey.setGetter(getter);
+				jsonKey.setModelName(tm.toString());
 
-				String packageName = AptUtil.getPackageName(elementUtils, typeUtils, tm);
+				String packageName = getPackageName(elementUtils, typeUtils, tm);
 
-				jsonElement.setGenName(packageName + "." + getSimpleName(type.asType()));
-				jsonElement.setKind(Kind.LIST);
+				jsonKey.setGenName(packageName + "." + getSimpleName(type.asType()));
+				jsonKey.setKind(Kind.LIST);
 			}
 
-			return jsonElement;
+			return jsonKey;
 		}
 
 		@Override
@@ -512,10 +516,10 @@ public class ClassGenerateHelper {
 		@Override
 		public JsonKeyModel visitEnum(DeclaredType t, Element el) {
 			Types typeUtils = processingEnv.getTypeUtils();
-			if (AptUtil.isInternalType(typeUtils, el.asType())) {
+			if (isInternalType(typeUtils, el.asType())) {
 				// InternalなEnum
-				TypeElement typeElement = AptUtil.getTypeElement(typeUtils, el);
-				if (AptUtil.isPublic(typeElement)) {
+				TypeElement typeElement = getTypeElement(typeUtils, el);
+				if (isPublic(typeElement)) {
 					return genJsonElement(t, el, Kind.ENUM);
 				} else {
 					Log.e("Internal EnumType must use public & static.", el);
@@ -583,9 +587,9 @@ public class ClassGenerateHelper {
 
 			TypeMirror tm = t.asElement().asType();
 			Element type = processingEnv.getTypeUtils().asElement(tm);
-			JsonModel model = type.getAnnotation(JsonModel.class);
+			JsonModel jsonModel = type.getAnnotation(JsonModel.class);
 			String converterClassName = getConverterClassName(el);
-			if (model == null && converterClassName == null) {
+			if (jsonModel == null && converterClassName == null) {
 				Log.e("expect for use decorated class by JsonModel annotation.", el);
 				encountError = true;
 				return defaultAction(t, el);
@@ -595,14 +599,6 @@ public class ClassGenerateHelper {
 		}
 	}
 
-
-	/**
-	 * @param postfix
-	 *            the postfix to set
-	 */
-	public static void setPostfix(String postfix) {
-		ClassGenerateHelper.postfix = postfix;
-	}
 
 	/**
 	 * @return the encountError

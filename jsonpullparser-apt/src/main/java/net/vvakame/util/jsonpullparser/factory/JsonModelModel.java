@@ -39,7 +39,7 @@ public class JsonModelModel {
 
 	String targetNew = "Invalid";
 
-	List<JsonKeyModel> elements = new ArrayList<JsonKeyModel>();
+	List<JsonKeyModel> keys = new ArrayList<JsonKeyModel>();
 
 	boolean treatUnknownKeyAsError;
 
@@ -49,19 +49,19 @@ public class JsonModelModel {
 
 	boolean builder;
 
-	StoreJsonModel storeElement = new StoreJsonModel();
+	StoreJsonModel storeJson = new StoreJsonModel();
 
 
 	/**
 	 * Keeps the given element.
-	 * @param jsonElement
+	 * @param jsonKey
 	 * @author vvakame
 	 */
-	public void addJsonElement(JsonKeyModel jsonElement) {
-		if (jsonElement == null) {
+	public void addJsonKey(JsonKeyModel jsonKey) {
+		if (jsonKey == null) {
 			return;
 		}
-		elements.add(jsonElement);
+		keys.add(jsonKey);
 	}
 
 	/**
@@ -161,19 +161,19 @@ public class JsonModelModel {
 	}
 
 	/**
-	 * @return the elements
+	 * @return the keys
 	 * @category accessor
 	 */
-	public List<JsonKeyModel> getElements() {
-		return elements;
+	public List<JsonKeyModel> getKeys() {
+		return keys;
 	}
 
 	/**
-	 * @param elements the elements to set
+	 * @param keys the keys to set
 	 * @category accessor
 	 */
-	public void setElements(List<JsonKeyModel> elements) {
-		this.elements = elements;
+	public void setKeys(List<JsonKeyModel> keys) {
+		this.keys = keys;
 	}
 
 	/**
@@ -244,15 +244,15 @@ public class JsonModelModel {
 	 * @return the storeElement
 	 * @category accessor
 	 */
-	public StoreJsonModel getStoreElement() {
-		return storeElement;
+	public StoreJsonModel getStoreJson() {
+		return storeJson;
 	}
 
 	/**
 	 * @param storeElement the storeElement to set
 	 * @category accessor
 	 */
-	public void setStoreElement(StoreJsonModel storeElement) {
-		this.storeElement = storeElement;
+	public void setStoreJson(StoreJsonModel storeElement) {
+		this.storeJson = storeElement;
 	}
 }

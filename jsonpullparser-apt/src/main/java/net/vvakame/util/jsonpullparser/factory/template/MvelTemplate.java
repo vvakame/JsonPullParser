@@ -29,10 +29,10 @@ import java.util.Map;
 
 import javax.tools.JavaFileObject;
 
-import net.vvakame.util.jsonpullparser.factory.GeneratingModel;
-import net.vvakame.util.jsonpullparser.factory.JsonElement;
+import net.vvakame.util.jsonpullparser.factory.JsonModelModel;
+import net.vvakame.util.jsonpullparser.factory.JsonKeyModel;
 import net.vvakame.util.jsonpullparser.factory.Log;
-import net.vvakame.util.jsonpullparser.factory.StoreJsonElement;
+import net.vvakame.util.jsonpullparser.factory.StoreJsonModel;
 
 import org.mvel2.templates.TemplateRuntime;
 
@@ -52,7 +52,7 @@ public class MvelTemplate {
 	 * @throws IOException
 	 * @author vvakame
 	 */
-	public static void writeGen(JavaFileObject fileObject, GeneratingModel model)
+	public static void writeGen(JavaFileObject fileObject, JsonModelModel model)
 			throws IOException {
 		Map<String, Object> map = convModelToMap(model);
 
@@ -71,7 +71,7 @@ public class MvelTemplate {
 	 * @throws IOException
 	 * @author vvakame
 	 */
-	public static void writeJsonMeta(JavaFileObject fileObject, GeneratingModel model)
+	public static void writeJsonMeta(JavaFileObject fileObject, JsonModelModel model)
 			throws IOException {
 		Map<String, Object> map = convModelToMap(model);
 
@@ -83,7 +83,7 @@ public class MvelTemplate {
 		printWriter.close();
 	}
 
-	static Map<String, Object> convModelToMap(GeneratingModel model) {
+	static Map<String, Object> convModelToMap(JsonModelModel model) {
 		Map<String, Object> map = new LinkedHashMap<String, Object>();
 		map.put("packageName", model.getPackageName());
 		map.put("postfix", model.getPostfix());
@@ -93,7 +93,7 @@ public class MvelTemplate {
 		map.put("targetNew", model.getTargetNew());
 		{
 			List<Map<String, String>> jsonElements = new ArrayList<Map<String, String>>();
-			for (JsonElement jsonElement : model.getElements()) {
+			for (JsonKeyModel jsonElement : model.getElements()) {
 				if (!jsonElement.isIn()) {
 					continue;
 				}
@@ -104,7 +104,7 @@ public class MvelTemplate {
 		}
 		{
 			List<Map<String, String>> jsonElements = new ArrayList<Map<String, String>>();
-			for (JsonElement jsonElement : model.getElements()) {
+			for (JsonKeyModel jsonElement : model.getElements()) {
 				if (!jsonElement.isOut()) {
 					continue;
 				}
@@ -115,7 +115,7 @@ public class MvelTemplate {
 		}
 		{
 			List<Map<String, String>> jsonElements = new ArrayList<Map<String, String>>();
-			for (JsonElement jsonElement : model.getElements()) {
+			for (JsonKeyModel jsonElement : model.getElements()) {
 				Map<String, String> toMap = convJsonElementToMap(jsonElement);
 				jsonElements.add(toMap);
 			}
@@ -132,7 +132,7 @@ public class MvelTemplate {
 		return map;
 	}
 
-	static Map<String, String> convJsonElementToMap(JsonElement el) {
+	static Map<String, String> convJsonElementToMap(JsonKeyModel el) {
 		Map<String, String> map = new LinkedHashMap<String, String>();
 		map.put("key", el.getKey());
 		map.put("originalName", el.getOriginalName());
@@ -147,7 +147,7 @@ public class MvelTemplate {
 		return map;
 	}
 
-	static Map<String, Object> convStoreJsonElementToMap(StoreJsonElement el) {
+	static Map<String, Object> convStoreJsonElementToMap(StoreJsonModel el) {
 		Map<String, Object> map = new LinkedHashMap<String, Object>();
 		map.put("storeJson", el.isStoreJson());
 		map.put("treatLogDisabledAsError", el.isTreatLogDisabledAsError());

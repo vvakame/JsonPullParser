@@ -45,7 +45,7 @@ import net.vvakame.apt.AptUtil;
 import net.vvakame.util.jsonpullparser.annotation.JsonKey;
 import net.vvakame.util.jsonpullparser.annotation.JsonModel;
 import net.vvakame.util.jsonpullparser.annotation.StoreJson;
-import net.vvakame.util.jsonpullparser.factory.JsonElement.Kind;
+import net.vvakame.util.jsonpullparser.factory.JsonKeyModel.Kind;
 import net.vvakame.util.jsonpullparser.factory.template.Template;
 import net.vvakame.util.jsonpullparser.util.TokenConverter;
 import static net.vvakame.apt.AptUtil.*;
@@ -65,7 +65,7 @@ public class ClassGenerateHelper {
 
 	static String postfix = "";
 
-	GeneratingModel g = new GeneratingModel();
+	JsonModelModel g = new JsonModelModel();
 
 	Element classElement;
 
@@ -125,7 +125,7 @@ public class ClassGenerateHelper {
 	 * @author vvakame
 	 */
 	public void addElement(Element element) {
-		JsonElement jsonElement = element.asType().accept(new ValueExtractVisitor(), element);
+		JsonKeyModel jsonElement = element.asType().accept(new ValueExtractVisitor(), element);
 		g.addJsonElement(jsonElement);
 	}
 
@@ -200,7 +200,7 @@ public class ClassGenerateHelper {
 		// StoreJsonに対応する値取得コードを生成する
 		Element element = elements.get(0);
 		StoreJson save = element.getAnnotation(StoreJson.class);
-		StoreJsonElement saveEl = g.getStoreElement();
+		StoreJsonModel saveEl = g.getStoreElement();
 		saveEl.setStoreJson(true);
 		saveEl.setTreatLogDisabledAsError(save.treatLogDisabledAsError());
 
@@ -304,9 +304,9 @@ public class ClassGenerateHelper {
 	}
 
 
-	class ValueExtractVisitor extends StandardTypeKindVisitor<JsonElement, Element> {
+	class ValueExtractVisitor extends StandardTypeKindVisitor<JsonKeyModel, Element> {
 
-		JsonElement genJsonElement(TypeMirror t, Element el, Kind kind) {
+		JsonKeyModel genJsonElement(TypeMirror t, Element el, Kind kind) {
 			if (kind == null) {
 				Log.e("invalid state. this is APT bugs.");
 				encountError = true;
@@ -322,7 +322,7 @@ public class ClassGenerateHelper {
 				}
 			}
 
-			JsonElement jsonElement = new JsonElement();
+			JsonKeyModel jsonElement = new JsonKeyModel();
 			jsonElement.setKey(getElementKeyString(el));
 			jsonElement.setOriginalName(el.toString());
 
@@ -372,54 +372,54 @@ public class ClassGenerateHelper {
 		}
 
 		@Override
-		public JsonElement visitPrimitiveAsBoolean(PrimitiveType t, Element el) {
+		public JsonKeyModel visitPrimitiveAsBoolean(PrimitiveType t, Element el) {
 			return genJsonElement(t, el, Kind.BOOLEAN);
 		}
 
 		@Override
-		public JsonElement visitPrimitiveAsByte(PrimitiveType t, Element el) {
+		public JsonKeyModel visitPrimitiveAsByte(PrimitiveType t, Element el) {
 			return genJsonElement(t, el, Kind.BYTE);
 		}
 
 		@Override
-		public JsonElement visitPrimitiveAsChar(PrimitiveType t, Element el) {
+		public JsonKeyModel visitPrimitiveAsChar(PrimitiveType t, Element el) {
 			return genJsonElement(t, el, Kind.CHAR);
 		}
 
 		@Override
-		public JsonElement visitPrimitiveAsDouble(PrimitiveType t, Element el) {
+		public JsonKeyModel visitPrimitiveAsDouble(PrimitiveType t, Element el) {
 			return genJsonElement(t, el, Kind.DOUBLE);
 		}
 
 		@Override
-		public JsonElement visitPrimitiveAsFloat(PrimitiveType t, Element el) {
+		public JsonKeyModel visitPrimitiveAsFloat(PrimitiveType t, Element el) {
 			return genJsonElement(t, el, Kind.FLOAT);
 		}
 
 		@Override
-		public JsonElement visitPrimitiveAsInt(PrimitiveType t, Element el) {
+		public JsonKeyModel visitPrimitiveAsInt(PrimitiveType t, Element el) {
 			return genJsonElement(t, el, Kind.INT);
 		}
 
 		@Override
-		public JsonElement visitPrimitiveAsLong(PrimitiveType t, Element el) {
+		public JsonKeyModel visitPrimitiveAsLong(PrimitiveType t, Element el) {
 			return genJsonElement(t, el, Kind.LONG);
 		}
 
 		@Override
-		public JsonElement visitPrimitiveAsShort(PrimitiveType t, Element el) {
+		public JsonKeyModel visitPrimitiveAsShort(PrimitiveType t, Element el) {
 			return genJsonElement(t, el, Kind.SHORT);
 		}
 
 		@Override
-		public JsonElement visitString(DeclaredType t, Element el) {
+		public JsonKeyModel visitString(DeclaredType t, Element el) {
 			return genJsonElement(t, el, Kind.STRING);
 		}
 
 		@Override
-		public JsonElement visitList(DeclaredType t, Element el) {
+		public JsonKeyModel visitList(DeclaredType t, Element el) {
 
-			JsonElement jsonElement;
+			JsonKeyModel jsonElement;
 
 			String converterClassName = getConverterClassName(el);
 			if (converterClassName != null) {
@@ -448,7 +448,7 @@ public class ClassGenerateHelper {
 					}
 				}
 
-				jsonElement = new JsonElement();
+				jsonElement = new JsonKeyModel();
 
 				Element type = processingEnv.getTypeUtils().asElement(tm);
 				JsonModel hash = type.getAnnotation(JsonModel.class);
@@ -505,12 +505,12 @@ public class ClassGenerateHelper {
 		}
 
 		@Override
-		public JsonElement visitDate(DeclaredType t, Element el) {
+		public JsonKeyModel visitDate(DeclaredType t, Element el) {
 			return genJsonElement(t, el, Kind.DATE);
 		}
 
 		@Override
-		public JsonElement visitEnum(DeclaredType t, Element el) {
+		public JsonKeyModel visitEnum(DeclaredType t, Element el) {
 			Types typeUtils = processingEnv.getTypeUtils();
 			if (AptUtil.isInternalType(typeUtils, el.asType())) {
 				// InternalなEnum
@@ -529,57 +529,57 @@ public class ClassGenerateHelper {
 		}
 
 		@Override
-		public JsonElement visitBooleanWrapper(DeclaredType t, Element el) {
+		public JsonKeyModel visitBooleanWrapper(DeclaredType t, Element el) {
 			return genJsonElement(t, el, Kind.BOOLEAN_WRAPPER);
 		}
 
 		@Override
-		public JsonElement visitDoubleWrapper(DeclaredType t, Element el) {
+		public JsonKeyModel visitDoubleWrapper(DeclaredType t, Element el) {
 			return genJsonElement(t, el, Kind.DOUBLE_WRAPPER);
 		}
 
 		@Override
-		public JsonElement visitLongWrapper(DeclaredType t, Element el) {
+		public JsonKeyModel visitLongWrapper(DeclaredType t, Element el) {
 			return genJsonElement(t, el, Kind.LONG_WRAPPER);
 		}
 
 		@Override
-		public JsonElement visitByteWrapper(DeclaredType t, Element el) {
+		public JsonKeyModel visitByteWrapper(DeclaredType t, Element el) {
 			return genJsonElement(t, el, Kind.BYTE_WRAPPER);
 		}
 
 		@Override
-		public JsonElement visitCharacterWrapper(DeclaredType t, Element el) {
+		public JsonKeyModel visitCharacterWrapper(DeclaredType t, Element el) {
 			return genJsonElement(t, el, Kind.CHAR_WRAPPER);
 		}
 
 		@Override
-		public JsonElement visitFloatWrapper(DeclaredType t, Element el) {
+		public JsonKeyModel visitFloatWrapper(DeclaredType t, Element el) {
 			return genJsonElement(t, el, Kind.FLOAT_WRAPPER);
 		}
 
 		@Override
-		public JsonElement visitIntegerWrapper(DeclaredType t, Element el) {
+		public JsonKeyModel visitIntegerWrapper(DeclaredType t, Element el) {
 			return genJsonElement(t, el, Kind.INT_WRAPPER);
 		}
 
 		@Override
-		public JsonElement visitShortWrapper(DeclaredType t, Element el) {
+		public JsonKeyModel visitShortWrapper(DeclaredType t, Element el) {
 			return genJsonElement(t, el, Kind.SHORT_WRAPPER);
 		}
 
 		@Override
-		public JsonElement visitJsonHash(DeclaredType t, Element el) {
+		public JsonKeyModel visitJsonHash(DeclaredType t, Element el) {
 			return genJsonElement(t, el, Kind.JSON_HASH);
 		}
 
 		@Override
-		public JsonElement visitJsonArray(DeclaredType t, Element el) {
+		public JsonKeyModel visitJsonArray(DeclaredType t, Element el) {
 			return genJsonElement(t, el, Kind.JSON_ARRAY);
 		}
 
 		@Override
-		public JsonElement visitUndefinedClass(DeclaredType t, Element el) {
+		public JsonKeyModel visitUndefinedClass(DeclaredType t, Element el) {
 
 			TypeMirror tm = t.asElement().asType();
 			Element type = processingEnv.getTypeUtils().asElement(tm);

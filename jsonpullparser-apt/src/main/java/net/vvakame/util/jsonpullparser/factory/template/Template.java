@@ -20,7 +20,7 @@ import java.io.IOException;
 
 import javax.tools.JavaFileObject;
 
-import net.vvakame.util.jsonpullparser.factory.GeneratingModel;
+import net.vvakame.util.jsonpullparser.factory.JsonModelModel;
 
 /**
  * Templating facility in general.
@@ -38,7 +38,7 @@ public class Template {
 	 * @throws IOException
 	 * @author vvakame
 	 */
-	public static void writeGen(JavaFileObject fileObject, GeneratingModel model)
+	public static void writeGen(JavaFileObject fileObject, JsonModelModel model)
 			throws IOException {
 		MvelTemplate.writeGen(fileObject, model);
 	}
@@ -50,7 +50,7 @@ public class Template {
 	 * @throws IOException
 	 * @author vvakame
 	 */
-	public static void writeJsonMeta(JavaFileObject fileObject, GeneratingModel model)
+	public static void writeJsonMeta(JavaFileObject fileObject, JsonModelModel model)
 			throws IOException {
 		MvelTemplate.writeJsonMeta(fileObject, model);
 	}

@@ -22,7 +22,7 @@ import net.vvakame.util.jsonpullparser.annotation.StoreJson;
  * Internal data model for source code generation ({@link StoreJson})
  * @author vvakame
  */
-public class StoreJsonElement {
+public class StoreJsonModel {
 
 	boolean storeJson = false;
 

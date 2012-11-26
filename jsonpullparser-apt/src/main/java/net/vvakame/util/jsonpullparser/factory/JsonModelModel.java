@@ -25,7 +25,7 @@ import net.vvakame.util.jsonpullparser.annotation.JsonModel;
  * Internal data model for source code generation ({@link JsonModel})
  * @author vvakame
  */
-public class GeneratingModel {
+public class JsonModelModel {
 
 	String packageName = "invalid";
 
@@ -39,7 +39,7 @@ public class GeneratingModel {
 
 	String targetNew = "Invalid";
 
-	List<JsonElement> elements = new ArrayList<JsonElement>();
+	List<JsonKeyModel> elements = new ArrayList<JsonKeyModel>();
 
 	boolean treatUnknownKeyAsError;
 
@@ -49,7 +49,7 @@ public class GeneratingModel {
 
 	boolean builder;
 
-	StoreJsonElement storeElement = new StoreJsonElement();
+	StoreJsonModel storeElement = new StoreJsonModel();
 
 
 	/**
@@ -57,7 +57,7 @@ public class GeneratingModel {
 	 * @param jsonElement
 	 * @author vvakame
 	 */
-	public void addJsonElement(JsonElement jsonElement) {
+	public void addJsonElement(JsonKeyModel jsonElement) {
 		if (jsonElement == null) {
 			return;
 		}
@@ -164,7 +164,7 @@ public class GeneratingModel {
 	 * @return the elements
 	 * @category accessor
 	 */
-	public List<JsonElement> getElements() {
+	public List<JsonKeyModel> getElements() {
 		return elements;
 	}
 
@@ -172,7 +172,7 @@ public class GeneratingModel {
 	 * @param elements the elements to set
 	 * @category accessor
 	 */
-	public void setElements(List<JsonElement> elements) {
+	public void setElements(List<JsonKeyModel> elements) {
 		this.elements = elements;
 	}
 
@@ -244,7 +244,7 @@ public class GeneratingModel {
 	 * @return the storeElement
 	 * @category accessor
 	 */
-	public StoreJsonElement getStoreElement() {
+	public StoreJsonModel getStoreElement() {
 		return storeElement;
 	}
 
@@ -252,7 +252,7 @@ public class GeneratingModel {
 	 * @param storeElement the storeElement to set
 	 * @category accessor
 	 */
-	public void setStoreElement(StoreJsonElement storeElement) {
+	public void setStoreElement(StoreJsonModel storeElement) {
 		this.storeElement = storeElement;
 	}
 }

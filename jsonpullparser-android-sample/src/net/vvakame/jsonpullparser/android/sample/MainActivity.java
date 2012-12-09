@@ -20,8 +20,8 @@ import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-import net.vvakame.twitter.Tweet;
-import net.vvakame.twitter.TweetGen;
+import net.vvakame.twitter.ResultTweet;
+import net.vvakame.twitter.SearchResultGen;
 import net.vvakame.util.jsonpullparser.JsonFormatException;
 import net.vvakame.util.jsonpullparser.util.OnJsonObjectAddListener;
 import android.app.ListActivity;
@@ -52,12 +52,12 @@ public class MainActivity extends ListActivity {
 		new TweetDownloadTask().execute();
 	}
 
-	class TweetDownloadTask extends AsyncTask<Void, Tweet, Void> {
+	class TweetDownloadTask extends AsyncTask<Void, ResultTweet, Void> {
 		OnJsonObjectAddListener listener = new OnJsonObjectAddListener() {
 			@Override
 			public void onAdd(Object obj) {
-				if (obj instanceof Tweet) {
-					Tweet tweet = (Tweet) obj;
+				if (obj instanceof ResultTweet) {
+					ResultTweet tweet = (ResultTweet) obj;
 					publishProgress(tweet);
 				}
 			}
@@ -77,7 +77,8 @@ public class MainActivity extends ListActivity {
 				HttpURLConnection urlConnection = (HttpURLConnection) url
 						.openConnection();
 				try {
-					TweetGen.getList(urlConnection.getInputStream(), listener);
+					SearchResultGen.get(urlConnection.getInputStream(),
+							listener);
 				} finally {
 					urlConnection.disconnect();
 				}
@@ -91,8 +92,8 @@ public class MainActivity extends ListActivity {
 		}
 
 		@Override
-		protected void onProgressUpdate(Tweet... progress) {
-			for (Tweet tweet : progress) {
+		protected void onProgressUpdate(ResultTweet... progress) {
+			for (ResultTweet tweet : progress) {
 				mAdapter.add(tweet.getText());
 				mAdapter.notifyDataSetChanged();
 			}

@@ -4,7 +4,7 @@
 
 	<groupId>net.vvakame</groupId>
 	<artifactId>jsonpullparser-benchmark</artifactId>
-	<version>1.6-SNAPSHOT</version>
+	<version>1.5.2-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
 	<properties>

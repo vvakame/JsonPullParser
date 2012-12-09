@@ -34,7 +34,7 @@ import static javax.lang.model.util.ElementFilter.*;
 
 /**
  * Annotation processing logic.
- * @see ClassGenerateHelper
+ * @see JsonModelGenerator
  * @author vvakame
  */
 @SupportedSourceVersion(SourceVersion.RELEASE_6)
@@ -51,7 +51,6 @@ public class JsonAnnotationProcessor extends AbstractProcessor {
 		super.init(processingEnv);
 		Log.init(processingEnv.getMessager());
 
-		// デバッグログ出力の設定を行う
 		String debug = getOption(DEBUG_OPTION);
 		if ("true".equalsIgnoreCase(debug)) {
 			Log.setDebug(true);
@@ -65,33 +64,28 @@ public class JsonAnnotationProcessor extends AbstractProcessor {
 	@Override
 	public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {
 
-		ClassGenerateHelper.init(processingEnv);
+		JsonModelGenerator.init(processingEnv);
 
 		Log.d("start process method.");
 
-		// 生成するクラスのpostfixが指定されてたらそっちにする
-		String postfix;
-		String optPostfix = getOption(CLASS_POSTFIX_OPTION);
-		if (optPostfix == null) {
-			postfix = "Gen";
-		} else {
-			postfix = optPostfix;
+		final String postfix;
+		{
+			String optPostfix = getOption(CLASS_POSTFIX_OPTION);
+			if (optPostfix == null) {
+				postfix = "Gen";
+			} else {
+				postfix = optPostfix;
+			}
 		}
-		ClassGenerateHelper.setPostfix(postfix);
 
 		for (Element element : typesIn(roundEnv.getElementsAnnotatedWith(JsonModel.class))) {
 
 			Log.d("process " + element.toString());
 
-			ClassGenerateHelper generater = ClassGenerateHelper.newInstance(element);
-
-			generater.process();
-
-			// 構文上のエラーに遭遇していたら処理を中断する
+			JsonModelGenerator generater = JsonModelGenerator.from(element, postfix);
 			if (generater.isEncountError()) {
 				continue;
 			}
-
 			try {
 				generater.write();
 			} catch (IOException e) {

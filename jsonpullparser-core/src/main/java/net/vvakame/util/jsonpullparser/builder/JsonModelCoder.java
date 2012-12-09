@@ -132,9 +132,10 @@ public class JsonModelCoder<T> {
 		}
 		if (eventType != State.START_ARRAY) {
 			if (eventType == State.START_HASH) {
-				throw new JsonFormatException("not started '('!, Do you want the json hash?");
+				throw new JsonFormatException("not started '('!, Do you want the json hash?",
+						parser);
 			} else {
-				throw new JsonFormatException("not started '('!");
+				throw new JsonFormatException("not started '('!", parser);
 			}
 		}
 		while (parser.lookAhead() != State.END_ARRAY) {
@@ -234,9 +235,10 @@ public class JsonModelCoder<T> {
 		}
 		if (eventType != State.START_HASH) {
 			if (eventType == State.START_ARRAY) {
-				throw new JsonFormatException("not started '{'! Do you want the json array?");
+				throw new JsonFormatException("not started '{'! Do you want the json array?",
+						parser);
 			} else {
-				throw new JsonFormatException("not started '{'!");
+				throw new JsonFormatException("not started '{'!", parser);
 			}
 		}
 		T obj;
@@ -249,7 +251,8 @@ public class JsonModelCoder<T> {
 		}
 		while ((eventType = parser.getEventType()) != State.END_HASH) {
 			if (eventType != State.KEY) {
-				throw new JsonFormatException("expect KEY. we got unexpected value. " + eventType);
+				throw new JsonFormatException("expect KEY. we got unexpected value. " + eventType,
+						parser);
 			}
 			String key = parser.getValueString();
 
@@ -258,7 +261,7 @@ public class JsonModelCoder<T> {
 
 			} else {
 				if (treatUnknownKeyAsError) {
-					throw new JsonFormatException("unknown key. key=" + key);
+					throw new JsonFormatException("unknown key. key=" + key, parser);
 				} else {
 					parser.discardValue();
 				}

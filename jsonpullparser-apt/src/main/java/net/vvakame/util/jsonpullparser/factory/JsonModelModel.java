@@ -25,7 +25,7 @@ import net.vvakame.util.jsonpullparser.annotation.JsonModel;
  * Internal data model for source code generation ({@link JsonModel})
  * @author vvakame
  */
-public class GeneratingModel {
+public class JsonModelModel {
 
 	String packageName = "invalid";
 
@@ -39,7 +39,7 @@ public class GeneratingModel {
 
 	String targetNew = "Invalid";
 
-	List<JsonElement> elements = new ArrayList<JsonElement>();
+	List<JsonKeyModel> keys = new ArrayList<JsonKeyModel>();
 
 	boolean treatUnknownKeyAsError;
 
@@ -49,19 +49,19 @@ public class GeneratingModel {
 
 	boolean builder;
 
-	StoreJsonElement storeElement = new StoreJsonElement();
+	StoreJsonModel storeJson = new StoreJsonModel();
 
 
 	/**
 	 * Keeps the given element.
-	 * @param jsonElement
+	 * @param jsonKey
 	 * @author vvakame
 	 */
-	public void addJsonElement(JsonElement jsonElement) {
-		if (jsonElement == null) {
+	public void addJsonKey(JsonKeyModel jsonKey) {
+		if (jsonKey == null) {
 			return;
 		}
-		elements.add(jsonElement);
+		keys.add(jsonKey);
 	}
 
 	/**
@@ -161,19 +161,19 @@ public class GeneratingModel {
 	}
 
 	/**
-	 * @return the elements
+	 * @return the keys
 	 * @category accessor
 	 */
-	public List<JsonElement> getElements() {
-		return elements;
+	public List<JsonKeyModel> getKeys() {
+		return keys;
 	}
 
 	/**
-	 * @param elements the elements to set
+	 * @param keys the keys to set
 	 * @category accessor
 	 */
-	public void setElements(List<JsonElement> elements) {
-		this.elements = elements;
+	public void setKeys(List<JsonKeyModel> keys) {
+		this.keys = keys;
 	}
 
 	/**
@@ -244,15 +244,15 @@ public class GeneratingModel {
 	 * @return the storeElement
 	 * @category accessor
 	 */
-	public StoreJsonElement getStoreElement() {
-		return storeElement;
+	public StoreJsonModel getStoreJson() {
+		return storeJson;
 	}
 
 	/**
 	 * @param storeElement the storeElement to set
 	 * @category accessor
 	 */
-	public void setStoreElement(StoreJsonElement storeElement) {
-		this.storeElement = storeElement;
+	public void setStoreJson(StoreJsonModel storeElement) {
+		this.storeJson = storeElement;
 	}
 }

@@ -20,6 +20,8 @@ import java.lang.annotation.Annotation;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.lang.model.element.Element;
 import javax.lang.model.element.ElementKind;
@@ -111,6 +113,16 @@ public class AptUtil {
 		} else {
 			return false;
 		}
+	}
+
+	/**
+	 * Test if the given element is primitive boolean.
+	 * @param element
+	 * @return True if the type is a primitive boolean. false otherwise.
+	 * @author vvakame
+	 */
+	public static boolean isPrimitiveBoolean(Element element) {
+		return "boolean".equals(element.asType().toString());
 	}
 
 	/**
@@ -412,11 +424,16 @@ public class AptUtil {
 	 */
 	public static String getElementSetter(Element element) {
 		// 後続処理注意 hogeに対して sethoge が取得される. setHoge ではない.
-		String setterName;
-		if (element.getSimpleName().toString().startsWith("is")) {
-			// boolean isHoge; に対して setIsHoge ではなく setHoge が生成される
-			setterName = "set" + element.getSimpleName().toString().substring(2);
-		} else {
+		String setterName = null;
+		if (isPrimitiveBoolean(element)) {
+			Pattern pattern = Pattern.compile("^is[^a-z].*$");
+			Matcher matcher = pattern.matcher(element.getSimpleName().toString());
+			if (matcher.matches()) {
+				// boolean isHoge; に対して setIsHoge ではなく setHoge が生成される
+				setterName = "set" + element.getSimpleName().toString().substring(2);
+			}
+		}
+		if (setterName == null) {
 			setterName = "set" + element.getSimpleName().toString();
 		}
 

@@ -21,7 +21,6 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 
 import javax.annotation.processing.Filer;
@@ -41,11 +40,10 @@ import javax.lang.model.util.Elements;
 import javax.lang.model.util.Types;
 import javax.tools.JavaFileObject;
 
-import net.vvakame.apt.AptUtil;
 import net.vvakame.util.jsonpullparser.annotation.JsonKey;
 import net.vvakame.util.jsonpullparser.annotation.JsonModel;
 import net.vvakame.util.jsonpullparser.annotation.StoreJson;
-import net.vvakame.util.jsonpullparser.factory.JsonElement.Kind;
+import net.vvakame.util.jsonpullparser.factory.JsonKeyModel.Kind;
 import net.vvakame.util.jsonpullparser.factory.template.Template;
 import net.vvakame.util.jsonpullparser.util.TokenConverter;
 import static net.vvakame.apt.AptUtil.*;
@@ -55,7 +53,7 @@ import static net.vvakame.apt.AptUtil.*;
  * Handles 1 {@link JsonModel} per instance (i.e. cannot be reused.)
  * @author vvakame
  */
-public class ClassGenerateHelper {
+public class JsonModelGenerator {
 
 	static ProcessingEnvironment processingEnv = null;
 
@@ -63,11 +61,11 @@ public class ClassGenerateHelper {
 
 	static Elements elementUtils;
 
-	static String postfix = "";
+	final Element classElement;
 
-	GeneratingModel g = new GeneratingModel();
+	final String postfix;
 
-	Element classElement;
+	final JsonModelModel jsonModel = new JsonModelModel();
 
 	boolean encountError = false;
 
@@ -84,49 +82,31 @@ public class ClassGenerateHelper {
 	}
 
 	/**
-	 * Generates new instance.
+	 * Process {@link Element} to generate.
 	 * @param element
-	 * @return {@link ClassGenerateHelper}
+	 * @param classNamePostfix 
+	 * @return {@link JsonModelGenerator}
 	 * @author vvakame
 	 */
-	public static ClassGenerateHelper newInstance(Element element) {
-		return new ClassGenerateHelper(element);
+	public static JsonModelGenerator from(Element element, String classNamePostfix) {
+		JsonModelGenerator generator = new JsonModelGenerator(element, classNamePostfix);
+
+		generator.processJsonModel();
+		generator.processJsonKeys();
+		generator.processStoreJson();
+
+		return generator;
 	}
 
 	/**
 	 * the constructor.
 	 * @param element
+	 * @param classNamePostfix 
 	 * @category constructor
 	 */
-	public ClassGenerateHelper(Element element) {
+	JsonModelGenerator(Element element, String classNamePostfix) {
 		classElement = element;
-
-		Elements elementUtils = processingEnv.getElementUtils();
-		g.setPackageName(getPackageName(elementUtils, element));
-		g.setTarget(getSimpleName(element));
-		g.setTargetNew(getNameForNew(element));
-
-		TypeElement superclass = AptUtil.getSuperClassElement(element);
-		if (superclass.getAnnotation(JsonModel.class) != null) {
-			g.setTargetBase(AptUtil.getFullQualifiedName(superclass));
-			g.setExistsBase(true);
-		}
-
-		g.setPostfix(postfix);
-		g.setTreatUnknownKeyAsError(getTreatUnknownKeyAsError(element));
-		g.setGenToPackagePrivate(getGenToPackagePrivate(element));
-		g.setJsonMetaToPackagePrivate(getJsonMetaToPackagePrivate(element));
-		g.setBuilder(getBuilder(element));
-	}
-
-	/**
-	 * Keeps the given element.
-	 * @param element
-	 * @author vvakame
-	 */
-	public void addElement(Element element) {
-		JsonElement jsonElement = element.asType().accept(new ValueExtractVisitor(), element);
-		g.addJsonElement(jsonElement);
+		postfix = classNamePostfix;
 	}
 
 	/**
@@ -137,35 +117,47 @@ public class ClassGenerateHelper {
 	public void write() throws IOException {
 		{
 			Filer filer = processingEnv.getFiler();
-			String generateClassName = g.getPackageName() + "." + g.getTarget() + postfix;
+			String generateClassName =
+					jsonModel.getPackageName() + "." + jsonModel.getTarget() + postfix;
 			JavaFileObject fileObject = filer.createSourceFile(generateClassName, classElement);
-			Template.writeGen(fileObject, g);
+			Template.writeGen(fileObject, jsonModel);
 		}
-		if (g.isBuilder()) {
+		if (jsonModel.isBuilder()) {
 			Filer filer = processingEnv.getFiler();
-			String generateClassName = g.getPackageName() + "." + g.getTarget() + "JsonMeta";
+			String generateClassName =
+					jsonModel.getPackageName() + "." + jsonModel.getTarget() + "JsonMeta";
 			JavaFileObject fileObject = filer.createSourceFile(generateClassName, classElement);
-			Template.writeJsonMeta(fileObject, g);
+			Template.writeJsonMeta(fileObject, jsonModel);
 		}
 	}
 
-	/**
-	 * Processes annotations.
-	 * @author vvakame
-	 * @param <T>
-	 */
-	public <T>void process() {
-		// check @JsonModel parameter combination
-		if (g.isBuilder() == false && g.isJsonMetaToPackagePrivate() == true) {
+	void processJsonModel() {
+		jsonModel.setPackageName(getPackageName(elementUtils, classElement));
+		jsonModel.setTarget(getSimpleName(classElement));
+		jsonModel.setTargetNew(getNameForNew(classElement));
+
+		TypeElement superClass = getSuperClassElement(classElement);
+		if (superClass.getAnnotation(JsonModel.class) != null) {
+			jsonModel.setTargetBase(getFullQualifiedName(superClass));
+			jsonModel.setExistsBase(true);
+		}
+
+		jsonModel.setPostfix(postfix);
+		jsonModel.setTreatUnknownKeyAsError(getTreatUnknownKeyAsError(classElement));
+		jsonModel.setGenToPackagePrivate(getGenToPackagePrivate(classElement));
+		jsonModel.setJsonMetaToPackagePrivate(getJsonMetaToPackagePrivate(classElement));
+		jsonModel.setBuilder(getBuilder(classElement));
+
+		if (jsonModel.isBuilder() == false && jsonModel.isJsonMetaToPackagePrivate() == true) {
 			Log.e("builder parameter or jsonMetaToPackagePrivate parameter change value.",
 					classElement);
 			encountError = true;
 		}
+	}
 
-		List<Element> elements;
-
-		// JsonKeyの収集
-		elements = getEnclosedElementsByAnnotation(classElement, JsonKey.class, ElementKind.FIELD);
+	void processJsonKeys() {
+		List<Element> elements =
+				getEnclosedElementsByAnnotation(classElement, JsonKey.class, ElementKind.FIELD);
 		if (elements.size() == 0) {
 			Log.e("not exists any @JsonKey decorated field.", classElement);
 		}
@@ -181,13 +173,14 @@ public class ClassGenerateHelper {
 		};
 		Collections.sort(elements, comparator);
 
-		// JsonKeyに対応する値取得コードを生成する
 		for (Element element : elements) {
-			addElement(element);
+			JsonKeyModel jsonKey = element.asType().accept(new ValueExtractVisitor(), element);
+			jsonModel.addJsonKey(jsonKey);
 		}
+	}
 
-		// StoreJsonの収集
-		elements =
+	void processStoreJson() {
+		List<Element> elements =
 				getEnclosedElementsByAnnotation(classElement, StoreJson.class, ElementKind.FIELD);
 		if (elements.size() == 0) {
 			return;
@@ -197,12 +190,11 @@ public class ClassGenerateHelper {
 			return;
 		}
 
-		// StoreJsonに対応する値取得コードを生成する
 		Element element = elements.get(0);
-		StoreJson save = element.getAnnotation(StoreJson.class);
-		StoreJsonElement saveEl = g.getStoreElement();
-		saveEl.setStoreJson(true);
-		saveEl.setTreatLogDisabledAsError(save.treatLogDisabledAsError());
+		StoreJson annotation = element.getAnnotation(StoreJson.class);
+		StoreJsonModel storeJson = jsonModel.getStoreJson();
+		storeJson.setStoreJson(true);
+		storeJson.setTreatLogDisabledAsError(annotation.treatLogDisabledAsError());
 
 		String setter = getElementSetter(element);
 		if (setter == null) {
@@ -210,40 +202,51 @@ public class ClassGenerateHelper {
 			encountError = true;
 			return;
 		}
-		saveEl.setSetter(setter);
+		storeJson.setSetter(setter);
 	}
 
+	/**
+	 * Get JSON key string.
+	 * @param element
+	 * @return JSON key string
+	 * @author vvakame
+	 */
 	String getElementKeyString(Element element) {
 		JsonKey key = element.getAnnotation(JsonKey.class);
 		JsonModel model = element.getEnclosingElement().getAnnotation(JsonModel.class);
-		String keyStr;
 		if (!"".equals(key.value())) {
-			keyStr = key.value();
+			return key.value();
 		} else if ("".equals(key.value()) && key.decamelize()) {
-			keyStr = decamelize(element.toString());
+			return decamelize(element.toString());
 		} else if ("".equals(key.value()) && model.decamelize()) {
-			keyStr = decamelize(element.toString());
+			return decamelize(element.toString());
 		} else {
-			keyStr = element.toString();
+			return element.toString();
 		}
-		return keyStr;
 	}
 
+	/**
+	 * Decamelize string.<br>
+	 * example, "fooBar" to "foo_bar".
+	 * @param str
+	 * @return decamelized string
+	 * @author vvakame
+	 */
 	String decamelize(String str) {
 		StringBuilder builder = new StringBuilder();
 		int len = str.length();
 		for (int i = 0; i < len; i++) {
 			char c = str.charAt(i);
 			if ('A' <= c && c <= 'Z') {
-				builder.append('_').append(c);
+				builder.append('_').append(Character.toLowerCase(c));
 			} else {
 				builder.append(c);
 			}
 		}
-		return builder.toString().toLowerCase(Locale.ENGLISH);
+		return builder.toString();
 	}
 
-	String getConverterClassName(Element el) {
+	String getTokenConverterClassName(Element el) {
 
 		AnnotationValue converter = null;
 
@@ -272,41 +275,41 @@ public class ClassGenerateHelper {
 	}
 
 	boolean getTreatUnknownKeyAsError(Element element) {
-		JsonModel model = element.getAnnotation(JsonModel.class);
-		if (model == null) {
+		JsonModel annotation = element.getAnnotation(JsonModel.class);
+		if (annotation == null) {
 			throw new IllegalArgumentException();
 		}
-		return model.treatUnknownKeyAsError();
+		return annotation.treatUnknownKeyAsError();
 	}
 
 	boolean getGenToPackagePrivate(Element element) {
-		JsonModel model = element.getAnnotation(JsonModel.class);
-		if (model == null) {
+		JsonModel annotation = element.getAnnotation(JsonModel.class);
+		if (annotation == null) {
 			throw new IllegalArgumentException();
 		}
-		return model.genToPackagePrivate();
+		return annotation.genToPackagePrivate();
 	}
 
 	boolean getJsonMetaToPackagePrivate(Element element) {
-		JsonModel model = element.getAnnotation(JsonModel.class);
-		if (model == null) {
+		JsonModel annotation = element.getAnnotation(JsonModel.class);
+		if (annotation == null) {
 			throw new IllegalArgumentException();
 		}
-		return model.jsonMetaToPackagePrivate();
+		return annotation.jsonMetaToPackagePrivate();
 	}
 
 	boolean getBuilder(Element element) {
-		JsonModel model = element.getAnnotation(JsonModel.class);
-		if (model == null) {
+		JsonModel annotation = element.getAnnotation(JsonModel.class);
+		if (annotation == null) {
 			throw new IllegalArgumentException();
 		}
-		return model.builder();
+		return annotation.builder();
 	}
 
 
-	class ValueExtractVisitor extends StandardTypeKindVisitor<JsonElement, Element> {
+	class ValueExtractVisitor extends StandardTypeKindVisitor<JsonKeyModel, Element> {
 
-		JsonElement genJsonElement(TypeMirror t, Element el, Kind kind) {
+		JsonKeyModel genJsonElement(TypeMirror t, Element el, Kind kind) {
 			if (kind == null) {
 				Log.e("invalid state. this is APT bugs.");
 				encountError = true;
@@ -322,27 +325,27 @@ public class ClassGenerateHelper {
 				}
 			}
 
-			JsonElement jsonElement = new JsonElement();
-			jsonElement.setKey(getElementKeyString(el));
-			jsonElement.setOriginalName(el.toString());
+			JsonKeyModel jsonKey = new JsonKeyModel();
+			jsonKey.setKey(getElementKeyString(el));
+			jsonKey.setOriginalName(el.toString());
 
-			JsonKey key = el.getAnnotation(JsonKey.class);
+			JsonKey annotation = el.getAnnotation(JsonKey.class);
 
 			String setter = getElementSetter(el);
-			if (key.in() && setter == null) {
+			if (annotation.in() && setter == null) {
 				Log.e("can't find setter method", el);
 				encountError = true;
 				return defaultAction(t, el);
 			}
 
 			String getter = getElementGetter(el);
-			if (key.out() && getter == null) {
+			if (annotation.out() && getter == null) {
 				Log.e("can't find getter method", el);
 				encountError = true;
 				return defaultAction(t, el);
 			}
 
-			String converterClassName = getConverterClassName(el);
+			String converterClassName = getTokenConverterClassName(el);
 			if (converterClassName != null) {
 				TypeElement element =
 						processingEnv.getElementUtils().getTypeElement(converterClassName);
@@ -354,76 +357,74 @@ public class ClassGenerateHelper {
 				kind = Kind.CONVERTER;
 			}
 
-			jsonElement.setIn(key.in());
-			jsonElement.setSetter(setter);
-			jsonElement.setOut(key.out());
-			jsonElement.setGetter(getter);
-			jsonElement.setModelName(t.toString());
+			jsonKey.setIn(annotation.in());
+			jsonKey.setSetter(setter);
+			jsonKey.setOut(annotation.out());
+			jsonKey.setGetter(getter);
+			jsonKey.setModelName(t.toString());
 			if (kind == Kind.MODEL) {
-				String packageName = AptUtil.getPackageName(elementUtils, typeUtils, el.asType());
-				jsonElement.setGenName(packageName + "." + getSimpleName(el.asType()));
+				String packageName = getPackageName(elementUtils, typeUtils, el.asType());
+				jsonKey.setGenName(packageName + "." + getSimpleName(el.asType()));
 			} else {
-				jsonElement.setGenName(t.toString());
+				jsonKey.setGenName(t.toString());
 			}
-			jsonElement.setKind(kind);
-			jsonElement.setConverter(converterClassName);
+			jsonKey.setKind(kind);
+			jsonKey.setConverter(converterClassName);
 
-			return jsonElement;
+			return jsonKey;
 		}
 
 		@Override
-		public JsonElement visitPrimitiveAsBoolean(PrimitiveType t, Element el) {
+		public JsonKeyModel visitPrimitiveAsBoolean(PrimitiveType t, Element el) {
 			return genJsonElement(t, el, Kind.BOOLEAN);
 		}
 
 		@Override
-		public JsonElement visitPrimitiveAsByte(PrimitiveType t, Element el) {
+		public JsonKeyModel visitPrimitiveAsByte(PrimitiveType t, Element el) {
 			return genJsonElement(t, el, Kind.BYTE);
 		}
 
 		@Override
-		public JsonElement visitPrimitiveAsChar(PrimitiveType t, Element el) {
+		public JsonKeyModel visitPrimitiveAsChar(PrimitiveType t, Element el) {
 			return genJsonElement(t, el, Kind.CHAR);
 		}
 
 		@Override
-		public JsonElement visitPrimitiveAsDouble(PrimitiveType t, Element el) {
+		public JsonKeyModel visitPrimitiveAsDouble(PrimitiveType t, Element el) {
 			return genJsonElement(t, el, Kind.DOUBLE);
 		}
 
 		@Override
-		public JsonElement visitPrimitiveAsFloat(PrimitiveType t, Element el) {
+		public JsonKeyModel visitPrimitiveAsFloat(PrimitiveType t, Element el) {
 			return genJsonElement(t, el, Kind.FLOAT);
 		}
 
 		@Override
-		public JsonElement visitPrimitiveAsInt(PrimitiveType t, Element el) {
+		public JsonKeyModel visitPrimitiveAsInt(PrimitiveType t, Element el) {
 			return genJsonElement(t, el, Kind.INT);
 		}
 
 		@Override
-		public JsonElement visitPrimitiveAsLong(PrimitiveType t, Element el) {
+		public JsonKeyModel visitPrimitiveAsLong(PrimitiveType t, Element el) {
 			return genJsonElement(t, el, Kind.LONG);
 		}
 
 		@Override
-		public JsonElement visitPrimitiveAsShort(PrimitiveType t, Element el) {
+		public JsonKeyModel visitPrimitiveAsShort(PrimitiveType t, Element el) {
 			return genJsonElement(t, el, Kind.SHORT);
 		}
 
 		@Override
-		public JsonElement visitString(DeclaredType t, Element el) {
+		public JsonKeyModel visitString(DeclaredType t, Element el) {
 			return genJsonElement(t, el, Kind.STRING);
 		}
 
 		@Override
-		public JsonElement visitList(DeclaredType t, Element el) {
+		public JsonKeyModel visitList(DeclaredType t, Element el) {
 
-			JsonElement jsonElement;
-
-			String converterClassName = getConverterClassName(el);
+			String converterClassName = getTokenConverterClassName(el);
 			if (converterClassName != null) {
-				jsonElement = genJsonElement(t, el, Kind.CONVERTER);
+				return genJsonElement(t, el, Kind.CONVERTER);
 
 			} else {
 
@@ -448,74 +449,74 @@ public class ClassGenerateHelper {
 					}
 				}
 
-				jsonElement = new JsonElement();
+				JsonKeyModel jsonKey = new JsonKeyModel();
 
 				Element type = processingEnv.getTypeUtils().asElement(tm);
-				JsonModel hash = type.getAnnotation(JsonModel.class);
-				if (hash != null) {
+				JsonModel jsonModel = type.getAnnotation(JsonModel.class);
+				if (jsonModel != null) {
 					// OK
-					jsonElement.setSubKind(Kind.MODEL); // FQNではModelとEnumの区別がつかない
-				} else if (AptUtil.isPrimitiveWrapper(type)) {
+					jsonKey.setSubKind(Kind.MODEL); // FQNではModelとEnumの区別がつかない
+				} else if (isPrimitiveWrapper(type)) {
 					// OK
 				} else if (type.toString().equals(Date.class.getCanonicalName())) {
 					// OK
 				} else if (type.toString().equals(String.class.getCanonicalName())) {
 					// OK
-				} else if (AptUtil.isEnum(type)) {
+				} else if (isEnum(type)) {
 					// OK
-					jsonElement.setSubKind(Kind.ENUM);
+					jsonKey.setSubKind(Kind.ENUM);
 				} else {
 					Log.e("expect for use decorated class by JsonModel annotation.", el);
 					encountError = true;
 					return defaultAction(t, el);
 				}
 
-				jsonElement.setKey(getElementKeyString(el));
-				jsonElement.setOriginalName(el.toString());
+				jsonKey.setKey(getElementKeyString(el));
+				jsonKey.setOriginalName(el.toString());
 
-				JsonKey key = el.getAnnotation(JsonKey.class);
+				JsonKey annotation = el.getAnnotation(JsonKey.class);
 
 				String setter = getElementSetter(el);
-				if (key.in() && setter == null) {
+				if (annotation.in() && setter == null) {
 					Log.e("can't find setter method", el);
 					encountError = true;
 					return defaultAction(t, el);
 				}
 
 				String getter = getElementGetter(el);
-				if (key.out() && getter == null) {
+				if (annotation.out() && getter == null) {
 					Log.e("can't find getter method", el);
 					encountError = true;
 					return defaultAction(t, el);
 				}
 
-				jsonElement.setIn(key.in());
-				jsonElement.setSetter(setter);
-				jsonElement.setOut(key.out());
-				jsonElement.setGetter(getter);
-				jsonElement.setModelName(tm.toString());
+				jsonKey.setIn(annotation.in());
+				jsonKey.setSetter(setter);
+				jsonKey.setOut(annotation.out());
+				jsonKey.setGetter(getter);
+				jsonKey.setModelName(tm.toString());
 
-				String packageName = AptUtil.getPackageName(elementUtils, typeUtils, tm);
+				String packageName = getPackageName(elementUtils, typeUtils, tm);
 
-				jsonElement.setGenName(packageName + "." + getSimpleName(type.asType()));
-				jsonElement.setKind(Kind.LIST);
+				jsonKey.setGenName(packageName + "." + getSimpleName(type.asType()));
+				jsonKey.setKind(Kind.LIST);
+
+				return jsonKey;
 			}
-
-			return jsonElement;
 		}
 
 		@Override
-		public JsonElement visitDate(DeclaredType t, Element el) {
+		public JsonKeyModel visitDate(DeclaredType t, Element el) {
 			return genJsonElement(t, el, Kind.DATE);
 		}
 
 		@Override
-		public JsonElement visitEnum(DeclaredType t, Element el) {
+		public JsonKeyModel visitEnum(DeclaredType t, Element el) {
 			Types typeUtils = processingEnv.getTypeUtils();
-			if (AptUtil.isInternalType(typeUtils, el.asType())) {
+			if (isInternalType(typeUtils, el.asType())) {
 				// InternalなEnum
-				TypeElement typeElement = AptUtil.getTypeElement(typeUtils, el);
-				if (AptUtil.isPublic(typeElement)) {
+				TypeElement typeElement = getTypeElement(typeUtils, el);
+				if (isPublic(typeElement)) {
 					return genJsonElement(t, el, Kind.ENUM);
 				} else {
 					Log.e("Internal EnumType must use public & static.", el);
@@ -529,63 +530,63 @@ public class ClassGenerateHelper {
 		}
 
 		@Override
-		public JsonElement visitBooleanWrapper(DeclaredType t, Element el) {
+		public JsonKeyModel visitBooleanWrapper(DeclaredType t, Element el) {
 			return genJsonElement(t, el, Kind.BOOLEAN_WRAPPER);
 		}
 
 		@Override
-		public JsonElement visitDoubleWrapper(DeclaredType t, Element el) {
+		public JsonKeyModel visitDoubleWrapper(DeclaredType t, Element el) {
 			return genJsonElement(t, el, Kind.DOUBLE_WRAPPER);
 		}
 
 		@Override
-		public JsonElement visitLongWrapper(DeclaredType t, Element el) {
+		public JsonKeyModel visitLongWrapper(DeclaredType t, Element el) {
 			return genJsonElement(t, el, Kind.LONG_WRAPPER);
 		}
 
 		@Override
-		public JsonElement visitByteWrapper(DeclaredType t, Element el) {
+		public JsonKeyModel visitByteWrapper(DeclaredType t, Element el) {
 			return genJsonElement(t, el, Kind.BYTE_WRAPPER);
 		}
 
 		@Override
-		public JsonElement visitCharacterWrapper(DeclaredType t, Element el) {
+		public JsonKeyModel visitCharacterWrapper(DeclaredType t, Element el) {
 			return genJsonElement(t, el, Kind.CHAR_WRAPPER);
 		}
 
 		@Override
-		public JsonElement visitFloatWrapper(DeclaredType t, Element el) {
+		public JsonKeyModel visitFloatWrapper(DeclaredType t, Element el) {
 			return genJsonElement(t, el, Kind.FLOAT_WRAPPER);
 		}
 
 		@Override
-		public JsonElement visitIntegerWrapper(DeclaredType t, Element el) {
+		public JsonKeyModel visitIntegerWrapper(DeclaredType t, Element el) {
 			return genJsonElement(t, el, Kind.INT_WRAPPER);
 		}
 
 		@Override
-		public JsonElement visitShortWrapper(DeclaredType t, Element el) {
+		public JsonKeyModel visitShortWrapper(DeclaredType t, Element el) {
 			return genJsonElement(t, el, Kind.SHORT_WRAPPER);
 		}
 
 		@Override
-		public JsonElement visitJsonHash(DeclaredType t, Element el) {
+		public JsonKeyModel visitJsonHash(DeclaredType t, Element el) {
 			return genJsonElement(t, el, Kind.JSON_HASH);
 		}
 
 		@Override
-		public JsonElement visitJsonArray(DeclaredType t, Element el) {
+		public JsonKeyModel visitJsonArray(DeclaredType t, Element el) {
 			return genJsonElement(t, el, Kind.JSON_ARRAY);
 		}
 
 		@Override
-		public JsonElement visitUndefinedClass(DeclaredType t, Element el) {
+		public JsonKeyModel visitUndefinedClass(DeclaredType t, Element el) {
 
 			TypeMirror tm = t.asElement().asType();
 			Element type = processingEnv.getTypeUtils().asElement(tm);
-			JsonModel model = type.getAnnotation(JsonModel.class);
-			String converterClassName = getConverterClassName(el);
-			if (model == null && converterClassName == null) {
+			JsonModel jsonModel = type.getAnnotation(JsonModel.class);
+			String converterClassName = getTokenConverterClassName(el);
+			if (jsonModel == null && converterClassName == null) {
 				Log.e("expect for use decorated class by JsonModel annotation.", el);
 				encountError = true;
 				return defaultAction(t, el);
@@ -595,14 +596,6 @@ public class ClassGenerateHelper {
 		}
 	}
 
-
-	/**
-	 * @param postfix
-	 *            the postfix to set
-	 */
-	public static void setPostfix(String postfix) {
-		ClassGenerateHelper.postfix = postfix;
-	}
 
 	/**
 	 * @return the encountError

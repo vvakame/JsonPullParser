@@ -4,7 +4,7 @@
 
 	<groupId>net.vvakame</groupId>
 	<artifactId>jsonpullparser</artifactId>
-	<version>1.5</version>
+	<version>1.5.2-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
 	<name>JsonPullParser</name>

@@ -29,10 +29,10 @@ import java.util.Map;
 
 import javax.tools.JavaFileObject;
 
-import net.vvakame.util.jsonpullparser.factory.GeneratingModel;
-import net.vvakame.util.jsonpullparser.factory.JsonElement;
+import net.vvakame.util.jsonpullparser.factory.JsonKeyModel;
+import net.vvakame.util.jsonpullparser.factory.JsonModelModel;
 import net.vvakame.util.jsonpullparser.factory.Log;
-import net.vvakame.util.jsonpullparser.factory.StoreJsonElement;
+import net.vvakame.util.jsonpullparser.factory.StoreJsonModel;
 
 import org.mvel2.templates.TemplateRuntime;
 
@@ -52,13 +52,13 @@ public class MvelTemplate {
 	 * @throws IOException
 	 * @author vvakame
 	 */
-	public static void writeGen(JavaFileObject fileObject, GeneratingModel model)
-			throws IOException {
+	public static void writeGen(JavaFileObject fileObject, JsonModelModel model) throws IOException {
 		Map<String, Object> map = convModelToMap(model);
 
 		Writer writer = fileObject.openWriter();
 		PrintWriter printWriter = new PrintWriter(writer);
-		String generated = (String) TemplateRuntime.eval(getTemplateString("Gen"), map);
+		String generated =
+				(String) TemplateRuntime.eval(getTemplateString("JsonModelGen.java.mvel"), map);
 		printWriter.write(generated);
 		printWriter.flush();
 		printWriter.close();
@@ -71,19 +71,20 @@ public class MvelTemplate {
 	 * @throws IOException
 	 * @author vvakame
 	 */
-	public static void writeJsonMeta(JavaFileObject fileObject, GeneratingModel model)
+	public static void writeJsonMeta(JavaFileObject fileObject, JsonModelModel model)
 			throws IOException {
 		Map<String, Object> map = convModelToMap(model);
 
 		Writer writer = fileObject.openWriter();
 		PrintWriter printWriter = new PrintWriter(writer);
-		String generated = (String) TemplateRuntime.eval(getTemplateString("JsonMeta"), map);
+		String generated =
+				(String) TemplateRuntime.eval(getTemplateString("JsonModelMeta.java.mvel"), map);
 		printWriter.write(generated);
 		printWriter.flush();
 		printWriter.close();
 	}
 
-	static Map<String, Object> convModelToMap(GeneratingModel model) {
+	static Map<String, Object> convModelToMap(JsonModelModel model) {
 		Map<String, Object> map = new LinkedHashMap<String, Object>();
 		map.put("packageName", model.getPackageName());
 		map.put("postfix", model.getPostfix());
@@ -92,37 +93,37 @@ public class MvelTemplate {
 		map.put("target", model.getTarget());
 		map.put("targetNew", model.getTargetNew());
 		{
-			List<Map<String, String>> jsonElements = new ArrayList<Map<String, String>>();
-			for (JsonElement jsonElement : model.getElements()) {
-				if (!jsonElement.isIn()) {
+			List<Map<String, String>> jsonKeys = new ArrayList<Map<String, String>>();
+			for (JsonKeyModel jsonKey : model.getKeys()) {
+				if (!jsonKey.isIn()) {
 					continue;
 				}
-				Map<String, String> toMap = convJsonElementToMap(jsonElement);
-				jsonElements.add(toMap);
+				Map<String, String> toMap = convJsonModelToMap(jsonKey);
+				jsonKeys.add(toMap);
 			}
-			map.put("inElements", jsonElements);
+			map.put("inElements", jsonKeys);
 		}
 		{
-			List<Map<String, String>> jsonElements = new ArrayList<Map<String, String>>();
-			for (JsonElement jsonElement : model.getElements()) {
-				if (!jsonElement.isOut()) {
+			List<Map<String, String>> jsonKeys = new ArrayList<Map<String, String>>();
+			for (JsonKeyModel jsonKey : model.getKeys()) {
+				if (!jsonKey.isOut()) {
 					continue;
 				}
-				Map<String, String> toMap = convJsonElementToMap(jsonElement);
-				jsonElements.add(toMap);
+				Map<String, String> toMap = convJsonModelToMap(jsonKey);
+				jsonKeys.add(toMap);
 			}
-			map.put("outElements", jsonElements);
+			map.put("outElements", jsonKeys);
 		}
 		{
-			List<Map<String, String>> jsonElements = new ArrayList<Map<String, String>>();
-			for (JsonElement jsonElement : model.getElements()) {
-				Map<String, String> toMap = convJsonElementToMap(jsonElement);
-				jsonElements.add(toMap);
+			List<Map<String, String>> jsonKeys = new ArrayList<Map<String, String>>();
+			for (JsonKeyModel jsonKey : model.getKeys()) {
+				Map<String, String> toMap = convJsonModelToMap(jsonKey);
+				jsonKeys.add(toMap);
 			}
-			map.put("allElements", jsonElements);
+			map.put("allElements", jsonKeys);
 		}
 		{
-			Map<String, Object> toMap = convStoreJsonElementToMap(model.getStoreElement());
+			Map<String, Object> toMap = convStoreJsonModelToMap(model.getStoreJson());
 			map.put("storeJsonElement", toMap);
 		}
 		map.put("treatUnknownKeyAsError", model.isTreatUnknownKeyAsError());
@@ -132,41 +133,32 @@ public class MvelTemplate {
 		return map;
 	}
 
-	static Map<String, String> convJsonElementToMap(JsonElement el) {
+	static Map<String, String> convJsonModelToMap(JsonKeyModel key) {
 		Map<String, String> map = new LinkedHashMap<String, String>();
-		map.put("key", el.getKey());
-		map.put("originalName", el.getOriginalName());
-		map.put("modelName", el.getModelName());
-		map.put("genName", el.getGenName());
-		map.put("setter", el.getSetter());
-		map.put("getter", el.getGetter());
-		map.put("kind", el.getKind().name());
-		map.put("converter", el.getConverter());
-		map.put("subKind", el.getSubKind().name());
+		map.put("key", key.getKey());
+		map.put("originalName", key.getOriginalName());
+		map.put("modelName", key.getModelName());
+		map.put("genName", key.getGenName());
+		map.put("setter", key.getSetter());
+		map.put("getter", key.getGetter());
+		map.put("kind", key.getKind().name());
+		map.put("converter", key.getConverter());
+		map.put("subKind", key.getSubKind().name());
 
 		return map;
 	}
 
-	static Map<String, Object> convStoreJsonElementToMap(StoreJsonElement el) {
+	static Map<String, Object> convStoreJsonModelToMap(StoreJsonModel storeJson) {
 		Map<String, Object> map = new LinkedHashMap<String, Object>();
-		map.put("storeJson", el.isStoreJson());
-		map.put("treatLogDisabledAsError", el.isTreatLogDisabledAsError());
-		map.put("setter", el.getSetter());
+		map.put("storeJson", storeJson.isStoreJson());
+		map.put("treatLogDisabledAsError", storeJson.isTreatLogDisabledAsError());
+		map.put("setter", storeJson.getSetter());
 
 		return map;
 	}
 
-	static String getTemplateString(String src) {
-		InputStream stream;
-		if (src.endsWith("JsonMeta")) {
-			stream =
-					MvelTemplate.class.getClassLoader().getResourceAsStream(
-							"JsonModelMeta.java.mvel");
-		} else {
-			stream =
-					MvelTemplate.class.getClassLoader().getResourceAsStream(
-							"JsonModelGen.java.mvel");
-		}
+	static String getTemplateString(String resourceName) {
+		InputStream stream = MvelTemplate.class.getClassLoader().getResourceAsStream(resourceName);
 		try {
 			String template = streamToString(stream);
 			// Log.d(template);

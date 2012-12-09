@@ -67,14 +67,14 @@ public class JsonHash extends LinkedHashMap<String, Object> {
 		if (state == State.VALUE_NULL) {
 			return null;
 		} else if (state != State.START_HASH) {
-			throw new JsonFormatException("unexpected token. token=" + state);
+			throw new JsonFormatException("unexpected token. token=" + state, parser);
 		}
 
 		JsonHash jsonHash = new JsonHash();
 		while ((state = parser.lookAhead()) != State.END_HASH) {
 			state = parser.getEventType();
 			if (state != State.KEY) {
-				throw new JsonFormatException("unexpected token. token=" + state);
+				throw new JsonFormatException("unexpected token. token=" + state, parser);
 			}
 			String key = parser.getValueString();
 			state = parser.lookAhead();
@@ -108,7 +108,7 @@ public class JsonHash extends LinkedHashMap<String, Object> {
 			case START_HASH:
 				return fromParser(parser);
 			default:
-				throw new JsonFormatException("unexpected token. token=" + state);
+				throw new JsonFormatException("unexpected token. token=" + state, parser);
 		}
 	}
 

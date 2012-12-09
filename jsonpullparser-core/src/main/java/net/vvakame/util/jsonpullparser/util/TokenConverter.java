@@ -24,11 +24,10 @@ import net.vvakame.util.jsonpullparser.JsonPullParser;
 import net.vvakame.util.jsonpullparser.annotation.JsonKey;
 
 /**
- * シリアライザ・デシリアライザをカスタマイズしたい場合実装するクラスです.<br> {@link JsonKey#converter()} に指定させて使います.<br>
- * 実装クラスでは {@code public static TokenConverter getInstance()} を実装してください.<br>
- * getInstance() で取得できるインスタンスはSingletonでも都度生成でもいいですが、
- * {@link #parse(JsonPullParser, OnJsonObjectAddListener)} や {@link #encodeNullToNull(Writer, Object)} が再利用可能であるように配慮してください.<br>
- * 本インターフェイスの実装として役に立つユーティリティとして {@link JsonUtil} が用意されています.
+ * Class to customize the serialization and deserialization.<br>
+ * Use with {@link JsonKey#converter()}.<br>
+ * If extend this class, when subclass must implement {@code public static TokenConverter getInstance()}.<br>
+ * Check for {@link JsonUtil} class. it is useful.
  * 
  * @param <T> 
  * @author vvakame
@@ -36,10 +35,10 @@ import net.vvakame.util.jsonpullparser.annotation.JsonKey;
 public class TokenConverter<T> {
 
 	/**
-	 * デシリアライズ用メソッド.
-	 * @param parser 処理対象の {@link JsonPullParser}
-	 * @param listener 逐次処理結果を渡す {@link OnJsonObjectAddListener}. nullが渡される場合も考慮すること.
-	 * @return デシリアライズしたインスタンス
+	 * For JSON deserialize.
+	 * @param parser {@link JsonPullParser}
+	 * @param listener {@link OnJsonObjectAddListener} for sequential processing
+	 * @return deserialized instance
 	 * @throws IOException
 	 * @throws JsonFormatException
 	 * @author vvakame
@@ -50,9 +49,8 @@ public class TokenConverter<T> {
 	}
 
 	/**
-	 * シリアライズ用メソッド.<br>
-	 * obj に {@code null} が渡された場合、 writer に {@code null} を書きこむこと.<br>
-	 * 本処理はシリアライズ結果のJSONの一部分だけを出力することを考慮して処理すること.
+	 * For JSON serialize.<br>
+	 * If null is passed to object, write null to writer.
 	 * @param writer
 	 * @param obj
 	 * @throws IOException

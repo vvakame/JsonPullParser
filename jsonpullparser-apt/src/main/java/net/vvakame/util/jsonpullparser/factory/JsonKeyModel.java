@@ -29,7 +29,7 @@ import net.vvakame.util.jsonpullparser.util.TokenConverter;
  * Internal data model for source code generation ({@link JsonKey})
  * @author vvakame
  */
-public class JsonElement {
+public class JsonKeyModel {
 
 	String originalName;
 

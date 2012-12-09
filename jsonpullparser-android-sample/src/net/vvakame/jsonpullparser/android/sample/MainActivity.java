@@ -32,7 +32,7 @@ import android.widget.ArrayAdapter;
 
 public class MainActivity extends ListActivity {
 
-	final static String PUBLIC_TIMELINE_URL = "http://api.twitter.com/1/statuses/public_timeline.json";
+	final static String PUBLIC_TIMELINE_URL = "http://search.twitter.com/search.json?q=Android";
 
 	ArrayAdapter<String> mAdapter;
 

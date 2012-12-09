@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="custom_rules">
+	<target name="-pre-compile">
+		<javac fork="yes" srcdir="${src}" compiler="javac1.6" encoding="UTF-8"
+			includeantruntime="false">
+			<compilerarg line="-proc:only" />
+			<compilerarg line="-classpath ${apt.processor.dir}/*" />
+			<compilerarg
+				line="-processor net.vvakame.util.jsonpullparser.factory.JsonAnnotationProcessor" />
+			<compilerarg line="-s ${gen}" />
+			<compilerarg line="-AJsonPullParserClassPostfix=${jpp.genclass.postfix}" />
+		</javac>
+	</target>
+</project>

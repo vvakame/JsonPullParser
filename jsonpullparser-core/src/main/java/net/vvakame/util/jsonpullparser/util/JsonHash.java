@@ -216,6 +216,9 @@ public class JsonHash extends LinkedHashMap<String, Object> {
 	 */
 	public Boolean getBooleanOrNull(String key) throws IllegalStateException {
 		Type type = stateMap.get(key);
+		if (type == null) {
+			return null;
+		}
 		switch (type) {
 			case NULL:
 				return null;
@@ -236,6 +239,9 @@ public class JsonHash extends LinkedHashMap<String, Object> {
 	 */
 	public String getStringOrNull(String key) throws IllegalStateException {
 		Type type = stateMap.get(key);
+		if (type == null) {
+			return null;
+		}
 		switch (type) {
 			case NULL:
 				return null;
@@ -256,6 +262,9 @@ public class JsonHash extends LinkedHashMap<String, Object> {
 	 */
 	public Long getLongOrNull(String key) throws IllegalStateException {
 		Type type = stateMap.get(key);
+		if (type == null) {
+			return null;
+		}
 		switch (type) {
 			case NULL:
 				return null;
@@ -288,6 +297,9 @@ public class JsonHash extends LinkedHashMap<String, Object> {
 	 */
 	public Double getDoubleOrNull(String key) throws IllegalStateException {
 		Type type = stateMap.get(key);
+		if (type == null) {
+			return null;
+		}
 		switch (type) {
 			case NULL:
 				return null;
@@ -316,6 +328,9 @@ public class JsonHash extends LinkedHashMap<String, Object> {
 	 */
 	public JsonHash getJsonHashOrNull(String key) throws IllegalStateException {
 		Type type = stateMap.get(key);
+		if (type == null) {
+			return null;
+		}
 		switch (type) {
 			case NULL:
 				return null;
@@ -336,6 +351,9 @@ public class JsonHash extends LinkedHashMap<String, Object> {
 	 */
 	public JsonArray getJsonArrayOrNull(String key) throws IllegalStateException {
 		Type type = stateMap.get(key);
+		if (type == null) {
+			return null;
+		}
 		switch (type) {
 			case NULL:
 				return null;

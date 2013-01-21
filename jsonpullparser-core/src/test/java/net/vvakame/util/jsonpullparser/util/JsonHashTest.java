@@ -257,6 +257,13 @@ public class JsonHashTest {
 	public void get() {
 		JsonHash jsonHash = new JsonHash();
 
+		assertThat(jsonHash.getBooleanOrNull("notExsists"), nullValue());
+		assertThat(jsonHash.getStringOrNull("notExsists"), nullValue());
+		assertThat(jsonHash.getDoubleOrNull("notExsists"), nullValue());
+		assertThat(jsonHash.getLongOrNull("notExsists"), nullValue());
+		assertThat(jsonHash.getJsonArrayOrNull("notExsists"), nullValue());
+		assertThat(jsonHash.getJsonHashOrNull("notExsists"), nullValue());
+
 		jsonHash.put("null", (Object) null);
 		jsonHash.put("string", "str");
 		jsonHash.put("boolean", true);

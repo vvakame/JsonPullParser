@@ -609,9 +609,17 @@ import net.vvakame.util.jsonpullparser.util.JsonSliceUtil;
 	@else{obj.kind == "ENUM"}
 		JsonUtil.put(writer, obj.@{obj.getter}());
 	@else{obj.kind == "JSON_ARRAY"}
-		obj.@{obj.getter}().toJson(writer);
+		if(obj.@{obj.getter}() != null){
+			obj.@{obj.getter}().toJson(writer);
+		} else {
+			JsonUtil.put(writer, (Object) null);
+		}
 	@else{obj.kind == "JSON_HASH"}
-		obj.@{obj.getter}().toJson(writer);
+		if(obj.@{obj.getter}() != null){
+			obj.@{obj.getter}().toJson(writer);
+		} else {
+			JsonUtil.put(writer, (Object) null);
+		}
 	@else{obj.kind == "MODEL"}
 		@{obj.genName}@{postfix}.encodeNullToNull(writer, obj.@{obj.getter}());
 	@else{obj.kind == "CONVERTER"}

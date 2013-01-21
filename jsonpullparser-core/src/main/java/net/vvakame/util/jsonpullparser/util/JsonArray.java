@@ -136,6 +136,9 @@ public class JsonArray extends ArrayList<Object> {
 	 */
 	public Boolean getBooleanOrNull(int index) throws IllegalStateException {
 		Type type = stateList.get(index);
+		if (type == null) {
+			return null;
+		}
 		switch (type) {
 			case NULL:
 				return null;
@@ -156,6 +159,9 @@ public class JsonArray extends ArrayList<Object> {
 	 */
 	public String getStringOrNull(int index) throws IllegalStateException {
 		Type type = stateList.get(index);
+		if (type == null) {
+			return null;
+		}
 		switch (type) {
 			case NULL:
 				return null;
@@ -176,6 +182,9 @@ public class JsonArray extends ArrayList<Object> {
 	 */
 	public Long getLongOrNull(int index) throws IllegalStateException {
 		Type type = stateList.get(index);
+		if (type == null) {
+			return null;
+		}
 		switch (type) {
 			case NULL:
 				return null;
@@ -208,6 +217,9 @@ public class JsonArray extends ArrayList<Object> {
 	 */
 	public Double getDoubleOrNull(int index) throws IllegalStateException {
 		Type type = stateList.get(index);
+		if (type == null) {
+			return null;
+		}
 		switch (type) {
 			case NULL:
 				return null;
@@ -236,6 +248,9 @@ public class JsonArray extends ArrayList<Object> {
 	 */
 	public JsonArray getJsonArrayOrNull(int index) throws IllegalStateException {
 		Type type = stateList.get(index);
+		if (type == null) {
+			return null;
+		}
 		switch (type) {
 			case NULL:
 				return null;
@@ -256,6 +271,9 @@ public class JsonArray extends ArrayList<Object> {
 	 */
 	public JsonHash getJsonHashOrNull(int index) throws IllegalStateException {
 		Type type = stateList.get(index);
+		if (type == null) {
+			return null;
+		}
 		switch (type) {
 			case NULL:
 				return null;

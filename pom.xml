@@ -4,7 +4,7 @@
 
 	<groupId>net.vvakame</groupId>
 	<artifactId>jsonpullparser</artifactId>
-	<version>1.5.2-SNAPSHOT</version>
+	<version>1.5.3-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
 	<name>JsonPullParser</name>
@@ -28,8 +28,8 @@
 		<connection>scm:git:git@github.com:vvakame/JsonPullParser.git</connection>
 		<developerConnection>scm:git:git@github.com:vvakame/JsonPullParser.git</developerConnection>
 		<url>git@github.com:vvakame/JsonPullParser.git</url>
-	  <tag>jsonpullparser-1.5</tag>
-  </scm>
+		<tag>jsonpullparser-1.5</tag>
+	</scm>
 
 	<developers>
 		<developer>

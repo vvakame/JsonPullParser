@@ -15,6 +15,8 @@ public abstract class JsonPropertyCoder<T> {
 
 	String name;
 
+	protected JsonModelCoder<Object> coder;
+
 
 	/**
 	 * Encodes the given instance to JSON format.

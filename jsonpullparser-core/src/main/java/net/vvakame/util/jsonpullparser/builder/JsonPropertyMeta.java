@@ -30,7 +30,7 @@ public class JsonPropertyMeta<T> implements JsonPropertyBuilderCreator {
 	}
 
 	JsonPropertyBuilder<T> getBuilder() {
-		return new JsonPropertyBuilder<T>(coderClass, name);
+		return new JsonPropertyBuilder<T>(coderClass, name, null);
 	}
 
 	/**
@@ -40,6 +40,16 @@ public class JsonPropertyMeta<T> implements JsonPropertyBuilderCreator {
 	 * @author vvakame
 	 */
 	public JsonPropertyBuilder<T> name(String name) {
-		return new JsonPropertyBuilder<T>(coderClass, name);
+		return new JsonPropertyBuilder<T>(coderClass, name, null);
+	}
+
+	/**
+	 * Gets a new instance of property builder for the given value coder.
+	 * @param coder
+	 * @return a new property builder instance
+	 * @author vvakame
+	 */
+	public JsonPropertyBuilder<T> coder(JsonModelCoder<?> coder) {
+		return new JsonPropertyBuilder<T>(coderClass, name, coder);
 	}
 }

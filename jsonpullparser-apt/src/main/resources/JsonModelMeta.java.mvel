@@ -21,7 +21,7 @@ import net.vvakame.util.jsonpullparser.util.JsonUtil;
 @if{jsonMetaToPackagePrivate != true}public @end{}class @{target}JsonMeta {
 
 	/** Metaclass for dynamic JSON generation for @{target} */
-	public static @{target}JsonMeta meta = new @{target}JsonMeta();
+	private static @{target}JsonMeta meta = new @{target}JsonMeta();
 @foreach{obj : allElements}
 	/** Metaclass for @{obj.originalName} */
 	public final JsonPropertyMeta<@{targetNew}> @{obj.originalName} = new JsonPropertyMeta<@{targetNew}>(Property_@{obj.key}.class, "@{obj.key}");

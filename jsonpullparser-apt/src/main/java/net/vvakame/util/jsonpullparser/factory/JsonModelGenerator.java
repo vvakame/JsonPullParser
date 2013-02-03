@@ -40,6 +40,7 @@ import javax.lang.model.util.Elements;
 import javax.lang.model.util.Types;
 import javax.tools.JavaFileObject;
 
+import net.vvakame.apt.AptUtil;
 import net.vvakame.util.jsonpullparser.annotation.JsonKey;
 import net.vvakame.util.jsonpullparser.annotation.JsonModel;
 import net.vvakame.util.jsonpullparser.annotation.StoreJson;
@@ -362,6 +363,24 @@ public class JsonModelGenerator {
 			jsonKey.setOut(annotation.out());
 			jsonKey.setGetter(getter);
 			jsonKey.setModelName(t.toString());
+			switch (t.getKind()) {
+				case BOOLEAN:
+				case BYTE:
+				case SHORT:
+				case INT:
+				case LONG:
+				case FLOAT:
+				case DOUBLE:
+				case CHAR:
+					TypeElement boxedClass =
+							typeUtils.boxedClass(typeUtils.getPrimitiveType(t.getKind()));
+					String fqn = AptUtil.getFullQualifiedName(boxedClass);
+					jsonKey.setParameterClass(fqn);
+					break;
+				default:
+					jsonKey.setParameterClass(t.toString());
+					break;
+			}
 			if (kind == Kind.MODEL) {
 				String packageName = getPackageName(elementUtils, typeUtils, el.asType());
 				jsonKey.setGenName(packageName + "." + getSimpleName(el.asType()));
@@ -495,6 +514,7 @@ public class JsonModelGenerator {
 				jsonKey.setOut(annotation.out());
 				jsonKey.setGetter(getter);
 				jsonKey.setModelName(tm.toString());
+				jsonKey.setParameterClass(tm.toString());
 
 				String packageName = getPackageName(elementUtils, typeUtils, tm);
 

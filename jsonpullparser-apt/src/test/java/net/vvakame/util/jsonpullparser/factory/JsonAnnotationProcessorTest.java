@@ -64,8 +64,14 @@ public class JsonAnnotationProcessorTest extends AptinaTestCase {
 		addCompilationUnit(PrimitiveWrapperListData.class);
 
 		compile();
-		@SuppressWarnings("unused")
-		String source = getGeneratedSource(PrimitiveTypeData.class.getName() + "Gen");
+		{
+			@SuppressWarnings("unused")
+			String source = getGeneratedSource(PrimitiveTypeData.class.getName() + "Gen");
+		}
+		{
+			@SuppressWarnings("unused")
+			String source = getGeneratedSource(PrimitiveTypeData.class.getName() + "JsonMeta");
+		}
 		assertThat(getCompiledResult(), is(true));
 	}
 
@@ -102,10 +108,16 @@ public class JsonAnnotationProcessorTest extends AptinaTestCase {
 		addCompilationUnit(ComplexData.class);
 
 		compile();
-		assertThat(getCompiledResult(), is(true));
 
-		@SuppressWarnings("unused")
-		String source = getGeneratedSource(ComplexData.class.getName() + "Gen");
+		{
+			@SuppressWarnings("unused")
+			String source = getGeneratedSource(ComplexData.class.getName() + "Gen");
+		}
+		{
+			@SuppressWarnings("unused")
+			String source = getGeneratedSource(ComplexData.class.getName() + "JsonMeta");
+		}
+		assertThat(getCompiledResult(), is(true));
 	}
 
 	/**

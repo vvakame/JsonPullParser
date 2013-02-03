@@ -138,6 +138,7 @@ public class MvelTemplate {
 		map.put("key", key.getKey());
 		map.put("originalName", key.getOriginalName());
 		map.put("modelName", key.getModelName());
+		map.put("parameterClass", key.getParameterClass());
 		map.put("genName", key.getGenName());
 		map.put("setter", key.getSetter());
 		map.put("getter", key.getGetter());

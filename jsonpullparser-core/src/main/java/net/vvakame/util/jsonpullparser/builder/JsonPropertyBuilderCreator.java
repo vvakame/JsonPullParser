@@ -12,5 +12,5 @@ public interface JsonPropertyBuilderCreator {
 	 * @return An instance of {@link JsonPropertyBuilder}
 	 * @author vvakame
 	 */
-	<T>JsonPropertyBuilder<T> get();
+	<T, P>JsonPropertyBuilder<T, P> get();
 }

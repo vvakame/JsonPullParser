@@ -26,7 +26,7 @@ public class JsonModelCoder<T> {
 
 	boolean treatUnknownKeyAsError;
 
-	Map<String, JsonPropertyCoder<T>> map;
+	Map<String, JsonPropertyCoder<T, ?>> map;
 
 
 	/**
@@ -37,7 +37,7 @@ public class JsonModelCoder<T> {
 	 * @category constructor
 	 */
 	public JsonModelCoder(Class<T> baseClass, boolean treatUnknownKeyAsError,
-			Map<String, JsonPropertyCoder<T>> map) {
+			Map<String, JsonPropertyCoder<T, ?>> map) {
 		this.baseClass = baseClass;
 		this.treatUnknownKeyAsError = treatUnknownKeyAsError;
 		this.map = map;
@@ -291,7 +291,7 @@ public class JsonModelCoder<T> {
 	public boolean parseValue(JsonPullParser parser, OnJsonObjectAddListener listener, String key,
 			T obj) throws IOException, JsonFormatException {
 
-		JsonPropertyCoder<T> dec = map.get(key);
+		JsonPropertyCoder<T, ?> dec = map.get(key);
 		if (dec == null) {
 			return false;
 		} else {
@@ -309,7 +309,7 @@ public class JsonModelCoder<T> {
 	 * @param list {@link List} of values to be encoded
 	 * @throws IOException 
 	 */
-	public void encodeList(OutputStream out, List<T> list) throws IOException {
+	public void encodeList(OutputStream out, List<? extends T> list) throws IOException {
 		OutputStreamWriter writer = new OutputStreamWriter(out, JsonPullParser.DEFAULT_CHARSET);
 		encodeListNullToBlank(writer, list);
 	}
@@ -322,7 +322,7 @@ public class JsonModelCoder<T> {
 	 * @param list {@link List} of values to be encoded
 	 * @throws IOException 
 	 */
-	public void encodeList(Writer writer, List<T> list) throws IOException {
+	public void encodeList(Writer writer, List<? extends T> list) throws IOException {
 		encodeListNullToBlank(writer, list);
 	}
 
@@ -334,7 +334,7 @@ public class JsonModelCoder<T> {
 	 * @param list {@link List} of values to be encoded
 	 * @throws IOException 
 	 */
-	public void encodeListNullToBlank(Writer writer, List<T> list) throws IOException {
+	public void encodeListNullToBlank(Writer writer, List<? extends T> list) throws IOException {
 		if (list == null) {
 			writer.write("[]");
 			writer.flush();
@@ -352,7 +352,7 @@ public class JsonModelCoder<T> {
 	 * @param list {@link List} of values to be encoded
 	 * @throws IOException 
 	 */
-	public void encodeListNullToNull(Writer writer, List<T> list) throws IOException {
+	public void encodeListNullToNull(Writer writer, List<? extends T> list) throws IOException {
 		if (list == null) {
 			writer.write("null");
 			writer.flush();
@@ -454,7 +454,7 @@ public class JsonModelCoder<T> {
 		int count = 0;
 		for (String key : map.keySet()) {
 			JsonUtil.putKey(writer, key);
-			JsonPropertyCoder<T> enc = map.get(key);
+			JsonPropertyCoder<T, ?> enc = map.get(key);
 			enc.encode(writer, obj);
 			count++;
 			if (count != map.size()) {

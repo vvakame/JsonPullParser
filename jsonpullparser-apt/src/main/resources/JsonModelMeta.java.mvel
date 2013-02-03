@@ -82,11 +82,38 @@ import net.vvakame.util.jsonpullparser.util.JsonUtil;
 
 		@Override
 		public void encode(Writer writer, @{targetNew} obj) throws IOException {
-			if(this.coder != null) {
 	@if{obj.kind == "LIST"}
+			if(obj.@{obj.getter}() == null) {
+				writer.write("null");
+
+			} else if(obj.@{obj.getter}().size() == 0) {
+				writer.write("[]");
+
+			} else if(this.router != null) {
+				JsonUtil.startArray(writer);
+
+				int size = obj.@{obj.getter}().size();
+				for(int i = 0; i < size; i++) {
+					@{obj.parameterClass} child = obj.@{obj.getter}().get(i);
+					this.router.doResolve(child).encode(writer, child);
+					if (i + 1 < size) {
+						JsonUtil.addSeparator(writer);
+					}
+				}
+
+				JsonUtil.endArray(writer);
+
+			} else if(this.coder != null) {
 				this.coder.encodeList(writer, obj.@{obj.getter}());
 	@else{}
-				this.coder.encode(writer, obj.@{obj.getter}());
+			JsonModelCoder<@{obj.parameterClass}> coder = null;
+			if(this.router != null) {
+				coder = this.router.doResolve(obj.@{obj.getter}());
+			} else if(this.coder != null) {
+				coder = this.coder;
+			}
+			if(coder != null) {
+				coder.encode(writer, obj.@{obj.getter}());
 	@end{}
 			} else {
 	@if{obj.kind == "LIST"}

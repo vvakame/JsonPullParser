@@ -18,6 +18,8 @@ public abstract class JsonPropertyCoder<T, P> {
 
 	protected JsonModelCoder<P> coder;
 
+	protected JsonCoderRouter<P> router;
+
 
 	/**
 	 * Encodes the given instance to JSON format.

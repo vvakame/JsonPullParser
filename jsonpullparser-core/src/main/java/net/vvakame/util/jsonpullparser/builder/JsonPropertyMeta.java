@@ -31,7 +31,7 @@ public class JsonPropertyMeta<T, P> implements JsonPropertyBuilderCreator {
 	}
 
 	JsonPropertyBuilder<T, P> getBuilder() {
-		return new JsonPropertyBuilder<T, P>(coderClass, name, null);
+		return new JsonPropertyBuilder<T, P>(coderClass, name, null, null);
 	}
 
 	/**
@@ -41,7 +41,7 @@ public class JsonPropertyMeta<T, P> implements JsonPropertyBuilderCreator {
 	 * @author vvakame
 	 */
 	public JsonPropertyBuilder<T, P> name(String name) {
-		return new JsonPropertyBuilder<T, P>(coderClass, name, null);
+		return new JsonPropertyBuilder<T, P>(coderClass, name, null, null);
 	}
 
 	/**
@@ -51,6 +51,16 @@ public class JsonPropertyMeta<T, P> implements JsonPropertyBuilderCreator {
 	 * @author vvakame
 	 */
 	public JsonPropertyBuilder<T, P> coder(JsonModelCoder<P> coder) {
-		return new JsonPropertyBuilder<T, P>(coderClass, name, coder);
+		return new JsonPropertyBuilder<T, P>(coderClass, name, coder, null);
+	}
+
+	/**
+	 * Gets a new instance of property builder for the given coder router.
+	 * @param router 
+	 * @return a new property builder instance
+	 * @author vvakame
+	 */
+	public JsonPropertyBuilder<T, P> router(JsonCoderRouter<P> router) {
+		return new JsonPropertyBuilder<T, P>(coderClass, name, null, router);
 	}
 }

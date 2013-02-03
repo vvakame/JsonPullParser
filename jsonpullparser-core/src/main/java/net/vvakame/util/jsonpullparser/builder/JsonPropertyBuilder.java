@@ -14,19 +14,23 @@ public class JsonPropertyBuilder<T, P> implements JsonPropertyBuilderCreator {
 
 	JsonModelCoder<P> coder;
 
+	JsonCoderRouter<P> router;
+
 
 	/**
 	 * the constructor.
 	 * @param coderClass
 	 * @param name
 	 * @param coder 
+	 * @param router 
 	 * @category constructor
 	 */
 	public JsonPropertyBuilder(Class<? extends JsonPropertyCoder<T, P>> coderClass, String name,
-			JsonModelCoder<P> coder) {
+			JsonModelCoder<P> coder, JsonCoderRouter<P> router) {
 		this.coderClass = coderClass;
 		this.name = name;
 		this.coder = coder;
+		this.router = router;
 	}
 
 	@Override
@@ -58,6 +62,17 @@ public class JsonPropertyBuilder<T, P> implements JsonPropertyBuilderCreator {
 	}
 
 	/**
+	 * Sets the JSON value router it uses.
+	 * @param router 
+	 * @return this
+	 * @author vvakame
+	 */
+	public JsonPropertyBuilder<T, P> router(JsonCoderRouter<P> router) {
+		this.router = router;
+		return this;
+	}
+
+	/**
 	 * Fixiates the current state for coding.
 	 * 
 	 * @return A JsonModelCoder instance for the actual coding.
@@ -74,6 +89,7 @@ public class JsonPropertyBuilder<T, P> implements JsonPropertyBuilderCreator {
 		}
 		coder.name = this.name;
 		coder.coder = this.coder;
+		coder.router = this.router;
 
 		return coder;
 	}

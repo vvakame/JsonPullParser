@@ -10,12 +10,13 @@ import net.vvakame.util.jsonpullparser.JsonPullParser;
  * JSON property coder.
  * @author vvakame
  * @param <T>
+ * @param <P> 
  */
-public abstract class JsonPropertyCoder<T> {
+public abstract class JsonPropertyCoder<T, P> {
 
 	String name;
 
-	protected JsonModelCoder<Object> coder;
+	protected JsonModelCoder<P> coder;
 
 
 	/**

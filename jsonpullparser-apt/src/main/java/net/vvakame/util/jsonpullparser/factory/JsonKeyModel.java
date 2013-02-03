@@ -47,6 +47,8 @@ public class JsonKeyModel {
 
 	String modelName;
 
+	String parameterClass;
+
 	String genName;
 
 	String converter;
@@ -238,6 +240,22 @@ public class JsonKeyModel {
 	 */
 	public void setModelName(String modelName) {
 		this.modelName = modelName;
+	}
+
+	/**
+	 * @return the parameterClass
+	 * @category accessor
+	 */
+	public String getParameterClass() {
+		return parameterClass;
+	}
+
+	/**
+	 * @param parameterClass the parameterClass to set
+	 * @category accessor
+	 */
+	public void setParameterClass(String parameterClass) {
+		this.parameterClass = parameterClass;
 	}
 
 	/**

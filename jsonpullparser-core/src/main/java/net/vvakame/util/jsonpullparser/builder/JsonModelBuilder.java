@@ -14,8 +14,8 @@ public abstract class JsonModelBuilder<T> {
 
 	protected boolean treatUnknownKeyAsError;
 
-	protected Map<String, JsonPropertyBuilder<T>> map =
-			new LinkedHashMap<String, JsonPropertyBuilder<T>>();
+	protected Map<String, JsonPropertyBuilder<T, ?>> map =
+			new LinkedHashMap<String, JsonPropertyBuilder<T, ?>>();
 
 
 	/**
@@ -42,14 +42,14 @@ public abstract class JsonModelBuilder<T> {
 	 * @return this
 	 * @author vvakame
 	 */
-	public JsonModelBuilder<T> add(JsonPropertyBuilderCreator... creators) {
+	public <P>JsonModelBuilder<T> add(JsonPropertyBuilderCreator... creators) {
 		for (JsonPropertyBuilderCreator creator : creators) {
-			addSub(creator.<T> get());
+			addSub(creator.<T, P> get());
 		}
 		return this;
 	}
 
-	protected void addSub(JsonPropertyBuilder<T> builder) {
+	protected <P>void addSub(JsonPropertyBuilder<T, P> builder) {
 		map.put(builder.name, builder);
 	}
 
@@ -59,14 +59,14 @@ public abstract class JsonModelBuilder<T> {
 	 * @return this
 	 * @author vvakame
 	 */
-	public JsonModelBuilder<T> rm(JsonPropertyBuilderCreator... creators) {
+	public <P>JsonModelBuilder<T> rm(JsonPropertyBuilderCreator... creators) {
 		for (JsonPropertyBuilderCreator creator : creators) {
-			rmSub(creator.<T> get());
+			rmSub(creator.<T, P> get());
 		}
 		return this;
 	}
 
-	protected void rmSub(JsonPropertyBuilder<T> builder) {
+	protected <P>void rmSub(JsonPropertyBuilder<T, P> builder) {
 		map.remove(builder.name);
 	}
 

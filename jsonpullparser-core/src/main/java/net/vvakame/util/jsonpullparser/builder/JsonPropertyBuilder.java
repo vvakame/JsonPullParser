@@ -4,14 +4,15 @@ package net.vvakame.util.jsonpullparser.builder;
  * JSON property builder.
  * @author vvakame
  * @param <T>
+ * @param <P> 
  */
-public class JsonPropertyBuilder<T> implements JsonPropertyBuilderCreator {
+public class JsonPropertyBuilder<T, P> implements JsonPropertyBuilderCreator {
 
-	Class<? extends JsonPropertyCoder<T>> coderClass;
+	Class<? extends JsonPropertyCoder<T, P>> coderClass;
 
 	String name;
 
-	JsonModelCoder<?> coder;
+	JsonModelCoder<P> coder;
 
 
 	/**
@@ -21,8 +22,8 @@ public class JsonPropertyBuilder<T> implements JsonPropertyBuilderCreator {
 	 * @param coder 
 	 * @category constructor
 	 */
-	public JsonPropertyBuilder(Class<? extends JsonPropertyCoder<T>> coderClass, String name,
-			JsonModelCoder<?> coder) {
+	public JsonPropertyBuilder(Class<? extends JsonPropertyCoder<T, P>> coderClass, String name,
+			JsonModelCoder<P> coder) {
 		this.coderClass = coderClass;
 		this.name = name;
 		this.coder = coder;
@@ -30,7 +31,7 @@ public class JsonPropertyBuilder<T> implements JsonPropertyBuilderCreator {
 
 	@Override
 	@SuppressWarnings("unchecked")
-	public JsonPropertyBuilder<T> get() {
+	public JsonPropertyBuilder<T, P> get() {
 		return this;
 	}
 
@@ -40,7 +41,7 @@ public class JsonPropertyBuilder<T> implements JsonPropertyBuilderCreator {
 	 * @return this
 	 * @author vvakame
 	 */
-	public JsonPropertyBuilder<T> name(String name) {
+	public JsonPropertyBuilder<T, P> name(String name) {
 		this.name = name;
 		return this;
 	}
@@ -51,7 +52,7 @@ public class JsonPropertyBuilder<T> implements JsonPropertyBuilderCreator {
 	 * @return this
 	 * @author vvakame
 	 */
-	public JsonPropertyBuilder<T> coder(JsonModelCoder<?> coder) {
+	public JsonPropertyBuilder<T, P> coder(JsonModelCoder<P> coder) {
 		this.coder = coder;
 		return this;
 	}
@@ -62,9 +63,8 @@ public class JsonPropertyBuilder<T> implements JsonPropertyBuilderCreator {
 	 * @return A JsonModelCoder instance for the actual coding.
 	 * @author vvakame
 	 */
-	@SuppressWarnings("unchecked")
-	public JsonPropertyCoder<T> fix() {
-		JsonPropertyCoder<T> coder = null;
+	public JsonPropertyCoder<T, P> fix() {
+		JsonPropertyCoder<T, P> coder = null;
 		try {
 			coder = coderClass.newInstance();
 		} catch (InstantiationException e) {
@@ -73,7 +73,7 @@ public class JsonPropertyBuilder<T> implements JsonPropertyBuilderCreator {
 			throw new IllegalArgumentException(e);
 		}
 		coder.name = this.name;
-		coder.coder = (JsonModelCoder<Object>) this.coder;
+		coder.coder = this.coder;
 
 		return coder;
 	}

@@ -6,7 +6,7 @@ package net.vvakame.util.jsonpullparser.builder;
  * @param <T>
  * @param <P> 
  */
-public class JsonPropertyBuilder<T, P> implements JsonPropertyBuilderCreator {
+public class JsonPropertyBuilder<T, P> implements JsonPropertyBuilderCreator<T> {
 
 	Class<? extends JsonPropertyCoder<T, P>> coderClass;
 

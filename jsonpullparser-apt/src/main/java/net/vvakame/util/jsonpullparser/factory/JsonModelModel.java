@@ -19,6 +19,8 @@ package net.vvakame.util.jsonpullparser.factory;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.lang.model.element.Element;
+
 import net.vvakame.util.jsonpullparser.annotation.JsonModel;
 
 /**
@@ -33,6 +35,8 @@ public class JsonModelModel {
 
 	boolean existsBase = false;
 
+	Element targetBaseElement;
+
 	String targetBase = "Invalid";
 
 	String target = "Invalid";
@@ -40,6 +44,8 @@ public class JsonModelModel {
 	String targetNew = "Invalid";
 
 	List<JsonKeyModel> keys = new ArrayList<JsonKeyModel>();
+
+	List<JsonKeyModel> inheritKeys = new ArrayList<JsonKeyModel>();
 
 	boolean treatUnknownKeyAsError;
 
@@ -113,6 +119,22 @@ public class JsonModelModel {
 	}
 
 	/**
+	 * @return the targetBaseElement
+	 * @category accessor
+	 */
+	public Element getTargetBaseElement() {
+		return targetBaseElement;
+	}
+
+	/**
+	 * @param targetBaseElement the targetBaseElement to set
+	 * @category accessor
+	 */
+	public void setTargetBaseElement(Element targetBaseElement) {
+		this.targetBaseElement = targetBaseElement;
+	}
+
+	/**
 	 * @return the targetBase
 	 * @category accessor
 	 */
@@ -174,6 +196,22 @@ public class JsonModelModel {
 	 */
 	public void setKeys(List<JsonKeyModel> keys) {
 		this.keys = keys;
+	}
+
+	/**
+	 * @return the inheritKeys
+	 * @category accessor
+	 */
+	public List<JsonKeyModel> getInheritKeys() {
+		return inheritKeys;
+	}
+
+	/**
+	 * @param inheritKeys the inheritKeys to set
+	 * @category accessor
+	 */
+	public void setInheritKeys(List<JsonKeyModel> inheritKeys) {
+		this.inheritKeys = inheritKeys;
 	}
 
 	/**
@@ -241,7 +279,7 @@ public class JsonModelModel {
 	}
 
 	/**
-	 * @return the storeElement
+	 * @return the storeJson
 	 * @category accessor
 	 */
 	public StoreJsonModel getStoreJson() {
@@ -249,10 +287,10 @@ public class JsonModelModel {
 	}
 
 	/**
-	 * @param storeElement the storeElement to set
+	 * @param storeJson the storeJson to set
 	 * @category accessor
 	 */
-	public void setStoreJson(StoreJsonModel storeElement) {
-		this.storeJson = storeElement;
+	public void setStoreJson(StoreJsonModel storeJson) {
+		this.storeJson = storeJson;
 	}
 }

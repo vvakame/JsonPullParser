@@ -96,6 +96,12 @@ public class JsonModelGenerator {
 		generator.processJsonKeys();
 		generator.processStoreJson();
 
+		if (generator.jsonModel.existsBase) {
+			JsonModelGenerator baseGenerator =
+					from(generator.jsonModel.targetBaseElement, classNamePostfix);
+			generator.jsonModel.getInheritKeys().addAll(baseGenerator.jsonModel.getKeys());
+		}
+
 		return generator;
 	}
 
@@ -139,6 +145,7 @@ public class JsonModelGenerator {
 
 		TypeElement superClass = getSuperClassElement(classElement);
 		if (superClass.getAnnotation(JsonModel.class) != null) {
+			jsonModel.setTargetBaseElement(superClass);
 			jsonModel.setTargetBase(getFullQualifiedName(superClass));
 			jsonModel.setExistsBase(true);
 		}

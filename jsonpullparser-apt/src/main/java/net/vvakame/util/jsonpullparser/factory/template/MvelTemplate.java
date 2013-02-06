@@ -123,6 +123,14 @@ public class MvelTemplate {
 			map.put("allElements", jsonKeys);
 		}
 		{
+			List<Map<String, String>> jsonKeys = new ArrayList<Map<String, String>>();
+			for (JsonKeyModel jsonKey : model.getInheritKeys()) {
+				Map<String, String> toMap = convJsonModelToMap(jsonKey);
+				jsonKeys.add(toMap);
+			}
+			map.put("inheritElements", jsonKeys);
+		}
+		{
 			Map<String, Object> toMap = convStoreJsonModelToMap(model.getStoreJson());
 			map.put("storeJsonElement", toMap);
 		}

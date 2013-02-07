@@ -59,9 +59,13 @@ public class MvelTemplate {
 		PrintWriter printWriter = new PrintWriter(writer);
 		String generated =
 				(String) TemplateRuntime.eval(getTemplateString("JsonModelGen.java.mvel"), map);
-		printWriter.write(generated);
-		printWriter.flush();
-		printWriter.close();
+		try {
+			printWriter.write(generated);
+			printWriter.flush();
+			printWriter.close();
+		} catch (Exception e) {
+			throw new RuntimeException("error raised in process " + model.getTarget(), e);
+		}
 	}
 
 	/**
@@ -79,9 +83,13 @@ public class MvelTemplate {
 		PrintWriter printWriter = new PrintWriter(writer);
 		String generated =
 				(String) TemplateRuntime.eval(getTemplateString("JsonModelMeta.java.mvel"), map);
-		printWriter.write(generated);
-		printWriter.flush();
-		printWriter.close();
+		try {
+			printWriter.write(generated);
+			printWriter.flush();
+			printWriter.close();
+		} catch (Exception e) {
+			throw new RuntimeException("error raised in process " + model.getTarget(), e);
+		}
 	}
 
 	static Map<String, Object> convModelToMap(JsonModelModel model) {

@@ -1,0 +1,51 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<artifactId>jsonpullparser-google-http-client</artifactId>
+	<packaging>jar</packaging>
+
+	<parent>
+		<groupId>net.vvakame</groupId>
+		<artifactId>jsonpullparser-parent</artifactId>
+		<version>1.6.2-SNAPSHOT</version>
+		<relativePath>../jsonpullparser-parent</relativePath>
+	</parent>
+
+	<properties>
+		<google.api.client.version>1.14.1-beta</google.api.client.version>
+	</properties>
+
+	<dependencies>
+		<dependency>
+			<groupId>net.vvakame</groupId>
+			<artifactId>jsonpullparser-core</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.google.http-client</groupId>
+			<artifactId>google-http-client</artifactId>
+			<version>${google.api.client.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.google.http-client</groupId>
+			<artifactId>google-http-client-test</artifactId>
+			<version>${google.api.client.version}</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>com.google.guava</groupId>
+			<artifactId>guava</artifactId>
+			<version>14.0.1</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.google.http-client</groupId>
+			<artifactId>google-http-client-jackson2</artifactId>
+			<version>${google.api.client.version}</version>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+</project>

@@ -11,7 +11,7 @@ JsonPullParser is a JSON-POJO Mapper library for the Java. licensed under Apache
 
 ## How to use ##
 
-[For the Japanese](https://github.com/vvakame/JsonPullParser/wiki/JsonPullParser_ja)
+[Quick Start Guide(Japanese)](https://github.com/vvakame/JsonPullParser/wiki/JsonPullParser_ja)
 
 ---
 

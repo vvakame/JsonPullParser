@@ -614,7 +614,7 @@ public class JsonModelGenerator {
 			JsonModel jsonModel = type.getAnnotation(JsonModel.class);
 			String converterClassName = getTokenConverterClassName(el);
 			if (jsonModel == null && converterClassName == null) {
-				Log.e("expect for use decorated class by JsonModel annotation.", el);
+				Log.e("The type is not directly supported. Define JsonModel annotation on the type or supply TokenConverter to converter parameter within JsonKey annotation.", el);
 				encountError = true;
 				return defaultAction(t, el);
 			}

@@ -22,3 +22,4 @@ See [releases](https://github.com/vvakame/JsonPullParser/releases).
 
 * [SengokuDroid(server-side)](https://play.google.com/store/apps/details?id=jp.co.topgate.android.game.twitter.sengoku)
 * [agri-note](http://agri-note.jp/)
+* [pixiv(Android app)](https://play.google.com/store/apps/details?id=jp.pxv.android)

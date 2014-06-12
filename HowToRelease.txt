@@ -1,3 +1,5 @@
+$ git flow release start x.x.x
 $ mvn release:prepare
 $ mvn -e release:perform -Dgpg.passphrase=**** -Darguments="-Dgpg.passphrase=****"
+$ git flow release finish x.x.x
 

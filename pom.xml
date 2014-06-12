@@ -4,7 +4,7 @@
 
 	<groupId>net.vvakame</groupId>
 	<artifactId>jsonpullparser</artifactId>
-	<version>1.6.2-SNAPSHOT</version>
+	<version>1.6.4-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
 	<name>JsonPullParser</name>
@@ -85,6 +85,7 @@
 		<module>jsonpullparser-parent</module>
 		<module>jsonpullparser-core</module>
 		<module>jsonpullparser-apt</module>
+		<module>jsonpullparser-google-http-client</module>
 	</modules>
 
 	<distributionManagement>
@@ -105,7 +106,7 @@
 			<plugins>
 				<plugin>
 					<artifactId>maven-release-plugin</artifactId>
-					<version>2.3.2</version>
+					<version>2.4.1</version>
 				</plugin>
 			</plugins>
 		</pluginManagement>

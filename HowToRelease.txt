@@ -3,3 +3,4 @@ $ mvn release:prepare
 $ mvn -e release:perform -Dgpg.passphrase=**** -Darguments="-Dgpg.passphrase=****"
 $ git flow release finish x.x.x
 
+# maven-release-pluginがgitのコミットを作成してくれない場合、masterやdevelopの間でmergeコンフリクトが発生するのかも

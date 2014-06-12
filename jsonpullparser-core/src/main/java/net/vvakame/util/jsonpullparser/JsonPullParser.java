@@ -808,7 +808,8 @@ public class JsonPullParser {
 
 	StringBuilder stb = new StringBuilder();
 
-	private void expectSignOrDigitAfterE() throws IOException, JsonFormatException{
+
+	private void expectSignOrDigitAfterE() throws IOException, JsonFormatException {
 		char c = (char) br.read();
 		switch (c) {
 			case '+':
@@ -823,8 +824,8 @@ public class JsonPullParser {
 			case '7':
 			case '8':
 			case '9':
-                br.mark(1);
-                stb.append(c);
+				br.mark(1);
+				stb.append(c);
 				break;
 			default:
 				throw new JsonFormatException("unexpected char. expected '+' or '-' or digit", this);
@@ -862,7 +863,7 @@ public class JsonPullParser {
 			br.mark(1);
 			stb.append(c);
 			if (c == 'e' || c == 'E') {
-			   expectSignOrDigitAfterE();
+				expectSignOrDigitAfterE();
 			}
 		}
 		if (d) {

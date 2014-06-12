@@ -6,7 +6,7 @@ Travis-CI (develop) [![Build Status](https://secure.travis-ci.org/vvakame/JsonPu
 
 JsonPullParser is a JSON-POJO Mapper library for the Java. licensed under Apache License 2.0.
 
-Latest version is 1.6.2.
+Latest version is 1.6.9.
 See [releases](https://github.com/vvakame/JsonPullParser/releases).
 
 ---

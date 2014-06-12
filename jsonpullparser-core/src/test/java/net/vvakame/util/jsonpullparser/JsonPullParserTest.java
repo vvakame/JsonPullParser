@@ -335,6 +335,34 @@ public class JsonPullParserTest {
 	}
 
 	/**
+	 * Tests the handling of {@link State#VALUE_DOUBLE}.
+	 * @throws IOException
+	 * @throws JsonFormatException
+	 * @author Shinpeim
+	 */
+	@Test
+	public void parseDoubleWhichContainsPlusAfterE() throws IOException, JsonFormatException {
+		State type;
+		String str;
+		double d;
+
+		JsonPullParser parser = JsonPullParser.newParser("{\"key\":-1e+6}");
+		type = parser.getEventType();
+		assertThat(type, is(State.START_HASH));
+		type = parser.getEventType();
+		assertThat(type, is(State.KEY));
+		str = parser.getValueString();
+		assertThat(str, is("key"));
+		type = parser.getEventType();
+		assertThat(type, is(State.VALUE_DOUBLE));
+		d = parser.getValueDouble();
+		assertThat(d, is(-1000000.0));
+		type = parser.getEventType();
+		assertThat(type, is(State.END_HASH));
+	}
+
+
+	/**
 	 * Tests the handling of {@link State#START_HASH} and {@link State#END_HASH}.
 	 * @throws IOException
 	 * @throws JsonFormatException

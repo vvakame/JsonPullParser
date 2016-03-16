@@ -1,6 +1,6 @@
 buildscript {
     repositories {
-        mavenLocal()
+        mavenCentral()
         jcenter()
     }
 
@@ -11,9 +11,12 @@ buildscript {
 allprojects {
     group = 'net.vvakame'
     version = '1.6.10-SNAPSHOT'
+
     repositories {
-        mavenLocal()
+        mavenCentral()
         jcenter()
+
+        maven { url 'http://maven.seasar.org/maven2' }
     }
 }
 

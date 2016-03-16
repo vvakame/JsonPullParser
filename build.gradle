@@ -1,0 +1,23 @@
+buildscript {
+    repositories {
+        mavenLocal()
+        jcenter()
+    }
+
+    dependencies {
+    }
+}
+
+allprojects {
+    group = 'net.vvakame'
+    version = '1.6.10-SNAPSHOT'
+    repositories {
+        mavenLocal()
+        jcenter()
+    }
+}
+
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '2.12'
+}

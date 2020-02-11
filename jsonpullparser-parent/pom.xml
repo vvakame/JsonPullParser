@@ -102,7 +102,7 @@
 		<repository>
 			<id>maven.seasar.org</id>
 			<name>The Seasar Foundation Maven2 Repository</name>
-			<url>http://maven.seasar.org/maven2</url>
+			<url>https://maven.seasar.org/maven2</url>
 		</repository>
 	</repositories>
 

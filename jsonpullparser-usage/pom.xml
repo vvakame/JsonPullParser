@@ -18,11 +18,11 @@
 	<repositories>
 		<repository>
 			<id>vvakame-jsonpullparser-release</id>
-			<url>http://vvakame.github.com/JsonPullParser/release</url>
+			<url>https://vvakame.github.com/JsonPullParser/release</url>
 		</repository>
 		<repository>
 			<id>vvakame-jsonpullparser-snapshot</id>
-			<url>http://vvakame.github.com/JsonPullParser/snapshots</url>
+			<url>https://vvakame.github.com/JsonPullParser/snapshots</url>
 		</repository>
 	</repositories>
 

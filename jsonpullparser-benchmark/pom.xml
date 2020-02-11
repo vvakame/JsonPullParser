@@ -18,11 +18,11 @@
 		<repository>
 			<id>maven.seasar.org</id>
 			<name>The Seasar Foundation Maven2 Repository</name>
-			<url>http://maven.seasar.org/maven2</url>
+			<url>https://maven.seasar.org/maven2</url>
 		</repository>
 		<repository>
 			<id>vvakame-jsonpullparser-snapshot</id>
-			<url>http://vvakame.github.com/JsonPullParser/snapshots</url>
+			<url>https://vvakame.github.com/JsonPullParser/snapshots</url>
 		</repository>
 	</repositories>
 
